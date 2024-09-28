@@ -1,4 +1,4 @@
-package giis.demo.util;
+package ui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -11,6 +11,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
+
+import giis.demo.util.ApplicationException;
+import giis.demo.util.TableColumnAdjuster;
+import giis.demo.util.UnexpectedException;
 
 /**
  * Metodos de utilidad para interfaces de usuario con swing (poblar tablas a partir de un objeto POJO

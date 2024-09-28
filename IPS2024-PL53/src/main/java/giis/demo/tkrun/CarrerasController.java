@@ -8,8 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import giis.demo.util.ApplicationException;
-import giis.demo.util.SwingUtil;
 import giis.demo.util.Util;
+import ui.SwingUtil;
 
 /**
  * Controlador para la funcionalidad de visualizacion de carreras para la inscripcion.
