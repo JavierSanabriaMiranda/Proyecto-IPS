@@ -26,6 +26,7 @@ public class FrameGestionEmpleados extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MostrarMenu mostrarMenu = new MostrarMenu();
+	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados();
 	private JPanel contentPane;
 	private JPanel pnOpciones;
 	private JPanel pnBotonesSeleccion;
@@ -61,9 +62,12 @@ public class FrameGestionEmpleados extends JFrame {
 	public FrameGestionEmpleados() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 992, 718);
+		setMinimumSize(new Dimension(800, 500));
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
+		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(getPnOpciones());
@@ -72,6 +76,7 @@ public class FrameGestionEmpleados extends JFrame {
 	private JPanel getPnOpciones() {
 		if (pnOpciones == null) {
 			pnOpciones = new JPanel();
+			pnOpciones.setBackground(new Color(255, 255, 255));
 			pnOpciones.setLayout(new BorderLayout(0, 0));
 			pnOpciones.add(getPnBotonesSeleccion(), BorderLayout.NORTH);
 			pnOpciones.add(getPnDatos());
@@ -83,6 +88,7 @@ public class FrameGestionEmpleados extends JFrame {
 	private JPanel getPnBotonesSeleccion() {
 		if (pnBotonesSeleccion == null) {
 			pnBotonesSeleccion = new JPanel();
+			pnBotonesSeleccion.setBackground(new Color(255, 255, 255));
 			pnBotonesSeleccion.setLayout(new GridLayout(0, 3, 0, 0));
 			pnBotonesSeleccion.add(getBtnAddEmp());
 			pnBotonesSeleccion.add(getBtnModEmp());
@@ -94,6 +100,7 @@ public class FrameGestionEmpleados extends JFrame {
 	private JPanel getPnDatos() {
 		if (pnDatos == null) {
 			pnDatos = new JPanel();
+			pnDatos.setBackground(new Color(255, 255, 255));
 			pnDatos.setLayout(new CardLayout(0, 0));
 			pnDatos.add(getPnAdd(), "addEmpleado");
 			pnDatos.add(getPnMod(), "modEmpleado");
@@ -120,6 +127,7 @@ public class FrameGestionEmpleados extends JFrame {
 
 	
 	private void mostrarMenuAdd() {
+		panelAddEmpleados.inicializarPanel();
 		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "addEmpleado");
 	}
 
@@ -175,6 +183,7 @@ public class FrameGestionEmpleados extends JFrame {
 	private JPanel getPnAtras() {
 		if (pnAtras == null) {
 			pnAtras = new JPanel();
+			pnAtras.setBackground(new Color(255, 255, 255));
 			FlowLayout flowLayout = (FlowLayout) pnAtras.getLayout();
 			flowLayout.setAlignment(FlowLayout.RIGHT);
 			pnAtras.add(getBtAtras());
@@ -194,6 +203,8 @@ public class FrameGestionEmpleados extends JFrame {
 		if (pnAdd == null) {
 			pnAdd = new JPanel();
 			pnAdd.setBackground(new Color(255, 255, 255));
+			pnAdd.setLayout(new GridLayout(1, 0, 0, 0));
+			pnAdd.add(panelAddEmpleados);
 		}
 		return pnAdd;
 	}
