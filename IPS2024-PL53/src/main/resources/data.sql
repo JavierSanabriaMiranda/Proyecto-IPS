@@ -11,13 +11,13 @@
 
 
 DELETE FROM EMPLEADO_NO_DEPORTIVO;
-INSERT INTO EMPLEADO_NO_DEPORTIVO (DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) 
-VALUES
-('12345678A', 'Juan', 'Pérez', '1985-07-15', '600123456', 'gerente', 45000.00),
-('87654321B', 'Ana', 'García', '1990-11-25', '600654321', 'vendedor de entradas/abonos', 32000.00),
-('45678912C', 'Carlos', 'López', '1978-02-10', '600789123', 'gestor de instalaciones', 38000.00),
-('65432187D', 'María', 'Fernández', '1982-05-05', '600321654', 'encargados de tienda', 30000.00),
-('32165498E', 'Lucía', 'Martínez', '1995-08-30', '600654987', 'jardinería', 27000.00),
-('78945612F', 'Pablo', 'Sánchez', '1987-12-22', '600987654', 'cocina', 28000.00),
-('95175384G', 'Laura', 'Hernández', '1992-03-18', '600753951', 'empleados de tienda', 25000.00),
-('85236974H', 'Pedro', 'Gómez', '1989-09-09', '600369852', 'director de comunicaciones', 50000.00);
+INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) VALUES
+('E001', '12345678A', 'Juan', 'Pérez', '1985-05-10', '612345678', 'gerente', 30000.00),
+('E002', '23456789B', 'María', 'García', '1990-07-15', '623456789', 'vendedor de entradas/abonos', 20000.00),
+('E003', '34567890C', 'Carlos', 'López', '1982-12-20', '634567890', 'encargados de tienda', 22000.00),
+('E004', '45678901D', 'Ana', 'Martínez', '1995-03-25', '645678901', 'gestor de instalaciones', 25000.00),
+('E005', '56789012E', 'Luis', 'Hernández', '1988-11-30', '656789012', 'empleados de tienda', 18000.00),
+('E006', '67890123F', 'Laura', 'Sánchez', '1992-08-05', '667890123', 'jardinería', 17000.00),
+('E007', '78901234G', 'Pedro', 'Ramírez', '1979-02-18', '678901234', 'cocina', 19000.00),
+('E008', '89012345H', 'Sofía', 'Torres', '1986-04-22', '689012345', 'director de comunicaciones', 35000.00);
+
