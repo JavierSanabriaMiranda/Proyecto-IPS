@@ -7,6 +7,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import frontend.CarrerasView;
 import frontend.SwingUtil;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Util;
