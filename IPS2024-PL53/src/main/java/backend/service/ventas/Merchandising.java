@@ -1,5 +1,5 @@
 package backend.service.ventas;
 
-public class Merchandising {
+public class Merchandising extends VentaBase{
 
 }
