@@ -24,7 +24,7 @@ public class Producto {
 	}
 
 	/**
-	 * otro constructor de la clase producto
+	 * otro constructor de la clase producto.
 	 * 
 	 * @param otroProducto, producto.
 	 */

@@ -9,7 +9,7 @@ public class Catalogo {
 
 	/**
      * constructor de la clase Carta. Se encarga de inicializar una lista de objetos Producto
-	 * y llama al metodo cargarProductos().
+	 * y llama al metodo cargarProductos()
      */
 	public Catalogo() {
 		listaProductos = new ArrayList<Producto>();
