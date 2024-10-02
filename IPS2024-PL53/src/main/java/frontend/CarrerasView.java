@@ -1,4 +1,4 @@
-package giis.demo.tkrun;
+package frontend;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
