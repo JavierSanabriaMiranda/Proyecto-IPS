@@ -46,7 +46,5 @@ public class Catalogo {
 			}
 		}
 		return listaProductosTipo.toArray(new Producto[listaProductosTipo.size()]);
-	}
-		
-
+	} 
 }
