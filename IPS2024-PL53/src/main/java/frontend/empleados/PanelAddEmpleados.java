@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class PanelAddEmpleados extends JPanel {
 	/**
@@ -46,9 +48,11 @@ public class PanelAddEmpleados extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelAddEmpleados() {
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBackground(new Color(255, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 112, 0, 0, 377, 138, 0};
-		gridBagLayout.rowHeights = new int[] {0, 35, 35, 35, 35, 35, 35, 35, 0, 0, 35};
+		gridBagLayout.columnWidths = new int[]{0, 112, 0, 11, 377, 138, 0};
+		gridBagLayout.rowHeights = new int[] {0, 0, 35, 35, 35, 35, 35, 35, 35, 102, 35};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -60,96 +64,96 @@ public class PanelAddEmpleados extends JPanel {
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
 		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
 		gbc_horizontalStrut.gridx = 0;
-		gbc_horizontalStrut.gridy = 1;
+		gbc_horizontalStrut.gridy = 2;
 		add(getHorizontalStrut(), gbc_horizontalStrut);
 		GridBagConstraints gbc_lbNombre = new GridBagConstraints();
 		gbc_lbNombre.anchor = GridBagConstraints.WEST;
 		gbc_lbNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lbNombre.gridx = 1;
-		gbc_lbNombre.gridy = 1;
+		gbc_lbNombre.gridy = 2;
 		add(getLbNombre(), gbc_lbNombre);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
 		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 0);
 		gbc_horizontalStrut_1.gridx = 5;
-		gbc_horizontalStrut_1.gridy = 1;
+		gbc_horizontalStrut_1.gridy = 2;
 		add(getHorizontalStrut_1(), gbc_horizontalStrut_1);
 		GridBagConstraints gbc_txNombre = new GridBagConstraints();
 		gbc_txNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_txNombre.gridx = 4;
-		gbc_txNombre.gridy = 1;
+		gbc_txNombre.gridy = 2;
 		add(getTxNombre(), gbc_txNombre);
 		GridBagConstraints gbc_lbApellido = new GridBagConstraints();
 		gbc_lbApellido.anchor = GridBagConstraints.WEST;
 		gbc_lbApellido.insets = new Insets(0, 0, 5, 5);
 		gbc_lbApellido.gridx = 1;
-		gbc_lbApellido.gridy = 2;
+		gbc_lbApellido.gridy = 3;
 		add(getLbApellido(), gbc_lbApellido);
 		GridBagConstraints gbc_txApellido = new GridBagConstraints();
 		gbc_txApellido.insets = new Insets(0, 0, 5, 5);
 		gbc_txApellido.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txApellido.gridx = 4;
-		gbc_txApellido.gridy = 2;
+		gbc_txApellido.gridy = 3;
 		add(getTxApellido(), gbc_txApellido);
 		GridBagConstraints gbc_lbDNI = new GridBagConstraints();
 		gbc_lbDNI.anchor = GridBagConstraints.WEST;
 		gbc_lbDNI.insets = new Insets(0, 0, 5, 5);
 		gbc_lbDNI.gridx = 1;
-		gbc_lbDNI.gridy = 3;
+		gbc_lbDNI.gridy = 4;
 		add(getLbDNI(), gbc_lbDNI);
 		GridBagConstraints gbc_txDNI = new GridBagConstraints();
 		gbc_txDNI.insets = new Insets(0, 0, 5, 5);
 		gbc_txDNI.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txDNI.gridx = 4;
-		gbc_txDNI.gridy = 3;
+		gbc_txDNI.gridy = 4;
 		add(getTxDNI(), gbc_txDNI);
 		GridBagConstraints gbc_lbTelefono = new GridBagConstraints();
 		gbc_lbTelefono.anchor = GridBagConstraints.WEST;
 		gbc_lbTelefono.insets = new Insets(0, 0, 5, 5);
 		gbc_lbTelefono.gridx = 1;
-		gbc_lbTelefono.gridy = 4;
+		gbc_lbTelefono.gridy = 5;
 		add(getLbTelefono(), gbc_lbTelefono);
 		GridBagConstraints gbc_txTelefono = new GridBagConstraints();
 		gbc_txTelefono.insets = new Insets(0, 0, 5, 5);
 		gbc_txTelefono.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txTelefono.gridx = 4;
-		gbc_txTelefono.gridy = 4;
+		gbc_txTelefono.gridy = 5;
 		add(getTxTelefono(), gbc_txTelefono);
 		GridBagConstraints gbc_lbNacimiento = new GridBagConstraints();
 		gbc_lbNacimiento.anchor = GridBagConstraints.WEST;
 		gbc_lbNacimiento.insets = new Insets(0, 0, 5, 5);
 		gbc_lbNacimiento.gridx = 1;
-		gbc_lbNacimiento.gridy = 5;
+		gbc_lbNacimiento.gridy = 6;
 		add(getLbNacimiento(), gbc_lbNacimiento);
 		GridBagConstraints gbc_txNacimiento = new GridBagConstraints();
 		gbc_txNacimiento.insets = new Insets(0, 0, 5, 5);
 		gbc_txNacimiento.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txNacimiento.gridx = 4;
-		gbc_txNacimiento.gridy = 5;
+		gbc_txNacimiento.gridy = 6;
 		add(getTxNacimiento(), gbc_txNacimiento);
 		GridBagConstraints gbc_lbSalario = new GridBagConstraints();
 		gbc_lbSalario.anchor = GridBagConstraints.WEST;
 		gbc_lbSalario.insets = new Insets(0, 0, 5, 5);
 		gbc_lbSalario.gridx = 1;
-		gbc_lbSalario.gridy = 6;
+		gbc_lbSalario.gridy = 7;
 		add(getLbSalario(), gbc_lbSalario);
 		GridBagConstraints gbc_txSalario = new GridBagConstraints();
 		gbc_txSalario.insets = new Insets(0, 0, 5, 5);
 		gbc_txSalario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txSalario.gridx = 4;
-		gbc_txSalario.gridy = 6;
+		gbc_txSalario.gridy = 7;
 		add(getTxSalario(), gbc_txSalario);
 		GridBagConstraints gbc_lbPuesto = new GridBagConstraints();
 		gbc_lbPuesto.anchor = GridBagConstraints.WEST;
 		gbc_lbPuesto.insets = new Insets(0, 0, 5, 5);
 		gbc_lbPuesto.gridx = 1;
-		gbc_lbPuesto.gridy = 7;
+		gbc_lbPuesto.gridy = 8;
 		add(getLbPuesto(), gbc_lbPuesto);
 		GridBagConstraints gbc_cbPuesto = new GridBagConstraints();
 		gbc_cbPuesto.insets = new Insets(0, 0, 5, 5);
 		gbc_cbPuesto.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbPuesto.gridx = 4;
-		gbc_cbPuesto.gridy = 7;
+		gbc_cbPuesto.gridy = 8;
 		add(getCbPuesto(), gbc_cbPuesto);
 		GridBagConstraints gbc_btAdd = new GridBagConstraints();
 		gbc_btAdd.gridx = 5;
@@ -285,5 +289,15 @@ public class PanelAddEmpleados extends JPanel {
 			btAdd.setFont(new Font("Arial", Font.PLAIN, 12));
 		}
 		return btAdd;
+	}
+	
+	public void inicializarPanel() {
+		getTxNombre().setText("");
+		getTxApellido().setText("");
+		getTxDNI().setText("");
+		getTxTelefono().setText("");
+		getTxSalario().setText("");
+		getTxNacimiento().setText("");
+		//getCbPuesto().setSelectedIndex(0);
 	}
 }
