@@ -1,6 +1,6 @@
 package backend.service.ventas;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface Venta {
 	

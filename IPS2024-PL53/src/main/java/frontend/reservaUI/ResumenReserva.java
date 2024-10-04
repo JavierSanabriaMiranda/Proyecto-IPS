@@ -13,9 +13,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ResumenReserva extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextArea textAreaResumen;
 	private JTextPane textPaneResumen;
@@ -26,27 +29,20 @@ public class ResumenReserva extends JDialog {
 	private JTextField txtNumTarjeta;
 	private JButton btnReservar;
 	private JButton btnAtras3;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ResumenReserva dialog = new ResumenReserva();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private HorarioReserva hr;
+	
 
 	/**
 	 * Create the dialog.
 	 */
-	public ResumenReserva() {
+	public ResumenReserva(HorarioReserva hr) {
+		this.hr = hr;
+		setModal(true);
 		setTitle("ResumenReserva");
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 594, 448);
+		this.setLocationRelativeTo(null);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,6 +58,10 @@ public class ResumenReserva extends JDialog {
 		contentPanel.add(getTxtNumTarjeta());
 		contentPanel.add(getBtnReservar());
 		contentPanel.add(getBtnAtras3());
+	}
+	
+	public HorarioReserva getHr() {
+		return hr;
 	}
 	
 	private JLabel getLblResumen() {
@@ -134,8 +134,15 @@ public class ResumenReserva extends JDialog {
 	private JButton getBtnAtras3() {
 		if (btnAtras3 == null) {
 			btnAtras3 = new JButton("Atrás");
+			btnAtras3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnAtras3.setBounds(10, 377, 89, 23);
 		}
 		return btnAtras3;
 	}
+
+	
 }

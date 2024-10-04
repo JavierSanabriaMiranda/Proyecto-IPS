@@ -4,16 +4,17 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import shared.gestioninstalaciones.ReservaShared;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class VentanaPrincipalReserva extends JFrame {
 	private JDateChooser dateChooser;
 	private JButton btnSiguiente1;
 	private JButton btnAtras1;
+	private ReservaShared reservaShared;
 	
 
 	/**
@@ -39,7 +41,8 @@ public class VentanaPrincipalReserva extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipalReserva frame = new VentanaPrincipalReserva();
+					ReservaShared reservaShared = new ReservaShared();
+					VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,14 +51,17 @@ public class VentanaPrincipalReserva extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPrincipalReserva() {
-		iniciarVentana();
+	
+	public VentanaPrincipalReserva(ReservaShared rs) {
+		iniciarVentana(rs);
+	}
+	
+	public ReservaShared getReservaShared() {
+		return reservaShared;
 	}
 
-	private void iniciarVentana() {
+	private void iniciarVentana(ReservaShared rs) {
+		this.reservaShared = rs;
 		setTitle("Reserva de Instalación");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -69,6 +75,7 @@ public class VentanaPrincipalReserva extends JFrame {
 		panelReserva.setLayout(null);
 		panelReserva.add(getLblInstalacion());
 		panelReserva.add(getLblDiaReserva());
+		panelReserva.add(getComboBoxInstalaciones());
 		panelReserva.add(getDateChooser());
         panelReserva.add(getBtnSiguiente1());
         panelReserva.add(getBtnAtras1());
@@ -82,6 +89,10 @@ public class VentanaPrincipalReserva extends JFrame {
 	        Calendar cal = Calendar.getInstance();
 	        Date hoy = cal.getTime();
 	        dateChooser.setMinSelectableDate(hoy); // No permite seleccionar fechas anteriores a hoy
+	        dateChooser.getDateEditor().setEnabled(false);
+	        dateChooser.getDateEditor().getUiComponent().setBackground(Color.WHITE); // Fondo deshabilitado
+	        dateChooser.getDateEditor().getUiComponent().setForeground(Color.BLUE); // Color del texto
+	        ((JTextField) dateChooser.getDateEditor().getUiComponent()).setDisabledTextColor(Color.BLACK); // Texto cuando está deshabilitado
 	        dateChooser.getCalendarButton().addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
 	        		getBtnSiguiente1().setEnabled(true);
@@ -92,6 +103,7 @@ public class VentanaPrincipalReserva extends JFrame {
 		}
 		return dateChooser;
 	}
+
 
 	public JComboBox getComboBoxInstalaciones() {
 		if (comboBoxInstalaciones == null) {
@@ -156,8 +168,15 @@ public class VentanaPrincipalReserva extends JFrame {
 	private JButton getBtnAtras1() {
 		if (btnAtras1 == null) {
 			btnAtras1 = new JButton("Atras");
+			btnAtras1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnAtras1.setBounds(10, 390, 89, 23);
 		}
 		return btnAtras1;
 	}
+
+	
 }
