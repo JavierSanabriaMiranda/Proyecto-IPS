@@ -6,7 +6,10 @@ public class EmpleadoNoDeportivoBase extends EmpleadoBase implements EmpleadoNoD
 
 	public EmpleadoNoDeportivoBase(String nombre, String apellido, String DNI, String telefono, Date fechaNac) {
 		super(nombre, apellido, DNI, telefono, fechaNac);
-		
+	}
+	
+	public EmpleadoNoDeportivoBase() {
+		super();
 	}
 
 	
