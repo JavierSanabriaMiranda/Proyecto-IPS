@@ -4,6 +4,7 @@ import java.util.Date;
 
 public abstract class EmpleadoBase {
 
+	private String idEmpleado;
 	private String nombre;
 	private String apellido;
 	private String DNI;
@@ -34,6 +35,10 @@ public abstract class EmpleadoBase {
 		this.telefono = telefono;
 		this.fechaNac = fechaNac;
 	}
+	
+	public String getIDEmpleado() {
+		return idEmpleado;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -57,6 +62,10 @@ public abstract class EmpleadoBase {
 
 	public double getSalarioAnual() {
 		return salarioAnual;
+	}
+	
+	public void setIDEmpleado(String id) {
+		this.idEmpleado = id;
 	}
 	
 	
