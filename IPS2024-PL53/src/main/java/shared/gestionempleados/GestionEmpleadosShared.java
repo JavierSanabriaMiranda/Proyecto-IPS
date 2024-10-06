@@ -3,6 +3,9 @@ package shared.gestionempleados;
 import java.util.Date;
 import java.util.Map;
 
+import backend.data.CreadorDataService;
+import backend.data.empleados.EmpleadoDTO;
+import backend.data.empleados.EmpleadosCRUDService;
 import backend.service.empleados.nodeportivos.Gerente;
 import shared.gestionempleados.creadores.CreadorDirectorComunicaciones;
 import shared.gestionempleados.creadores.CreadorEmpleadoCocina;
@@ -50,21 +53,56 @@ public class GestionEmpleadosShared {
 	}
 
 	/**
-	 * Añade al empleado deportivo a la lista del gestor correcta
+	 * Añade al empleado deportivo a la lista del gestor correcta así como a la base de datos
 	 */
 	private void addEmpleadoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorDep = creadoresDep.get(puesto);
-		gestor.addEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		String id = gestor.addEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		
+		addEmpleadoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 	}
 	
+	private void addEmpleadoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono, Date fechaNac,
+			double salario, PuestoEmpleado puesto) {
+		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+		EmpleadoDTO dto = new EmpleadoDTO();
+		dto.id = id;
+		dto.nombre = nombre;
+		dto.apellido = apellido;
+		dto.DNI = DNI;
+		dto.telefono = telefono;
+		dto.fechaNac = fechaNac;
+		dto.salarioAnual = salario;
+				
+		service.addEmpleadoDeportivo(dto);
+	}
+
 	/**
-	 * Añade al empleado NO deportivo a la lista del gestor correcta
+	 * Añade al empleado NO deportivo a la lista del gestor correcta así como a la base de datos
 	 */
 	private void addEmpleadoNoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorNoDep = creadoresNoDep.get(puesto);
-		gestor.addEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		String id = gestor.addEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		
+		addEmpleadoNoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
+	}
+
+	private void addEmpleadoNoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono,
+			Date fechaNac, double salario, PuestoEmpleado puesto) {
+		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+		EmpleadoDTO dto = new EmpleadoDTO();
+		dto.id = id;
+		dto.nombre = nombre;
+		dto.apellido = apellido;
+		dto.DNI = DNI;
+		dto.telefono = telefono;
+		dto.fechaNac = fechaNac;
+		dto.salarioAnual = salario;
+		dto.posicion = puesto.toString();
+		
+		service.addEmpleadoNoDeportivo(dto);
 	}
 
 	

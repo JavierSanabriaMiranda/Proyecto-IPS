@@ -363,6 +363,8 @@ public class PanelAddEmpleados extends JPanel {
 			PuestoEmpleado puesto = (PuestoEmpleado) getCbPuesto().getSelectedItem();
 			
 			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
+		} else {
+			//TODO Sacar un JDialog que informe al usuario de que debe rellenar todos los apartados
 		}
 
 	}

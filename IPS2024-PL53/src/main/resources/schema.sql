@@ -42,9 +42,9 @@ CREATE TABLE EMPLEADO_NO_DEPORTIVO (
     SALARIO_ANUAL decimal(8,2),
     CONSTRAINT PK_EMP_NO_DEP PRIMARY KEY (ID_EMPLEADO_NO_DEP),
     CONSTRAINT CK_POSICION CHECK (POSICION IN ('gerente', 
-        'vendedor de entradas/abonos', 'encargados de tienda', 
-        'gestor de instalaciones', 'empleados de tienda', 'jardinería', 
-        'cocina', 'director de comunicaciones')),
+        'vendedor de entradas/abonos', 'encargado de tienda', 
+        'gestor de instalaciones', 'empleado de tienda', 'empleado de jardinería', 
+        'empleado de cocina', 'director de comunicaciones')),
 );
 
 CREATE TABLE HORARIO (

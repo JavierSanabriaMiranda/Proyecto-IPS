@@ -9,8 +9,19 @@ import backend.service.empleados.EmpleadoNoDeportivo;
  */
 public interface GestorEmpleados {
 	
-	void addEmpleadoDeportivo(EmpleadoDeportivo emp);
-	void addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
+	/**
+	 * Añade el empleado a la lista de empleados deportivos
+	 * @param emp empleado a añadir
+	 * @return id generado para el nuevo empleado
+	 */
+	String addEmpleadoDeportivo(EmpleadoDeportivo emp);
+	
+	/**
+	 * Añade el empleado a la lista de empleados NO deportivos
+	 * @param emp empleado a añadir
+	 * @return id generado para el nuevo empleado
+	 */
+	String addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
 	
 	
 }

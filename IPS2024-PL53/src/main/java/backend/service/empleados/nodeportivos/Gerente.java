@@ -2,10 +2,7 @@ package backend.service.empleados.nodeportivos;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
@@ -48,19 +45,27 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 	}
 
 	@Override
-	public void addEmpleadoDeportivo(EmpleadoDeportivo emp) {
+	public String addEmpleadoDeportivo(EmpleadoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
-		emp.setIDEmpleado(generarIDEmpleado());
+		
+		String idNuevo = generarIDEmpleado();
+		emp.setIDEmpleado(idNuevo);
 		empDeportivos.put(emp.getIDEmpleado(), emp);
+		
+		return idNuevo;
 	}
 
 	@Override
-	public void addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
+	public String addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
-		emp.setIDEmpleado(generarIDEmpleado());
+		
+		String idNuevo = generarIDEmpleado();
+		emp.setIDEmpleado(idNuevo);
 		empNoDeportivos.put(emp.getIDEmpleado(), emp);
+		
+		return idNuevo;
 	}
 	
 	/**
@@ -76,7 +81,5 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		return "E" + numeroID;
 	}
 	
-	
 
-	
 }
