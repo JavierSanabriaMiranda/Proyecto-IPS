@@ -8,12 +8,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.Calendar;
 import java.util.Date;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
@@ -22,14 +22,20 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+
+import shared.gestionempleados.GestionEmpleadosShared;
+import shared.gestionempleados.PuestoEmpleado;
+import shared.gestionempleados.TipoEmpleado;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelAddEmpleados extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
 	private JLabel lbNombre;
 	private JTextField txNombre;
 	private Component horizontalStrut;
@@ -45,9 +51,9 @@ public class PanelAddEmpleados extends JPanel {
 	private JTextField txDNI;
 	private JTextField txTelefono;
 	private JTextField txSalario;
-	private JComboBox<String> cbPuesto;
+	private JComboBox<PuestoEmpleado> cbPuesto;
 	private JButton btAdd;
-	private JComboBox<String> cbTipoEmpleado;
+	private JComboBox<TipoEmpleado> cbTipoEmpleado;
 	private JLabel lbTipoEmpleado;
 	private JDateChooser clNacimiento;
 
@@ -58,10 +64,11 @@ public class PanelAddEmpleados extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 112, 0, 11, 377, 138, 0};
-		gridBagLayout.rowHeights = new int[] {0, 0, 35, 35, 35, 35, 35, 35, 35, 35, 102, 35};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 0, 0, 112, 0, 11, 377, 138, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 35, 35, 35, 35, 35, 35, 35, 35, 102, 35 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
 		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
@@ -180,6 +187,7 @@ public class PanelAddEmpleados extends JPanel {
 		add(getBtAdd(), gbc_btAdd);
 
 	}
+
 	private JLabel getLbNombre() {
 		if (lbNombre == null) {
 			lbNombre = new JLabel("Nombre:");
@@ -187,6 +195,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbNombre;
 	}
+
 	private JTextField getTxNombre() {
 		if (txNombre == null) {
 			txNombre = new JTextField();
@@ -195,24 +204,28 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return txNombre;
 	}
+
 	private Component getHorizontalStrut() {
 		if (horizontalStrut == null) {
 			horizontalStrut = Box.createHorizontalStrut(20);
 		}
 		return horizontalStrut;
 	}
+
 	private Component getHorizontalStrut_1() {
 		if (horizontalStrut_1 == null) {
 			horizontalStrut_1 = Box.createHorizontalStrut(20);
 		}
 		return horizontalStrut_1;
 	}
+
 	private Component getVerticalStrut() {
 		if (verticalStrut == null) {
 			verticalStrut = Box.createVerticalStrut(20);
 		}
 		return verticalStrut;
 	}
+
 	private JLabel getLbApellido() {
 		if (lbApellido == null) {
 			lbApellido = new JLabel("Apellido:");
@@ -220,6 +233,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbApellido;
 	}
+
 	private JLabel getLbDNI() {
 		if (lbDNI == null) {
 			lbDNI = new JLabel("DNI:");
@@ -227,6 +241,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbDNI;
 	}
+
 	private JLabel getLbTelefono() {
 		if (lbTelefono == null) {
 			lbTelefono = new JLabel("Teléfono:");
@@ -234,6 +249,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbTelefono;
 	}
+
 	private JLabel getLbSalario() {
 		if (lbSalario == null) {
 			lbSalario = new JLabel("Salario Anual (\u20AC):");
@@ -241,6 +257,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbSalario;
 	}
+
 	private JLabel getLbNacimiento() {
 		if (lbNacimiento == null) {
 			lbNacimiento = new JLabel("Fecha de Nacimiento:");
@@ -248,6 +265,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbNacimiento;
 	}
+
 	private JLabel getLbPuesto() {
 		if (lbPuesto == null) {
 			lbPuesto = new JLabel("Puesto de Trabajo:");
@@ -255,6 +273,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbPuesto;
 	}
+
 	private JTextField getTxApellido() {
 		if (txApellido == null) {
 			txApellido = new JTextField();
@@ -263,6 +282,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return txApellido;
 	}
+
 	private JTextField getTxDNI() {
 		if (txDNI == null) {
 			txDNI = new JTextField();
@@ -271,6 +291,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return txDNI;
 	}
+
 	private JTextField getTxTelefono() {
 		if (txTelefono == null) {
 			txTelefono = new JTextFieldNumerico();
@@ -279,6 +300,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return txTelefono;
 	}
+
 	private JTextField getTxSalario() {
 		if (txSalario == null) {
 			txSalario = new JTextFieldNumerico();
@@ -287,21 +309,73 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return txSalario;
 	}
-	private JComboBox<String> getCbPuesto() {
+
+	private JComboBox<PuestoEmpleado> getCbPuesto() {
 		if (cbPuesto == null) {
-			cbPuesto = new JComboBox<String>();
+			cbPuesto = new JComboBox<PuestoEmpleado>();
 			cbPuesto.setFont(new Font("Arial", Font.PLAIN, 12));
+
+			// Rellenamos el combo en función de los valores del tipo de empleado
+			DefaultComboBoxModel<PuestoEmpleado> model = new DefaultComboBoxModel<>();
+			if (getCbTipoEmpleado().getSelectedIndex() == 0) {
+				model.addElement(PuestoEmpleado.ENTRENADOR);
+				model.addElement(PuestoEmpleado.JUGADOR);
+			} else if (getCbTipoEmpleado().getSelectedIndex() == 1) {
+				model = new DefaultComboBoxModel<>(PuestoEmpleado.values());
+				model.removeElement(PuestoEmpleado.ENTRENADOR);
+				model.removeElement(PuestoEmpleado.JUGADOR);
+			}
+
+			cbPuesto.setModel(model);
 		}
 		return cbPuesto;
 	}
+
 	private JButton getBtAdd() {
 		if (btAdd == null) {
 			btAdd = new JButton("Añadir");
+			btAdd.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					addEmpleado();
+				}
+			});
 			btAdd.setFont(new Font("Arial", Font.PLAIN, 12));
 		}
 		return btAdd;
 	}
-	
+
+	/**
+	 * Comprueba si se puede añadir un empleado nuevo con los datos proporcionados y
+	 * en ese caso lo añade
+	 */
+	private void addEmpleado() {
+		if (camposCorrectos()) {
+			String nombre = getTxNombre().getText();
+			String apellido = getTxApellido().getText();
+			String dni = getTxDNI().getText();
+			String telefono = getTxTelefono().getText();
+			Date nacimiento = getClNacimiento().getDate();
+			
+			double salario = Double.parseDouble(getTxTelefono().getText());
+			// Redondeamos el salario a 2 decimales
+			salario = Math.round(salario * 100.0) / 100.0;
+			TipoEmpleado tipo = (TipoEmpleado) getCbTipoEmpleado().getSelectedItem();
+			PuestoEmpleado puesto = (PuestoEmpleado) getCbPuesto().getSelectedItem();
+			
+			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
+		}
+
+	}
+
+	private boolean camposCorrectos() {
+		// Se comprueba que los campos no están vacíos
+		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
+				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
+				|| getClNacimiento().getDate() == null)
+			return false;
+		return true;
+	}
+
 	public void inicializarPanel() {
 		getTxNombre().setText("");
 		getTxApellido().setText("");
@@ -309,17 +383,42 @@ public class PanelAddEmpleados extends JPanel {
 		getTxTelefono().setText("");
 		getTxSalario().setText("");
 		getClNacimiento().setDate(null);
-		//getCbTipoEmpleado().setSelectedIndex(0);
-		//getCbPuesto().setSelectedIndex(0);
-		// TODO se ha de provocar que cuando se inicialice el combo del tipo, se cambia el model del puesto al correcto
+		getCbTipoEmpleado().setSelectedIndex(0);
+		getCbPuesto().setSelectedIndex(0);
 	}
-	private JComboBox<String> getCbTipoEmpleado() {
+
+	private JComboBox<TipoEmpleado> getCbTipoEmpleado() {
 		if (cbTipoEmpleado == null) {
-			cbTipoEmpleado = new JComboBox<String>();
+			cbTipoEmpleado = new JComboBox<TipoEmpleado>();
+			cbTipoEmpleado.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					establecerComboPuesto();
+				}
+			});
 			cbTipoEmpleado.setFont(new Font("Arial", Font.PLAIN, 12));
+			// Se introducen los valores del combobox
+			cbTipoEmpleado.setModel(new DefaultComboBoxModel<>(TipoEmpleado.values()));
 		}
 		return cbTipoEmpleado;
 	}
+
+	// Establece los valores del comboBox de Puestos de Trabajo en función del tipo
+	// de Empleado seleccionado
+	private void establecerComboPuesto() {
+		// Rellenamos el combo en función de los valores del tipo de empleado
+		DefaultComboBoxModel<PuestoEmpleado> model = new DefaultComboBoxModel<>();
+		if (getCbTipoEmpleado().getSelectedIndex() == 0) {
+			model.addElement(PuestoEmpleado.ENTRENADOR);
+			model.addElement(PuestoEmpleado.JUGADOR);
+		} else if (getCbTipoEmpleado().getSelectedIndex() == 1) {
+			model = new DefaultComboBoxModel<>(PuestoEmpleado.values());
+			model.removeElement(PuestoEmpleado.ENTRENADOR);
+			model.removeElement(PuestoEmpleado.JUGADOR);
+		}
+
+		cbPuesto.setModel(model);
+	}
+
 	private JLabel getLbTipoEmpleado() {
 		if (lbTipoEmpleado == null) {
 			lbTipoEmpleado = new JLabel("Tipo de Empleado:");
@@ -327,7 +426,7 @@ public class PanelAddEmpleados extends JPanel {
 		}
 		return lbTipoEmpleado;
 	}
-	
+
 	private JDateChooser getClNacimiento() {
 		if (clNacimiento == null) {
 			clNacimiento = new JDateChooser();
@@ -337,49 +436,51 @@ public class PanelAddEmpleados extends JPanel {
 			textCalendar.setEnabled(false);
 			textCalendar.setBackground(Color.WHITE);
 			textCalendar.setDisabledTextColor(Color.BLACK);
-			clNacimiento.getCalendarButton().setPreferredSize(new Dimension(100,20));
+			clNacimiento.getCalendarButton().setPreferredSize(new Dimension(100, 20));
 			clNacimiento.getCalendarButton().setText("Seleccionar");
 		}
 		return clNacimiento;
 	}
-	
+
 	@SuppressWarnings("serial")
 	public class JTextFieldNumerico extends JTextField {
-		
+
 		public JTextFieldNumerico() {
-	        super();
-	        ((AbstractDocument) this.getDocument()).setDocumentFilter(new NumericFilter());
-	    }
-		
+			super();
+			((AbstractDocument) this.getDocument()).setDocumentFilter(new NumericFilter());
+		}
+
 		private class NumericFilter extends DocumentFilter {
-	        @Override
-	        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
-	            if (string == null) {
-	                return;
-	            }
-	            if (esNumero(string)) {
-	                super.insertString(fb, offset, string, attr);
-	            }
-	        }
+			@Override
+			public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
+					throws BadLocationException {
+				if (string == null) {
+					return;
+				}
+				if (esNumero(string)) {
+					super.insertString(fb, offset, string, attr);
+				}
+			}
 
-	        @Override
-	        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-	            if (text == null) {
-	                return;
-	            }
-	            if (esNumero(text)) {
-	                super.replace(fb, offset, length, text, attrs);
-	            }
-	        }
+			@Override
+			public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+					throws BadLocationException {
+				if (text == null) {
+					return;
+				}
+				if (esNumero(text)) {
+					super.replace(fb, offset, length, text, attrs);
+				}
+			}
 
-	        @Override
-	        public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
-	            super.remove(fb, offset, length);
-	        }
+			@Override
+			public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+				super.remove(fb, offset, length);
+			}
 
-	        private boolean esNumero(String text) {
-	            return text.matches("\\d*\\.?\\d*"); // Solo permite dígitos
-	        }
-	    }
+			private boolean esNumero(String text) {
+				return text.matches("\\d*\\.?\\d*"); // Solo permite dígitos
+			}
+		}
 	}
 }
