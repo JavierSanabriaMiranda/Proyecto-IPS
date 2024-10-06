@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import backend.data.TableColumnAdjuster;
 import giis.demo.util.ApplicationException;
-import giis.demo.util.TableColumnAdjuster;
 import giis.demo.util.UnexpectedException;
 
 /**

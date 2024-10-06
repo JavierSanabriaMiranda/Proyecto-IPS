@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.runner.RunWith;
+
+import backend.data.Database;
 import junitparams.Parameters;
 import junitparams.JUnitParamsRunner;
 

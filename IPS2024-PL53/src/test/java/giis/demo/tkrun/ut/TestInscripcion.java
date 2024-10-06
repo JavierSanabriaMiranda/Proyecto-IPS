@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import backend.data.Database;
 import giis.demo.tkrun.*;
 import giis.demo.util.*;
 import giis.visualassert.VisualAssert;

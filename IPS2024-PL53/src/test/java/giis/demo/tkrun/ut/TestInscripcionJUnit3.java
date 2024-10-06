@@ -4,6 +4,8 @@ import giis.demo.tkrun.*;
 import giis.demo.util.*;
 import java.util.*;
 
+import backend.data.Database;
+
 /**
  * Ejemplo de pruebas con JUnit3 (incluye las pruebas de getListaCarreras y las invalidas de getDescuentoRecargo)
  * Pruebas del ejemplo de Inscripciones en carreras populares (primer ejemplo).
