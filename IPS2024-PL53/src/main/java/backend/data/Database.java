@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.apache.commons.dbutils.DbUtils;
 
-import giis.demo.util.ApplicationException;
+import backend.util.ApplicationException;
 
 /**
  * Encapsula los datos de acceso JDBC, lectura de la configuracion

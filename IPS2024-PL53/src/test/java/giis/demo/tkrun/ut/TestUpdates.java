@@ -2,12 +2,11 @@ package giis.demo.tkrun.ut;
 import org.junit.*;
 
 import backend.data.Database;
+import backend.util.Util;
 
 import static org.junit.Assert.assertEquals;
 
 import giis.demo.tkrun.*;
-import giis.demo.util.*;
-
 import java.util.List;
 
 /**

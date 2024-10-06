@@ -8,8 +8,9 @@ import org.junit.rules.ExpectedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import backend.data.Database;
+import backend.util.ApplicationException;
+import backend.util.Util;
 import giis.demo.tkrun.*;
-import giis.demo.util.*;
 import giis.visualassert.VisualAssert;
 
 import java.util.Date;

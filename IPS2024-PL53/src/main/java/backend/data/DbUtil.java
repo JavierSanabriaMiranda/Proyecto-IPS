@@ -18,8 +18,8 @@ import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
-import giis.demo.util.ApplicationException;
-import giis.demo.util.UnexpectedException;
+import backend.util.ApplicationException;
+import backend.util.UnexpectedException;
 
 /**
  * Metodos de utilidad para simplificar las queries realizadas en las clases 
