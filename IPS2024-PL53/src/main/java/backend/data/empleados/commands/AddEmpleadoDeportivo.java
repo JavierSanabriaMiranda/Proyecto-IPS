@@ -18,6 +18,6 @@ public class AddEmpleadoDeportivo {
 	}
 	
 	public void execute() {
-		db.executeQueryArray(QUERY, dto.id, dto.nombre, dto.apellido, dto.fechaNac, dto.telefono, dto.salarioAnual);
+		db.executeUpdate(QUERY, dto.id, dto.DNI, dto.nombre, dto.apellido, dto.fechaNac, dto.telefono, dto.salarioAnual);
 	}
 }

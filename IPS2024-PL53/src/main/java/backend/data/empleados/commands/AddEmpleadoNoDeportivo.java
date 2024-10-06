@@ -7,7 +7,7 @@ public class AddEmpleadoNoDeportivo {
 
 	private static final String QUERY = "INSERT INTO EMPLEADO_NO_DEPORTIVO "
 			+ "(ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			
 
 	EmpleadoDTO dto;
@@ -18,6 +18,6 @@ public class AddEmpleadoNoDeportivo {
 	}
 	
 	public void execute() {
-		db.executeQueryArray(QUERY, dto.id, dto.nombre, dto.apellido, dto.fechaNac, dto.telefono, dto.posicion ,dto.salarioAnual);
+		db.executeUpdate(QUERY, dto.id, dto.DNI, dto.nombre, dto.apellido, dto.fechaNac, dto.telefono, dto.posicion ,dto.salarioAnual);
 	}
 }

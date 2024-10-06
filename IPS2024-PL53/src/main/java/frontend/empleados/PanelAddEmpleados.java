@@ -2,6 +2,7 @@ package frontend.empleados;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Component;
@@ -364,7 +365,7 @@ public class PanelAddEmpleados extends JPanel {
 			
 			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
 		} else {
-			//TODO Sacar un JDialog que informe al usuario de que debe rellenar todos los apartados
+			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

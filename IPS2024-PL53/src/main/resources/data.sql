@@ -11,15 +11,18 @@
 
 
 DELETE FROM EMPLEADO_NO_DEPORTIVO;
-INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) VALUES
-('E001', '12345678A', 'Juan', 'Pérez', '1985-05-10', '612345678', 'gerente', 30000.00),
-('E002', '23456789B', 'María', 'García', '1990-07-15', '623456789', 'vendedor de entradas/abonos', 20000.00),
-('E003', '34567890C', 'Carlos', 'López', '1982-12-20', '634567890', 'encargados de tienda', 22000.00),
-('E004', '45678901D', 'Ana', 'Martínez', '1995-03-25', '645678901', 'gestor de instalaciones', 25000.00),
-('E005', '56789012E', 'Luis', 'Hernández', '1988-11-30', '656789012', 'empleados de tienda', 18000.00),
-('E006', '67890123F', 'Laura', 'Sánchez', '1992-08-05', '667890123', 'jardinería', 17000.00),
-('E007', '78901234G', 'Pedro', 'Ramírez', '1979-02-18', '678901234', 'cocina', 19000.00),
-('E008', '89012345H', 'Sofía', 'Torres', '1986-04-22', '689012345', 'director de comunicaciones', 35000.00);
+-- Inserciones válidas para la tabla EMPLEADO_NO_DEPORTIVO
+INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL)
+VALUES 
+    ('E0000001', '12345678A', 'Carlos', 'García', '1985-01-15', '600123456', 'gerente', 45000.50),
+    ('E0000002', '23456789B', 'Laura', 'Pérez', '1990-06-20', '600234567', 'vendedor de entradas/abonos', 30000.00),
+    ('E0000003', '34567890C', 'Miguel', 'López', '1988-03-10', '600345678', 'encargado de tienda', 32000.75),
+    ('E0000004', '45678901D', 'Ana', 'Martínez', '1995-11-25', '600456789', 'gestor de instalaciones', 38000.80),
+    ('E0000005', '56789012E', 'Javier', 'Sánchez', '1982-05-05', '600567890', 'empleado de tienda', 28000.40),
+    ('E0000006', '67890123F', 'Clara', 'Hernández', '1993-08-15', '600678901', 'empleado de jardinería', 27000.60),
+    ('E0000007', '78901234G', 'Sofia', 'Torres', '1997-02-28', '600789012', 'empleado de cocina', 26000.30),
+    ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00);
+
 
 
 -- Inserción de registros en la tabla INSTALACION
