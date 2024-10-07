@@ -7,21 +7,21 @@ public class ModEmpleado {
 
 	private static final String QUERY_EMP_DEP = "UPDATE EMPLEADO_DEPORTIVO "
 			+ "SET NOMBRE = ?, "
-			+ "SET APELLIDO = ?, "
-			+ "SET DNI = ?, "
-			+ "SET FECHA_NACIMIENTO = ?, "
-			+ "SET TELEFONO = ?, "
-			+ "SET SALARIO_ANUAL = ?, "
-			+ "WHERE ID = ?";
+			+ "APELLIDO = ?, "
+			+ "DNI = ?, "
+			+ "FECHA_NACIMIENTO = ?, "
+			+ "TELEFONO = ?, "
+			+ "SALARIO_ANUAL = ? "
+			+ "WHERE ID_EMPLEADO_DEP = ?";
 	
 	private static final String QUERY_EMP_NO_DEP = "UPDATE EMPLEADO_NO_DEPORTIVO "
 			+ "SET NOMBRE = ?, "
-			+ "SET APELLIDO = ?, "
-			+ "SET DNI = ?, "
-			+ "SET FECHA_NACIMIENTO = ?, "
-			+ "SET TELEFONO = ?, "
-			+ "SET SALARIO_ANUAL = ?, "
-			+ "WHERE ID = ?";
+			+ "APELLIDO = ?, "
+			+ "DNI = ?, "
+			+ "FECHA_NACIMIENTO = ?, "
+			+ "TELEFONO = ?, "
+			+ "SALARIO_ANUAL = ? "
+			+ "WHERE ID_EMPLEADO_NO_DEP = ?";
 			
 
 	EmpleadoDTO dto;
