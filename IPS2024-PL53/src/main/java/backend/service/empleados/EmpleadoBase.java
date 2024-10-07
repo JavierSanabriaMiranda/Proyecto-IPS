@@ -28,12 +28,13 @@ public abstract class EmpleadoBase {
 	 * @param telefono
 	 * @param fechaNac
 	 */
-	public EmpleadoBase(String nombre, String apellido, String DNI, String telefono, Date fechaNac) {
+	public EmpleadoBase(String nombre, String apellido, String DNI, String telefono, Date fechaNac, double salario) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.DNI = DNI;
 		this.telefono = telefono;
 		this.fechaNac = fechaNac;
+		this.salarioAnual = salario;
 	}
 	
 	public String getIDEmpleado() {
@@ -67,6 +68,15 @@ public abstract class EmpleadoBase {
 	public void setIDEmpleado(String id) {
 		this.idEmpleado = id;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s - %s - %.2f\u20AC", getNombre(), getApellido(), getDNI(), getSalarioAnual());
+	}
+	
+	
+	
+	
 	
 	
 }

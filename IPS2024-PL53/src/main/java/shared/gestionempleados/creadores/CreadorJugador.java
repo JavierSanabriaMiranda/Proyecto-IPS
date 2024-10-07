@@ -10,7 +10,7 @@ public class CreadorJugador implements CreadorEmpleadoDeportivo {
 	@Override
 	public EmpleadoDeportivo getEmpleado(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario) {
-		return new Jugador(nombre, apellido, DNI, telefono, fechaNac);
+		return new Jugador(nombre, apellido, DNI, telefono, fechaNac, salario);
 	}
 
 }

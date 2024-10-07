@@ -32,8 +32,8 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 	 * @param telefono
 	 * @param fechaNac
 	 */
-	public Gerente(String nombre, String apellido, String DNI, String telefono, Date fechaNac) {
-		super(nombre, apellido, DNI, telefono, fechaNac);
+	public Gerente(String nombre, String apellido, String DNI, String telefono, Date fechaNac, double salario) {
+		super(nombre, apellido, DNI, telefono, fechaNac, salario);
 		empDeportivos = new HashMap<>();
 		empNoDeportivos = new HashMap<>();
 	}
