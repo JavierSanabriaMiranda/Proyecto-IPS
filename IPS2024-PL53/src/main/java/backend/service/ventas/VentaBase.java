@@ -1,16 +1,12 @@
 package backend.service.ventas;
 
-import java.sql.Date;
+import java.util.Date;
 
 public abstract class VentaBase implements Venta {
-	private double precio;
-	private Date fecha;
 	
-	public double getPrecio() {
-		return this.precio;
-	}
+	@Override
+	public abstract float getPrecio();
 	
-	public Date getFecha() {
-		return this.fecha;
-	}
+	@Override
+	public abstract Date getFecha();
 }

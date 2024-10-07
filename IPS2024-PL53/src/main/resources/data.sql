@@ -32,3 +32,31 @@ INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('ZONA_ENTRENAMIENTO_2');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('GIMNASIO_PRINCIPAL');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_1');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_2');
+
+
+--Insercion de registros en la tabla 
+DELETE FROM PRODUCTO;
+INSERT INTO PRODUCTO(COD_PRODUCTO, TIPO, NOMBRE, PRECIO, UNIDADES, COD_COMPRA)
+VALUES
+    ('EQ01','equipacion','Camiseta Primera Equipacion',64.95,0,NULL),
+    ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95,0,NULL),
+    ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95,0,NULL),
+    ('EQ04','equipacion','Camiseta Personalizada',20.00,0,NULL),
+    ('MO01','moda textil','Calcertines',9.95,0,NULL),
+    ('MO02','moda textil','Camiseta de Calle',25.00,0,NULL),
+    ('MO03','moda textil','Camiseta de Entrenamiento',29.95,0,NULL),
+    ('MO04','moda textil','Sudadera',45.00,0,NULL),
+    ('MO05','moda textil','Plumas',59.00,0,NULL),
+    ('MO06','moda textil','Chubasquero',39.00,0,NULL),
+    ('MO07','moda textil','Sudadera de Entrenamiento',55.00,0,NULL),
+    ('MO08','moda textil','Polo',44.95,0,NULL),
+    ('AC01','accesorio','Balon de Futbol',22.50,0,NULL),
+    ('AC02','accesorio','Bolsa de Tela',9.90,0,NULL),
+    ('AC03','accesorio','Braga de Cuello',11.50,0,NULL),
+    ('AC04','accesorio','Bufanda Blanqui-Negra',12.00,0,NULL),
+    ('AC05','accesorio','Bufanda Rosa',12.00,0,NULL),
+    ('AC06','accesorio','Gorro de Lana',18.00,0,NULL),
+    ('AC07','accesorio','Guantes de Lana',12.50,0,NULL),
+    ('AC08','accesorio','Llavero',5.00,0,NULL),
+    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
+
