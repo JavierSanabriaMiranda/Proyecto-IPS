@@ -2,7 +2,7 @@ package backend.service.empleados;
 
 import java.util.Date;
 
-public abstract class EmpleadoBase {
+public class EmpleadoBase implements Empleado {
 
 	private String idEmpleado;
 	private String nombre;
@@ -68,10 +68,64 @@ public abstract class EmpleadoBase {
 	public void setIDEmpleado(String id) {
 		this.idEmpleado = id;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return String.format("%s | %s %s | %s | %.2f\u20AC", getIDEmpleado(), getNombre(), getApellido(), getDNI(), getSalarioAnual());
+	}
+
+	@Override
+	public void setNombre(String nombre) {
+		if (nombre == null)
+			throw new IllegalArgumentException("El nombre no puede ser null");
+		if (nombre.isBlank())
+			throw new IllegalArgumentException("El nombre no puede ser vacío");
+		this.nombre = nombre;
+	}
+
+	@Override
+	public void setApellido(String apellido) {
+		if (apellido == null)
+			throw new IllegalArgumentException("El apellido no puede ser null");
+		if (apellido.isBlank())
+			throw new IllegalArgumentException("El apellido no puede ser vacío");
+		this.apellido = apellido;
+	}
+
+	@Override
+	public void setDNI(String DNI) {
+		if (DNI == null)
+			throw new IllegalArgumentException("El DNI no puede ser null");
+		if (DNI.isBlank())
+			throw new IllegalArgumentException("El DNI no puede ser vacío");
+		this.DNI = DNI;
+	}
+
+	@Override
+	public void setTelefono(String telefono) {
+		if (telefono == null)
+			throw new IllegalArgumentException("El telefono no puede ser null");
+		if (telefono.isBlank())
+			throw new IllegalArgumentException("El telefono no puede ser vacío");
+		this.telefono = telefono;
+	}
+
+	@Override
+	public void setFechaNac(Date fecha) {
+		if (fecha == null)
+			throw new IllegalArgumentException("La fecha no puede ser null");
+		if (fecha.compareTo(new Date()) > 0) 
+			throw new IllegalArgumentException("La fecha no puede ser posterior a la actual");
+		this.fechaNac = fecha;
+	}
+
+	@Override
+	public void setSalarioAnual(double salario) {
+		if (salario < 0)
+			throw new IllegalArgumentException("El salario no puede ser negativo");
+		this.salarioAnual = salario;
 	}
 	
 	

@@ -1,5 +1,6 @@
 package shared.gestionempleados;
 
+import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 
@@ -23,5 +24,10 @@ public interface GestorEmpleados {
 	 */
 	String addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
 	
-	
+	/**
+	 * Devuelve el empleado cuyo id es el recibido como parámetro
+	 * @param id del empleado a devolver
+	 * @return empleado cuyo id es el recibido como parámetro
+	 */
+	Empleado getEmpleado(String id);
 }

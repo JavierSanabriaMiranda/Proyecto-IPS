@@ -3,6 +3,8 @@ package backend.service.empleados.nodeportivos;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
@@ -79,6 +81,15 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		} while(empDeportivos.containsKey("E" + numeroID) || empNoDeportivos.containsKey("E" + numeroID));
 		
 		return "E" + numeroID;
+	}
+
+	@Override
+	public Empleado getEmpleado(String id) {
+		if (empDeportivos.containsKey(id))
+			return empDeportivos.get(id);
+		else if (empNoDeportivos.containsKey(id))
+			return empNoDeportivos.get(id);
+		throw new IllegalArgumentException("No hay ningun empleado almacenado con el id introducido");
 	}
 	
 

@@ -14,11 +14,8 @@ import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-import backend.service.empleados.EmpleadoBase;
-import backend.service.empleados.nodeportivos.Gerente;
-import shared.gestionempleados.PuestoEmpleado;
-import shared.gestionempleados.TipoEmpleado;
-
+import backend.service.empleados.Empleado;
+import shared.gestionempleados.GestionEmpleadosShared;
 import java.awt.GridBagLayout;
 
 import javax.swing.DefaultListModel;
@@ -40,11 +37,12 @@ public class PanelModEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
 	private JPanel pnDatos;
 	private JPanel pnEmpleados;
 	private JScrollPane scrollPaneEmp;
-	private JList<EmpleadoBase> listEmpleados;
-	private DefaultListModel<EmpleadoBase> modeloList;
+	private JList<Empleado> listEmpleados;
+	private DefaultListModel<Empleado> modeloList;
 	private JLabel lbNombre;
 	private JLabel lbApellido;
 	private JLabel lbDNI;
@@ -186,9 +184,9 @@ public class PanelModEmpleados extends JPanel {
 		return scrollPaneEmp;
 	}
 
-	private JList<EmpleadoBase> getListEmpleados() {
+	private JList<Empleado> getListEmpleados() {
 		if (listEmpleados == null) {
-			listEmpleados = new JList<EmpleadoBase>();
+			listEmpleados = new JList<Empleado>();
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 14));
 			listEmpleados.setPreferredSize(new Dimension(800, Integer.MAX_VALUE));
@@ -334,7 +332,7 @@ public class PanelModEmpleados extends JPanel {
 				// Redondeamos el salario a 2 decimales
 				salario = Math.round(salario * 100.0) / 100.0;
 				
-				
+				gesEmp.modEmpleado(id, nombre, apellido, dni, telefono, nacimiento, salario);
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Se debe seleccionar un empleado a modificar","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);

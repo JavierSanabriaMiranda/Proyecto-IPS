@@ -6,6 +6,7 @@ import java.util.Map;
 import backend.data.CreadorDataService;
 import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
+import backend.service.empleados.Empleado;
 import backend.service.empleados.nodeportivos.Gerente;
 import shared.gestionempleados.creadores.CreadorDirectorComunicaciones;
 import shared.gestionempleados.creadores.CreadorEmpleadoCocina;
@@ -50,6 +51,32 @@ public class GestionEmpleadosShared {
 			addEmpleadoDeportivo(nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 		else
 			addEmpleadoNoDeportivo(nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
+	}
+	
+	/**
+	 * Modifica el empleado cuyo ID es el introducido como primer parámetro y le establece
+	 * el resto de valores recibidos
+	 * @param id del empleado a modificar
+	 * @param nombre nuevo
+	 * @param apellido nuevo
+	 * @param dni nuevo
+	 * @param telefono nuevo
+	 * @param nacimiento nuevo
+	 * @param salario nuevo
+	 */
+	public void modEmpleado(String id, String nombre, String apellido, String dni, String telefono, Date nacimiento,
+			double salario) {
+		// Obtenemos el empleado y modificamos sus valores
+		Empleado emp = gestor.getEmpleado(id);
+		emp.setNombre(nombre);
+		emp.setApellido(apellido);
+		emp.setDNI(dni);
+		emp.setTelefono(telefono);
+		emp.setFechaNac(nacimiento);
+		emp.setSalarioAnual(salario);
+		
+		// Modificamos los valores tambien en la BBDD
+		modEmpleadoBBDD(id, nombre, apellido, dni, telefono, nacimiento, salario);
 	}
 
 	/**
@@ -104,7 +131,20 @@ public class GestionEmpleadosShared {
 		
 		service.addEmpleadoNoDeportivo(dto);
 	}
-
 	
+	private void modEmpleadoBBDD(String id, String nombre, String apellido, String dni, String telefono,
+			Date nacimiento, double salario) {
+		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+		EmpleadoDTO dto = new EmpleadoDTO();
+		dto.id = id;
+		dto.nombre = nombre;
+		dto.apellido = apellido;
+		dto.DNI = dni;
+		dto.telefono = telefono;
+		dto.fechaNac = nacimiento;
+		dto.salarioAnual = salario;
+		
+		service.modEmpleado(dto);
+	}
 
 }
