@@ -37,7 +37,7 @@ public class PanelModEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
+	private GestionEmpleadosShared gesEmp;
 	private JPanel pnDatos;
 	private JPanel pnEmpleados;
 	private JScrollPane scrollPaneEmp;
@@ -61,7 +61,8 @@ public class PanelModEmpleados extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelModEmpleados() {
+	public PanelModEmpleados(GestionEmpleadosShared gesEmp) {
+		this.gesEmp = gesEmp;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BorderLayout(0, 0));
@@ -333,6 +334,9 @@ public class PanelModEmpleados extends JPanel {
 				salario = Math.round(salario * 100.0) / 100.0;
 				
 				gesEmp.modEmpleado(id, nombre, apellido, dni, telefono, nacimiento, salario);
+				JOptionPane.showMessageDialog(this, "Se ha modificado al empleado correctamente", "Confirmación de Modificación de Empleado", 
+						JOptionPane.INFORMATION_MESSAGE);
+				inicializarPanel();
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Se debe seleccionar un empleado a modificar","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);

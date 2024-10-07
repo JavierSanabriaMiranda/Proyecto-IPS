@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import shared.gestionempleados.GestionEmpleadosShared;
+
 import java.awt.CardLayout;
 import java.awt.Dimension;
 
@@ -25,9 +28,10 @@ public class FrameGestionEmpleados extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
 	private MostrarMenu mostrarMenu = new MostrarMenu();
-	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados();
-	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados();
+	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados(gesEmp);
+	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados(gesEmp);
 	private JPanel contentPane;
 	private JPanel pnOpciones;
 	private JPanel pnBotonesSeleccion;

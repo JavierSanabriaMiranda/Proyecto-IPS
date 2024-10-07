@@ -1,12 +1,14 @@
 package shared.gestionempleados;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import backend.data.CreadorDataService;
 import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.service.empleados.Empleado;
+import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.nodeportivos.Gerente;
 import shared.gestionempleados.creadores.CreadorDirectorComunicaciones;
 import shared.gestionempleados.creadores.CreadorEmpleadoCocina;
@@ -23,6 +25,7 @@ import shared.gestionempleados.creadores.CreadorVendedorAbonos;
 
 public class GestionEmpleadosShared {
 	
+	EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
 	private GestorEmpleados gestor = new Gerente();
 	private CreadorEmpleadoDeportivo creadorDep;
 	private CreadorEmpleadoNoDeportivo creadorNoDep;
@@ -78,6 +81,13 @@ public class GestionEmpleadosShared {
 		// Modificamos los valores tambien en la BBDD
 		modEmpleadoBBDD(id, nombre, apellido, dni, telefono, nacimiento, salario);
 	}
+	
+	public void cargarEmpleados() {
+		List<EmpleadoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
+		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
+	}
+
+
 
 	/**
 	 * Añade al empleado deportivo a la lista del gestor correcta así como a la base de datos
@@ -92,7 +102,7 @@ public class GestionEmpleadosShared {
 	
 	private void addEmpleadoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
-		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+		
 		EmpleadoDTO dto = new EmpleadoDTO();
 		dto.id = id;
 		dto.nombre = nombre;
@@ -101,6 +111,7 @@ public class GestionEmpleadosShared {
 		dto.telefono = telefono;
 		dto.fechaNac = fechaNac;
 		dto.salarioAnual = salario;
+		dto.posicion = puesto.toString();
 				
 		service.addEmpleadoDeportivo(dto);
 	}
@@ -118,7 +129,6 @@ public class GestionEmpleadosShared {
 
 	private void addEmpleadoNoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono,
 			Date fechaNac, double salario, PuestoEmpleado puesto) {
-		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
 		EmpleadoDTO dto = new EmpleadoDTO();
 		dto.id = id;
 		dto.nombre = nombre;
@@ -134,7 +144,6 @@ public class GestionEmpleadosShared {
 	
 	private void modEmpleadoBBDD(String id, String nombre, String apellido, String dni, String telefono,
 			Date nacimiento, double salario) {
-		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
 		EmpleadoDTO dto = new EmpleadoDTO();
 		dto.id = id;
 		dto.nombre = nombre;
@@ -145,6 +154,31 @@ public class GestionEmpleadosShared {
 		dto.salarioAnual = salario;
 		
 		service.modEmpleado(dto);
+	}
+	
+	/**
+	 * Carga todos los empleados deportivos y crea los objetos del tipo correspondiente (jugador o entrenador)
+	 * por medio de los creadores, para luego añadir cada uno de ellos a la lista del gestor
+	 * @param empleadosDeportivos lista con todos los empleados en forma de EmpleadoDTO
+	 */
+	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDTO> empleadosDeportivos) {
+		for (EmpleadoDTO dto : empleadosDeportivos) {
+			String id = dto.id;
+			String nombre = dto.nombre;
+			String apellido = dto.apellido;
+			String DNI = dto.DNI;
+			String telefono = dto.telefono;
+			Date nacimiento = dto.fechaNac;
+			double salario = dto.salarioAnual;
+			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
+			
+			CreadorEmpleadoDeportivo creador = creadoresDep.get(puesto);
+			
+			EmpleadoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
+			emp.setIDEmpleado(id);
+			
+			gestor.addEmpleadoDeportivo(emp);
+		}
 	}
 
 }

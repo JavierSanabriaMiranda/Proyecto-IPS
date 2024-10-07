@@ -36,7 +36,7 @@ public class PanelAddEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
+	GestionEmpleadosShared gesEmp;
 	private JLabel lbNombre;
 	private JTextField txNombre;
 	private Component horizontalStrut;
@@ -61,7 +61,8 @@ public class PanelAddEmpleados extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelAddEmpleados() {
+	public PanelAddEmpleados(GestionEmpleadosShared gesEmp) {
+		this.gesEmp = gesEmp;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -364,6 +365,9 @@ public class PanelAddEmpleados extends JPanel {
 			PuestoEmpleado puesto = (PuestoEmpleado) getCbPuesto().getSelectedItem();
 			
 			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
+			JOptionPane.showMessageDialog(this, "Se ha registrado al empleado correctamente", "Confirmación de Registro de Empleado", 
+					JOptionPane.INFORMATION_MESSAGE);
+			inicializarPanel();
 		} else {
 			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
 		}
