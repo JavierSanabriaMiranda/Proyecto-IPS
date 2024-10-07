@@ -87,8 +87,11 @@ public class GestionEmpleadosShared {
 	public void cargarEmpleadosDeLaBBDD() {
 		List<EmpleadoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
 		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
+		
+		List<EmpleadoDTO> empleadosNoDeportivos = service.cargarEmpleadosNoDeportivos();
+		cargarEmpleadosNoDeportivosEnGestor(empleadosNoDeportivos);
 	}
-	
+
 	public List<Empleado> getEmpleadosFromGestor() {
 		List<EmpleadoDeportivo> empDep = gestor.getEmpleadosDeportivos();
 		List<EmpleadoNoDeportivo> empNoDep = gestor.getEmpleadosNoDeportivos();
@@ -189,6 +192,26 @@ public class GestionEmpleadosShared {
 			emp.setIDEmpleado(id);
 			
 			gestor.addEmpleadoDeportivo(emp);
+		}
+	}
+	
+	private void cargarEmpleadosNoDeportivosEnGestor(List<EmpleadoDTO> empleadosNoDeportivos) {
+		for (EmpleadoDTO dto : empleadosNoDeportivos) {
+			String id = dto.id;
+			String nombre = dto.nombre;
+			String apellido = dto.apellido;
+			String DNI = dto.DNI;
+			String telefono = dto.telefono;
+			Date nacimiento = dto.fechaNac;
+			double salario = dto.salarioAnual;
+			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
+			
+			CreadorEmpleadoNoDeportivo creador = creadoresNoDep.get(puesto);
+			
+			EmpleadoNoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
+			emp.setIDEmpleado(id);
+			
+			gestor.addEmpleadoNoDeportivo(emp);
 		}
 	}
 
