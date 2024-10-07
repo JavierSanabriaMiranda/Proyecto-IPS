@@ -45,6 +45,10 @@ public class GestionEmpleadosShared {
 				PuestoEmpleado.GESTOR_INSTALACIONES, new CreadorGestorInstalaciones(),
 				PuestoEmpleado.VENDEDOR_ABONOS, new CreadorVendedorAbonos()
 			);
+	
+	public GestionEmpleadosShared() {
+		cargarEmpleadosDeLaBBDD();
+	}
 			
 	/**
 	 * Por medio de la información del empleado, crea un empleado y lo añade a la lista del gestor correspondiente

@@ -47,7 +47,7 @@ CREATE TABLE EMPLEADO_NO_DEPORTIVO (
     CONSTRAINT PK_EMP_NO_DEP PRIMARY KEY (ID_EMPLEADO_NO_DEP),
     CONSTRAINT CK_POSICION CHECK (POSICION IN ('gerente', 
         'vendedor de entradas/abonos', 'encargado de tienda', 
-        'gestor de instalaciones', 'empleado de tienda', 'empleado de jardinería', 
+        'gestor de instalaciones', 'empleado de tienda', 'empleado de jardineria', 
         'empleado de cocina', 'director de comunicaciones')),
 );
 
