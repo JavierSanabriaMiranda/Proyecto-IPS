@@ -26,6 +26,7 @@ public class FrameGestionEmpleados extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MostrarMenu mostrarMenu = new MostrarMenu();
+	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados();
 	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados();
 	private JPanel contentPane;
 	private JPanel pnOpciones;
@@ -132,6 +133,7 @@ public class FrameGestionEmpleados extends JFrame {
 	}
 
 	private void mostrarMenuMod() {
+		panelModEmpleados.inicializarPanel();
 		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "modEmpleado");
 	}
 
@@ -213,6 +215,8 @@ public class FrameGestionEmpleados extends JFrame {
 		if (pnMod == null) {
 			pnMod = new JPanel();
 			pnMod.setBackground(new Color(255, 255, 255));
+			pnMod.setLayout(new GridLayout(1, 0, 0, 0));
+			pnMod.add(panelModEmpleados);
 		}
 		return pnMod;
 	}

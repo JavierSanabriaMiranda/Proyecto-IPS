@@ -71,7 +71,7 @@ public abstract class EmpleadoBase {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s - %s - %.2f\u20AC", getNombre(), getApellido(), getDNI(), getSalarioAnual());
+		return String.format("%s | %s %s | %s | %.2f\u20AC", getIDEmpleado(), getNombre(), getApellido(), getDNI(), getSalarioAnual());
 	}
 	
 	
