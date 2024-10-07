@@ -1,5 +1,6 @@
 package shared.gestionempleados;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
+import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.Gerente;
 import shared.gestionempleados.creadores.CreadorDirectorComunicaciones;
 import shared.gestionempleados.creadores.CreadorEmpleadoCocina;
@@ -82,12 +84,21 @@ public class GestionEmpleadosShared {
 		modEmpleadoBBDD(id, nombre, apellido, dni, telefono, nacimiento, salario);
 	}
 	
-	public void cargarEmpleados() {
+	public void cargarEmpleadosDeLaBBDD() {
 		List<EmpleadoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
 		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
 	}
-
-
+	
+	public List<Empleado> getEmpleadosFromGestor() {
+		List<EmpleadoDeportivo> empDep = gestor.getEmpleadosDeportivos();
+		List<EmpleadoNoDeportivo> empNoDep = gestor.getEmpleadosNoDeportivos();
+		
+		List<Empleado> empleados = new ArrayList<>();
+		empleados.addAll(empDep);
+		empleados.addAll(empNoDep);
+		
+		return empleados;
+	}
 
 	/**
 	 * Añade al empleado deportivo a la lista del gestor correcta así como a la base de datos

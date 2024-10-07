@@ -364,6 +364,8 @@ public class PanelModEmpleados extends JPanel {
 		getTxSalario().setText("");
 		getClFechaNac().setDate(null);
 		getListEmpleados().clearSelection();
+		modeloList.clear();
+		modeloList.addAll(gesEmp.getEmpleadosFromGestor());
 	}
 
 	private boolean camposCorrectos() {

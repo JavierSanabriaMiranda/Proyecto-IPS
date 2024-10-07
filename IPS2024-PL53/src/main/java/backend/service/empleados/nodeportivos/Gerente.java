@@ -1,7 +1,9 @@
 package backend.service.empleados.nodeportivos;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import backend.service.empleados.Empleado;
@@ -90,6 +92,22 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		else if (empNoDeportivos.containsKey(id))
 			return empNoDeportivos.get(id);
 		throw new IllegalArgumentException("No hay ningun empleado almacenado con el id introducido");
+	}
+
+	@Override
+	public List<EmpleadoDeportivo> getEmpleadosDeportivos() {
+		List<EmpleadoDeportivo> empleados = new ArrayList<>();
+		empleados.addAll(empDeportivos.values());
+		
+		return empleados;
+	}
+
+	@Override
+	public List<EmpleadoNoDeportivo> getEmpleadosNoDeportivos() {
+		List<EmpleadoNoDeportivo> empleados = new ArrayList<>();
+		empleados.addAll(empNoDeportivos.values());
+		
+		return empleados;
 	}
 	
 

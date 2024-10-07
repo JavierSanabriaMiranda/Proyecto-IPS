@@ -1,5 +1,7 @@
 package shared.gestionempleados;
 
+import java.util.List;
+
 import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
@@ -30,4 +32,7 @@ public interface GestorEmpleados {
 	 * @return empleado cuyo id es el recibido como parámetro
 	 */
 	Empleado getEmpleado(String id);
+	
+	List<EmpleadoDeportivo> getEmpleadosDeportivos();
+	List<EmpleadoNoDeportivo> getEmpleadosNoDeportivos();
 }
