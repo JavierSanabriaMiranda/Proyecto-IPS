@@ -111,7 +111,7 @@ public class PanelRemEmpleados extends JPanel {
 					}
 				}
 			});
-			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 14));
+			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
 			
 			modeloList = new DefaultListModel<>();
 			listEmpleados.setModel(modeloList);
