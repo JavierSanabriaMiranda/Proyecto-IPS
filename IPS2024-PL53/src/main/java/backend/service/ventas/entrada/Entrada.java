@@ -6,6 +6,16 @@ public class Entrada {
 	private Seccion seccion;
 	private int fila;
 	private int asiento;
+	private boolean ocupado;
+	public static final int PRECIO = 30;
+	
+	public Entrada(Tribuna tribuna, Seccion seccion, int nFila, int nAsiento) {
+		this.tribuna = tribuna;
+		this.seccion = seccion;
+		this.fila = nFila;
+		this.asiento = nAsiento;
+		this.ocupado = false;
+	}
 	
 	public Tribuna getTribuna() {
 		return tribuna;
@@ -32,5 +42,10 @@ public class Entrada {
 		this.asiento = asiento;
 	}
 	
-	
+	public void setOcupado(boolean ocupado) {
+		this.ocupado = ocupado;
+	}
+	public boolean isOcupado() {
+		return this.ocupado;
+	}
 }
