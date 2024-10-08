@@ -12,6 +12,7 @@ import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
 import shared.gestionempleados.GestorEmpleados;
+import shared.gestionempleados.PuestoEmpleado;
 
 public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados {
 
@@ -46,6 +47,11 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		super();
 		empDeportivos = new HashMap<>();
 		empNoDeportivos = new HashMap<>();
+	}
+	
+	@Override
+	public PuestoEmpleado getPuesto() {
+		return PuestoEmpleado.GERENTE;
 	}
 
 	@Override
@@ -109,6 +115,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		
 		return empleados;
 	}
-	
+
+
 
 }

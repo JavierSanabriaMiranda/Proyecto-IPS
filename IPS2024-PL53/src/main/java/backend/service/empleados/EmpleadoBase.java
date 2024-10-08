@@ -2,7 +2,9 @@ package backend.service.empleados;
 
 import java.util.Date;
 
-public class EmpleadoBase implements Empleado {
+import shared.gestionempleados.PuestoEmpleado;
+
+public abstract class EmpleadoBase implements Empleado {
 
 	private String idEmpleado;
 	private String nombre;
@@ -29,6 +31,9 @@ public class EmpleadoBase implements Empleado {
 	 * @param fechaNac
 	 */
 	public EmpleadoBase(String nombre, String apellido, String DNI, String telefono, Date fechaNac, double salario) {
+		if (nombre == null || apellido == null || DNI == null || telefono == null || fechaNac == null)
+			throw new IllegalArgumentException("Alguno de los valores del empleado es null");
+		
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.DNI = DNI;
@@ -65,11 +70,12 @@ public class EmpleadoBase implements Empleado {
 		return salarioAnual;
 	}
 	
+	@Override
+	public abstract PuestoEmpleado getPuesto();
+	
 	public void setIDEmpleado(String id) {
 		this.idEmpleado = id;
 	}
-	
-	
 
 	@Override
 	public String toString() {

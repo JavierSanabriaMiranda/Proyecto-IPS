@@ -2,6 +2,8 @@ package backend.service.empleados;
 
 import java.util.Date;
 
+import shared.gestionempleados.PuestoEmpleado;
+
 public interface Empleado {
 
 	String getIDEmpleado();
@@ -11,6 +13,7 @@ public interface Empleado {
 	String getTelefono();
 	Date getFechaNac();
 	double getSalarioAnual();
+	PuestoEmpleado getPuesto();
 	
 	void setIDEmpleado(String id);
 	void setNombre(String nombre);

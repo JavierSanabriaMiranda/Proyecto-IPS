@@ -18,17 +18,14 @@ import java.awt.Insets;
 import java.util.Date;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-
 import com.toedter.calendar.JDateChooser;
 
 import shared.gestionempleados.GestionEmpleadosShared;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionempleados.TipoEmpleado;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Period;
 import java.awt.event.ActionEvent;
 
 public class PanelAddEmpleados extends JPanel {
@@ -58,6 +55,8 @@ public class PanelAddEmpleados extends JPanel {
 	private JLabel lbTipoEmpleado;
 	private JDateChooser clNacimiento;
 
+	//TODO poner límite a los JTextFields acordes a los de la BBDD
+	
 	/**
 	 * Create the panel.
 	 */
@@ -369,7 +368,7 @@ public class PanelAddEmpleados extends JPanel {
 					JOptionPane.INFORMATION_MESSAGE);
 			inicializarPanel();
 		} else {
-			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
+			
 		}
 
 	}
@@ -378,9 +377,29 @@ public class PanelAddEmpleados extends JPanel {
 		// Se comprueba que los campos no están vacíos
 		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
 				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
-				|| getClNacimiento().getDate() == null)
+				|| getClNacimiento().getDate() == null) {
+			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
 			return false;
+		}
+		// Si no es jugador de futbol y es menor de edad
+		if (!getCbPuesto().getSelectedItem().equals(PuestoEmpleado.JUGADOR) &&  !esMayorEdad(getClNacimiento().getDate())) {
+			JOptionPane.showMessageDialog(this, "Solo los jugadores pueden ser menores de edad","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		return true;
+	}
+	
+	private boolean esMayorEdad(Date fecha) {
+        // Convierte la fecha de tipo Date a LocalDate
+        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
+        
+        // Obtiene la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+        
+        // Calcula la diferencia de años
+        Period periodo = Period.between(fechaLocal, fechaActual);
+
+        return periodo.getYears() >= 18;
 	}
 
 	public void inicializarPanel() {
