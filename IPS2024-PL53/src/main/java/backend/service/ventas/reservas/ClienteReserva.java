@@ -2,13 +2,12 @@ package backend.service.ventas.reservas;
 
 public class ClienteReserva {
 	private String nombre;
-	private String numeroTarjeta;
 	
 	
-	public ClienteReserva(String nombre, String numeroTarjeta) {
+	public ClienteReserva(String nombre) {
 		super();
 		this.nombre = nombre;
-		this.numeroTarjeta = numeroTarjeta;
+	
 	}
 	
 	public String getNombre() {
@@ -19,12 +18,6 @@ public class ClienteReserva {
 		this.nombre = nombre;
 	}
 	
-	public String getNumeroTarjeta() {
-		return numeroTarjeta;
-	}
 	
-	public void setNumeroTarjeta(String numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
-	}
 	
 }

@@ -1,4 +1,4 @@
-package giis.demo.util;
+package backend.util;
 
 /**
  * Excepcion producida por la aplicacion antes situaciones incontroladas

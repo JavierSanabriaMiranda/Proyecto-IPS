@@ -8,6 +8,7 @@ import java.util.List;
 
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
+import backend.service.horarios.TipoEvento;
 
 public class Instalacion {
 	private String nombreInstalacion;
@@ -16,8 +17,11 @@ public class Instalacion {
 	
 	public Instalacion(String nombreInstalacion) {
 		this.nombreInstalacion = nombreInstalacion;
+		
 	}
 	
+	
+
 	public List<Reserva> getReservas() {
 		return reservas;
 	}
@@ -48,6 +52,10 @@ public class Instalacion {
 	}
 	
 
+	public void addEntrenamiento(Entrenamiento entrenamiento) {
+		this.entrenamientos.add(entrenamiento);
+	}
+
 
 	public boolean esFranjaPosible(FranjaTiempo fj) {
 	    // Duración mínima de la reserva: 60 minutos (1 hora)
@@ -66,7 +74,7 @@ public class Instalacion {
 	        }
 
 	        // Verificar que la reserva no sea antes de 1h30 después de un evento, pero solo si es un entrenamiento
-	        if (evento.getEvento() == "Entrenamiento Equipo" && !puedeReservarDespuesDe(evento, fj)) {
+	        if (evento.getEvento() == TipoEvento.ENTRENAMIENTO && !puedeReservarDespuesDe(evento, fj)) {
 	            return false;
 	        }
 	    }
@@ -77,7 +85,8 @@ public class Instalacion {
 
 	// Verifica si dos franjas de tiempo se solapan
 	private boolean solapa(FranjaTiempo nueva, FranjaTiempo existente) {
-	    return nueva.getHoraInicio().isBefore(existente.getHoraFin()) && nueva.getHoraFin().isAfter(existente.getHoraInicio());
+	    return nueva.getHoraInicio().isBefore(existente.getHoraFin()) && nueva.getHoraFin().isAfter(existente.getHoraInicio())
+	    		 && !(nueva.getHoraFin().equals(existente.getHoraInicio()));
 	}
 
 	// Verifica si una reserva nueva puede realizarse después de 1h30 de un evento existente
@@ -107,6 +116,13 @@ public class Instalacion {
 	    return cal.getTime();
 	}
 	
+
+	@Override
+    public String toString() {
+        return nombreInstalacion; 
+    }
+
+
 
 	
 	

@@ -6,13 +6,13 @@ import java.util.Date;
 
 public class FranjaTiempo {
 	
-	private String evento; //atributo creado para poder identificar en la interfaz a que corresponde la franja horaria seleccionada
+	private TipoEvento evento; //atributo creado para poder identificar en la interfaz a que corresponde la franja horaria seleccionada
 	//Si es un entrenamiento debe ser: "Entrenamiento Equipo" y si es una reserva: "Reserva"
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
 	private Date fecha;
 	
-	public FranjaTiempo(String evento, LocalTime hInicio, LocalTime hFin, Date fecha) {
+	public FranjaTiempo(TipoEvento evento, LocalTime hInicio, LocalTime hFin, Date fecha) {
 		this.evento = evento;
 		this.fecha = fecha;
 		this.horaFin = hFin;
@@ -29,7 +29,7 @@ public class FranjaTiempo {
 		return fecha;
 	}
 
-	public String getEvento() {
+	public TipoEvento getEvento() {
 		return evento;
 	}
 	

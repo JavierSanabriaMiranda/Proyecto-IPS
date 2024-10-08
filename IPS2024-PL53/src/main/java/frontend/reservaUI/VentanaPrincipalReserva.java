@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import backend.service.ventas.reservas.Instalacion;
 import shared.gestioninstalaciones.ReservaShared;
 
 import java.awt.Color;
@@ -18,7 +19,10 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
 public class VentanaPrincipalReserva extends JFrame {
@@ -26,7 +30,7 @@ public class VentanaPrincipalReserva extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelReserva;
 	private JLabel lblInstalacion;
-	private JComboBox comboBoxInstalaciones;
+	private JComboBox<Instalacion> comboBoxInstalaciones;
 	private JLabel lblDiaReserva;
 	private JDateChooser dateChooser;
 	private JButton btnSiguiente1;
@@ -93,28 +97,41 @@ public class VentanaPrincipalReserva extends JFrame {
 	        dateChooser.getDateEditor().getUiComponent().setBackground(Color.WHITE); // Fondo deshabilitado
 	        dateChooser.getDateEditor().getUiComponent().setForeground(Color.BLUE); // Color del texto
 	        ((JTextField) dateChooser.getDateEditor().getUiComponent()).setDisabledTextColor(Color.BLACK); // Texto cuando está deshabilitado
-	        dateChooser.getCalendarButton().addActionListener(new ActionListener() {
-	        	public void actionPerformed(ActionEvent e) {
-	        		getBtnSiguiente1().setEnabled(true);
-	        	}
-	        });
 	        dateChooser.setSize(148, 57);
 	        dateChooser.setLocation(79, 188);
+	        dateChooser.addPropertyChangeListener("date", evt -> {
+	            actualizarBotonSiguiente();
+	        });
 		}
 		return dateChooser;
 	}
 
 
-	public JComboBox getComboBoxInstalaciones() {
-		if (comboBoxInstalaciones == null) {
-			comboBoxInstalaciones = new JComboBox();
-			lblInstalacion.setLabelFor(comboBoxInstalaciones);
-			comboBoxInstalaciones.setBounds(79, 94, 205, 32);
-		}
-		return comboBoxInstalaciones;
+	public JComboBox<Instalacion> getComboBoxInstalaciones() {
+	    if (comboBoxInstalaciones == null) {
+	        comboBoxInstalaciones = new JComboBox<>();
+	        lblInstalacion.setLabelFor(comboBoxInstalaciones);
+	        comboBoxInstalaciones.setBounds(79, 94, 205, 32);
+	        comboBoxInstalaciones.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                actualizarBotonSiguiente();
+	            }
+	        });
+
+	        // Crear el modelo basado en la lista de instalaciones
+	        DefaultComboBoxModel<Instalacion> model = new DefaultComboBoxModel<>();
+	        List<Instalacion> instalaciones = getReservaShared().cargaInstalaciones();
+	        for (Instalacion instalacion : instalaciones) {
+	            model.addElement(instalacion);  // Añadir cada instalación al modelo
+	        }
+	         
+	        // Establecer el modelo en el comboBox
+	        comboBoxInstalaciones.setModel(model);
+	    }
+	    return comboBoxInstalaciones;
 	}
 
-	public void setComboBoxInstalaciones(JComboBox comboBoxInstalaciones) {
+	public void setComboBoxInstalaciones(JComboBox<Instalacion> comboBoxInstalaciones) {
 		this.comboBoxInstalaciones = comboBoxInstalaciones;
 	}
 
@@ -153,6 +170,14 @@ public class VentanaPrincipalReserva extends JFrame {
 	        btnSiguiente1.setBounds(471, 389, 105, 25);
 		}
 		return btnSiguiente1;
+	}
+	
+	private void actualizarBotonSiguiente() {
+	    // Habilitar el botón solo si hay una instalación seleccionada y una fecha seleccionada
+	    boolean isInstalacionSelected = comboBoxInstalaciones.getSelectedItem() != null;
+	    boolean isFechaSelected = dateChooser.getDate() != null;
+
+	    btnSiguiente1.setEnabled(isInstalacionSelected && isFechaSelected);
 	}
 	
 

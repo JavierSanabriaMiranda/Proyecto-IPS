@@ -6,9 +6,9 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import backend.data.Database;
+import backend.util.Util;
 import giis.demo.tkrun.*;
-import giis.demo.util.*;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;

@@ -1,8 +1,10 @@
 package giis.demo.tkrun.ut;
 import junit.framework.*;
 import giis.demo.tkrun.*;
-import giis.demo.util.*;
 import java.util.*;
+
+import backend.data.Database;
+import backend.util.Util;
 
 /**
  * Ejemplo de pruebas con JUnit3 (incluye las pruebas de getListaCarreras y las invalidas de getDescuentoRecargo)

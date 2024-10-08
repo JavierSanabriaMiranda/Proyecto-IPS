@@ -4,7 +4,8 @@ import java.util.Date;
 
 public interface Venta {
 	
-	public double getPrecio();
+	public float getPrecio();
 	public Date getFecha();
+	public String getIdVenta();
 
 }

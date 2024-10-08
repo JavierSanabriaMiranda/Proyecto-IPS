@@ -12,7 +12,10 @@
 
 ------- ZONA DE DROPS ------- 
 
+
 DROP TABLE RESERVA;
+DROP TABLE VENTAS;
+DROP TABLE CLIENTE;
 DROP TABLE EQUIPO_FORMACION;
 DROP TABLE EQUIPO_PROFESIONAL;
 DROP TABLE ENTRENAMIENTO;
@@ -30,6 +33,7 @@ DROP TABLE EQUIPO_FORMACION;
 
 
 
+
 ------- ZONA DE CREATES ------- 
 
 CREATE TABLE EMPLEADO_NO_DEPORTIVO (
@@ -40,12 +44,12 @@ CREATE TABLE EMPLEADO_NO_DEPORTIVO (
     FECHA_NACIMIENTO date,
     TELEFONO varchar(9),
     POSICION varchar(40),
-    SALARIO_ANUAL decimal(8,2),
+    SALARIO_ANUAL decimal(20,2),
     CONSTRAINT PK_EMP_NO_DEP PRIMARY KEY (ID_EMPLEADO_NO_DEP),
     CONSTRAINT CK_POSICION CHECK (POSICION IN ('gerente', 
-        'vendedor de entradas/abonos', 'encargados de tienda', 
-        'gestor de instalaciones', 'empleados de tienda', 'jardinería', 
-        'cocina', 'director de comunicaciones')),
+        'vendedor de entradas/abonos', 'encargado de tienda', 
+        'gestor de instalaciones', 'empleado de tienda', 'empleado de jardineria', 
+        'empleado de cocina', 'director de comunicaciones')),
 );
 
 CREATE TABLE HORARIO (
@@ -153,19 +157,38 @@ CREATE TABLE EQUIPO_FORMACION(
     CONSTRAINT CK_EQUIPO_FORMACION_CATEGORIA CHECK (CATEGORIA IN ('juvenil', 'cadete', 'infantil', 'alevin', 'benjamin', 'pre-benjamin'))
 );
 
+CREATE TABLE CLIENTE (
+    DNI varchar(9),                      
+    NOMBRE varchar(50),                  
+    CONSTRAINT PK_CLIENTE PRIMARY KEY (DNI)  
+);
+
+
+CREATE TABLE VENTAS (
+    ID_VENTAS varchar(10),
+    DNI varchar(9),                                    
+    FECHA date,                                       
+    COSTE decimal(8, 2),                             
+    CONSTRAINT PK_VENTAS PRIMARY KEY (ID_VENTAS),  
+    CONSTRAINT FK_VENTAS_CLIENTE FOREIGN KEY (DNI)  
+        REFERENCES CLIENTE (DNI) 
+        ON DELETE CASCADE                             
+);
+
 CREATE TABLE RESERVA (
     COD_RESERVA varchar(10), 
     HORA_FIN time,
     HORA_INICIO time,
-    NOMBRE_CLIENTE varchar(50),
-    COD_INSTALACION varchar(10),
-    N_TARJETA varchar(18),
+    COD_INSTALACION varchar(30),
+    N_TARJETA varchar(26),
     CONSTRAINT PK_RESERVA PRIMARY KEY (COD_RESERVA),
     CONSTRAINT FK_RESERVA_INSTALACION FOREIGN KEY (COD_INSTALACION)  
         REFERENCES INSTALACION (COD_INSTALACION),
     CONSTRAINT FK_RESERVA_VENTAS FOREIGN KEY (COD_RESERVA) 
         REFERENCES VENTAS (ID_VENTAS)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
 );
+
+
 
 

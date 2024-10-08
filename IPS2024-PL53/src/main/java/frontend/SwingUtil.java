@@ -12,9 +12,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 
-import giis.demo.util.ApplicationException;
-import giis.demo.util.TableColumnAdjuster;
-import giis.demo.util.UnexpectedException;
+import backend.data.TableColumnAdjuster;
+import backend.util.ApplicationException;
+import backend.util.UnexpectedException;
 
 /**
  * Metodos de utilidad para interfaces de usuario con swing (poblar tablas a partir de un objeto POJO

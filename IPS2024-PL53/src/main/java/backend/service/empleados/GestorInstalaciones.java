@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import backend.data.instalaciones.InstalacionCRUDService;
+import backend.data.instalaciones.InstalacionCRUDServiceImpl;
+import backend.data.instalaciones.commands.DtoAssembler;
 import backend.service.horarios.FranjaTiempo;
-import backend.service.ventas.reservas.ClienteReserva;
+import backend.service.ventas.reservas.GeneradorCodReserva;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
 import shared.gestioninstalaciones.GestorReserva;
@@ -27,17 +30,43 @@ public class GestorInstalaciones implements GestorReserva{
 		return instalacion.getEventos(dia); 
 	}
 
-	private List<Instalacion> cargarInstalaciones() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public List<Instalacion> cargarInstalaciones() {
+		InstalacionCRUDService service = new InstalacionCRUDServiceImpl();
+		return DtoAssembler.dtoToInstalacion(service.cargarInstalaciones());
 	}
 
 	public List<Instalacion> getInstalaciones() {
 		return instalaciones;
 	}
 	
-	public void reserva(ClienteReserva cliente, Instalacion instalacion, FranjaTiempo franja, double precio, Date fecha) {
-		instalacion.addReserva(new Reserva(franja, instalacion, cliente, precio, fecha));
+	@Override
+	public String creaCodReserva() {
+		GeneradorCodReserva gen = new GeneradorCodReserva();
+	    String cod;
+	    boolean codDuplicado;
+
+	    // Bucle que continúa generando códigos hasta encontrar uno único
+	    do {
+	        cod = gen.getNuevoCod();
+	        codDuplicado = false;
+
+	        // Recorremos todas las instalaciones y sus reservas para comprobar si el código ya existe
+	        for (Instalacion ins : instalaciones) {
+	            List<Reserva> listRes = ins.getReservas();
+	            for (Reserva res : listRes) {
+	                if (res.getCodReserva().equals(cod)) {
+	                    codDuplicado = true;  // Si el código existe, marcamos como duplicado
+	                    break;  // Salimos del bucle interno para generar un nuevo código
+	                }
+	            }
+	            if (codDuplicado) {
+	                break;  // Si el código ya existe, no es necesario seguir buscando
+	            }
+	        }
+	    } while (codDuplicado);  // Si el código es duplicado, volvemos a generar otro
+
+	    return cod;
 	}
 
 	@Override
@@ -48,12 +77,18 @@ public class GestorInstalaciones implements GestorReserva{
 	@Override
 	public Instalacion buscaInstalacion(String codInstalacion) {
 		for (Instalacion inst : instalaciones) {
-			if (inst.getNombreInstalacion() == codInstalacion){
+			if (inst.getNombreInstalacion().equals(codInstalacion)){
 				return inst;
 			}
 		}
 		return null;
 	}
+
+	@Override
+	public void addReservaAInstalacion(Reserva reserva, Instalacion instalacion) {
+		instalacion.addReserva(reserva);
+	}
+	
 	
 
 }

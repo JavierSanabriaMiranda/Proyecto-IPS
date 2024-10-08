@@ -1,25 +1,18 @@
 --Datos para carga inicial de la base de datos
 
---Para giis.demo.tkrun:
---delete from carreras;
---insert into carreras(id,inicio,fin,fecha,descr) values 
---	(100,'2016-10-05','2016-10-25','2016-11-09','finalizada'),
---	(101,'2016-10-05','2016-10-25','2016-11-10','en fase 3'),
---	(102,'2016-11-05','2016-11-09','2016-11-20','en fase 2'),
---	(103,'2016-11-10','2016-11-15','2016-11-21','en fase 1'),
---	(104,'2016-11-11','2016-11-15','2016-11-22','antes inscripcion');
-
 
 DELETE FROM EMPLEADO_NO_DEPORTIVO;
-INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) VALUES
-('E001', '12345678A', 'Juan', 'Pérez', '1985-05-10', '612345678', 'gerente', 30000.00),
-('E002', '23456789B', 'María', 'García', '1990-07-15', '623456789', 'vendedor de entradas/abonos', 20000.00),
-('E003', '34567890C', 'Carlos', 'López', '1982-12-20', '634567890', 'encargados de tienda', 22000.00),
-('E004', '45678901D', 'Ana', 'Martínez', '1995-03-25', '645678901', 'gestor de instalaciones', 25000.00),
-('E005', '56789012E', 'Luis', 'Hernández', '1988-11-30', '656789012', 'empleados de tienda', 18000.00),
-('E006', '67890123F', 'Laura', 'Sánchez', '1992-08-05', '667890123', 'jardinería', 17000.00),
-('E007', '78901234G', 'Pedro', 'Ramírez', '1979-02-18', '678901234', 'cocina', 19000.00),
-('E008', '89012345H', 'Sofía', 'Torres', '1986-04-22', '689012345', 'director de comunicaciones', 35000.00);
+-- Inserciones válidas para la tabla EMPLEADO_NO_DEPORTIVO
+INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL)
+VALUES 
+    ('E0000001', '12345678A', 'Carlos', 'García', '1985-01-15', '600123456', 'gerente', 45000.50),
+    ('E0000002', '23456789B', 'Laura', 'Pérez', '1990-06-20', '600234567', 'vendedor de entradas/abonos', 30000.00),
+    ('E0000003', '34567890C', 'Miguel', 'López', '1988-03-10', '600345678', 'encargado de tienda', 32000.75),
+    ('E0000004', '45678901D', 'Ana', 'Martínez', '1995-11-25', '600456789', 'gestor de instalaciones', 38000.80),
+    ('E0000005', '56789012E', 'Javier', 'Sánchez', '1982-05-05', '600567890', 'empleado de tienda', 28000.40),
+    ('E0000006', '67890123F', 'Clara', 'Hernández', '1993-08-15', '600678901', 'empleado de jardineria', 27000.60),
+    ('E0000007', '78901234G', 'Sofia', 'Torres', '1997-02-28', '600789012', 'empleado de cocina', 26000.30),
+    ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00);
 
 
 -- Inserción de registros en la tabla INSTALACION
@@ -31,11 +24,33 @@ INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_1');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_2');
 
 
--- Inserción de reservas de instalaciones
-INSERT INTO RESERVA (COD_RESERVA, HORA_FIN, HORA_INICIO, NOMBRE_CLIENTE, COD_INSTALACION, N_TARJETA)
-VALUES 
-('RES001', '10:00:00', '09:00:00', 'Juan Pérez', 'ZONA_ENTRENAMIENTO_1', '1234567890123456'),
-('RES002', '12:30:00', '11:00:00', 'Ana Gómez', 'ZONA_ENTRENAMIENTO_2', '9876543210987654'),
-('RES003', '15:00:00', '14:00:00', 'Carlos López', 'GIMNASIO_PRINCIPAL', '1239876543210987'),
-('RES004', '18:00:00', '17:00:00', 'María Fernández', 'CAMPO_JUEGO_1', '4567891236547890'),
-('RES005', '20:00:00', '19:00:00', 'Lucía Sánchez', 'CAMPO_JUEGO_2', '7891236541237890');
+-- Insertar datos en la tabla CLIENTE
+DELETE FROM CLIENTE;
+INSERT INTO CLIENTE (DNI, NOMBRE) VALUES
+('12345678A', 'Juan Perez'),
+('87654321B', 'Maria Lopez'),
+('45678912C', 'Carlos Ramirez'),
+('78965432D', 'Laura Martinez'),
+('15975328E', 'Ana Garcia');
+
+
+-- Insertar datos en la tabla VENTAS (relacionados con los clientes)
+DELETE FROM VENTAS;
+INSERT INTO VENTAS (ID_VENTAS, DNI, FECHA, COSTE) VALUES
+('V001', '12345678A', '2023-10-01', 150.00),
+('V002', '87654321B', '2023-10-02', 200.50),
+('V003', '45678912C', '2023-10-03', 175.75),
+('V004', '78965432D', '2023-10-04', 180.00),
+('V005', '15975328E', '2023-10-05', 220.00);
+
+
+
+-- Insertar datos en la tabla RESERVA (relacionados con las ventas e instalaciones)
+DELETE FROM RESERVA;
+INSERT INTO RESERVA (COD_RESERVA, HORA_FIN, HORA_INICIO, COD_INSTALACION, N_TARJETA) VALUES
+('V001', '14:00:00', '12:00:00',  'ZONA_ENTRENAMIENTO_1', '123456789012345678901234'),
+('V002', '16:00:00', '14:00:00', 'ZONA_ENTRENAMIENTO_2', '123456789012345678901235'),
+('V003', '18:00:00', '16:00:00',  'GIMNASIO_PRINCIPAL', '123456789012345678901236'),
+('V004', '10:00:00', '08:00:00',  'CAMPO_JUEGO_1', '123456789012345678901237'),
+('V005', '12:00:00', '10:00:00',  'CAMPO_JUEGO_2', '123456789012345678901238');
+

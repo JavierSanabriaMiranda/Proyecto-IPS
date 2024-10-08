@@ -10,12 +10,24 @@ public class Reserva extends VentaBase{
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
 	private ClienteReserva cliente;
+	private String codReserva;
+	private String numeroTarjeta;
 	
-	public Reserva(FranjaTiempo horario, Instalacion instalacion, ClienteReserva cliente, double precio, Date fecha) {
-		super(precio, fecha);
+	public Reserva( String codReserva, FranjaTiempo horario, Instalacion instalacion, ClienteReserva cliente, float precio, Date fecha, String numeroTarjeta) {
+		super(codReserva, precio, fecha);
 		this.horario = horario;
 		this.instalacion = instalacion;
 		this.cliente = cliente;
+		this.codReserva = codReserva;
+		this.numeroTarjeta = numeroTarjeta;
+	}
+	
+	public String getNumeroTarjeta() {
+		return this.numeroTarjeta;
+	}
+	
+	public String getCodReserva() {
+		return this.codReserva;
 	}
 	
 	public FranjaTiempo getHorario() {

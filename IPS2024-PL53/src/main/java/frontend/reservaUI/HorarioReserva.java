@@ -12,14 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
+import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.Instalacion;
 import util.DateToLocalTimeConverter;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,73 +112,112 @@ public class HorarioReserva extends JDialog {
 		return panelHorario;
 	}
 	private JSpinner getSpinnerInicio() {
-		if (spinnerHoraInicio == null) {
-			SpinnerDateModel dateModel = new SpinnerDateModel();
-			spinnerHoraInicio = new JSpinner(dateModel);
-			spinnerHoraInicio.setBounds(91, 70, 122, 43);
-	        
-	        // Formatear el JSpinner para que muestre solo horas y minutos
-	        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinnerHoraInicio, "HH:mm");
-	        spinnerHoraInicio.setEditor(timeEditor);
-	        spinnerHoraInicio.setValue(new Date()); // Establecer el valor inicial en la hora actual
-	       
-	        JFormattedTextField spinnerTextField = ((JSpinner.DefaultEditor) spinnerHoraInicio.getEditor()).getTextField();
-	        spinnerTextField.setInputVerifier(new InputVerifier() {
-	            @Override
-	            public boolean verify(JComponent input) {
-	                JFormattedTextField textField = (JFormattedTextField) input;
-	                String text = textField.getText();
-	                
-	                // Intentar parsear la entrada como hora (HH:mm)
-	                try {
-	                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-	                    dateFormat.setLenient(false); // Evitar la corrección automática de fechas inválidas
-	                    dateFormat.parse(text); // Verificar si el texto es válido
-	                    return true;
-	                } catch (Exception e) {
-	                    // Si no es una hora válida, rechazar la entrada
-	                    JOptionPane.showMessageDialog(null, "Entrada inválida. Introduce un valor válido de hora de inicio(HH:mm).");
-	                    return false;
+	    if (spinnerHoraInicio == null) {
+	        try {
+	            SpinnerDateModel dateModel = new SpinnerDateModel();
+	            spinnerHoraInicio = new JSpinner(dateModel);
+	            spinnerHoraInicio.setBounds(91, 70, 122, 43);
+
+	            // Limitar el rango de horas a estar entre las 08:00 y las 22:00
+	            Date minHora = new SimpleDateFormat("HH:mm").parse("08:00");
+	            Date maxHora = new SimpleDateFormat("HH:mm").parse("22:00");
+
+	            // Formatear el JSpinner para que muestre solo horas y minutos
+	            JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinnerHoraInicio, "HH:mm");
+	            spinnerHoraInicio.setEditor(timeEditor);
+	            spinnerHoraInicio.setValue(minHora); // Establecer el valor inicial
+
+	            // Verificar que la hora seleccionada sea válida
+	            JFormattedTextField spinnerTextField = ((JSpinner.DefaultEditor) spinnerHoraInicio.getEditor()).getTextField();
+	            spinnerTextField.setInputVerifier(new InputVerifier() {
+	                @Override
+	                public boolean verify(JComponent input) {
+	                    try {
+	                        Date horaInicio = (Date) spinnerHoraInicio.getValue();
+
+	                        // Asegurarse de que esté dentro del rango permitido
+	                        if (horaInicio.before(minHora) || horaInicio.after(maxHora)) {
+	                            JOptionPane.showMessageDialog(null, "La hora de inicio debe estar entre las 08:00 y las 22:00.");
+	                            return false;
+	                        }
+	                        return true;
+	                    } catch (Exception e) {
+	                        JOptionPane.showMessageDialog(null, "Error al verificar la hora de inicio.");
+	                        return false;
+	                    }
 	                }
-	            }
-	        });
-		}
-		return spinnerHoraInicio;
+	            });
+
+	        } catch (Exception e) {
+	            JOptionPane.showMessageDialog(null, "Error al inicializar el spinner de hora de inicio.");
+	        }
+	    }
+	    return spinnerHoraInicio;
 	}
+
 	private JSpinner getSpinnerHoraFin() {
-		if (spinnerHoraFin == null) {
-			SpinnerDateModel dateModel = new SpinnerDateModel();
-			spinnerHoraFin = new JSpinner(dateModel);
-			spinnerHoraFin.setBounds(91, 184, 122, 43);
-	        
-	        // Formatear el JSpinner para que muestre solo horas y minutos
-	        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinnerHoraFin, "HH:mm");
-	        spinnerHoraFin.setEditor(timeEditor);
-	        spinnerHoraFin.setValue(new Date()); // Establecer el valor inicial en la hora actual
-	        
-	        JFormattedTextField spinnerTextField = ((JSpinner.DefaultEditor) spinnerHoraFin.getEditor()).getTextField();
-	        spinnerTextField.setInputVerifier(new InputVerifier() {
-	            @Override
-	            public boolean verify(JComponent input) {
-	                JFormattedTextField textField = (JFormattedTextField) input;
-	                String text = textField.getText();
-	                
-	                // Intentar parsear la entrada como hora (HH:mm)
-	                try {
-	                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-	                    dateFormat.setLenient(false); // Evitar la corrección automática de fechas inválidas
-	                    dateFormat.parse(text); // Verificar si el texto es válido
-	                    return true;
-	                } catch (Exception e) {
-	                    // Si no es una hora válida, rechazar la entrada
-	                    JOptionPane.showMessageDialog(null, "Entrada inválida. Introduce un valor válido de hora de fin(HH:mm).");
-	                    return false;
+	    if (spinnerHoraFin == null) {
+	        try {
+	            SpinnerDateModel dateModel = new SpinnerDateModel();
+	            spinnerHoraFin = new JSpinner(dateModel);
+	            spinnerHoraFin.setBounds(91, 184, 122, 43);
+
+	            // Limitar el rango de horas a estar entre las 08:00 y las 22:00
+	            Date minHora = new SimpleDateFormat("HH:mm").parse("08:00");
+	            Date maxHora = new SimpleDateFormat("HH:mm").parse("22:00");
+
+	            // Formatear el JSpinner para que muestre solo horas y minutos
+	            JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinnerHoraFin, "HH:mm");
+	            spinnerHoraFin.setEditor(timeEditor);
+	            spinnerHoraFin.setValue(maxHora); // Establecer el valor inicial
+
+	            // Verificar que la hora seleccionada sea válida
+	            JFormattedTextField spinnerTextField = ((JSpinner.DefaultEditor) spinnerHoraFin.getEditor()).getTextField();
+	            spinnerTextField.setInputVerifier(new InputVerifier() {
+	                @Override
+	                public boolean verify(JComponent input) {
+	                    try {
+	                        Date horaInicio = (Date) spinnerHoraInicio.getValue();
+	                        Date horaFin = (Date) spinnerHoraFin.getValue();
+
+	                        // Asegurarse de que la hora de fin sea posterior a la de inicio
+	                        if (horaFin.before(horaInicio)) {
+	                            JOptionPane.showMessageDialog(null, "La hora de fin debe ser posterior a la hora de inicio.");
+	                            return false;
+	                        }
+
+	                        // Asegurarse de que la duración mínima sea de 1 hora
+	                        long diferenciaEnMillis = horaFin.getTime() - horaInicio.getTime();
+	                        long duracionEnMinutos = diferenciaEnMillis / (1000 * 60);
+
+	                        if (duracionEnMinutos < 60) {
+	                            JOptionPane.showMessageDialog(null, "La duración mínima de la reserva debe ser de 1 hora.");
+	                            return false;
+	                        }
+
+	                        // Asegurarse de que esté dentro del rango permitido
+	                        if (horaFin.before(minHora) || horaFin.after(maxHora)) {
+	                            JOptionPane.showMessageDialog(null, "La hora de fin debe estar entre las 08:00 y las 22:00.");
+	                            return false;
+	                        }
+
+	                        return true;
+	                    } catch (Exception e) {
+	                        JOptionPane.showMessageDialog(null, "Error al verificar la hora de fin.");
+	                        return false;
+	                    }
 	                }
-	            }
-	        });
-		}
-		return spinnerHoraFin;
+	            });
+
+	        } catch (Exception e) {
+	            JOptionPane.showMessageDialog(null, "Error al inicializar el spinner de hora de fin.");
+	        }
+	    }
+	    return spinnerHoraFin;
 	}
+
+
+	
 	private JLabel getLblHoraInicio() {
 		if (lblHoraInicio == null) {
 			lblHoraInicio = new JLabel("Hora de Inicio:");
@@ -265,7 +305,7 @@ public class HorarioReserva extends JDialog {
 	        for (FranjaTiempo evento : eventosDelDia) {
 	            if (evento.getHoraInicio().isBefore(intervaloFin) && evento.getHoraFin().isAfter(intervaloInicio)) {
 	                // Si el evento es un entrenamiento o una reserva
-	                if (evento.getEvento() == "Entrenamiento Equipo") {
+	                if (evento.getEvento() == TipoEvento.ENTRENAMIENTO) {
 	                    esEntrenamiento = true;
 	                } else {
 	                    estaReservada = true;
@@ -302,6 +342,7 @@ public class HorarioReserva extends JDialog {
 			btnValidador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					validarHorario();
+					
 				}
 			});
 			btnValidador.setBackground(new Color(0, 128, 0));
@@ -311,7 +352,7 @@ public class HorarioReserva extends JDialog {
 	}
 	
 	/**
-	 * Sin acabar, pasar de Date a FranjaTiempo
+	 * Verifica si el horario es valido y habilita el boton siguiente si lo es
 	 */
 	private void validarHorario() {
 		Date horaInicio = (Date) getSpinnerInicio().getValue();
@@ -319,7 +360,7 @@ public class HorarioReserva extends JDialog {
 		
 		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
 		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
-		FranjaTiempo franja = new FranjaTiempo("Reserva", inicio, fin, vpr.getDateChooser().getDate());
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, vpr.getDateChooser().getDate());
 		Instalacion inst = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
 	    String nombreInstalacion = inst.getNombreInstalacion();
 	    Instalacion instalacion = vpr.getReservaShared().buscaInstalacion(nombreInstalacion);
@@ -328,10 +369,12 @@ public class HorarioReserva extends JDialog {
 			getBtnSiguiente2().setEnabled(true);
 			getLblHorarioValido().setVisible(true);
 			getLblHorarioValido().setText("El horario escogido es válido.");
+			getBtnSiguiente2().setEnabled(true);
 		} else {
 			getBtnSiguiente2().setEnabled(false);
 			getLblHorarioValido().setVisible(true);
 			getLblHorarioValido().setText("El horario escogido no es válido.");
+			getBtnSiguiente2().setEnabled(false);
 		}
 		
 		
@@ -344,5 +387,49 @@ public class HorarioReserva extends JDialog {
 			lblHorarioValido.setVisible(false);
 		}
 		return lblHorarioValido;
+	}
+	
+	
+	
+	public FranjaTiempo getFranjaReserva() {
+		Date horaInicio = (Date) getSpinnerInicio().getValue();
+		Date horaFin = (Date) getSpinnerHoraFin().getValue();
+		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, vpr.getDateChooser().getDate()); 
+		return franja;
+	}
+	
+	public Instalacion getInstalacionReserva() {
+		Instalacion inst = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
+	    String nombreInstalacion = inst.getNombreInstalacion();
+	    Instalacion instalacion = vpr.getReservaShared().buscaInstalacion(nombreInstalacion);
+	    return instalacion;
+	}
+	
+	public float getPrecioReserva() {
+		// Obtener las horas de inicio y fin desde los spinners
+	    Date horaInicio = (Date) getSpinnerInicio().getValue();
+	    Date horaFin = (Date) getSpinnerHoraFin().getValue();
+
+	    // Convertir a LocalTime para calcular la duración
+	    LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+	    LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+
+	    // Calcular la duración en minutos entre el inicio y el fin
+	    long duracionEnMinutos = Duration.between(inicio, fin).toMinutes();
+
+	    // Convertir los minutos en horas, redondeando hacia arriba cualquier fracción
+	    float horas = (float) Math.ceil(duracionEnMinutos / 60.0);
+
+	    // Precio de la reserva: 50€ por hora
+	    float precioPorHora = 50.0f;
+
+	    // Calcular el total
+	    return horas * precioPorHora;
+	}
+	
+	public Date getDateReserva() {
+		return getVpr().getDateChooser().getDate();
 	}
 }
