@@ -6,6 +6,7 @@ import backend.data.empleados.commands.AddEmpleadoDeportivo;
 import backend.data.empleados.commands.AddEmpleadoNoDeportivo;
 import backend.data.empleados.commands.CargarEmpleadosDeportivos;
 import backend.data.empleados.commands.CargarEmpleadosNoDeportivos;
+import backend.data.empleados.commands.EliminarEmpleado;
 import backend.data.empleados.commands.ModEmpleado;
 
 public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
@@ -33,6 +34,11 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	@Override
 	public List<EmpleadoDTO> cargarEmpleadosNoDeportivos() {
 		return new CargarEmpleadosNoDeportivos().execute();
+	}
+
+	@Override
+	public void eliminarEmpleado(EmpleadoDTO dto) {
+		new EliminarEmpleado(dto).execute();
 	}
 
 }

@@ -133,10 +133,11 @@ public abstract class EmpleadoBase implements Empleado {
 			throw new IllegalArgumentException("El salario no puede ser negativo");
 		this.salarioAnual = salario;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public int compareTo(Empleado o) {
+		return this.getIDEmpleado().compareTo(o.getIDEmpleado());
+	}
+
 	
 }

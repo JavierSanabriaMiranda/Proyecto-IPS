@@ -106,6 +106,16 @@ public class GestionEmpleadosShared {
 		
 		return empleados;
 	}
+	
+	public void eliminarEmpleado(Empleado emp) {
+		gestor.eliminarEmpleado(emp.getIDEmpleado());
+		
+		EmpleadoDTO dto = new EmpleadoDTO();
+		dto.id = emp.getIDEmpleado();
+		dto.posicion = emp.getPuesto().toString();
+		
+		service.eliminarEmpleado(dto);
+	}
 
 	/**
 	 * Añade al empleado deportivo a la lista del gestor correcta así como a la base de datos
@@ -113,7 +123,7 @@ public class GestionEmpleadosShared {
 	private void addEmpleadoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorDep = creadoresDep.get(puesto);
-		String id = gestor.addEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		String id = gestor.addNuevoEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
 		
 		addEmpleadoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 	}
@@ -140,7 +150,7 @@ public class GestionEmpleadosShared {
 	private void addEmpleadoNoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorNoDep = creadoresNoDep.get(puesto);
-		String id = gestor.addEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
+		String id = gestor.addNuevoEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
 		
 		addEmpleadoNoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 	}
@@ -218,5 +228,7 @@ public class GestionEmpleadosShared {
 			gestor.addEmpleadoNoDeportivo(emp);
 		}
 	}
+
+
 
 }

@@ -9,4 +9,5 @@ public interface EmpleadosCRUDService {
 	void modEmpleado(EmpleadoDTO dto);
 	List<EmpleadoDTO> cargarEmpleadosDeportivos();
 	List<EmpleadoDTO> cargarEmpleadosNoDeportivos();
+	void eliminarEmpleado(EmpleadoDTO dto);
 }

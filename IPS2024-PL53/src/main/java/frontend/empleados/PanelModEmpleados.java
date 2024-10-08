@@ -15,7 +15,6 @@ import javax.swing.border.LineBorder;
 import com.toedter.calendar.JDateChooser;
 
 import backend.service.empleados.Empleado;
-import backend.service.empleados.deportivos.Jugador;
 import shared.gestionempleados.GestionEmpleadosShared;
 import shared.gestionempleados.PuestoEmpleado;
 
@@ -25,7 +24,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -63,8 +64,7 @@ public class PanelModEmpleados extends JPanel {
 	private JButton btMod;
 	private JLabel lbEmpleados;
 
-	//TODO poner límite a los JTextFields acordes a los de la BBDD
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -197,7 +197,6 @@ public class PanelModEmpleados extends JPanel {
 			listEmpleados = new JList<Empleado>();
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 14));
-			listEmpleados.setPreferredSize(new Dimension(800, Integer.MAX_VALUE));
 
 			modeloList = new DefaultListModel<>();
 			listEmpleados.setModel(modeloList);
@@ -369,8 +368,12 @@ public class PanelModEmpleados extends JPanel {
 		getTxSalario().setText("");
 		getClFechaNac().setDate(null);
 		getListEmpleados().clearSelection();
+		
+		// Limpia la lista y añade los empleados ordenados
 		modeloList.clear();
-		modeloList.addAll(gesEmp.getEmpleadosFromGestor());
+		List<Empleado> empleados = gesEmp.getEmpleadosFromGestor();
+		Collections.sort(empleados);
+		modeloList.addAll(empleados);
 	}
 
 	private boolean camposCorrectos() {

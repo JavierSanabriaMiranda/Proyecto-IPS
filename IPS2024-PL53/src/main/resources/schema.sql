@@ -43,7 +43,7 @@ CREATE TABLE EMPLEADO_NO_DEPORTIVO (
     FECHA_NACIMIENTO date,
     TELEFONO varchar(9),
     POSICION varchar(40),
-    SALARIO_ANUAL decimal(8,2),
+    SALARIO_ANUAL decimal(20,2),
     CONSTRAINT PK_EMP_NO_DEP PRIMARY KEY (ID_EMPLEADO_NO_DEP),
     CONSTRAINT CK_POSICION CHECK (POSICION IN ('gerente', 
         'vendedor de entradas/abonos', 'encargado de tienda', 

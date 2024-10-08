@@ -55,7 +55,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 	}
 
 	@Override
-	public String addEmpleadoDeportivo(EmpleadoDeportivo emp) {
+	public String addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
 		
@@ -67,7 +67,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 	}
 
 	@Override
-	public String addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
+	public String addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
 		
@@ -76,6 +76,20 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		empNoDeportivos.put(emp.getIDEmpleado(), emp);
 		
 		return idNuevo;
+	}
+	
+	@Override
+	public void addEmpleadoDeportivo(EmpleadoDeportivo emp) {
+		if (emp == null)
+			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
+		empDeportivos.put(emp.getIDEmpleado(), emp);
+	}
+
+	@Override
+	public void addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
+		if (emp == null)
+			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
+		empNoDeportivos.put(emp.getIDEmpleado(), emp);
 	}
 	
 	/**
@@ -115,6 +129,16 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		
 		return empleados;
 	}
+
+	@Override
+	public void eliminarEmpleado(String idEmpleado) {
+		if (empDeportivos.containsKey(idEmpleado))
+			empDeportivos.remove(idEmpleado);
+		else if (empNoDeportivos.containsKey(idEmpleado))
+			empNoDeportivos.remove(idEmpleado);
+	}
+
+
 
 
 

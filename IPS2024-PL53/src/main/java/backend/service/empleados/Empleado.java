@@ -4,7 +4,7 @@ import java.util.Date;
 
 import shared.gestionempleados.PuestoEmpleado;
 
-public interface Empleado {
+public interface Empleado extends Comparable<Empleado> {
 
 	String getIDEmpleado();
 	String getNombre();
@@ -25,4 +25,6 @@ public interface Empleado {
 	
 	@Override
 	String toString();
+	
+	
 }

@@ -13,18 +13,33 @@ import backend.service.empleados.EmpleadoNoDeportivo;
 public interface GestorEmpleados {
 	
 	/**
-	 * Añade el empleado a la lista de empleados deportivos
+	 * Añade el empleado nuevo a la lista de empleados deportivos y le asigna
+	 * un id propio
+	 * 
 	 * @param emp empleado a añadir
 	 * @return id generado para el nuevo empleado
 	 */
-	String addEmpleadoDeportivo(EmpleadoDeportivo emp);
+	String addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp);
 	
 	/**
-	 * Añade el empleado a la lista de empleados NO deportivos
+	 * Añade el empleado a la lista de empleados NO deportivos y le asigna
+	 * un id propio
 	 * @param emp empleado a añadir
 	 * @return id generado para el nuevo empleado
 	 */
-	String addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
+	String addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
+	
+	/**
+	 * Añade un empleado que ya tiene ID a la lista de empleados deportivos 
+	 * @param emp a añadir
+	 */
+	void addEmpleadoDeportivo(EmpleadoDeportivo emp);
+	
+	/**
+	 * Añade un empleado que ya tiene ID a la lista de empleados no deportivos 
+	 * @param emp a añadir
+	 */
+	void addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
 	
 	/**
 	 * Devuelve el empleado cuyo id es el recibido como parámetro
@@ -35,4 +50,6 @@ public interface GestorEmpleados {
 	
 	List<EmpleadoDeportivo> getEmpleadosDeportivos();
 	List<EmpleadoNoDeportivo> getEmpleadosNoDeportivos();
+
+	void eliminarEmpleado(String idEmpleado);
 }

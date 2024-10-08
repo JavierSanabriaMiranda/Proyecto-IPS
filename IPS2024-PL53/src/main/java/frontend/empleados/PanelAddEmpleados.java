@@ -55,8 +55,6 @@ public class PanelAddEmpleados extends JPanel {
 	private JLabel lbTipoEmpleado;
 	private JDateChooser clNacimiento;
 
-	//TODO poner límite a los JTextFields acordes a los de la BBDD
-	
 	/**
 	 * Create the panel.
 	 */
@@ -183,7 +181,9 @@ public class PanelAddEmpleados extends JPanel {
 		gbc_cbPuesto.gridy = 9;
 		add(getCbPuesto(), gbc_cbPuesto);
 		GridBagConstraints gbc_btAdd = new GridBagConstraints();
-		gbc_btAdd.gridx = 6;
+		gbc_btAdd.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btAdd.insets = new Insets(0, 0, 0, 5);
+		gbc_btAdd.gridx = 5;
 		gbc_btAdd.gridy = 10;
 		add(getBtAdd(), gbc_btAdd);
 
