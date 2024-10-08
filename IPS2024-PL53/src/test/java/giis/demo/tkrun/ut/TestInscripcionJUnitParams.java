@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.runner.RunWith;
+
+import backend.data.Database;
+import backend.util.ApplicationException;
+import backend.util.Util;
 import junitparams.Parameters;
 import junitparams.JUnitParamsRunner;
 
 import giis.demo.tkrun.*;
-import giis.demo.util.*;
-
 import java.util.Date;
 
 /**

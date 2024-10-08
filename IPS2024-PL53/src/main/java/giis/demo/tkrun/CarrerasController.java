@@ -7,9 +7,10 @@ import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import backend.util.ApplicationException;
+import backend.util.Util;
+import frontend.CarrerasView;
 import frontend.SwingUtil;
-import giis.demo.util.ApplicationException;
-import giis.demo.util.Util;
 
 /**
  * Controlador para la funcionalidad de visualizacion de carreras para la inscripcion.

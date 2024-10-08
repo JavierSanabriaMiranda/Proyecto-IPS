@@ -11,13 +11,52 @@
 
 
 DELETE FROM EMPLEADO_NO_DEPORTIVO;
-INSERT INTO EMPLEADO_NO_DEPORTIVO (DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL) 
+-- Inserciones válidas para la tabla EMPLEADO_NO_DEPORTIVO
+INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL)
+VALUES 
+    ('E0000001', '12345678A', 'Carlos', 'García', '1985-01-15', '600123456', 'gerente', 45000.50),
+    ('E0000002', '23456789B', 'Laura', 'Pérez', '1990-06-20', '600234567', 'vendedor de entradas/abonos', 30000.00),
+    ('E0000003', '34567890C', 'Miguel', 'López', '1988-03-10', '600345678', 'encargado de tienda', 32000.75),
+    ('E0000004', '45678901D', 'Ana', 'Martínez', '1995-11-25', '600456789', 'gestor de instalaciones', 38000.80),
+    ('E0000005', '56789012E', 'Javier', 'Sánchez', '1982-05-05', '600567890', 'empleado de tienda', 28000.40),
+    ('E0000006', '67890123F', 'Clara', 'Hernández', '1993-08-15', '600678901', 'empleado de jardinería', 27000.60),
+    ('E0000007', '78901234G', 'Sofia', 'Torres', '1997-02-28', '600789012', 'empleado de cocina', 26000.30),
+    ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00);
+
+
+
+-- Inserción de registros en la tabla INSTALACION
+DELETE FROM INSTALACION;
+INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('ZONA_ENTRENAMIENTO_1');
+INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('ZONA_ENTRENAMIENTO_2');
+INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('GIMNASIO_PRINCIPAL');
+INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_1');
+INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_2');
+
+
+--Insercion de registros en la tabla 
+DELETE FROM PRODUCTO;
+INSERT INTO PRODUCTO(COD_PRODUCTO, TIPO, NOMBRE, PRECIO, UNIDADES, COD_COMPRA)
 VALUES
-('12345678A', 'Juan', 'Pérez', '1985-07-15', '600123456', 'gerente', 45000.00),
-('87654321B', 'Ana', 'García', '1990-11-25', '600654321', 'vendedor de entradas/abonos', 32000.00),
-('45678912C', 'Carlos', 'López', '1978-02-10', '600789123', 'gestor de instalaciones', 38000.00),
-('65432187D', 'María', 'Fernández', '1982-05-05', '600321654', 'encargados de tienda', 30000.00),
-('32165498E', 'Lucía', 'Martínez', '1995-08-30', '600654987', 'jardinería', 27000.00),
-('78945612F', 'Pablo', 'Sánchez', '1987-12-22', '600987654', 'cocina', 28000.00),
-('95175384G', 'Laura', 'Hernández', '1992-03-18', '600753951', 'empleados de tienda', 25000.00),
-('85236974H', 'Pedro', 'Gómez', '1989-09-09', '600369852', 'director de comunicaciones', 50000.00);
+    ('EQ01','equipacion','Camiseta Primera Equipacion',64.95,0,NULL),
+    ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95,0,NULL),
+    ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95,0,NULL),
+    ('EQ04','equipacion','Camiseta Personalizada',20.00,0,NULL),
+    ('MO01','moda textil','Calcertines',9.95,0,NULL),
+    ('MO02','moda textil','Camiseta de Calle',25.00,0,NULL),
+    ('MO03','moda textil','Camiseta de Entrenamiento',29.95,0,NULL),
+    ('MO04','moda textil','Sudadera',45.00,0,NULL),
+    ('MO05','moda textil','Plumas',59.00,0,NULL),
+    ('MO06','moda textil','Chubasquero',39.00,0,NULL),
+    ('MO07','moda textil','Sudadera de Entrenamiento',55.00,0,NULL),
+    ('MO08','moda textil','Polo',44.95,0,NULL),
+    ('AC01','accesorio','Balon de Futbol',22.50,0,NULL),
+    ('AC02','accesorio','Bolsa de Tela',9.90,0,NULL),
+    ('AC03','accesorio','Braga de Cuello',11.50,0,NULL),
+    ('AC04','accesorio','Bufanda Blanqui-Negra',12.00,0,NULL),
+    ('AC05','accesorio','Bufanda Rosa',12.00,0,NULL),
+    ('AC06','accesorio','Gorro de Lana',18.00,0,NULL),
+    ('AC07','accesorio','Guantes de Lana',12.50,0,NULL),
+    ('AC08','accesorio','Llavero',5.00,0,NULL),
+    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
+

@@ -2,12 +2,14 @@ package frontend;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+
+import backend.data.Database;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import giis.demo.tkrun.*;
-import giis.demo.util.Database;
 
 /**
  * Punto de entrada principal que incluye botones para la ejecucion de las pantallas 
@@ -52,7 +54,7 @@ public class SwingMain {
 		frame.setBounds(0, 0, 287, 185);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
-		JButton btnEjecutarTkrun = new JButton("Ejecutar giis.demo.tkrun");
+		JButton btnEjecutarTkrun = new JButton("Ejecutar Programa");
 		btnEjecutarTkrun.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				CarrerasController controller=new CarrerasController(new CarrerasModel(), new CarrerasView());
