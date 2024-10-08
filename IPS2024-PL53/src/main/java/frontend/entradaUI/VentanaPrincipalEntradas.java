@@ -37,7 +37,7 @@ public class VentanaPrincipalEntradas extends JFrame {
 	private JLabel lbAsientos;
 	private JSpinner spAsientos;
 	
-	private VentaEntradas vE;
+//	private VentaEntradas vE;
 
 	/**
 	 * Launch the application.
