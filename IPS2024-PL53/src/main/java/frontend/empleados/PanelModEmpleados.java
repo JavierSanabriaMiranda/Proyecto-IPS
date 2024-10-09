@@ -36,6 +36,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.Period;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelModEmpleados extends JPanel {
 
@@ -195,6 +197,12 @@ public class PanelModEmpleados extends JPanel {
 	private JList<Empleado> getListEmpleados() {
 		if (listEmpleados == null) {
 			listEmpleados = new JList<Empleado>();
+			listEmpleados.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					rellenarDatosEmpleado();
+				}
+			});
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
 
@@ -202,6 +210,19 @@ public class PanelModEmpleados extends JPanel {
 			listEmpleados.setModel(modeloList);
 		}
 		return listEmpleados;
+	}
+
+	private void rellenarDatosEmpleado() {
+		// Si hay un empleado seleccionado
+		if (!getListEmpleados().isSelectionEmpty()) {
+			Empleado emp = getListEmpleados().getSelectedValue();
+			getTxNombre().setText(emp.getNombre());
+			getTxApellido().setText(emp.getApellido());
+			getTxDNI().setText(emp.getDNI());
+			getTxTelefono().setText(emp.getTelefono());
+			getTxSalario().setText(emp.getSalarioAnual() + "");
+			getClFechaNac().setDate(emp.getFechaNac());
+		}
 	}
 
 	private JLabel getLbNombre() {
