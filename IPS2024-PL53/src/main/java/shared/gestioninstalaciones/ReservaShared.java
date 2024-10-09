@@ -79,30 +79,29 @@ public class ReservaShared {
 	
 	
 	public List<FranjaTiempo> getEventos(Instalacion instalacion, Date fecha) {
-		
 		return gestor.consultarDisponibilidad(instalacion, fecha);
 	}
 
-	/**
-	 * Test para que se me genere el panel Horario
-	 * @return
-	 */
-	private List<FranjaTiempo> extracted() {
-		List<FranjaTiempo> lista = new ArrayList<FranjaTiempo>();
-		Date fechaActual = new Date();
-		 Calendar calendar = Calendar.getInstance();
-	        calendar.set(2024, Calendar.OCTOBER, 3, 0, 0, 0); // Año, mes (0-11), día, hora, minuto, segundo
-	        calendar.set(Calendar.MILLISECOND, 0); 
-		FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO,  LocalTime.of(14, 30) , LocalTime.of(15, 30),fechaActual );
-		Date fecha = new Date();
-		 Calendar calendaro = Calendar.getInstance();
-	        calendaro.set(2024, Calendar.OCTOBER, 3, 0, 0, 0); // Año, mes (0-11), día, hora, minuto, segundo
-	        calendaro.set(Calendar.MILLISECOND, 0); 
-		FranjaTiempo g = new FranjaTiempo(TipoEvento.RESERVA,  LocalTime.of(19, 30) , LocalTime.of(20, 30),fecha );
-		lista.add(g);
-		lista.add(franja);
-		return lista;
-	}
+//	/**
+//	 * Test para que se me genere el panel Horario
+//	 * @return
+//	 */
+//	private List<FranjaTiempo> extracted() {
+//		List<FranjaTiempo> lista = new ArrayList<FranjaTiempo>();
+//		Date fechaActual = new Date();
+//		 Calendar calendar = Calendar.getInstance();
+//	        calendar.set(2024, Calendar.OCTOBER, 3, 0, 0, 0); // Año, mes (0-11), día, hora, minuto, segundo
+//	        calendar.set(Calendar.MILLISECOND, 0); 
+//		FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO,  LocalTime.of(14, 30) , LocalTime.of(15, 30),fechaActual );
+//		Date fecha = new Date();
+//		 Calendar calendaro = Calendar.getInstance();
+//	        calendaro.set(2024, Calendar.OCTOBER, 3, 0, 0, 0); // Año, mes (0-11), día, hora, minuto, segundo
+//	        calendaro.set(Calendar.MILLISECOND, 0); 
+//		FranjaTiempo g = new FranjaTiempo(TipoEvento.RESERVA,  LocalTime.of(19, 30) , LocalTime.of(20, 30),fecha );
+//		lista.add(g);
+//		lista.add(franja);
+//		return lista;
+//	}
 	
 	public Instalacion buscaInstalacion(String nombreInst) {
 		return gestor.buscaInstalacion(nombreInst);

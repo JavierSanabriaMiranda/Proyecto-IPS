@@ -36,7 +36,7 @@ public class VentanaPrincipalReserva extends JFrame {
 	private JButton btnSiguiente1;
 	private JButton btnAtras1;
 	private ReservaShared reservaShared;
-	
+	private Date fechaSeleccionada;
 
 	/**
 	 * Launch the application.
@@ -106,6 +106,9 @@ public class VentanaPrincipalReserva extends JFrame {
 		return dateChooser;
 	}
 
+	public Date getFechaSeleccionada() {
+		return this.fechaSeleccionada;
+	}
 
 	public JComboBox<Instalacion> getComboBoxInstalaciones() {
 	    if (comboBoxInstalaciones == null) {
@@ -176,9 +179,15 @@ public class VentanaPrincipalReserva extends JFrame {
 	    // Habilitar el botón solo si hay una instalación seleccionada y una fecha seleccionada
 	    boolean isInstalacionSelected = comboBoxInstalaciones.getSelectedItem() != null;
 	    boolean isFechaSelected = dateChooser.getDate() != null;
-
+	    if (isFechaSelected) {
+	    	Date fecha = dateChooser.getDate(); //Este getDate me devuelve null
+	    	Calendar cal = Calendar.getInstance();
+	    	cal.setTime(fecha);
+	    	this.fechaSeleccionada = cal.getTime();
+	    }
 	    btnSiguiente1.setEnabled(isInstalacionSelected && isFechaSelected);
 	}
+	
 	
 
 	private void crearVentanaHorario() {
