@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
 
 import shared.gestionentrada.GestionEntradaShared;
 import shared.gestionpartido.GestionPartidoShared;
@@ -16,7 +17,11 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JTable;
 
 public class VentanaPrincipalEntrada extends JFrame {
 
@@ -24,11 +29,12 @@ public class VentanaPrincipalEntrada extends JFrame {
 	private JPanel contentPane;
 	private JLabel lbPartido;
 	private JLabel lbComboPartido;
-	private JComboBox<String> cbPartidos;
 	private JButton btSeleccionar;
 	private JButton btCancelar;
 	
 	private GestionPartidoShared gps = new GestionPartidoShared();
+	private JScrollPane scpPartidos;
+	private JTable tablePartidos;
 
 	/**
 	 * Launch the application.
@@ -54,7 +60,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 		setResizable(false);
 		setTitle("Venta de Entradas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 477, 317);
+		setBounds(100, 100, 477, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -62,9 +68,9 @@ public class VentanaPrincipalEntrada extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getLbPartido());
 		contentPane.add(getLbComboPartido());
-		contentPane.add(getCbPartidos());
 		contentPane.add(getBtSeleccionar());
 		contentPane.add(getBtCancelar());
+		contentPane.add(getScpPartidos());
 		setLocationRelativeTo(null);
 	}
 
@@ -85,27 +91,18 @@ public class VentanaPrincipalEntrada extends JFrame {
 		}
 		return lbComboPartido;
 	}
-	private JComboBox<String> getCbPartidos() {
-		if (cbPartidos == null) {
-			cbPartidos = new JComboBox<String>();
-			cbPartidos.setModel(new DefaultComboBoxModel<String>(gps.getTodosPartidos()));
-			cbPartidos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			cbPartidos.setBounds(10, 125, 443, 37);
-		}
-		return cbPartidos;
-	}
 	private JButton getBtSeleccionar() {
 		if (btSeleccionar == null) {
 			btSeleccionar = new JButton("Seleccionar");
 			btSeleccionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GestionEntradaShared ges = seleccionarPartido();
+//					GestionEntradaShared ges = seleccionarPartido();
 					
-					mostrarVentanaSeleccion(ges);
+//					mostrarVentanaSeleccion(ges);
 				}
 			});
 			btSeleccionar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btSeleccionar.setBounds(322, 224, 131, 37);
+			btSeleccionar.setBounds(320, 434, 131, 37);
 		}
 		return btSeleccionar;
 	}
@@ -116,21 +113,58 @@ public class VentanaPrincipalEntrada extends JFrame {
 		this.setVisible(false);
 	}
 	
-	private GestionEntradaShared seleccionarPartido() {
-		String[] selected = ((String) getCbPartidos().getSelectedItem()).split("/");
-		String fecha = selected[0];
-		String inicio = selected[1];
-		String fin = selected[2];
-		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
-		return new GestionEntradaShared(partidoId);
-	}
-	
+//	private GestionEntradaShared seleccionarPartido() {
+//		String[] selected = ((String) getCbPartidos().getSelectedItem()).split("/");
+//		String fecha = selected[0];
+//		String inicio = selected[1];
+//		String fin = selected[2];
+//		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
+//		return new GestionEntradaShared(partidoId);
+//	}
+//	
 	private JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btCancelar.setBounds(167, 224, 131, 37);
+			btCancelar.setBounds(165, 434, 131, 37);
 		}
 		return btCancelar;
 	}
+	
+	
+	/*
+	 * Hacer tabla cabecera columnas tipo String y el resto tipo date.
+	 * Primera columna: fecha
+	 * Segunda columna: hora inicio
+	 * Tercera columna: hora sin
+	 * 
+	 * Solo se seleciona por filas y pasar el Date[] de la fila para encontrar el partido id
+	 */
+	private JTable getTablePartidos() {
+		if (tablePartidos == null) {
+			tablePartidos = new JTable(this.cargaDatos(), this.creaColumnas());
+			cargaDatos();
+		}
+		return tablePartidos;
+	}
+	
+	private String[] creaColumnas() {
+	    String[] titColumna = {"Fecha", "Hora inicio", "Hora fin"};
+	    return titColumna;
+	}
+	
+	private Date[][] cargaDatos() {
+		Date[][] datos = gps.getTodosPartidos();
+		return datos;
+	}
+	
+	private JScrollPane getScpPartidos() {
+		if (scpPartidos == null) {
+			scpPartidos = new JScrollPane();
+			scpPartidos.setBounds(10, 126, 441, 279);
+			scpPartidos.setViewportView(getTablePartidos());
+		}
+		return scpPartidos;
+	}
+	
 }

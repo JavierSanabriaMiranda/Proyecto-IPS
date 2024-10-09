@@ -30,18 +30,18 @@ public class GestionEntradaShared {
 		this.entradasReservar = new ArrayList<>();
 	}
 	
-	private void addEntradaBBDD(String cod_entrada, String tribuna, String seccion, int nFila, int nAsiento, String idPartido) {
-		EntradasCRUDService service = CreadorDataService.getEntradaService();
-		EntradaDTO entrada = new EntradaDTO();
-		entrada.cod_entrada = cod_entrada;
-		entrada.tribuna = tribuna;
-		entrada.seccion = seccion;
-		entrada.nFila = nFila;
-		entrada.nAsiento = nAsiento;
-		entrada.idPartido = idPartido;
-		
-		service.addEntrada(entrada);
-	}
+//	private void addEntradaBBDD(String cod_entrada, String tribuna, String seccion, int nFila, int nAsiento, String idPartido) {
+//		EntradasCRUDService service = CreadorDataService.getEntradaService();
+//		EntradaDTO entrada = new EntradaDTO();
+//		entrada.cod_entrada = cod_entrada;
+//		entrada.tribuna = tribuna;
+//		entrada.seccion = seccion;
+//		entrada.nFila = nFila;
+//		entrada.nAsiento = nAsiento;
+//		entrada.idPartido = idPartido;
+//		
+//		service.addEntrada(entrada);
+//	}
 	
 	private void inicializarMap() {
 		this.estadio = new HashMap<>();

@@ -127,6 +127,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 					if (checkIfCanBook()) {
 						ges.addEntradasBBDD();
 						JOptionPane.showMessageDialog(null, "Gracias por la compra.");
+						// Mostrar asientos comprados
 					} else {
 						JOptionPane.showMessageDialog(null, "No se pueden reservar tantos "
 								+ "asientos contiguos.");
