@@ -8,11 +8,14 @@ import java.util.Map;
 import backend.data.CreadorDataService;
 import backend.data.entradas.EntradaDTO;
 import backend.data.entradas.EntradasCRUDService;
+import backend.data.ventas.VentasCRUDService;
 import backend.service.ventas.entrada.Entrada;
 import backend.service.ventas.entrada.Seccion;
 import backend.service.ventas.entrada.Tribuna;
 
 public class GestionEntradaShared {
+	
+	EntradasCRUDService service = CreadorDataService.getEntradaService();
 
 	private Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio;
 	
@@ -23,25 +26,17 @@ public class GestionEntradaShared {
 	private List<Entrada> entradasReservar;
 	private String idPartido;
 	
-	public GestionEntradaShared(String idPartido) {
-		this.idPartido = idPartido;
+	public GestionEntradaShared() {
+		
 		inicializarMap();
 		
 		this.entradasReservar = new ArrayList<>();
 	}
 	
-//	private void addEntradaBBDD(String cod_entrada, String tribuna, String seccion, int nFila, int nAsiento, String idPartido) {
-//		EntradasCRUDService service = CreadorDataService.getEntradaService();
-//		EntradaDTO entrada = new EntradaDTO();
-//		entrada.cod_entrada = cod_entrada;
-//		entrada.tribuna = tribuna;
-//		entrada.seccion = seccion;
-//		entrada.nFila = nFila;
-//		entrada.nAsiento = nAsiento;
-//		entrada.idPartido = idPartido;
-//		
-//		service.addEntrada(entrada);
-//	}
+	public void setPartidoId(String idPartido) {
+		this.idPartido = idPartido;
+		cargarMap();
+	}
 	
 	private void inicializarMap() {
 		this.estadio = new HashMap<>();
@@ -67,11 +62,11 @@ public class GestionEntradaShared {
                 }
             }
         }
-		cargarMap();
+		
 	}
 	
 	private void cargarMap() {
-		EntradasCRUDService service = CreadorDataService.getEntradaService();
+		
 		List<EntradaDTO> entradasEnBBDD = service.findByIDPartidoEntrada(idPartido);
 		
 		for (EntradaDTO entrada : entradasEnBBDD) {
@@ -80,10 +75,11 @@ public class GestionEntradaShared {
 		}
 	}
 	
-	private List<Entrada> buscarAsientosConsecutivos(String tribuna, String seccion, int n) {
+	private List<Entrada> buscarAsientosConsecutivos(String trib, String sec, int n) {
+		Tribuna tribuna = Tribuna.valueOf(trib.toUpperCase());
+		Seccion seccion = Seccion.valueOf(sec.toUpperCase());
         if (!estadio.containsKey(tribuna) || !estadio.get(tribuna).containsKey(seccion)) {
             System.out.println("La tribuna o la sección no existen.");
-            // No dejar intruducir valores incorrectos en ui
         }
 
         // Recorre cada fila de la sección dada
@@ -114,8 +110,7 @@ public class GestionEntradaShared {
 	}
 	
 	public void addEntradasBBDD() {
-		EntradasCRUDService service = CreadorDataService.getEntradaService();
-		
+				
 		for (Entrada entrada : entradasReservar) {
 			EntradaDTO e = new EntradaDTO();
 			e.cod_entrada = entrada.getCodEntrada();
@@ -127,5 +122,20 @@ public class GestionEntradaShared {
 			
 			service.addEntrada(e);
 		}
+	}
+	
+	public String getEntradasCompradas() {
+		String res = "";
+		
+		for (Entrada e : entradasReservar) {
+			res += "Entrada: Tribuna("+e.getTribuna()+") Sección("+e.getSeccion()+") "
+					+ "Fila("+e.getFila()+") Asiento("+e.getAsiento()+")\n";
+		}
+		return res;
+	}
+	
+	public boolean checkIfCodExists(String cod) {
+		VentasCRUDService ventasService = CreadorDataService.getVentasService();
+		return ventasService.findByCodVentas(cod) == null;
 	}
 }

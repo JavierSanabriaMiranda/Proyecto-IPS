@@ -1,5 +1,6 @@
 package shared.gestionpartido;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class GestionPartidoShared {
 		return partidosFechas;
 	}
 	
-	public String getIdPartidoByFechaInicioFin(String fecha, String inicio, String fin) {
+	public String getIdPartidoByFechaInicioFin(Date fecha, Time inicio, Time fin) {
 		PartidosCRUDService service = CreadorDataService.getPartidosService();
 		return service.findIdByFechaInicioFin(fecha, inicio, fin);
 	}

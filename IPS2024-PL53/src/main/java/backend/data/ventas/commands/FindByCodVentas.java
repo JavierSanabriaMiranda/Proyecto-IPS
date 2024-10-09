@@ -1,57 +1,52 @@
-package backend.data.partidos.commands;
+package backend.data.ventas.commands;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 import backend.data.Database;
+import backend.data.entradas.EntradaDTO;
+import backend.data.ventas.VentasDTO;
 
-public class FindIdByFechaInicioFin {
-	
-	private static final String QUERY = "SELECT ID_PARTIDO "
-			+ "FROM PARTIDO "
-			+ "WHERE FECHA = ?"
-			+ "AND HORA_INICIO = ? "
-			+ "AND HORA_FIN = ?";
-	
-	private Date fecha;
-	private Time inicio;
-	private Time fin;
-	
+public class FindByCodVentas {
+	private static final String QUERY = "SELECT ID_VENTAS, DNI, FECHA, COSTE"
+			+ "FROM VENTAS"
+			+ "WHERE ID_VENTAS = ?";
+
+	VentasDTO dto;
 	private Database db = new Database();
+	String id;
 	
-	public FindIdByFechaInicioFin(Date fecha, Time inicio, Time fin) {
-		this.fecha = fecha; 
-		this.inicio = inicio;
-		this.fin = fin;
+	public FindByCodVentas(String id) {
+		this.id = id;
 	}
-
-	public String execute() {
+	
+	public VentasDTO execute() {
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
+		dto = null;
 
 		try {
 			c = db.getConnection();
 			
 			pst = c.prepareStatement(QUERY);
-			
-			pst.setDate(1, new java.sql.Date(fecha.getTime()));
-			pst.setTime(2, inicio);
-			pst.setTime(3, fin);
+			pst.setString(1, id);
 			
 			rs = pst.executeQuery();
 			
-			String id = null;
-			
-			if (rs.next()) {
-				id = rs.getString("id_partido");
+			if(rs.next()) {
+				dto = new VentasDTO();
+				dto.id_ventas = rs.getString("id_ventas");
+				dto.dni = rs.getString("dni");
+				dto.fecha = rs.getDate("fecha");
+				dto.coste = rs.getBigDecimal("coste");
 			}
 			
-			return id;
+			return dto;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -67,4 +62,5 @@ public class FindIdByFechaInicioFin {
             }
 		}
 	}
+
 }

@@ -2,6 +2,8 @@ package backend.service.ventas.entrada;
 
 import java.util.Random;
 
+import shared.gestionentrada.GestionEntradaShared;
+
 public class Entrada {
 	
 	private String cod_entrada;
@@ -11,11 +13,17 @@ public class Entrada {
 	private int asiento;
 	private boolean ocupado;
 	public static final int PRECIO = 30;
+	private GestionEntradaShared ges = new GestionEntradaShared();
 	
 	private Random random = new Random();
 	
 	public Entrada(Tribuna tribuna, Seccion seccion, int nFila, int nAsiento) {
 		this.cod_entrada = "" + random.nextInt(10000000);
+		
+		while (ges.checkIfCodExists(cod_entrada)) {
+			this.cod_entrada = "" + random.nextInt(10000000);
+		}
+		
 		this.tribuna = tribuna;
 		this.seccion = seccion;
 		this.fila = nFila;

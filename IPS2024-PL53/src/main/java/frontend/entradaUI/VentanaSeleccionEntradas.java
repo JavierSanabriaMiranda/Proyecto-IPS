@@ -11,6 +11,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import shared.gestioncliente.GestionClienteShared;
 import shared.gestionentrada.GestionEntradaShared;
 
 import javax.swing.border.EtchedBorder;
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class VentanaSeleccionEntradas extends JFrame {
 
@@ -40,6 +42,10 @@ public class VentanaSeleccionEntradas extends JFrame {
 	private JSpinner spAsientos;
 	
 	private GestionEntradaShared ges;
+	private GestionClienteShared gcs = new GestionClienteShared();
+	
+	private JLabel lbDni;
+	private JTextField txDni;
 
 	/**
 	 * Create the frame.
@@ -49,7 +55,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		setTitle("Compra de Entradas");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 551, 387);
+		setBounds(100, 100, 551, 452);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -74,7 +80,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		if (pnDatos == null) {
 			pnDatos = new JPanel();
 			pnDatos.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Datos necesarios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			pnDatos.setBounds(10, 59, 519, 233);
+			pnDatos.setBounds(10, 59, 519, 288);
 			pnDatos.setLayout(null);
 			pnDatos.add(getLbTribuna());
 			pnDatos.add(getLbSeccion());
@@ -82,6 +88,8 @@ public class VentanaSeleccionEntradas extends JFrame {
 			pnDatos.add(getCbSeccion());
 			pnDatos.add(getLbAsientos());
 			pnDatos.add(getSpAsientos());
+			pnDatos.add(getLbDni());
+			pnDatos.add(getTxDni());
 		}
 		return pnDatos;
 	}
@@ -106,7 +114,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 			cbTribuna = new JComboBox<String>();
 			cbTribuna.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			cbTribuna.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
-			cbTribuna.setBounds(99, 33, 244, 30);
+			cbTribuna.setBounds(123, 33, 244, 30);
 		}
 		return cbTribuna;
 	}
@@ -115,29 +123,37 @@ public class VentanaSeleccionEntradas extends JFrame {
 			cbSeccion = new JComboBox<String>();
 			cbSeccion.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D", "E", "F"}));
 			cbSeccion.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			cbSeccion.setBounds(99, 96, 244, 30);
+			cbSeccion.setBounds(123, 96, 244, 30);
 		}
 		return cbSeccion;
 	}
+
 	private JButton getBtContinuar() {
 		if (btContinuar == null) {
 			btContinuar = new JButton("Continuar");
 			btContinuar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (checkIfCanBook()) {
-						ges.addEntradasBBDD();
-						JOptionPane.showMessageDialog(null, "Gracias por la compra.");
-						// Mostrar asientos comprados
-					} else {
-						JOptionPane.showMessageDialog(null, "No se pueden reservar tantos "
-								+ "asientos contiguos.");
+					if (clientExists()) {
+						if (checkIfCanBook()) {
+							ges.addEntradasBBDD();
+							JOptionPane.showMessageDialog(null,
+									"Gracias por la compra.\n" + ges.getEntradasCompradas());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"No se pueden reservar tantos " + "asientos contiguos.");
+						}
 					}
 				}
 			});
 			btContinuar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btContinuar.setBounds(395, 302, 134, 39);
+			btContinuar.setBounds(393, 366, 134, 39);
 		}
 		return btContinuar;
+	}
+	
+	private boolean clientExists() {
+		String dni = this.getTxDni().getText();
+		return gcs.checkIfClientExistsByDni(dni);
 	}
 	
 	private boolean checkIfCanBook() {
@@ -151,7 +167,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btCancelar.setBounds(251, 302, 134, 39);
+			btCancelar.setBounds(249, 366, 134, 39);
 		}
 		return btCancelar;
 	}
@@ -167,8 +183,24 @@ public class VentanaSeleccionEntradas extends JFrame {
 		if (spAsientos == null) {
 			spAsientos = new JSpinner();
 			spAsientos.setModel(new SpinnerNumberModel(1, 1, 15, 1));
-			spAsientos.setBounds(234, 159, 109, 30);
+			spAsientos.setBounds(200, 159, 109, 30);
 		}
 		return spAsientos;
+	}
+	private JLabel getLbDni() {
+		if (lbDni == null) {
+			lbDni = new JLabel("DNI:");
+			lbDni.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lbDni.setBounds(10, 222, 91, 30);
+		}
+		return lbDni;
+	}
+	private JTextField getTxDni() {
+		if (txDni == null) {
+			txDni = new JTextField();
+			txDni.setBounds(123, 222, 172, 30);
+			txDni.setColumns(10);
+		}
+		return txDni;
 	}
 }

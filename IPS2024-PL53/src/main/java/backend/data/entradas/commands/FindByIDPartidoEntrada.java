@@ -34,7 +34,7 @@ public class FindByIDPartidoEntrada {
 				c = db.getConnection();
 				
 				pst = c.prepareStatement(QUERY);
-				pst.setString(1, QUERY);
+				pst.setString(1, idPartido);
 				
 				rs = pst.executeQuery();
 				result = toDtoList(rs);

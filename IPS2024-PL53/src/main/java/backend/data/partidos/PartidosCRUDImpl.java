@@ -1,6 +1,6 @@
 package backend.data.partidos;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
@@ -14,6 +14,7 @@ public class PartidosCRUDImpl implements PartidosCRUDService {
 		List<PartidoDTO> res = null;
 		try {
 			res = new FindAllPartidos().execute();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -21,7 +22,7 @@ public class PartidosCRUDImpl implements PartidosCRUDService {
 	}
 
 	@Override
-	public String findIdByFechaInicioFin(String fecha, String inicio, String fin) {
+	public String findIdByFechaInicioFin(Date fecha, Time inicio, Time fin) {
 		return new FindIdByFechaInicioFin(fecha, inicio, fin).execute();
 	}
 

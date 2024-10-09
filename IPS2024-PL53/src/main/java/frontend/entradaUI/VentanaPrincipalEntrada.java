@@ -17,11 +17,13 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 public class VentanaPrincipalEntrada extends JFrame {
 
@@ -35,6 +37,8 @@ public class VentanaPrincipalEntrada extends JFrame {
 	private GestionPartidoShared gps = new GestionPartidoShared();
 	private JScrollPane scpPartidos;
 	private JTable tablePartidos;
+	
+	private Date[][] datos;
 
 	/**
 	 * Launch the application.
@@ -96,9 +100,9 @@ public class VentanaPrincipalEntrada extends JFrame {
 			btSeleccionar = new JButton("Seleccionar");
 			btSeleccionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//					GestionEntradaShared ges = seleccionarPartido();
+					GestionEntradaShared ges = seleccionarPartido();
 					
-//					mostrarVentanaSeleccion(ges);
+					mostrarVentanaSeleccion(ges);
 				}
 			});
 			btSeleccionar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -113,15 +117,19 @@ public class VentanaPrincipalEntrada extends JFrame {
 		this.setVisible(false);
 	}
 	
-//	private GestionEntradaShared seleccionarPartido() {
-//		String[] selected = ((String) getCbPartidos().getSelectedItem()).split("/");
-//		String fecha = selected[0];
-//		String inicio = selected[1];
-//		String fin = selected[2];
-//		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
-//		return new GestionEntradaShared(partidoId);
-//	}
-//	
+	private GestionEntradaShared seleccionarPartido() {
+		int row = getTablePartidos().getSelectedRow();
+		
+		
+		Date fecha = datos[row][0];
+		Time inicio = new Time(datos[row][1].getTime());
+		Time fin = new Time(datos[row][2].getTime());
+		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
+		GestionEntradaShared ges = new GestionEntradaShared();
+		ges.setPartidoId(partidoId);
+		return ges;
+	}
+	
 	private JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
@@ -143,6 +151,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 	private JTable getTablePartidos() {
 		if (tablePartidos == null) {
 			tablePartidos = new JTable(this.cargaDatos(), this.creaColumnas());
+			tablePartidos.setSelectionMode(0);
 			cargaDatos();
 		}
 		return tablePartidos;
@@ -154,7 +163,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 	}
 	
 	private Date[][] cargaDatos() {
-		Date[][] datos = gps.getTodosPartidos();
+		this.datos = gps.getTodosPartidos();
 		return datos;
 	}
 	
