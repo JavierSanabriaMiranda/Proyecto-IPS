@@ -126,6 +126,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 		Time fin = new Time(datos[row][2].getTime());
 		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
 		GestionEntradaShared ges = new GestionEntradaShared();
+		ges.inicializarParaUI();
 		ges.setPartidoId(partidoId);
 		return ges;
 	}

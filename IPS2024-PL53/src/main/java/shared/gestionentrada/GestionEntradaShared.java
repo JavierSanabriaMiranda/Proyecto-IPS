@@ -12,6 +12,7 @@ import backend.data.ventas.VentasCRUDService;
 import backend.service.ventas.entrada.Entrada;
 import backend.service.ventas.entrada.Seccion;
 import backend.service.ventas.entrada.Tribuna;
+import shared.gestionventas.GestionVentasShared;
 
 public class GestionEntradaShared {
 	
@@ -27,7 +28,9 @@ public class GestionEntradaShared {
 	private String idPartido;
 	
 	public GestionEntradaShared() {
-		
+	}
+	
+	public void inicializarParaUI() {
 		inicializarMap();
 		
 		this.entradasReservar = new ArrayList<>();
@@ -109,7 +112,7 @@ public class GestionEntradaShared {
 		return entradasReservar != null;
 	}
 	
-	public void addEntradasBBDD() {
+	public void addEntradasBBDD(String dni) {
 				
 		for (Entrada entrada : entradasReservar) {
 			EntradaDTO e = new EntradaDTO();
@@ -120,8 +123,14 @@ public class GestionEntradaShared {
 			e.nAsiento = entrada.getAsiento();
 			e.idPartido = idPartido;
 			
+			crearVentasParaEntrada(e, dni);
 			service.addEntrada(e);
 		}
+	}
+	
+	private void crearVentasParaEntrada(EntradaDTO entrada, String dni) {
+		GestionVentasShared gvs = new GestionVentasShared();
+		gvs.addVentasParaEntradaBBDD(entrada, dni);
 	}
 	
 	public String getEntradasCompradas() {
@@ -134,8 +143,11 @@ public class GestionEntradaShared {
 		return res;
 	}
 	
+	/*
+	 * Retorna true si el ya existe una venta con ese codigo
+	 */
 	public boolean checkIfCodExists(String cod) {
 		VentasCRUDService ventasService = CreadorDataService.getVentasService();
-		return ventasService.findByCodVentas(cod) == null;
+		return ventasService.findByCodVentas(cod) != null;
 	}
 }

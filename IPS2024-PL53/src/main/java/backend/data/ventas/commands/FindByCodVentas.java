@@ -12,8 +12,8 @@ import backend.data.entradas.EntradaDTO;
 import backend.data.ventas.VentasDTO;
 
 public class FindByCodVentas {
-	private static final String QUERY = "SELECT ID_VENTAS, DNI, FECHA, COSTE"
-			+ "FROM VENTAS"
+	private static final String QUERY = "SELECT ID_VENTAS, DNI, FECHA, COSTE "
+			+ "FROM VENTAS "
 			+ "WHERE ID_VENTAS = ?";
 
 	VentasDTO dto;

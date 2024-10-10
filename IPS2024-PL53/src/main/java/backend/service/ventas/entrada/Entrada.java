@@ -21,7 +21,7 @@ public class Entrada {
 		this.cod_entrada = "" + random.nextInt(10000000);
 		
 		while (ges.checkIfCodExists(cod_entrada)) {
-			this.cod_entrada = "" + random.nextInt(10000000);
+			this.cod_entrada = "E" + random.nextInt(10000000);
 		}
 		
 		this.tribuna = tribuna;

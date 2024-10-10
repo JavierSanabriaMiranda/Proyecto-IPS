@@ -135,7 +135,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (clientExists()) {
 						if (checkIfCanBook()) {
-							ges.addEntradasBBDD();
+							ges.addEntradasBBDD(getTxDni().getText());
 							JOptionPane.showMessageDialog(null,
 									"Gracias por la compra.\n" + ges.getEntradasCompradas());
 						} else {
