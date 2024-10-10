@@ -99,6 +99,7 @@ public class VentanaPrincipalReserva extends JFrame {
 	        ((JTextField) dateChooser.getDateEditor().getUiComponent()).setDisabledTextColor(Color.BLACK); // Texto cuando está deshabilitado
 	        dateChooser.setSize(148, 57);
 	        dateChooser.setLocation(79, 188);
+	        dateChooser.setDate(null);
 	        dateChooser.addPropertyChangeListener("date", evt -> {
 	            actualizarBotonSiguiente();
 	        });

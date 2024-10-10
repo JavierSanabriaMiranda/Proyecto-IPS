@@ -18,7 +18,7 @@ public class GestorInstalaciones implements GestorReserva{
 	List<Instalacion> instalaciones = new ArrayList<Instalacion>();
 	
 	public GestorInstalaciones() {
-		instalaciones = cargarInstalaciones();
+		
 	}
 	
 	/**
@@ -33,7 +33,8 @@ public class GestorInstalaciones implements GestorReserva{
 	@Override
 	public List<Instalacion> cargarInstalaciones() {
 		InstalacionCRUDService service = new InstalacionCRUDServiceImpl();
-		return DtoAssembler.dtoToInstalacion(service.cargarInstalaciones());
+		instalaciones = DtoAssembler.dtoToInstalacion(service.cargarInstalaciones());
+		return instalaciones;
 	}
 
 	public List<Instalacion> getInstalaciones() {

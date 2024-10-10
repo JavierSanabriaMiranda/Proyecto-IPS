@@ -1,8 +1,5 @@
 package shared.gestioninstalaciones;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +16,6 @@ import backend.service.empleados.Gerente;
 import backend.service.empleados.GestorInstalaciones;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
-import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.ClienteReserva;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
@@ -74,7 +70,7 @@ public class ReservaShared {
 	}
 	
 	public List<Instalacion> cargaInstalaciones(){
-		return gestor.cargarInstalaciones();
+		 return gestor.cargarInstalaciones();
 	}
 	
 	

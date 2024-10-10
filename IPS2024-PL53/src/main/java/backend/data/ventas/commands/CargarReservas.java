@@ -21,10 +21,10 @@ public class CargarReservas {
 	}
 	
 	public List<ReservaDto> execute() {
-		return mapsToEntrenamiento(db.executeQueryMap(SQL));
+		return mapsToReserva(db.executeQueryMap(SQL));
 	}
 	
-    private List<ReservaDto> mapsToEntrenamiento(List<Map<String, Object>> listaMap) {
+    private List<ReservaDto> mapsToReserva(List<Map<String, Object>> listaMap) {
         List<ReservaDto> lista = new ArrayList<ReservaDto>();
         
         // Recorre cada mapa y convierte los datos en un objeto ReservaDto.

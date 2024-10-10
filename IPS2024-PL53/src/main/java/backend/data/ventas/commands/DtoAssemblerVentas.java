@@ -25,7 +25,7 @@ public class DtoAssemblerVentas {
 		for (ReservaDto dto : listDto) {
 			Instalacion inst = res.buscaInstalacion(dto.codInstalacion);
 			ClienteReserva cliente =  new ClienteReserva(dto.nombreCliente);
-			FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio), DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFin), dto.fecha );
+			FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio), DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFin), dto.fecha);
 			Reserva ent = new Reserva(dto.codReserva,  franja, inst, cliente, dto.coste, dto.fecha, dto.numTarjeta);
 			
 			listaIns.add(ent);

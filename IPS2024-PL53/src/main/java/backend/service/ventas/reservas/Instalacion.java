@@ -35,7 +35,7 @@ public class Instalacion {
 	public List<FranjaTiempo> getEventos(Date dia) {
 		List<FranjaTiempo> lista = new ArrayList<FranjaTiempo>();
 		for (Reserva reserva : reservas) {
-			if (reserva.getHorario().getFecha().equals(dia)) {
+			if (reserva.getHorario().getFecha().equals(dia)) { //El cdate de la reserva esta a null
 				lista.add(reserva.getHorario());
 			}
 		}
