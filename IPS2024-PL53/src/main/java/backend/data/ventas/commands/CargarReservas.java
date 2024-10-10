@@ -21,7 +21,8 @@ public class CargarReservas {
 	}
 	
 	public List<ReservaDto> execute() {
-		return mapsToReserva(db.executeQueryMap(SQL));
+		List<Map<String, Object>> listaMap = db.executeQueryMap(SQL);
+		return mapsToReserva(listaMap);
 	}
 	
     private List<ReservaDto> mapsToReserva(List<Map<String, Object>> listaMap) {
