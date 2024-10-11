@@ -5,3 +5,4 @@ public class VentaEntradas {
 	
 	// private List<Entrada> entardas;
 }
+

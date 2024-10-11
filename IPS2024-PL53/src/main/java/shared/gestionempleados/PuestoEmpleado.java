@@ -16,4 +16,17 @@ public enum PuestoEmpleado {
 	public String toString() {
 		return this.nombre;
 	}
+	
+	/**
+	 * Método que devuelve el puesto de empleado correcto en función del String que lo define
+	 * @param nombre del puesto
+	 * @return puesto correspondiente al nombre
+	 */
+	public static PuestoEmpleado getPuesto(String nombre) {
+		for (PuestoEmpleado pe : PuestoEmpleado.values()) {
+			if (pe.nombre.equals(nombre))
+				return pe;
+		}
+		throw new IllegalArgumentException("El valor del nombre: " + nombre + " no consta como Puesto de Empleado");
+	}
 }

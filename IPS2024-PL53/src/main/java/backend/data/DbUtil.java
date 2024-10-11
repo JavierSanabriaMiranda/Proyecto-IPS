@@ -81,6 +81,11 @@ public abstract class DbUtil {
 			DbUtils.closeQuietly(conn);
 		}
 	}
+	
+	/**
+	 * Ejecuta una query y devuelve los resultados en una lista de maps cuya clave es el nombre de la columna del resultado
+	 * y cuyo valor es el resultado de la columna
+	 */
 	public List<Map<String,Object>> executeQueryMap(String sql, Object... params) {
 		Connection conn=null;
 		try {

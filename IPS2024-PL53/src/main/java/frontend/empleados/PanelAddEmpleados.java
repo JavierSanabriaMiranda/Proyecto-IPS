@@ -18,17 +18,14 @@ import java.awt.Insets;
 import java.util.Date;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-
 import com.toedter.calendar.JDateChooser;
 
 import shared.gestionempleados.GestionEmpleadosShared;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionempleados.TipoEmpleado;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Period;
 import java.awt.event.ActionEvent;
 
 public class PanelAddEmpleados extends JPanel {
@@ -36,7 +33,7 @@ public class PanelAddEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
+	GestionEmpleadosShared gesEmp;
 	private JLabel lbNombre;
 	private JTextField txNombre;
 	private Component horizontalStrut;
@@ -61,7 +58,8 @@ public class PanelAddEmpleados extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelAddEmpleados() {
+	public PanelAddEmpleados(GestionEmpleadosShared gesEmp) {
+		this.gesEmp = gesEmp;
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -183,7 +181,9 @@ public class PanelAddEmpleados extends JPanel {
 		gbc_cbPuesto.gridy = 9;
 		add(getCbPuesto(), gbc_cbPuesto);
 		GridBagConstraints gbc_btAdd = new GridBagConstraints();
-		gbc_btAdd.gridx = 6;
+		gbc_btAdd.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btAdd.insets = new Insets(0, 0, 0, 5);
+		gbc_btAdd.gridx = 5;
 		gbc_btAdd.gridy = 10;
 		add(getBtAdd(), gbc_btAdd);
 
@@ -356,16 +356,19 @@ public class PanelAddEmpleados extends JPanel {
 			String dni = getTxDNI().getText();
 			String telefono = getTxTelefono().getText();
 			Date nacimiento = getClNacimiento().getDate();
+			double salario = Double.parseDouble(getTxSalario().getText());
 			
-			double salario = Double.parseDouble(getTxTelefono().getText());
 			// Redondeamos el salario a 2 decimales
 			salario = Math.round(salario * 100.0) / 100.0;
 			TipoEmpleado tipo = (TipoEmpleado) getCbTipoEmpleado().getSelectedItem();
 			PuestoEmpleado puesto = (PuestoEmpleado) getCbPuesto().getSelectedItem();
 			
 			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
+			JOptionPane.showMessageDialog(this, "Se ha registrado al empleado correctamente", "Confirmación de Registro de Empleado", 
+					JOptionPane.INFORMATION_MESSAGE);
+			inicializarPanel();
 		} else {
-			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
+			
 		}
 
 	}
@@ -374,9 +377,29 @@ public class PanelAddEmpleados extends JPanel {
 		// Se comprueba que los campos no están vacíos
 		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
 				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
-				|| getClNacimiento().getDate() == null)
+				|| getClNacimiento().getDate() == null) {
+			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
 			return false;
+		}
+		// Si no es jugador de futbol y es menor de edad
+		if (!getCbPuesto().getSelectedItem().equals(PuestoEmpleado.JUGADOR) &&  !esMayorEdad(getClNacimiento().getDate())) {
+			JOptionPane.showMessageDialog(this, "Solo los jugadores pueden ser menores de edad","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		return true;
+	}
+	
+	private boolean esMayorEdad(Date fecha) {
+        // Convierte la fecha de tipo Date a LocalDate
+        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
+        
+        // Obtiene la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+        
+        // Calcula la diferencia de años
+        Period periodo = Period.between(fechaLocal, fechaActual);
+
+        return periodo.getYears() >= 18;
 	}
 
 	public void inicializarPanel() {
@@ -445,45 +468,5 @@ public class PanelAddEmpleados extends JPanel {
 		return clNacimiento;
 	}
 
-	@SuppressWarnings("serial")
-	public class JTextFieldNumerico extends JTextField {
-
-		public JTextFieldNumerico() {
-			super();
-			((AbstractDocument) this.getDocument()).setDocumentFilter(new NumericFilter());
-		}
-
-		private class NumericFilter extends DocumentFilter {
-			@Override
-			public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
-					throws BadLocationException {
-				if (string == null) {
-					return;
-				}
-				if (esNumero(string)) {
-					super.insertString(fb, offset, string, attr);
-				}
-			}
-
-			@Override
-			public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
-					throws BadLocationException {
-				if (text == null) {
-					return;
-				}
-				if (esNumero(text)) {
-					super.replace(fb, offset, length, text, attrs);
-				}
-			}
-
-			@Override
-			public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
-				super.remove(fb, offset, length);
-			}
-
-			private boolean esNumero(String text) {
-				return text.matches("\\d*\\.?\\d*"); // Solo permite dígitos
-			}
-		}
-	}
+	
 }

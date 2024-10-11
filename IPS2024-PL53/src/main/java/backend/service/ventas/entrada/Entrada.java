@@ -67,7 +67,6 @@ public class Entrada {
 	public boolean isOcupado() {
 		return this.ocupado;
 	}
-
 	
 	
 }
