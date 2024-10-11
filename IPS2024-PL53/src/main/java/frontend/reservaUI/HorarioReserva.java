@@ -371,9 +371,7 @@ public class HorarioReserva extends JDialog {
 		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
 		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
 		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, DateToLocalDate.convertToLocalDate(vpr.getDateChooser().getDate()));
-		Instalacion inst = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
-	    String nombreInstalacion = inst.getNombreInstalacion();
-	    Instalacion instalacion = vpr.getReservaShared().buscaInstalacion(nombreInstalacion);
+		Instalacion instalacion = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
 		
 		if (vpr.getReservaShared().isHorarioValido(instalacion, franja)) {
 			getBtnSiguiente2().setEnabled(true);

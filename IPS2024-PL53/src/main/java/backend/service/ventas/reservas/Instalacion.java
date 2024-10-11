@@ -75,7 +75,7 @@ public class Instalacion {
 	        }
 
 	        // Verificar que la reserva no sea antes de 1h30 después de un evento, pero solo si es un entrenamiento
-	        if (evento.getEvento() == TipoEvento.ENTRENAMIENTO && !puedeReservarDespuesDe(evento, fj)) {
+	        if (evento.getEvento() == TipoEvento.ENTRENAMIENTO && !puedeReservarDespuesDe(evento.getHoraFin(), fj.getHoraInicio())) {
 	            return false;
 	        }
 	    }
@@ -91,31 +91,19 @@ public class Instalacion {
 	}
 
 	// Verifica si una reserva nueva puede realizarse después de 1h30 de un evento existente
-	private boolean puedeReservarDespuesDe(FranjaTiempo evento, FranjaTiempo nuevaReserva) {
-	    Calendar cal = Calendar.getInstance();
+	private boolean puedeReservarDespuesDe(LocalTime eventoHoraFin, LocalTime nuevaReservaHoraInicio) {
+	    // Si la nueva reserva es antes o igual a la hora de finalización del evento, es válida
+	    if (nuevaReservaHoraInicio.isBefore(eventoHoraFin)) {
+	        return true;
+	    }
 	    
-	    // Añadimos 1h30 a la hora de fin del evento
-	    cal.setTime(convertirALegacyDate(evento.getHoraFin()));  // Convertir LocalTime a Date
-	    cal.add(Calendar.MINUTE, 90);  // Añadir 90 minutos
+	    // Sumar 1 hora y 30 minutos a la hora de finalización del evento
+	    LocalTime horaPermitida = eventoHoraFin.plusHours(1).plusMinutes(30);
 	    
-	    Date horaPermitidaParaNuevaReserva = cal.getTime();
-	    
-	    // Convertir LocalTime de la nueva reserva a Date para la comparación
-	    Date inicioNuevaReserva = convertirALegacyDate(nuevaReserva.getHoraInicio());
-	    
-	    // La nueva reserva puede empezar después de la hora permitida
-	    return inicioNuevaReserva.after(horaPermitidaParaNuevaReserva);
+	    // Comprobar si la nueva reserva es igual o después de la hora permitida
+	    return nuevaReservaHoraInicio.isAfter(horaPermitida) || nuevaReservaHoraInicio.equals(horaPermitida);
 	}
 
-	// Convierte un LocalTime a Date (para usar con Calendar)
-	private Date convertirALegacyDate(LocalTime time) {
-	    Calendar cal = Calendar.getInstance();
-	    cal.set(Calendar.HOUR_OF_DAY, time.getHour());
-	    cal.set(Calendar.MINUTE, time.getMinute());
-	    cal.set(Calendar.SECOND, 0);
-	    cal.set(Calendar.MILLISECOND, 0);
-	    return cal.getTime();
-	}
 	
 
 	@Override
