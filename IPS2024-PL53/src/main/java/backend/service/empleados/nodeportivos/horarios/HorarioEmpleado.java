@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import backend.service.horarios.FranjaTiempo;
 
@@ -41,26 +42,59 @@ public class HorarioEmpleado implements Horario {
 	@Override
 	public boolean addAHorarioPuntual(LocalTime inicio, LocalTime fin, LocalDate dia) {
 		long horas = Duration.between(inicio, fin).toHours();
-		if (isHorarioPuntualPermitido(dia, horas)) {
-			//TurnoPuntual turnoNuevo = new TurnoPuntual(inicio, fin, dia); TODO comprobar forma de añadir turnos con Id
+		if (isTurnoPuntualPermitido(dia, horas)) {
+			TurnoPuntual turnoNuevo = new TurnoPuntual(UUID.randomUUID().toString(), inicio, fin, dia);
+			addTurnoPuntual(turnoNuevo);
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Añade el turno puntual nuevo al map horarioPuntual
+	 * @param turnoNuevo
+	 */
+	private void addTurnoPuntual(TurnoPuntual turnoNuevo) {
+		LocalDate dia = turnoNuevo.getDia();
+		if (horarioPuntual.containsKey(dia))
+			horarioPuntual.get(dia).add(turnoNuevo);
+		else {
+			List<TurnoPuntual> turnos = new ArrayList<>();
+			turnos.add(turnoNuevo);
+			horarioPuntual.put(dia, turnos);
+		}
+			
+	}
+
 	@Override
 	public boolean addAHorarioSemanal(LocalTime inicio, LocalTime fin, DayOfWeek diaSemana) {
-		// TODO Auto-generated method stub
+		long horas = Duration.between(inicio, fin).toHours();
+		if (isTurnoSemanalPermitido(diaSemana, horas)) {
+			TurnoSemanal turnoNuevo = new TurnoSemanal(UUID.randomUUID().toString(), inicio, fin, diaSemana);
+			addTurnoSemanal(turnoNuevo);
+			return true;
+		}
 		return false;
 	}
 	
+	private void addTurnoSemanal(TurnoSemanal turnoNuevo) {
+		DayOfWeek dia = turnoNuevo.getDiaSemana();
+		if (horarioSemanal.containsKey(dia))
+			horarioSemanal.get(dia).add(turnoNuevo);
+		else {
+			List<TurnoSemanal> turnos = new ArrayList<>();
+			turnos.add(turnoNuevo);
+			horarioSemanal.put(dia, turnos);
+		}
+	}
+
 	/**
 	 * Devuelve true si el nuevo turno a añadir está permitido en esa semana (no supera limites de horas)
 	 * @param dia a añadir
 	 * @param horas que ocupa el turno
 	 * @return true si no supera los límites de horas, false en caso contrario
 	 */
-	private boolean isHorarioPuntualPermitido(LocalDate dia, long horas) {
+	private boolean isTurnoPuntualPermitido(LocalDate dia, long horas) {
 		if (horas > 8)
 			return false;
 		
@@ -69,10 +103,10 @@ public class HorarioEmpleado implements Horario {
 		if (horarioPuntual.containsKey(dia))
 			for (TurnoPuntual turno : horarioPuntual.get(dia))
 				horasYaRegistradasEseDia += turno.getHorasDuracion();
-			
 		// Si al sumar el turno nuevo se pasa de las 8 horas diarias
 		if (horasYaRegistradasEseDia + horas > 8)
 			return false;	
+		
 		long horasEsaSemana = contarHorasSemana(dia);
 		
 		// Si se superan las 40 horas semanales
@@ -81,6 +115,31 @@ public class HorarioEmpleado implements Horario {
 		return true;
 	}
 	
+	private boolean isTurnoSemanalPermitido(DayOfWeek diaSemana, long horas) {
+		if (horas > 8)
+			return false;
+		
+		long horasYaRegistradasEseDia = 0;
+		
+		// En caso de haber un horario semanal ya asignado a ese día, contamos las horas que ocupa
+		if (horarioSemanal.containsKey(diaSemana))
+			for (TurnoSemanal turno : horarioSemanal.get(diaSemana))
+				horasYaRegistradasEseDia += turno.getHorasDuracion();
+		// Si al sumar el turno nuevo se pasa de las 8 horas diarias
+		if (horasYaRegistradasEseDia + horas > 8)
+			return false;
+		
+		long horasEsaSemana = contarHorasHorarioSemanal();
+		// Si se superan las 40 horas semanales
+		if (horasEsaSemana + horas > 40)
+			return false;
+		return true;
+	}
+	
+	/**
+	 * Cuenta las horas de trabajo para el día introducido, priorizando los horarios puntuales por encima de 
+	 * los horarios regulares
+	 */
 	private long contarHorasDia(LocalDate dia) {
 		long horas = 0;
 		// Cuenta las horas si se aplica un horario puntual para ese día
@@ -100,8 +159,6 @@ public class HorarioEmpleado implements Horario {
 
 	/**
 	 * Cuenta las horas de trabajo que hay la semana del día introducido, sin contar las horas del dia introducido
-	 * @param dia
-	 * @return
 	 */
 	private long contarHorasSemana(LocalDate dia) {
 		long horas = 0;
@@ -114,6 +171,16 @@ public class HorarioEmpleado implements Horario {
 			horas += contarHorasDia(LocalDate.ofYearDay(dia.getYear(), dia.getDayOfYear()+i));
 		
 		return horas;
+	}
+	
+	private long contarHorasHorarioSemanal() {
+		long horasSemana = 0;
+		
+		for (List<TurnoSemanal> turnos : horarioSemanal.values())
+			for (TurnoSemanal turno : turnos)
+				horasSemana += turno.getHorasDuracion();
+		
+		return horasSemana;
 	}
 
 }
