@@ -134,6 +134,11 @@ public class VentanaPrincipalEntrada extends JFrame {
 	private JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
+			btCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btCancelar.setBounds(165, 434, 131, 37);
 		}
