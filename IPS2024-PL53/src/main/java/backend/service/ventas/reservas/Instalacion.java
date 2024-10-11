@@ -1,5 +1,6 @@
 package backend.service.ventas.reservas;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,10 +33,10 @@ public class Instalacion {
 		return nombreInstalacion;
 	}
 
-	public List<FranjaTiempo> getEventos(Date dia) {
+	public List<FranjaTiempo> getEventos(LocalDate dia) {
 		List<FranjaTiempo> lista = new ArrayList<FranjaTiempo>();
 		for (Reserva reserva : reservas) {
-			if (reserva.getHorario().getFecha().equals(dia)) { //El cdate de la reserva esta a null
+			if (reserva.getHorario().getFecha().equals(dia)) { 
 				lista.add(reserva.getHorario());
 			}
 		}
@@ -64,7 +65,7 @@ public class Instalacion {
 	    }
 
 	    // Obtener eventos existentes en la fecha de la franja de tiempo propuesta
-	    Date fecha = fj.getFecha(); 
+	    LocalDate fecha = fj.getFecha(); 
 	    List<FranjaTiempo> eventosDelDia = getEventos(fecha);
 
 	    for (FranjaTiempo evento : eventosDelDia) {

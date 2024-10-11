@@ -1,5 +1,6 @@
 package backend.service.empleados;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public class GestorInstalaciones implements GestorReserva{
 	 * @param dia Dia en el que se quiere hacer la reserva
 	 * @return 
 	 */
-	public List<FranjaTiempo> consultarDisponibilidad(Instalacion instalacion, Date dia) {
+	public List<FranjaTiempo> consultarDisponibilidad(Instalacion instalacion, LocalDate dia) {
 		return instalacion.getEventos(dia); 
 	}
 

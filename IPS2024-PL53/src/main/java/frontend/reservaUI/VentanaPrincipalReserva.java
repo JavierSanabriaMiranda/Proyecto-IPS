@@ -124,7 +124,7 @@ public class VentanaPrincipalReserva extends JFrame {
 
 	        // Crear el modelo basado en la lista de instalaciones
 	        DefaultComboBoxModel<Instalacion> model = new DefaultComboBoxModel<>();
-	        List<Instalacion> instalaciones = getReservaShared().cargaInstalaciones();
+	        List<Instalacion> instalaciones = getReservaShared().getInstalaciones();
 	        for (Instalacion instalacion : instalaciones) {
 	            model.addElement(instalacion);  // Añadir cada instalación al modelo
 	        }

@@ -1,5 +1,6 @@
 package shared.gestioninstalaciones;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import backend.service.ventas.reservas.Reserva;
 
 public interface GestorReserva {
 	
-	public List<FranjaTiempo> consultarDisponibilidad(Instalacion instalacion, Date dia);
+	public List<FranjaTiempo> consultarDisponibilidad(Instalacion instalacion, LocalDate dia);
 	
 	public boolean isHorarioValido(Instalacion instalacion ,FranjaTiempo franja);
 

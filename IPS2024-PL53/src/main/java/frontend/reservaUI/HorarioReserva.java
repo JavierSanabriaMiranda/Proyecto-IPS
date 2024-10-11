@@ -15,12 +15,14 @@ import javax.swing.border.EmptyBorder;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.Instalacion;
+import util.DateToLocalDate;
 import util.DateToLocalTimeConverter;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +37,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 
 
@@ -116,6 +120,11 @@ public class HorarioReserva extends JDialog {
 	        try {
 	            SpinnerDateModel dateModel = new SpinnerDateModel();
 	            spinnerHoraInicio = new JSpinner(dateModel);
+	            spinnerHoraInicio.addChangeListener(new ChangeListener() {
+	            	public void stateChanged(ChangeEvent e) {
+	            		getBtnSiguiente2().setEnabled(false);
+	            	}
+	            });
 	            spinnerHoraInicio.setBounds(91, 70, 122, 43);
 
 	            // Limitar el rango de horas a estar entre las 08:00 y las 22:00
@@ -160,6 +169,11 @@ public class HorarioReserva extends JDialog {
 	        try {
 	            SpinnerDateModel dateModel = new SpinnerDateModel();
 	            spinnerHoraFin = new JSpinner(dateModel);
+	            spinnerHoraFin.addChangeListener(new ChangeListener() {
+	            	public void stateChanged(ChangeEvent e) {
+	            		getBtnSiguiente2().setEnabled(false);
+	            	}
+	            });
 	            spinnerHoraFin.setBounds(91, 184, 122, 43);
 
 	            // Limitar el rango de horas a estar entre las 08:00 y las 22:00
@@ -274,16 +288,14 @@ public class HorarioReserva extends JDialog {
 	    panelHorario.removeAll(); // Limpiamos el panel antes de actualizar
 
 	    // Suponemos que obtienes las franjas ocupadas del backend
-	    Date fechaSeleccionada = vpr.getFechaSeleccionada();// Aquí obtienes la fecha seleccionada por el cliente
+	    LocalDate fechaSeleccionada = DateToLocalDate.convertToLocalDate(vpr.getFechaSeleccionada());// Aquí obtienes la fecha seleccionada por el cliente
 	    
 	    Instalacion inst = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
-	    String nombreInstalacion = inst.getNombreInstalacion();
-	    Instalacion instalacion = vpr.getReservaShared().buscaInstalacion(nombreInstalacion);
-	    List<FranjaTiempo> eventosDelDia = vpr.getReservaShared().getEventos(instalacion, fechaSeleccionada); // Eventos del día en la instalacion seleccionada
+	    List<FranjaTiempo> eventosDelDia = vpr.getReservaShared().getEventos(inst, fechaSeleccionada); // Eventos del día en la instalacion seleccionada
 
 	    // Crear 15 intervalos de 1 hora entre las 8:00 y las 22:00
 	    LocalTime horaInicio = LocalTime.of(8, 0);
-	    LocalTime horaFin = LocalTime.of(22, 0);
+	    
 
 	    List<JLabel> labelsHorarios = new ArrayList<>();
 
@@ -341,7 +353,6 @@ public class HorarioReserva extends JDialog {
 			btnValidador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					validarHorario();
-					
 				}
 			});
 			btnValidador.setBackground(new Color(0, 128, 0));
@@ -359,7 +370,7 @@ public class HorarioReserva extends JDialog {
 		
 		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
 		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
-		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, vpr.getDateChooser().getDate());
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, DateToLocalDate.convertToLocalDate(vpr.getDateChooser().getDate()));
 		Instalacion inst = (Instalacion)vpr.getComboBoxInstalaciones().getSelectedItem();
 	    String nombreInstalacion = inst.getNombreInstalacion();
 	    Instalacion instalacion = vpr.getReservaShared().buscaInstalacion(nombreInstalacion);
@@ -395,7 +406,7 @@ public class HorarioReserva extends JDialog {
 		Date horaFin = (Date) getSpinnerHoraFin().getValue();
 		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
 		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
-		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin, vpr.getDateChooser().getDate()); 
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin,  DateToLocalDate.convertToLocalDate(vpr.getDateChooser().getDate())); 
 		return franja;
 	}
 	

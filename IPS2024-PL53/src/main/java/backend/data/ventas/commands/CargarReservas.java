@@ -13,6 +13,8 @@ import backend.data.ventas.ReservaDto;
 public class CargarReservas {
 
 	private static final String SQL = "SELECT * FROM RESERVA R INNER JOIN VENTAS V ON V.ID_VENTAS = R.COD_RESERVA INNER JOIN CLIENTE C ON C.DNI = V.DNI;";
+
+
 	
 	private Database db = new Database();
 	

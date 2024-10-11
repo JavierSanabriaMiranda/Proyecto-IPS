@@ -1,5 +1,6 @@
 package backend.service.horarios;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -10,9 +11,9 @@ public class FranjaTiempo {
 	//Si es un entrenamiento debe ser: "Entrenamiento Equipo" y si es una reserva: "Reserva"
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
-	private Date fecha;
+	private LocalDate fecha;
 	
-	public FranjaTiempo(TipoEvento evento, LocalTime hInicio, LocalTime hFin, Date fecha) {
+	public FranjaTiempo(TipoEvento evento, LocalTime hInicio, LocalTime hFin, LocalDate fecha) {
 		this.evento = evento;
 		this.fecha = fecha;
 		this.horaFin = hFin;
@@ -25,7 +26,7 @@ public class FranjaTiempo {
 	public LocalTime getHoraFin() {
 		return horaFin;
 	}
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 

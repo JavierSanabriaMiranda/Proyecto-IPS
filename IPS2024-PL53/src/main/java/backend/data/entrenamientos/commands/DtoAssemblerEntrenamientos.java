@@ -9,6 +9,7 @@ import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.Instalacion;
 import shared.gestioninstalaciones.ReservaShared;
+import util.DateToLocalDate;
 import util.DateToLocalTimeConverter;
 
 public class DtoAssemblerEntrenamientos {
@@ -23,7 +24,8 @@ public class DtoAssemblerEntrenamientos {
 		List<Entrenamiento> listaIns = new ArrayList<Entrenamiento>();
 		for (EntrenamientoDto dto : listDto) {
 			Instalacion inst = res.buscaInstalacion(dto.codInstalacion);
-			FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio), DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFinal), dto.fecha );
+			FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio),
+					DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFinal), DateToLocalDate.convertToLocalDate(dto.fecha) );
 			Entrenamiento ent = new Entrenamiento(dto.fecha, franja, inst);
 			
 			listaIns.add(ent);
