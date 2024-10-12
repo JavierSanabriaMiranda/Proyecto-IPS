@@ -9,9 +9,9 @@ import backend.data.entrenamientos.EntrenamientoCRUDServiceImpl;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.ventas.ClienteReservaDto;
 import backend.data.ventas.ReservaDto;
-import backend.data.ventas.VentaCRUDService;
-import backend.data.ventas.VentaCRUDServiceImpl;
 import backend.data.ventas.VentaDto;
+import backend.data.ventas.VentasCRUDImpl;
+import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
 import backend.service.empleados.Gerente;
 import backend.service.empleados.GestorInstalaciones;
@@ -65,7 +65,7 @@ public class ReservaShared {
 	}
 
 	private List<Reserva> cargarReservas() {
-		VentaCRUDService service = new VentaCRUDServiceImpl();
+		VentasCRUDService service = new VentasCRUDImpl();
 		DtoAssemblerVentas assembler = new DtoAssemblerVentas(this);
 		return assembler.dtoToReserva(service.cargarReservas());
 	}
@@ -108,7 +108,7 @@ public class ReservaShared {
 	
 	private void addVentaBBDD(String codReserva, String DNI, Date fecha, float coste, FranjaTiempo franja, ClienteReserva cliente,
 			String numTarjeta, String codInst) {
-		VentaCRUDService service = new VentaCRUDServiceImpl();
+		VentasCRUDService service = new VentasCRUDImpl();
 		//Add del cliente -> si ya existe, no se añade
 		ClienteReservaDto dtoC = new ClienteReservaDto();
 		dtoC.DNI = DNI;
@@ -120,7 +120,7 @@ public class ReservaShared {
 		dtoV.DNI = DNI;
 		dtoV.fecha = fecha;
 		dtoV.idVenta = codReserva;
-		service.addVenta(dtoV);
+		service.addVentas(dtoV);
 		//Add de la Reserva
 		ReservaDto dtoR = new ReservaDto();
 		dtoR.codInstalacion = codInst;

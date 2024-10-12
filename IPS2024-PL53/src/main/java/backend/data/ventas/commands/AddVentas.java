@@ -1,7 +1,7 @@
 package backend.data.ventas.commands;
 
 import backend.data.Database;
-import backend.data.ventas.VentasDTO;
+import backend.data.ventas.VentaDto;
 
 public class AddVentas {
 	
@@ -9,16 +9,16 @@ public class AddVentas {
 			+ "(ID_VENTAS, DNI, FECHA, COSTE)"
 			+ "VALUES (?, ?, ?, ?)";
 	
-	VentasDTO venta;
+	VentaDto venta;
 	private Database db = new Database();
 	
 	
-	public AddVentas(VentasDTO venta) {
+	public AddVentas(VentaDto venta) {
 		this.venta = venta;
 	}
 	
 	public void execute() {
-		db.executeUpdate(QUERY, venta.id_ventas, venta.dni, venta.fecha, venta.coste);
+		db.executeUpdate(QUERY, venta.idVenta, venta.DNI, venta.fecha, venta.coste);
 	}
 
 }

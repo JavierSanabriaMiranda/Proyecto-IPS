@@ -6,7 +6,9 @@ public abstract class VentaBase implements Venta {
 	private float precio;
 	private Date fecha;
 
-	
+	public VentaBase() {
+		
+	}
 	public VentaBase( float precio, java.util.Date fecha2) {
 		this.precio = precio;
 		this.fecha = fecha2;

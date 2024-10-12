@@ -14,7 +14,7 @@ public class Reserva extends VentaBase{
 	private String numeroTarjeta;
 	
 	public Reserva( String codReserva, FranjaTiempo horario, Instalacion instalacion, ClienteReserva cliente, float precio, Date fecha, String numeroTarjeta) {
-		super(codReserva, precio, fecha);
+		super( precio, fecha);
 		this.horario = horario;
 		this.instalacion = instalacion;
 		this.cliente = cliente;

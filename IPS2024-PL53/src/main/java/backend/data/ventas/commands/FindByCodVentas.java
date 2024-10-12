@@ -4,19 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import backend.data.Database;
-import backend.data.entradas.EntradaDTO;
-import backend.data.ventas.VentasDTO;
+import backend.data.ventas.VentaDto;
 
 public class FindByCodVentas {
 	private static final String QUERY = "SELECT ID_VENTAS, DNI, FECHA, COSTE "
 			+ "FROM VENTAS "
 			+ "WHERE ID_VENTAS = ?";
 
-	VentasDTO dto;
+	VentaDto dto;
 	private Database db = new Database();
 	String id;
 	
@@ -24,7 +20,7 @@ public class FindByCodVentas {
 		this.id = id;
 	}
 	
-	public VentasDTO execute() {
+	public VentaDto execute() {
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -39,11 +35,11 @@ public class FindByCodVentas {
 			rs = pst.executeQuery();
 			
 			if(rs.next()) {
-				dto = new VentasDTO();
-				dto.id_ventas = rs.getString("id_ventas");
-				dto.dni = rs.getString("dni");
+				dto = new VentaDto();
+				dto.idVenta = rs.getString("id_ventas");
+				dto.DNI = rs.getString("dni");
 				dto.fecha = rs.getDate("fecha");
-				dto.coste = rs.getBigDecimal("coste");
+				dto.coste = rs.getFloat("coste");
 			}
 			
 			return dto;

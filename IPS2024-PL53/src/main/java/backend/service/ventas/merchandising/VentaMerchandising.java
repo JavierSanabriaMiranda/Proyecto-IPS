@@ -14,6 +14,7 @@ public class VentaMerchandising extends VentaBase{
 	Pedido pedido = new Pedido();
 	
 	public VentaMerchandising() {
+		super();
 		iniciar();
 	}
 
