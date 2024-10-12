@@ -9,6 +9,8 @@ public class TurnoSemanal extends TurnoBase {
 	
 	public TurnoSemanal(String idTurno, LocalTime inicio, LocalTime fin, DayOfWeek dia) {
 		super(idTurno, inicio, fin);
+		if (dia == null)
+			throw new IllegalArgumentException("El dia de la semana introducido para el turno no puede ser null");
 		this.diaSemana = dia;
 	}
 	

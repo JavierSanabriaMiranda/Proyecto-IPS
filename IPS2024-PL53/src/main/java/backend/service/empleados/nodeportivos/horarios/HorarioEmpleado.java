@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import backend.service.horarios.FranjaTiempo;
-
 public class HorarioEmpleado implements Horario {
 
 	private Map<DayOfWeek, List<TurnoSemanal>> horarioSemanal = new HashMap<>();

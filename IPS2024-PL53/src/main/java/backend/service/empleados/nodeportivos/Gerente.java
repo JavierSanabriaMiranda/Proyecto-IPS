@@ -13,8 +13,9 @@ import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
+import shared.gestionhorarios.GestorHorarios;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados {
+public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GestorHorarios {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado

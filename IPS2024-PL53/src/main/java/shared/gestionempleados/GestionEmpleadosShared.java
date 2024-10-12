@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import backend.data.CreadorDataService;
+import backend.data.empleados.DtoAssembler;
 import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.service.empleados.Empleado;
@@ -88,11 +89,14 @@ public class GestionEmpleadosShared {
 		modEmpleadoBBDD(id, nombre, apellido, dni, telefono, nacimiento, salario);
 	}
 	
+	/**
+	 * Carga los 
+	 */
 	public void cargarEmpleadosDeLaBBDD() {
-		List<EmpleadoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
+		List<EmpleadoDeportivo> empleadosDeportivos = DtoAssembler.dtoToEmpleadoDeportivo(service.cargarEmpleadosDeportivos());
 		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
 		
-		List<EmpleadoDTO> empleadosNoDeportivos = service.cargarEmpleadosNoDeportivos();
+		List<EmpleadoNoDeportivo> empleadosNoDeportivos = DtoAssembler.dtoToEmpleadoNoDeportivo(service.cargarEmpleadosNoDeportivos());
 		cargarEmpleadosNoDeportivosEnGestor(empleadosNoDeportivos);
 	}
 
@@ -185,46 +189,19 @@ public class GestionEmpleadosShared {
 	}
 	
 	/**
-	 * Carga todos los empleados deportivos y crea los objetos del tipo correspondiente (jugador o entrenador)
-	 * por medio de los creadores, para luego añadir cada uno de ellos a la lista del gestor
-	 * @param empleadosDeportivos lista con todos los empleados en forma de EmpleadoDTO
+	 * Carga todos los empleados deportivos en la lista del gestor
 	 */
-	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDTO> empleadosDeportivos) {
-		for (EmpleadoDTO dto : empleadosDeportivos) {
-			String id = dto.id;
-			String nombre = dto.nombre;
-			String apellido = dto.apellido;
-			String DNI = dto.DNI;
-			String telefono = dto.telefono;
-			Date nacimiento = dto.fechaNac;
-			double salario = dto.salarioAnual;
-			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
-			
-			CreadorEmpleadoDeportivo creador = creadoresDep.get(puesto);
-			
-			EmpleadoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
-			emp.setIDEmpleado(id);
-			
+	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDeportivo> empleadosDeportivos) {
+		for (EmpleadoDeportivo emp : empleadosDeportivos) {
 			gestor.addEmpleadoDeportivo(emp);
 		}
 	}
 	
-	private void cargarEmpleadosNoDeportivosEnGestor(List<EmpleadoDTO> empleadosNoDeportivos) {
-		for (EmpleadoDTO dto : empleadosNoDeportivos) {
-			String id = dto.id;
-			String nombre = dto.nombre;
-			String apellido = dto.apellido;
-			String DNI = dto.DNI;
-			String telefono = dto.telefono;
-			Date nacimiento = dto.fechaNac;
-			double salario = dto.salarioAnual;
-			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
-			
-			CreadorEmpleadoNoDeportivo creador = creadoresNoDep.get(puesto);
-			
-			EmpleadoNoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
-			emp.setIDEmpleado(id);
-			
+	/**
+	 * Carga todos los empleados NO deportivos en la lista del gestor
+	 */
+	private void cargarEmpleadosNoDeportivosEnGestor(List<EmpleadoNoDeportivo> empleadosNoDeportivos) {
+		for (EmpleadoNoDeportivo emp : empleadosNoDeportivos) {
 			gestor.addEmpleadoNoDeportivo(emp);
 		}
 	}

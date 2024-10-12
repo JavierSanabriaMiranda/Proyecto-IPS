@@ -12,11 +12,29 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JList;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JButton;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import java.util.Date;
+import java.util.Calendar;
+import java.awt.GridLayout;
+import javax.swing.ListSelectionModel;
 
 public class FrameHorariosEmpleados extends JFrame {
 
@@ -28,7 +46,26 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JPanel pnEmpleados;
 	private JScrollPane scEmpleados;
 	private JList<EmpleadoNoDeportivo> listEmpleados;
+	private DefaultListModel<EmpleadoNoDeportivo> modeloList;
 	private JLabel lbEmpleados;
+	private JPanel pnHorarioEmpleado;
+	private JPanel pnFecha;
+	private JDateChooser clFecha;
+	private JLabel lbFecha;
+	private JPanel pnHorario;
+	private JPanel pnSalir;
+	private JButton btSalir;
+	private Component horizontalGlue;
+	private Component horizontalStrut;
+	private JPanel pnModHorario;
+	private JPanel pnTablaHorario;
+	private JLabel lbHoraInicio;
+	private JLabel lbHoraFin;
+	private JLabel lbModificarTurnos;
+	private JSpinner spHoraInicio;
+	private JSpinner spHoraFin;
+	private JButton btBorrar;
+	private JButton btAdd;
 
 	/**
 	 * Launch the application.
@@ -51,7 +88,8 @@ public class FrameHorariosEmpleados extends JFrame {
 	 */
 	public FrameHorariosEmpleados() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 539, 347);
+		setBounds(100, 100, 1033, 621);
+		setMinimumSize(new Dimension(850, 500));
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,6 +97,8 @@ public class FrameHorariosEmpleados extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPnEmpleados(), BorderLayout.WEST);
+		contentPane.add(getPnHorarioEmpleado(), BorderLayout.CENTER);
+		contentPane.add(getPnSalir(), BorderLayout.SOUTH);
 	}
 
 	private JPanel getPnEmpleados() {
@@ -74,19 +114,25 @@ public class FrameHorariosEmpleados extends JFrame {
 		}
 		return pnEmpleados;
 	}
+
 	private JScrollPane getScEmpleados() {
 		if (scEmpleados == null) {
 			scEmpleados = new JScrollPane();
 		}
 		return scEmpleados;
 	}
+
 	private JList<EmpleadoNoDeportivo> getListEmpleados() {
 		if (listEmpleados == null) {
 			listEmpleados = new JList<EmpleadoNoDeportivo>();
+			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
+			modeloList = new DefaultListModel<>();
+			listEmpleados.setModel(modeloList);
 		}
 		return listEmpleados;
 	}
+
 	private JLabel getLbEmpleados() {
 		if (lbEmpleados == null) {
 			lbEmpleados = new JLabel("Empleados");
@@ -95,5 +141,236 @@ public class FrameHorariosEmpleados extends JFrame {
 			lbEmpleados.setBackground(new Color(255, 255, 255));
 		}
 		return lbEmpleados;
+	}
+
+	private JPanel getPnHorarioEmpleado() {
+		if (pnHorarioEmpleado == null) {
+			pnHorarioEmpleado = new JPanel();
+			pnHorarioEmpleado.setBackground(new Color(255, 255, 255));
+			pnHorarioEmpleado.setLayout(new BorderLayout(0, 0));
+			pnHorarioEmpleado.add(getPnFecha(), BorderLayout.NORTH);
+			pnHorarioEmpleado.add(getPnHorario(), BorderLayout.CENTER);
+		}
+		return pnHorarioEmpleado;
+	}
+
+	private JPanel getPnFecha() {
+		if (pnFecha == null) {
+			pnFecha = new JPanel();
+			pnFecha.setBackground(new Color(255, 255, 255));
+			GridBagLayout gbl_pnFecha = new GridBagLayout();
+			gbl_pnFecha.columnWidths = new int[]{109, 0, 312, 0};
+			gbl_pnFecha.rowHeights = new int[]{43, 0};
+			gbl_pnFecha.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_pnFecha.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+			pnFecha.setLayout(gbl_pnFecha);
+			GridBagConstraints gbc_lbFecha = new GridBagConstraints();
+			gbc_lbFecha.insets = new Insets(0, 0, 0, 5);
+			gbc_lbFecha.gridx = 1;
+			gbc_lbFecha.gridy = 0;
+			pnFecha.add(getLbFecha(), gbc_lbFecha);
+			GridBagConstraints gbc_clFecha = new GridBagConstraints();
+			gbc_clFecha.fill = GridBagConstraints.HORIZONTAL;
+			gbc_clFecha.gridx = 2;
+			gbc_clFecha.gridy = 0;
+			pnFecha.add(getClFecha(), gbc_clFecha);
+		}
+		return pnFecha;
+	}
+
+	private JDateChooser getClFecha() {
+		if (clFecha == null) {
+			clFecha = new JDateChooser();
+			// Establece el JDateChooser como no editable por teclado y le cambia el color
+			JTextField textCalendar = (JTextField) clFecha.getDateEditor().getUiComponent();
+			textCalendar.setEnabled(false);
+			textCalendar.setBackground(Color.WHITE);
+			textCalendar.setDisabledTextColor(Color.BLACK);
+			clFecha.getCalendarButton().setPreferredSize(new Dimension(100, 20));
+			clFecha.getCalendarButton().setText("Seleccionar");
+		}
+		return clFecha;
+
+	}
+	private JLabel getLbFecha() {
+		if (lbFecha == null) {
+			lbFecha = new JLabel("Fecha: ");
+			lbFecha.setFont(new Font("Arial", Font.PLAIN, 18));
+		}
+		return lbFecha;
+	}
+	private JPanel getPnHorario() {
+		if (pnHorario == null) {
+			pnHorario = new JPanel();
+			pnHorario.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+			pnHorario.setBackground(new Color(255, 255, 255));
+			pnHorario.setLayout(new BorderLayout(0, 0));
+			pnHorario.add(getPnModHorario(), BorderLayout.WEST);
+			pnHorario.add(getPnTablaHorario(), BorderLayout.CENTER);
+		}
+		return pnHorario;
+	}
+	private JPanel getPnSalir() {
+		if (pnSalir == null) {
+			pnSalir = new JPanel();
+			pnSalir.setBackground(new Color(255, 255, 255));
+			pnSalir.setLayout(new BoxLayout(pnSalir, BoxLayout.X_AXIS));
+			pnSalir.add(getHorizontalGlue());
+			pnSalir.add(getBtSalir());
+			pnSalir.add(getHorizontalStrut());
+		}
+		return pnSalir;
+	}
+	private JButton getBtSalir() {
+		if (btSalir == null) {
+			btSalir = new JButton("Salir");
+			btSalir.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return btSalir;
+	}
+	private Component getHorizontalGlue() {
+		if (horizontalGlue == null) {
+			horizontalGlue = Box.createHorizontalGlue();
+		}
+		return horizontalGlue;
+	}
+	private Component getHorizontalStrut() {
+		if (horizontalStrut == null) {
+			horizontalStrut = Box.createHorizontalStrut(20);
+		}
+		return horizontalStrut;
+	}
+	private JPanel getPnModHorario() {
+		if (pnModHorario == null) {
+			pnModHorario = new JPanel();
+			pnModHorario.setPreferredSize(new Dimension(200, Integer.MAX_VALUE));
+			pnModHorario.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pnModHorario.setBackground(new Color(255, 255, 255));
+			GridBagLayout gbl_pnModHorario = new GridBagLayout();
+			gbl_pnModHorario.columnWidths = new int[]{21, 0, 46, 0};
+			gbl_pnModHorario.rowHeights = new int[]{41, 0, 44, 0, 0, 55, 0, 0, 0};
+			gbl_pnModHorario.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_pnModHorario.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			pnModHorario.setLayout(gbl_pnModHorario);
+			GridBagConstraints gbc_lbModificarTurnos = new GridBagConstraints();
+			gbc_lbModificarTurnos.insets = new Insets(0, 0, 5, 5);
+			gbc_lbModificarTurnos.gridx = 1;
+			gbc_lbModificarTurnos.gridy = 0;
+			pnModHorario.add(getLbModificarTurnos(), gbc_lbModificarTurnos);
+			GridBagConstraints gbc_lbHoraInicio = new GridBagConstraints();
+			gbc_lbHoraInicio.insets = new Insets(0, 0, 5, 5);
+			gbc_lbHoraInicio.anchor = GridBagConstraints.WEST;
+			gbc_lbHoraInicio.gridx = 1;
+			gbc_lbHoraInicio.gridy = 3;
+			pnModHorario.add(getLbHoraInicio(), gbc_lbHoraInicio);
+			GridBagConstraints gbc_spHoraInicio = new GridBagConstraints();
+			gbc_spHoraInicio.insets = new Insets(0, 0, 5, 0);
+			gbc_spHoraInicio.gridx = 2;
+			gbc_spHoraInicio.gridy = 3;
+			pnModHorario.add(getSpHoraInicio(), gbc_spHoraInicio);
+			GridBagConstraints gbc_lbHoraFin = new GridBagConstraints();
+			gbc_lbHoraFin.insets = new Insets(0, 0, 5, 5);
+			gbc_lbHoraFin.anchor = GridBagConstraints.WEST;
+			gbc_lbHoraFin.gridx = 1;
+			gbc_lbHoraFin.gridy = 4;
+			pnModHorario.add(getLbHoraFin(), gbc_lbHoraFin);
+			GridBagConstraints gbc_spHoraFin = new GridBagConstraints();
+			gbc_spHoraFin.insets = new Insets(0, 0, 5, 0);
+			gbc_spHoraFin.gridx = 2;
+			gbc_spHoraFin.gridy = 4;
+			pnModHorario.add(getSpHoraFin(), gbc_spHoraFin);
+			GridBagConstraints gbc_btBorrar = new GridBagConstraints();
+			gbc_btBorrar.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btBorrar.insets = new Insets(0, 0, 5, 5);
+			gbc_btBorrar.gridx = 1;
+			gbc_btBorrar.gridy = 6;
+			pnModHorario.add(getBtBorrar(), gbc_btBorrar);
+			GridBagConstraints gbc_btAdd = new GridBagConstraints();
+			gbc_btAdd.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btAdd.insets = new Insets(0, 0, 0, 5);
+			gbc_btAdd.gridx = 1;
+			gbc_btAdd.gridy = 7;
+			pnModHorario.add(getBtAdd(), gbc_btAdd);
+		}
+		return pnModHorario;
+	}
+	private JPanel getPnTablaHorario() {
+		if (pnTablaHorario == null) {
+			pnTablaHorario = new JPanel();
+			pnTablaHorario.setBackground(new Color(255, 255, 255));
+			pnTablaHorario.setLayout(new GridLayout(0, 1, 0, 0));
+		}
+		return pnTablaHorario;
+	}
+	private JLabel getLbHoraInicio() {
+		if (lbHoraInicio == null) {
+			lbHoraInicio = new JLabel("Hora Inicio:");
+			lbHoraInicio.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return lbHoraInicio;
+	}
+	private JLabel getLbHoraFin() {
+		if (lbHoraFin == null) {
+			lbHoraFin = new JLabel("Hora Fin:");
+			lbHoraFin.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return lbHoraFin;
+	}
+	private JLabel getLbModificarTurnos() {
+		if (lbModificarTurnos == null) {
+			lbModificarTurnos = new JLabel("Modificar Turnos");
+			lbModificarTurnos.setFont(new Font("Arial", Font.PLAIN, 15));
+		}
+		return lbModificarTurnos;
+	}
+	private JSpinner getSpHoraInicio() {
+		if (spHoraInicio == null) {
+			spHoraInicio = new JSpinner();
+			spHoraInicio.setFont(new Font("Arial", Font.PLAIN, 12));
+			// Se establece el formato del Spinner a Horas
+			spHoraInicio.setModel(new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.DAY_OF_MONTH));
+			JSpinner.DateEditor editor = new JSpinner.DateEditor(spHoraInicio, "HH:mm");
+			spHoraInicio.setEditor(editor);
+		}
+		return spHoraInicio;
+	}
+	private JSpinner getSpHoraFin() {
+		if (spHoraFin == null) {
+			spHoraFin = new JSpinner();
+			spHoraFin.setFont(new Font("Arial", Font.PLAIN, 12));
+			// Se establece el formato del Spinner a Horas
+			spHoraFin.setModel(new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.DAY_OF_MONTH));
+			JSpinner.DateEditor editor = new JSpinner.DateEditor(spHoraFin, "HH:mm");
+			spHoraFin.setEditor(editor);
+		}
+		return spHoraFin;
+	}
+	private JButton getBtBorrar() {
+		if (btBorrar == null) {
+			btBorrar = new JButton("Eliminar");
+			btBorrar.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return btBorrar;
+	}
+	private JButton getBtAdd() {
+		if (btAdd == null) {
+			btAdd = new JButton("Añadir");
+			btAdd.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return btAdd;
+	}
+	
+	private void inicializarPanel() {
+		// Establecemos los Spinners a 00:00
+		spHoraInicio = null;
+		spHoraFin = null;
+		getSpHoraInicio();
+		getSpHoraFin();
+		
+		modeloList.clear();
+		getListEmpleados().clearSelection();
+		getClFecha().setDate(null);
+		// Llenar la lista con los empleados
+		
 	}
 }

@@ -9,6 +9,8 @@ public class TurnoPuntual extends TurnoBase {
 	
 	public TurnoPuntual(String idTurno, LocalTime inicio, LocalTime fin, LocalDate dia) {
 		super(idTurno, inicio, fin);
+		if (dia == null)
+			throw new IllegalArgumentException("El dia introducido para el turno no puede ser null");
 		this.dia = dia;
 	}
 	
