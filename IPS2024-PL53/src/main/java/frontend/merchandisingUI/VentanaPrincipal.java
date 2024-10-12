@@ -20,12 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import backend.data.productos.ProductoCRUDImpl;
 import shared.gestionProductos.GestionProductoShared;
@@ -65,8 +67,9 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel pnBts3;
 	private JButton btnFinish;
 	private JScrollPane scrollPaneResumen;
-	private JTextArea taResumenPedido;
 	private JLabel lbResumen;
+	private JTable tableResumenPedido;
+	private DefaultTableModel tableModelResumen;
 	
 	/**
 	 * Launch the application.
@@ -449,19 +452,30 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane getScrollPaneResumen() {
 		if (scrollPaneResumen == null) {
 			scrollPaneResumen = new JScrollPane();
-			scrollPaneResumen.setViewportView(getTaResumenPedido());
-			scrollPaneResumen.setColumnHeaderView(getLbResumen());
+			scrollPaneResumen.setViewportView(getTableResumenPedido());
+	        scrollPaneResumen.setColumnHeaderView(getLbResumen());
 		}
 		return scrollPaneResumen;
 	}
-	public JTextArea getTaResumenPedido() {
-		if (taResumenPedido == null) {
-			taResumenPedido = new JTextArea();
-			taResumenPedido.setEditable(false);
-			taResumenPedido.setBackground(Color.WHITE);
-		}
-		return taResumenPedido;
+	
+	public JTable getTableResumenPedido() {
+	    if (tableResumenPedido == null) {
+	        String[] columnNames = {"Producto", "Cantidad", "Precio Unitario", "Total"};
+	        tableModelResumen = new DefaultTableModel(columnNames, 0) {
+				private static final long serialVersionUID = 1L;
+				@Override
+	            public boolean isCellEditable(int row, int column) {
+	                return false; // Todas las celdas no son editables
+	            }
+	        };
+	        tableResumenPedido = new JTable(tableModelResumen);
+	        tableResumenPedido.setFillsViewportHeight(true);
+	        tableResumenPedido.setFont(new Font("Tahoma", Font.PLAIN, 14));
+	        tableResumenPedido.setRowHeight(25);
+	    }
+	    return tableResumenPedido;
 	}
+	
 	private JLabel getLbResumen() {
 		if (lbResumen == null) {
 			lbResumen = new JLabel("Resumen del Pedido:");
@@ -469,5 +483,9 @@ public class VentanaPrincipal extends JFrame {
 			lbResumen.setFont(new Font("Tahoma", Font.BOLD, 16));
 		}
 		return lbResumen;
+	}
+	
+	public DefaultTableModel getTableModel() {
+		return tableModelResumen;
 	}
 }

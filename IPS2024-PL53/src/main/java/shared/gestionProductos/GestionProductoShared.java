@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.table.DefaultTableModel;
+
 import backend.data.CreadorDataService;
 import backend.data.merchandising.MerchandisingCRUDService;
 import backend.data.merchandising.MerchandisingDTO;
@@ -44,7 +46,7 @@ public class GestionProductoShared {
 		
 		view.getBtnNext1().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionSiguiente1()));
 		
-		view.getBtnPrevious2().addActionListener(e -> SwingUtil.exceptionWrapper(() -> showPn1()));
+		view.getBtnPrevious2().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionAnterior()));
 		
 		view.getBtnNext2().addActionListener(e -> SwingUtil.exceptionWrapper(() -> showPn3()));
 		
@@ -86,8 +88,13 @@ public class GestionProductoShared {
 	}
 	
 	private void accionSiguiente1() {
-		view.getTaResumenPedido().setText(ventaMerchandising.toString());
+		addProductosResumen();
 		showPn2();
+	}
+	
+	private void accionAnterior() {
+		showPn1();
+		restablecerTablaModelo();
 	}
 	
 	private void accionFinal() {
@@ -116,6 +123,20 @@ public class GestionProductoShared {
 	    // Refrescar la vista para que Swing actualice correctamente
 	    view.getPnProductos().revalidate();
 	    view.getPnProductos().repaint();
+	}
+	
+	// Método para añadir un producto al resumen
+	private void addProductosResumen() {
+		for(Producto p : ventaMerchandising.getProductos()) {
+			float total = p.getUnits() * p.getPrice();
+		    Object[] rowData = {p.getName(), p.getUnits(), p.getPrice(), total};
+		    view.getTableModel().addRow(rowData);
+		}
+	}
+	
+	private void restablecerTablaModelo() {
+		DefaultTableModel model = (DefaultTableModel) (view.getTableResumenPedido()).getModel();
+		model.setRowCount(0);
 	}
 	
 	public void saveOrder(List<ProductoDTO> orderList,String cod_compra, Date fecha, Float precio) {

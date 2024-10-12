@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class VentaMerchandising {
+import backend.service.ventas.VentaBase;
+
+public class VentaMerchandising extends VentaBase{
 	
 	private List<Producto> orderList;
 	private String codCompra;
