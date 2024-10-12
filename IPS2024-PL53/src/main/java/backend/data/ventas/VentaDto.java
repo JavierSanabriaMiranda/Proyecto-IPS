@@ -1,4 +1,4 @@
-package backend.data.productos.dtos;
+package backend.data.ventas;
 
 import java.util.Date;
 
@@ -8,6 +8,8 @@ public class VentaDto {
 	public String DNI;
 	public Date fecha;
 	public float coste;
+	
+	public VentaDto() {};
 	
 	public VentaDto(String id, String dni, Date fecha, float coste) {
 		this.idVenta=id;
@@ -28,3 +30,4 @@ public class VentaDto {
 	public float getCoste() {return coste;}
 	public void setCoste(float coste) {this.coste = coste;}	
 }
+

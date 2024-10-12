@@ -1,7 +1,6 @@
 package backend.service.empleados;
 
-public interface EmpleadoNoDeportivo {
+public interface EmpleadoNoDeportivo extends Empleado {
 
-	void setIDEmpleado(String id);
-	String getIDEmpleado();
+	
 }
