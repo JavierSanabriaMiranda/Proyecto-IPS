@@ -176,6 +176,8 @@ public class VentanaPrincipalReserva extends JFrame {
 		return btnSiguiente1;
 	}
 	
+	
+	
 	private void actualizarBotonSiguiente() {
 	    // Habilitar el botón solo si hay una instalación seleccionada y una fecha seleccionada
 	    boolean isInstalacionSelected = comboBoxInstalaciones.getSelectedItem() != null;
