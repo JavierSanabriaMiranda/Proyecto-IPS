@@ -1,7 +1,6 @@
 package backend.service.empleados;
 
-public interface EmpleadoDeportivo {
-	
+public interface EmpleadoDeportivo extends Empleado  {
 	
 
 }

@@ -1,132 +1,74 @@
 package backend.model;
 
-
 public class Producto {
 
-	private String codigo;
-	private String tipo;
-	private String nombre;
-	private float precio;
-	private int unidades;
+	private String code;
+	private String type;
+	private String name;
+	private float price;
+	private int units;
 
-	/**
-	 * constructor de la clase producto.
-	 * 
-	 * @param codigo, codigo de pedido, de tipo String
-	 * @param tipo, tipo de producto, de tipo String
-	 * @param nombre, nombe del producto, de tipo String
-	 * @param precio, precio del producto, de tipo float
-	 * @param unidades, unidades del producto, de tipo int
-	 */
-	public Producto(String codigo, String tipo, String nombre, float precio, int unidades) {
-		this.codigo = codigo;
-		this.tipo = tipo;
-		this.nombre = nombre;
-		this.precio = precio;
-		this.unidades = unidades;
+	public Producto(String code, String type, String name, float price, int units) {
+		this.code = code;
+		this.type = type;
+		this.name = name;
+		this.price = price;
+		this.units = units;
 	}
 
-	/**
-	 * otro constructor de la clase producto.
-	 * 
-	 * @param otroProducto, producto.
-	 */
-	public Producto(Producto otroProducto) {
-		this(otroProducto.codigo, otroProducto.tipo, otroProducto.nombre, otroProducto.precio,otroProducto.unidades);
+	public Producto(Producto anotherItem) {
+		this(anotherItem.code, anotherItem.type, anotherItem.name, anotherItem.price, anotherItem.units);
 	}
 	
-	/**
-	 * devuelve el tipo del producto
-	 * 
-	 * @return String del tipo del producto
-	 */
-	public String getTipo() {
-		return tipo;
+	public String getType() {
+		return type;
 	}
 
-	/**
-	 * devuelve la nombre del producto
-	 * 
-	 * @return String de la nombre del producto
-	 */
-	public String getnombre() {
-		return nombre;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	/**
-	 * inicializa el valor de la nombre
-	 * 
-	 * @param nombre
-	 */
-	public void setnombre(String nombre) {
-		this.nombre = nombre;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * metodo que devuelve el precio del producto
-	 * 
-	 * @return precio del producto de tipo float.
-	 */
-	public float getPrecio() {
-		return precio;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	/**
-	 * metodo que inicializa el valor de los productos
-	 * 
-	 * @param precio, valor del producto.
-	 */
-	public void setPrecio(float precio) {
-		this.precio = precio;
+	public float getPrice() {
+		return price;
 	}
 
-	/**
-	 * metodo que devuelve el codigo de pedido
-	 * 
-	 * @return codigo de pedido, de tipo String
-	 */
-	public String getCodigo() {
-		return codigo;
+	public void setPrice(float price) {
+		this.price = price;
 	}
 
-	/**
-	 * metodo que inicializa el valor del codigo
-	 * 
-	 * @param codigo, codigo del producto
-	 */
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-	
-	/**
-	 * metodo que devuelve el numero de unidades pedidas de un articulo
-	 * 
-	 * @return numero de unidades, de tipo int
-	 */
-	public int getUnidades() {
-		return unidades;
-	}
-	
-	/**
-	 * metodo que inicializa el numero de unidades
-	 * 
-	 * @param unidades, unidades del articulo pedido
-	 */
-	public void setUnidades(int unidades) {
-		this.unidades = unidades;
+	public String getCode() {
+		return code;
 	}
 
-	/**
-	 * metodo que imprime un producto con un formato especial.
-	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
 	@Override
 	public String toString() {
-		String strProducto;
-		strProducto = this.tipo + " - " + this.nombre + " - " + this.precio + " €";
-		if (this.unidades != 0) {
-			strProducto += " (" + this.unidades + " uds." + ")";
-		}
-		return strProducto;
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.name);
+		sb.append(" - ");
+		sb.append(this.type);
+		sb.append(" - ");
+		sb.append(this.price);
+		sb.append(" �\n");
+		return sb.toString();
 	}
-	
 }

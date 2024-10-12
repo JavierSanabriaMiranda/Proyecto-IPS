@@ -4,7 +4,7 @@
 DELETE FROM EMPLEADO_NO_DEPORTIVO;
 -- Inserciones válidas para la tabla EMPLEADO_NO_DEPORTIVO
 INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL)
-VALUES 
+VALUES
     ('E0000001', '12345678A', 'Carlos', 'García', '1985-01-15', '600123456', 'gerente', 45000.50),
     ('E0000002', '23456789B', 'Laura', 'Pérez', '1990-06-20', '600234567', 'vendedor de entradas/abonos', 30000.00),
     ('E0000003', '34567890C', 'Miguel', 'López', '1988-03-10', '600345678', 'encargado de tienda', 32000.75),
@@ -15,6 +15,7 @@ VALUES
     ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00);
 
 
+
 -- Inserción de registros en la tabla INSTALACION
 DELETE FROM INSTALACION;
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('ZONA_ENTRENAMIENTO_1');
@@ -22,7 +23,6 @@ INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('ZONA_ENTRENAMIENTO_2');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('GIMNASIO_PRINCIPAL');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_1');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_2');
-
 
 -- Insertar datos en la tabla CLIENTE
 DELETE FROM CLIENTE;
@@ -33,7 +33,6 @@ INSERT INTO CLIENTE (DNI, NOMBRE) VALUES
 ('78965432D', 'Laura Martinez'),
 ('15975328E', 'Ana Garcia');
 
-
 -- Insertar datos en la tabla VENTAS (relacionados con los clientes)
 DELETE FROM VENTAS;
 INSERT INTO VENTAS (ID_VENTAS, DNI, FECHA, COSTE) VALUES
@@ -42,8 +41,6 @@ INSERT INTO VENTAS (ID_VENTAS, DNI, FECHA, COSTE) VALUES
 ('V003', '45678912C', '2024-10-12', 175.75),
 ('V004', '78965432D', '2024-10-09', 180.00),
 ('V005', '15975328E', '2024-10-12', 220.00);
-
-
 
 -- Insertar datos en la tabla RESERVA (relacionados con las ventas e instalaciones)
 DELETE FROM RESERVA;
@@ -54,23 +51,57 @@ INSERT INTO RESERVA (COD_RESERVA, HORA_FIN, HORA_INICIO, COD_INSTALACION, N_TARJ
 ('V004', '10:00:00', '08:00:00',  'CAMPO_JUEGO_1', '123456789012345678901237'),
 ('V005', '14:00:00', '13:00:00',  'CAMPO_JUEGO_2', '123456789012345678901238');
 
-
--- Insertar datos en la tabla EQUIPO 
 INSERT INTO EQUIPO (ID_EQUIPO)
-VALUES 
+VALUES
 ('EQUIPO001'),
 ('EQUIPO002'),
 ('EQUIPO003'),
 ('EQUIPO004'),
 ('EQUIPO005');
 
+--Insercion de registros en la tabla PARTIDO
+DELETE FROM PARTIDO;
+INSERT INTO PARTIDO(ID_PARTIDO, HORA_FIN, HORA_INICIO, FECHA, ID_EQUIPO)
+VALUES
+	('P000000001','10:00:00','09:00:00','2024-04-10','EQUIPO001'),
+	('P000000002','11:00:00','10:00:00','2024-04-10','EQUIPO002'),
+	('P000000003','12:00:00','10:00:00','2024-04-10','EQUIPO003');
+
+
 
 -- Insertar en la tabla ENTRENAMIENTO (relacionados con las instalaciones y el equipo)
 INSERT INTO ENTRENAMIENTO (ID_ENTRENAMIENTO, FECHA, HORA_INICIO, HORA_FIN, COD_INSTALACION, ID_EQUIPO)
-VALUES 
+VALUES
 ('ENT001', '2024-10-10', '10:00:00', '12:00:00', 'ZONA_ENTRENAMIENTO_1', 'EQUIPO001'),
 ('ENT002', '2024-10-11', '14:00:00', '16:00:00', 'GIMNASIO_PRINCIPAL', 'EQUIPO002'),
 ('ENT003', '2024-10-12', '09:00:00', '11:00:00', 'CAMPO_JUEGO_2', 'EQUIPO003'),
 ('ENT004', '2024-10-12', '17:00:00', '19:00:00', 'CAMPO_JUEGO_2', 'EQUIPO004'),
 ('ENT005', '2024-10-14', '08:00:00', '10:00:00', 'ZONA_ENTRENAMIENTO_2', 'EQUIPO005');
 
+
+--Insercion de registros en la tabla
+--DELETE FROM PRODUCTO;
+--INSERT INTO PRODUCTO(CODPRODUCTO, TIPO, NOMBRE, PRECIO, UNIDADES, CODCOMPRA)
+--VALUES
+--    ('EQ01','equipacion','Camiseta Primera Equipacion',64.95,0,NULL),
+--    ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95,0,NULL),
+--    ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95,0,NULL),
+--    ('EQ04','equipacion','Camiseta Personalizada',20.00,0,NULL),
+--    ('MO01','moda textil','Calcertines',9.95,0,NULL),
+--    ('MO02','moda textil','Camiseta de Calle',25.00,0,NULL),
+----    ('MO03','moda textil','Camiseta de Entrenamiento',29.95,0,NULL),
+--    ('MO04','moda textil','Sudadera',45.00,0,NULL),
+--    ('MO05','moda textil','Plumas',59.00,0,NULL),
+--    ('MO06','moda textil','Chubasquero',39.00,0,NULL),
+--    ('MO07','moda textil','Sudadera de Entrenamiento',55.00,0,NULL),
+--    ('MO08','moda textil','Polo',44.95,0,NULL),
+--    ('AC01','accesorio','Balon de Futbol',22.50,0,NULL),
+--    ('AC02','accesorio','Bolsa de Tela',9.90,0,NULL),
+--    ('AC03','accesorio','Braga de Cuello',11.50,0,NULL),
+----    ('AC04','accesorio','Bufanda Blanqui-Negra',12.00,0,NULL),
+--    ('AC05','accesorio','Bufanda Rosa',12.00,0,NULL),
+--    ('AC06','accesorio','Gorro de Lana',18.00,0,NULL),
+--    ('AC07','accesorio','Guantes de Lana',12.50,0,NULL),
+--    ('AC08','accesorio','Llavero',5.00,0,NULL),
+--    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
+--

@@ -6,6 +6,5 @@ public interface Venta {
 	
 	public float getPrecio();
 	public Date getFecha();
-	public String getIdVenta();
 
 }

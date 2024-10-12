@@ -3,48 +3,40 @@ package backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.util.FileUtil;
+
 public class Catalogo {
-	private List<Producto> listaProductos = null;
-	private List<Producto> listaProductosTipo;
 
-	/**
-     * constructor de la clase Carta. Se encarga de inicializar una lista de objetos Producto
-	 * y llama al metodo cargarProductos()
-     */
+	private static final String PRODUCTS_FILE = "files/products.dat";
+	private List<Producto> productos = null;
+	private List<Producto> productosTipo = null;
+
 	public Catalogo() {
-		listaProductos = new ArrayList<Producto>();
-		listaProductosTipo = new ArrayList<Producto>();
-		cargarProductos();
+		productos = new ArrayList<Producto>();
+		productosTipo = new ArrayList<Producto>();
+		this.loadProducts();
 	}
 
-	/**
-	 * metodo que se encarga de cargar los Productos leyendolos del fichero de texto que los contiene.
-	 */
-	private void cargarProductos() {
-		//TO DO
+	private void loadProducts() {
+		FileUtil.loadFile(PRODUCTS_FILE, productos);
 	}
 
-	/**
-	 * metodo que devuelve un array de objetos Producto con todos los Productos del menu.
-	 * 
-	 * @return array de todos los Productos.
-	 */
-	public Producto[] getProductos() {
-		Producto[] Productos = listaProductos.toArray(new Producto[listaProductos.size()]);
-		return Productos;
+	public Producto[] getProducts() {
+		Producto[] p = productos.toArray(new Producto[productos.size()]);
+		return p;
+	}
+
+	public Producto[] getProductsByType() {
+		Producto[] p = productosTipo.toArray(new Producto[productosTipo.size()]);
+		return p;
 	}
 	
-	
-	/*
-	 * Metodo que devuelve todos los productos de un tipo pasado por parametro
-	 */
-	public Producto[] getProductos(String tipo) {
-		listaProductosTipo.clear();
-		for(Producto product : listaProductos) {
-			if(product.getTipo().equals(tipo)) {
-				listaProductosTipo.add(product);
-			}
-		}
-		return listaProductosTipo.toArray(new Producto[listaProductosTipo.size()]);
-	} 
+	public Producto[] filterByType(String type) {
+		productosTipo.clear();
+		for (Producto producto: this.productos)
+			if(producto.getType().equals(type))
+				productosTipo.add(producto);
+		return getProductsByType();
+	}
+
 }

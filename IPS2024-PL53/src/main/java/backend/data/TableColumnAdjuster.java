@@ -6,6 +6,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import javax.swing.SwingUtilities;
 
 /**
  *	Class to manage the widths of colunmns in a table (Posted by Rob Camick on November 10, 2008

@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import shared.gestionempleados.GestionEmpleadosShared;
+
 import java.awt.CardLayout;
 import java.awt.Dimension;
 
@@ -13,7 +16,6 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Font;
-import javax.swing.JToggleButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,8 +27,11 @@ public class FrameGestionEmpleados extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
 	private MostrarMenu mostrarMenu = new MostrarMenu();
-	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados();
+	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados(gesEmp);
+	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados(gesEmp);
+	private PanelRemEmpleados panelRemEmpleados = new PanelRemEmpleados(gesEmp);
 	private JPanel contentPane;
 	private JPanel pnOpciones;
 	private JPanel pnBotonesSeleccion;
@@ -61,8 +66,8 @@ public class FrameGestionEmpleados extends JFrame {
 	 */
 	public FrameGestionEmpleados() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 992, 718);
-		setMinimumSize(new Dimension(800, 500));
+		setBounds(100, 100, 1100, 600);
+		setMinimumSize(new Dimension(1100, 600));
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -132,10 +137,12 @@ public class FrameGestionEmpleados extends JFrame {
 	}
 
 	private void mostrarMenuMod() {
+		panelModEmpleados.inicializarPanel();
 		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "modEmpleado");
 	}
 
 	private void mostrarMenuRem() {
+		panelRemEmpleados.inicializarPanel();
 		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "remEmpleado");		
 	}
 	
@@ -213,6 +220,8 @@ public class FrameGestionEmpleados extends JFrame {
 		if (pnMod == null) {
 			pnMod = new JPanel();
 			pnMod.setBackground(new Color(255, 255, 255));
+			pnMod.setLayout(new GridLayout(1, 0, 0, 0));
+			pnMod.add(panelModEmpleados);
 		}
 		return pnMod;
 	}
@@ -221,6 +230,8 @@ public class FrameGestionEmpleados extends JFrame {
 		if (pnRem == null) {
 			pnRem = new JPanel();
 			pnRem.setBackground(new Color(255, 255, 255));
+			pnRem.setLayout(new GridLayout(1, 0, 0, 0));
+			pnRem.add(panelRemEmpleados);
 		}
 		return pnRem;
 	}
