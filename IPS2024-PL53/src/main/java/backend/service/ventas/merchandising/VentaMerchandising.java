@@ -1,69 +1,112 @@
 package backend.service.ventas.merchandising;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import backend.model.Catalogo;
-import backend.model.Pedido;
-import backend.model.Producto;
-import backend.service.ventas.VentaBase;
-
-public class VentaMerchandising extends VentaBase{
+public class VentaMerchandising {
 	
-	Catalogo catalogo = new Catalogo();
-	Pedido pedido = new Pedido();
+	private List<Producto> orderList;
+	private String codCompra;
+	private Date fechaCompra;
+	private float precioTotal;
 	
-	public VentaMerchandising() {
-		iniciar();
-	}
-
-	public Producto[] getMenuProducts() {
-		return catalogo.getProducts();
+	public VentaMerchandising(){
+		orderList = new ArrayList<Producto>();
+		initialize();	
 	}
 	
-	public void iniciar() {
-		pedido.initialize();
+	public void initialize(){
+		orderList.clear();
+		fechaCompra = new Date();
+		precioTotal = 0;
+		generateCode();
 	}
+	
+	// Getters y setters
+    public String getCodCompra() { return codCompra; }
+    public void setCodCompra(String codCompra) { this.codCompra = codCompra; }
 
-	public void addProduct(Producto p, int unidades) {
-		pedido.add(p, unidades);
+    public List<Producto> getProductos() { return orderList; }
+    public void setProductos(List<Producto> productos) { this.orderList = productos; }
+
+    public float getPrecioTotal() { return precioTotal; }
+    public void setPrecioTotal(float precioTotal) { this.precioTotal = precioTotal; }
+
+    public Date getFechaCompra() { return fechaCompra; }
+    public void setFechaCompra(Date fechaCompra) { this.fechaCompra = fechaCompra; }
+    
+    //Metodos de la logica del programa 
+    public void add(Producto item){
+		Producto itemInOrder = null;
+	
+		for (Producto a : orderList){
+			if (a.getCode().equals(item.getCode()))
+			{
+				itemInOrder = a;
+				itemInOrder.setUnits(itemInOrder.getUnits()+1);
+				break;
+			}
+		}
+		
+		if (itemInOrder == null){
+			Producto itemToOrder = new Producto(item);
+			itemToOrder.setUnits(1);
+			orderList.add(itemToOrder);
+		}
+		
+		calcularPrecioTotal();
 	}
-
-	public void removeProduct(Producto p, int unidades) {
-		pedido.remove(p, unidades);
+	
+	public void remove(Producto item){
+		Producto itemInOrder = null;
+		
+		for (Producto a : orderList){
+			if (a.getCode().equals(item.getCode()))
+			{
+				itemInOrder = a;
+				itemInOrder.setUnits(itemInOrder.getUnits()-1);
+				
+				if (itemInOrder.getUnits() == 0)
+					orderList.remove(itemInOrder);
+				break;
+			}
+		}
+		
+		calcularPrecioTotal();
+	}
+	
+	private void calcularPrecioTotal() {
+	    precioTotal = 0;
+	    for (Producto producto : orderList) {
+	        precioTotal += producto.getPrice() * producto.getUnits();
+	    }
+	}
+	
+	public int contarUnidades(Producto producto) {
+		for(Producto p : orderList) {
+			if(p.getCode().equals(producto.getCode())) {
+				return p.getUnits();
+			}
+		}
+		return 0;
 	}
 	
 	@Override
-	public float getPrecio() {
-		return pedido.getPrice();
+	public String toString() {
+		String lines = "";
+		for(Producto p: orderList)
+			lines+=p.getName() + " - " + p.getUnits() + "uds.\n";
+		return lines;
 	}
 	
-	public void saveOrder() {
-		pedido.saveOrder();
+	private void generateCode() {
+		String base = "0123456789abcdefghijklmnopqrstuvwxyz";
+		int longitudCodigo = 8;
+		for(int i=0; i<longitudCodigo;i++){ 
+			int numero = (int)(Math.random()*(base.length())); 
+			codCompra += base.charAt(numero);
+		}
 	}
-	
-	public int getUnits(Producto p) {
-		return pedido.getUnits(p);
-	}
-	
-	public Producto[] filter(String tipo) {
-		if(tipo.equals(""))
-			return catalogo.getProducts();
-		else
-			return catalogo.filterByType(tipo);
-	}
-	
-	public List<Producto> getOrder(){
-		return pedido.getOrderList();
-	}
-	
-	public String orderToString() {
-		return pedido.toString();
-	}
-
-	@Override
-	public Date getFecha() {
-		return pedido.getFecha();
-	}
-
 }
+
