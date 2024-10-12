@@ -1,4 +1,4 @@
-package backend.data.productos.dtos;
+package backend.data.productos;
 
 import java.util.List;
 

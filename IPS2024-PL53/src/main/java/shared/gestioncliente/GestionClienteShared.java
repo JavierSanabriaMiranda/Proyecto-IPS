@@ -1,6 +1,5 @@
 package shared.gestioncliente;
 
-import java.util.List;
 
 import backend.data.CreadorDataService;
 import backend.data.clientes.ClienteDTO;

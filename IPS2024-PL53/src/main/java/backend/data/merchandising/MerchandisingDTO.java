@@ -1,4 +1,4 @@
-package backend.data.productos.dtos;
+package backend.data.merchandising;
 
 public class MerchandisingDTO {
     private String codigoCompra;

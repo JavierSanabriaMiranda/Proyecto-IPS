@@ -6,11 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 import backend.data.CreadorDataService;
+import backend.data.merchandising.MerchandisingCRUDService;
+import backend.data.merchandising.MerchandisingDTO;
+import backend.data.productos.CompraProductoDTO;
 import backend.data.productos.ProductoCRUDService;
-import backend.data.productos.dtos.CompraProductoDTO;
-import backend.data.productos.dtos.MerchandisingDTO;
-import backend.data.productos.dtos.ProductoDTO;
-import backend.data.productos.dtos.VentaDto;
+import backend.data.productos.ProductoDTO;
+import backend.data.ventas.VentaDto;
+import backend.data.ventas.VentasCRUDService;
 import backend.service.ventas.merchandising.Producto;
 import backend.service.ventas.merchandising.VentaMerchandising;
 import frontend.SwingUtil;
@@ -21,12 +23,10 @@ public class GestionProductoShared {
 	private ProductoCRUDService model;
 	private VentanaPrincipal view;
 	private VentaMerchandising ventaMerchandising;
-	private List <Producto> catalogo;
 	
 	public GestionProductoShared(ProductoCRUDService m, VentanaPrincipal v) {
 		this.model = m;
 		this.view = v;
-		this.catalogo = new ArrayList<Producto>();
 		
 		model = CreadorDataService.getproductoService();
 
@@ -61,7 +61,6 @@ public class GestionProductoShared {
 
 	public void initView() {
 		ventaMerchandising = new VentaMerchandising();
-		loadProductsBBDD();
 		view.getTxtPrice().setText("");
 		view.getCarritoTextArea().setText("");
 		view.getBtnNext1().setEnabled(false);
@@ -119,19 +118,11 @@ public class GestionProductoShared {
 	    view.getPnProductos().repaint();
 	}
 	
-	public void loadProductsBBDD() {			 
-		 loadProducts(model.findAllProducts());
-	}
-
-	private void loadProducts(List<ProductoDTO> listaProductos) {
-		for(ProductoDTO p : listaProductos) {
-			catalogo.add(new Producto(p.getCodigo(),p.getTipo(),p.getNombre(),p.getPrecio(),p.getUnidades()));
-		}	
-	}
-	
 	public void saveOrder(List<ProductoDTO> orderList,String cod_compra, Date fecha, Float precio) {
-		model.addVenta(new VentaDto(cod_compra,null,fecha,precio));
-		model.addMerchandising(new MerchandisingDTO(cod_compra));
+		VentasCRUDService service = CreadorDataService.getVentasService();
+		MerchandisingCRUDService service2 =CreadorDataService.getMerchandisingService();
+		service.addVentas(new VentaDto(cod_compra,null,fecha,precio));
+		service2.addMerchandising(new MerchandisingDTO(cod_compra));
 		model.addOrderProducts(new CompraProductoDTO(orderList,cod_compra));
 	}
 	

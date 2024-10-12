@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import backend.data.Database;
-import backend.data.productos.dtos.CompraProductoDTO;
-import backend.data.productos.dtos.ProductoDTO;
+import backend.data.productos.CompraProductoDTO;
+import backend.data.productos.ProductoDTO;
 
 public class AddAllOrderProducts {
     private static final String QUERY = "INSERT INTO COMPRA_PRODUCTO VALUES (?, ?, ?)";

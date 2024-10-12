@@ -5,14 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.data.productos.commands.AddAllOrderProducts;
-import backend.data.productos.commands.AddMerchandising;
-import backend.data.productos.commands.AddVenta;
 import backend.data.productos.commands.FilterProductos;
 import backend.data.productos.commands.FindAllProducts;
-import backend.data.productos.dtos.CompraProductoDTO;
-import backend.data.productos.dtos.MerchandisingDTO;
-import backend.data.productos.dtos.ProductoDTO;
-import backend.data.productos.dtos.VentaDto;
 
 public class ProductoCRUDImpl implements ProductoCRUDService {
 
@@ -37,15 +31,6 @@ public class ProductoCRUDImpl implements ProductoCRUDService {
     }
 
     @Override
-    public void addMerchandising(MerchandisingDTO merchandisingDTO) {
-        try {
-            new AddMerchandising(merchandisingDTO).execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public List<ProductoDTO> getFilterProducts(String filter) {
     	List<ProductoDTO> res = new ArrayList<>();
     	try {
@@ -56,14 +41,4 @@ public class ProductoCRUDImpl implements ProductoCRUDService {
     	
     	return res;
     }
-
-	@Override
-	public void addVenta(VentaDto ventaDTO) {
-		try {
-            new AddVenta(ventaDTO).execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
-	}
 }

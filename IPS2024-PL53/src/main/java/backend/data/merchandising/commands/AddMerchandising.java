@@ -1,11 +1,11 @@
-package backend.data.productos.commands;
+package backend.data.merchandising.commands;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import backend.data.Database;
-import backend.data.productos.dtos.MerchandisingDTO;
+import backend.data.merchandising.MerchandisingDTO;
 
 public class AddMerchandising {
     private static final String QUERY = "INSERT INTO COMPRA_MERCHANDISING VALUES (?)";

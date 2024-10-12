@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.data.Database;
-import backend.data.productos.dtos.ProductoDTO;
+import backend.data.productos.ProductoDTO;
 
 public class FindAllProducts {
     private static final String QUERY = "SELECT * FROM PRODUCTO";
