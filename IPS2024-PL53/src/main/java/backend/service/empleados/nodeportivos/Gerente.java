@@ -11,10 +11,12 @@ import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
+import backend.service.ventas.Venta;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
+import shared.gestioninstalaciones.GerenteVentas;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados {
+public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -28,6 +30,10 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 	 * Generador aleatorio de IDs para la creación de nuevos empleados
 	 */
 	private GeneradorIDEmpleado generadorID = new GeneradorIDEmpleado();
+	/**
+	 * Lista de las ventas realizadas
+	 */
+	private List<Venta> ventas = new ArrayList<Venta>();
 	
 	/**
 	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento de datos
@@ -47,6 +53,10 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 		super();
 		empDeportivos = new HashMap<>();
 		empNoDeportivos = new HashMap<>();
+	}
+	
+	public List<Venta> getVentas() {
+		return this.ventas;
 	}
 	
 	@Override
@@ -138,7 +148,13 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados 
 			empNoDeportivos.remove(idEmpleado);
 	}
 
-
+	/**
+	 * Método que implementa la interfaz GerenteVentas
+	 */
+	@Override
+	public void addVentaAGerenteVentas(Venta venta) {
+		ventas.add(venta);
+	}
 
 
 
