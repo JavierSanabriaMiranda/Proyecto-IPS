@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import shared.gestionequipos.GestionEquiposShared;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
@@ -23,6 +26,7 @@ public class VentanaPrincipalEquipos extends JFrame {
 	private JLabel lblAñadirEquipo;
 	private JButton btnEquipoProfesional;
 	private JButton btnEquipoFormacion;
+	private GestionEquiposShared ges;
 
 	/**
 	 * Launch the application.
@@ -31,7 +35,8 @@ public class VentanaPrincipalEquipos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos();
+					GestionEquiposShared ges = new GestionEquiposShared();
+					VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos(ges);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,10 +45,8 @@ public class VentanaPrincipalEquipos extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPrincipalEquipos() {
+	public VentanaPrincipalEquipos(GestionEquiposShared ges) {
+		this.ges = ges;
 		setTitle("Añadir Equipo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 615, 407);
@@ -57,6 +60,10 @@ public class VentanaPrincipalEquipos extends JFrame {
 		contentPane.add(getLblAñadirEquipo());
 		contentPane.add(getBtnEquipoProfesional());
 		contentPane.add(getBtnEquipoFormacion());
+	}
+	
+	public GestionEquiposShared getGestionEquiposShared() {
+		return ges;
 	}
 
 	private JLabel getLblAñadirEquipo() {
@@ -114,4 +121,6 @@ public class VentanaPrincipalEquipos extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
+	
 }

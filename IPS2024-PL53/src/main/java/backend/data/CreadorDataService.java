@@ -6,6 +6,8 @@ import backend.data.empleados.EmpleadoCRUDImpl;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.data.entradas.EntradasCRUDImpl;
 import backend.data.entradas.EntradasCRUDService;
+import backend.data.equipos.EquipoCRUDService;
+import backend.data.equipos.EquipoCRUDServiceImpl;
 import backend.data.partidos.PartidosCRUDImpl;
 import backend.data.partidos.PartidosCRUDService;
 import backend.data.ventas.VentasCRUDImpl;
@@ -31,6 +33,10 @@ public class CreadorDataService {
 
     public static VentasCRUDService getVentasService() {
         return new VentasCRUDImpl();
+    }
+    
+    public static EquipoCRUDService getEquiposService() {
+    	return new EquipoCRUDServiceImpl();
     }
 
 }

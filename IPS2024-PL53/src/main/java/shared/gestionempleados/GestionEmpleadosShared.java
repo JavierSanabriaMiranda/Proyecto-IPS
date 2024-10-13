@@ -7,6 +7,7 @@ import java.util.Map;
 
 import backend.data.CreadorDataService;
 import backend.data.empleados.EmpleadoDTO;
+import backend.data.empleados.EmpleadoDeportivoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
@@ -89,7 +90,7 @@ public class GestionEmpleadosShared {
 	}
 	
 	public void cargarEmpleadosDeLaBBDD() {
-		List<EmpleadoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
+		List<EmpleadoDeportivoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
 		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
 		
 		List<EmpleadoDTO> empleadosNoDeportivos = service.cargarEmpleadosNoDeportivos();
@@ -189,8 +190,8 @@ public class GestionEmpleadosShared {
 	 * por medio de los creadores, para luego añadir cada uno de ellos a la lista del gestor
 	 * @param empleadosDeportivos lista con todos los empleados en forma de EmpleadoDTO
 	 */
-	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDTO> empleadosDeportivos) {
-		for (EmpleadoDTO dto : empleadosDeportivos) {
+	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDeportivoDTO> empleadosDeportivos) {
+		for (EmpleadoDeportivoDTO dto : empleadosDeportivos) {
 			String id = dto.id;
 			String nombre = dto.nombre;
 			String apellido = dto.apellido;
@@ -198,6 +199,7 @@ public class GestionEmpleadosShared {
 			String telefono = dto.telefono;
 			Date nacimiento = dto.fechaNac;
 			double salario = dto.salarioAnual;
+			String idEquipo = dto.id_equipo;
 			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
 			
 			CreadorEmpleadoDeportivo creador = creadoresDep.get(puesto);

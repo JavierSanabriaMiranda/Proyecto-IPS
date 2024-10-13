@@ -13,8 +13,8 @@ import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
-import backend.service.empleados.Gerente;
 import backend.service.empleados.GestorInstalaciones;
+import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.ventas.reservas.ClienteReserva;
@@ -26,7 +26,7 @@ public class ReservaShared {
 
 	
 	GestorReserva gestor = new GestorInstalaciones();
-	Gerente gerente = new Gerente();
+	GerenteVentas gerente = new Gerente();
 	
 	public ReservaShared() {
 		cargaBBDD();

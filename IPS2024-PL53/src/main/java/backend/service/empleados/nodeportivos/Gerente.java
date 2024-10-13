@@ -11,11 +11,15 @@ import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
+import backend.service.equipos.Equipo;
+import backend.service.equipos.GeneradorIDEquipo;
+import backend.service.ventas.Venta;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionequipos.GestorEquipos;
+import shared.gestioninstalaciones.GerenteVentas;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GestorEquipos {
+public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas, GestorEquipos {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -29,6 +33,12 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	 * Generador aleatorio de IDs para la creación de nuevos empleados
 	 */
 	private GeneradorIDEmpleado generadorID = new GeneradorIDEmpleado();
+	
+	private GeneradorIDEquipo generadorIDEquipo = new GeneradorIDEquipo();
+	
+	private List<Venta> ventas = new ArrayList<Venta>();
+	
+	private List<Equipo> equipos = new ArrayList<Equipo>();
 	
 	/**
 	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento de datos
@@ -48,6 +58,11 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		super();
 		empDeportivos = new HashMap<>();
 		empNoDeportivos = new HashMap<>();
+	}
+	
+
+	public List<Venta> getVentas() {
+		return this.ventas;
 	}
 	
 	@Override
@@ -140,7 +155,74 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	}
 
 
+	@Override
+	public void addVentaAGerenteVentas(Venta venta) {
+		ventas.add(venta);
+	}
 
+	@Override
+	public List<EmpleadoDeportivo> getJugadoresSinEquipo() {
+		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
+		for (EmpleadoDeportivo emp : empDeportivos.values()) {
+			if (!emp.tieneEquipo() && emp.getPuesto().equals(PuestoEmpleado.JUGADOR))
+				jugadoresSinEquipo.add(emp);
+		}
+		return jugadoresSinEquipo;
+	}
+
+	@Override
+	public List<EmpleadoDeportivo> getEntrenadoresSinEquipo() {
+		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
+		for (EmpleadoDeportivo emp : empDeportivos.values()) {
+			if (!emp.tieneEquipo() && emp.getPuesto().equals(PuestoEmpleado.ENTRENADOR))
+				jugadoresSinEquipo.add(emp);
+		}
+		return jugadoresSinEquipo;
+	}
+
+	@Override
+	public void addEquipo(Equipo equipo) {
+		equipos.add(equipo);
+	}
+
+	@Override
+	public Equipo getEquipoByID(String idEquipo) {
+		for(Equipo equi : equipos) {
+			if (equi.getIdEquipo().equals(idEquipo)) {
+				return equi;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Equipo> getEquiposPimerosEquipos() {
+		List<Equipo> equiposPros = new ArrayList<Equipo>();
+		for (Equipo equi : equipos) {
+			if (equi.esProfesional())
+				equiposPros.add(equi);
+		}
+		return equiposPros;
+	}
+	
+	@Override
+	public String generarIDEquipo() {
+	    int numeroID;
+	    do {
+	        numeroID = generadorIDEquipo.getNuevoID(); 
+	    } while (existeIDEquipo("EQU" + numeroID));
+
+	    return "EQU" + numeroID; 
+	}
+
+	private boolean existeIDEquipo(String idEquipo) {
+	    for (Equipo equipo : equipos) {
+	        if (equipo.getIdEquipo().equals(idEquipo)) {
+	            return true; 
+	        }
+	    }
+	    return false; 
+	}
 
 
 }

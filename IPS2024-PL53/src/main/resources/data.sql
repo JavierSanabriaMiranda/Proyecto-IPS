@@ -105,3 +105,124 @@ VALUES
 --    ('AC08','accesorio','Llavero',5.00,0,NULL),
 --    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
 --
+
+-- Insertar en la tabla EQUIPO
+INSERT INTO EQUIPO (ID_EQUIPO)
+VALUES ('EQ001'),
+       ('EQ002'),
+       ('EQ003'),
+	   ('EQ004'),
+       ('EQ005'),
+       ('EQ006'),
+       ('EQ007'),
+       ('EQ008'),
+       ('EQ009');
+       
+-- Insertar equipos profesionales
+INSERT INTO EQUIPO_PROFESIONAL (ID_EQUIPO, ID_PROFESIONAL)
+VALUES ('EQ001', NULL),
+       ('EQ002', 'EQ001'),
+       ('EQ003', NULL);
+       
+-- Insertar equipos de formación
+INSERT INTO EQUIPO_FORMACION (ID_EQUIPO, CATEGORIA)
+VALUES ('EQ004', 'juvenil'),
+       ('EQ005', 'cadete'),
+       ('EQ006', 'infantil'),
+       ('EQ007', 'alevin'),
+       ('EQ008', 'benjamin'),
+       ('EQ009', 'pre_benjamin');
+
+
+-- INSERCION DE JUGADORES CON EQUIPO
+
+
+-- Insertar en la tabla EMPLEADO_DEPORTIVO
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP001', '12345678A', 'Juan', 'Pérez', '1990-01-15', '600123456', 30000.00),
+       ('EMP002', '87654321B', 'Carlos', 'López', '1985-07-22', '600654321', 32000.00),
+       ('EMP003', '11223344C', 'María', 'Martínez', '1992-05-30', '600789012', 31000.00);
+
+-- Insertar en la tabla JUGADOR, relacionando a los empleados con equipos
+INSERT INTO JUGADOR (ID_JUGADOR, ID_EQUIPO)
+VALUES ('EMP001', 'EQ001'),
+       ('EMP002', 'EQ002'),
+       ('EMP003', 'EQ003');
+       
+       
+-- INSERCION DE JUGADORES SIN EQUIPO
+
+
+-- Insertar en la tabla EMPLEADO_DEPORTIVO
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP004', '33445566D', 'Ana', 'Gómez', '1988-03-20', '600345678', 28000.00),
+       ('EMP005', '55667788E', 'Luis', 'Fernández', '1991-09-10', '600567890', 29000.00),
+       ('EMP006', '77889900F', 'Sofía', 'Díaz', '1993-12-15', '600987654', 27000.00),
+       ('EMP007', '11112222A', 'Carlos', 'Martínez', '1987-01-05', '600123456', 30000.00),
+	   ('EMP008', '22223333B', 'Elena', 'López', '1990-02-14', '600234567', 31000.00),
+	   ('EMP009', '33334444C', 'Jorge', 'Pérez', '1992-03-25', '600345678', 32000.00),
+	   ('EMP010', '44445555D', 'Marta', 'Hernández', '1994-04-16', '600456789', 33000.00),
+	   ('EMP011', '55556666E', 'David', 'García', '1989-05-10', '600567890', 34000.00),
+	   ('EMP012', '66667777F', 'Laura', 'Alonso', '1991-06-20', '600678901', 35000.00),
+	   ('EMP013', '77778888G', 'Sergio', 'Ramírez', '1993-07-15', '600789012', 36000.00);
+
+-- Insertar en la tabla JUGADOR, dejando ID_EQUIPO como NULL
+INSERT INTO JUGADOR (ID_JUGADOR, ID_EQUIPO)
+VALUES ('EMP004', NULL),
+       ('EMP005', NULL),
+       ('EMP006', NULL),
+       ('EMP007', NULL),
+	   ('EMP008', NULL),
+	   ('EMP009', NULL),
+	   ('EMP010', NULL),
+	   ('EMP011', NULL),
+	   ('EMP012', NULL),
+	   ('EMP013', NULL);
+
+
+-- INSERCION DE ENTRENADORES CON EQUIPO
+
+-- Insertar en la tabla EMPLEADO_DEPORTIVO
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP024', '99887766G', 'Pedro', 'Ramírez', '1975-04-10', '601234567', 45000.00),
+       ('EMP025', '66554433H', 'Jorge', 'Santos', '1980-11-25', '601345678', 47000.00),
+       ('EMP026', '44332211I', 'Lucía', 'Blanco', '1982-02-18', '601456789', 46000.00);
+
+-- Insertar en la tabla ENTRENADOR, relacionando a los empleados con equipos y estableciendo su posición
+INSERT INTO ENTRENADOR (ID_ENTRENADOR, ID_EQUIPO, POSICION_ENTRENADOR)
+VALUES ('EMP024', 'EQ004', 1),
+       ('EMP025', 'EQ005', 2),
+       ('EMP026', 'EQ006', 1);
+
+
+-- INSERCION DE ENTRENADORES SIN EQUIPO
+
+-- Insertar en la tabla EMPLEADO_DEPORTIVO
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP014', '12344321J', 'Andrea', 'García', '1978-08-30', '601567890', 44000.00),
+       ('EMP015', '56781234K', 'Roberto', 'Luna', '1983-06-12', '601678901', 43000.00),
+       ('EMP016', '87654321L', 'Isabel', 'Moreno', '1976-03-05', '601789012', 42000.00),
+       ('EMP017', '11111111M', 'Carlos', 'Martínez', '1980-01-10', '601123456', 41000.00),
+	   ('EMP018', '22222222N', 'Elena', 'Rodríguez', '1975-05-15', '601234567', 40000.00),
+	   ('EMP019', '33333333O', 'Mario', 'Sánchez', '1982-09-20', '601345678', 45000.00),
+	   ('EMP020', '44444444P', 'Lucía', 'Gómez', '1988-11-02', '601456789', 46000.00),
+	   ('EMP021', '55555555Q', 'José', 'Díaz', '1979-07-23', '601567890', 47000.00),
+	   ('EMP022', '66666666R', 'Marta', 'Ruiz', '1985-03-08', '601678901', 48000.00),
+	   ('EMP023', '77777777S', 'David', 'Vega', '1983-12-25', '601789012', 49000.00);
+
+-- Insertar en la tabla ENTRENADOR, dejando ID_EQUIPO como NULL y asignando la posición
+INSERT INTO ENTRENADOR (ID_ENTRENADOR, ID_EQUIPO, POSICION_ENTRENADOR)
+VALUES ('EMP014', NULL, 1),
+       ('EMP015', NULL, 2),
+       ('EMP016', NULL, 1),
+       ('EMP017', NULL, 1),
+	   ('EMP018', NULL, 2),
+	   ('EMP019', NULL, 1),
+	   ('EMP020', NULL, 2),
+	   ('EMP021', NULL, 1),
+	   ('EMP022', NULL, 2),
+	   ('EMP023', NULL, 1);
+
+
+
+

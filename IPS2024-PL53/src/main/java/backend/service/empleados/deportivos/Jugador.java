@@ -16,5 +16,12 @@ public class Jugador extends EmpleadoDeportivoBase {
 	public PuestoEmpleado getPuesto() {
 		return PuestoEmpleado.JUGADOR;
 	}
+
+	@Override
+	public boolean tieneEquipo() {
+		if (getEquipo() != null)
+			return true;
+		return false;
+	}
 	
 }
