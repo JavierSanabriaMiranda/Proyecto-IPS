@@ -1,0 +1,72 @@
+package frontend.empleados.horarios;
+
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.border.LineBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.CardLayout;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import java.awt.Component;
+import javax.swing.Box;
+
+public class PanelHora extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel lbHora;
+	private JLabel lbEstado;
+	private Component horizontalStrut;
+
+	/**
+	 * Create the panel.
+	 */
+	public PanelHora() {
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBackground(new Color(255, 255, 255));
+		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		add(getLbHora());
+		add(getHorizontalStrut());
+		add(getLbEstado());
+		this.setPreferredSize(new Dimension(this.getWidth(), 30));
+	}
+
+	private JLabel getLbHora() {
+		if (lbHora == null) {
+			lbHora = new JLabel("00:00 - 01:00\r\n");
+			lbHora.setFont(new Font("Arial", Font.BOLD, 12));
+		}
+		return lbHora;
+	}
+	private JLabel getLbEstado() {
+		if (lbEstado == null) {
+			lbEstado = new JLabel("Libre\r\n");
+			lbEstado.setFont(new Font("Arial", Font.BOLD, 12));
+		}
+		return lbEstado;
+	}
+	
+	protected void setHora(int hora) {
+		int horaSiguiente = hora+1;
+		getLbHora().setText(hora + ":00 - " + horaSiguiente + ":00");
+	}
+
+	protected void setOcupado(int horaInicio, int horaFin) {
+		getLbEstado().setText("Trabajo de " + horaInicio + " a " + horaFin);
+		this.setBackground(Color.LIGHT_GRAY);
+	}
+	private Component getHorizontalStrut() {
+		if (horizontalStrut == null) {
+			horizontalStrut = Box.createHorizontalStrut(20);
+		}
+		return horizontalStrut;
+	}
+}

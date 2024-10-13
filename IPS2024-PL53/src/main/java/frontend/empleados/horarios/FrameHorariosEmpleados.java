@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import backend.service.empleados.EmpleadoNoDeportivo;
+import backend.service.empleados.nodeportivos.horarios.Turno;
+import shared.gestionhorarios.GestionHorariosShared;
+import util.DateToLocalDate;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,9 +35,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.List;
 import java.util.Calendar;
+import java.util.Collections;
 import java.awt.GridLayout;
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class FrameHorariosEmpleados extends JFrame {
 
@@ -42,6 +51,7 @@ public class FrameHorariosEmpleados extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private GestionHorariosShared gesHor = new GestionHorariosShared();
 	private JPanel contentPane;
 	private JPanel pnEmpleados;
 	private JScrollPane scEmpleados;
@@ -66,6 +76,7 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JSpinner spHoraFin;
 	private JButton btBorrar;
 	private JButton btAdd;
+	private JScrollPane scTablaHorario;
 
 	/**
 	 * Launch the application.
@@ -99,6 +110,7 @@ public class FrameHorariosEmpleados extends JFrame {
 		contentPane.add(getPnEmpleados(), BorderLayout.WEST);
 		contentPane.add(getPnHorarioEmpleado(), BorderLayout.CENTER);
 		contentPane.add(getPnSalir(), BorderLayout.SOUTH);
+		inicializarPanel();
 	}
 
 	private JPanel getPnEmpleados() {
@@ -125,6 +137,13 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JList<EmpleadoNoDeportivo> getListEmpleados() {
 		if (listEmpleados == null) {
 			listEmpleados = new JList<EmpleadoNoDeportivo>();
+			listEmpleados.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!listEmpleados.isSelectionEmpty() && getClFecha().getDate() != null)
+						mostrarHorarioEmpleado();
+				}
+			});
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
 			modeloList = new DefaultListModel<>();
@@ -207,6 +226,7 @@ public class FrameHorariosEmpleados extends JFrame {
 			pnHorario.setLayout(new BorderLayout(0, 0));
 			pnHorario.add(getPnModHorario(), BorderLayout.WEST);
 			pnHorario.add(getPnTablaHorario(), BorderLayout.CENTER);
+			pnHorario.add(getScTablaHorario(), BorderLayout.CENTER);
 		}
 		return pnHorario;
 	}
@@ -298,7 +318,7 @@ public class FrameHorariosEmpleados extends JFrame {
 		if (pnTablaHorario == null) {
 			pnTablaHorario = new JPanel();
 			pnTablaHorario.setBackground(new Color(255, 255, 255));
-			pnTablaHorario.setLayout(new GridLayout(0, 1, 0, 0));
+			pnTablaHorario.setLayout(new GridLayout(24, 1, 0, 0));
 		}
 		return pnTablaHorario;
 	}
@@ -366,11 +386,49 @@ public class FrameHorariosEmpleados extends JFrame {
 		spHoraFin = null;
 		getSpHoraInicio();
 		getSpHoraFin();
-		
-		modeloList.clear();
 		getListEmpleados().clearSelection();
-		getClFecha().setDate(null);
-		// Llenar la lista con los empleados
 		
+		// Llena la lsita con los empleados no deportivos
+		modeloList.clear();
+		List<EmpleadoNoDeportivo> lista = gesHor.getEmpleadosNoDeportivosFromGestor();
+		Collections.sort(lista);
+		modeloList.addAll(lista);
+		
+		
+		getClFecha().setDate(null);
+	}
+	
+	private void mostrarHorarioEmpleado() {
+		getPnTablaHorario().removeAll();
+		
+		LocalDate fechaSeleccionada = DateToLocalDate.convertToLocalDate(getClFecha().getDate());
+		
+		List<Turno> turnos = gesHor.getHorario(getListEmpleados().getSelectedValue(), fechaSeleccionada);
+		crearTablaHorarioEmpleado(turnos);
+	}
+
+	private void crearTablaHorarioEmpleado(List<Turno> turnos) {
+		for (int i = 0; i < 24; i++) {
+			PanelHora pnHora = new PanelHora();
+			pnHora.setHora(i);
+			for (Turno turno : turnos) {
+				int horaInicio = turno.getHoraInicio().getHour();
+				int horaFin = turno.getHoraFin().getHour();
+				if (horaInicio >= i && horaInicio < i+1 || horaFin > i && horaFin < i+1 || 
+						horaInicio < i && horaFin > i)
+					pnHora.setOcupado(horaInicio, horaFin);
+			}
+			getPnTablaHorario().add(pnHora);
+		}
+		getPnTablaHorario().revalidate();
+		getPnTablaHorario().repaint();
+	}
+	
+	private JScrollPane getScTablaHorario() {
+		if (scTablaHorario == null) {
+			scTablaHorario = new JScrollPane();
+			scTablaHorario.setViewportView(getPnTablaHorario());
+		}
+		return scTablaHorario;
 	}
 }

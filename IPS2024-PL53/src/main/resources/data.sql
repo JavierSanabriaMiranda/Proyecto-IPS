@@ -34,29 +34,62 @@ INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_1');
 INSERT INTO INSTALACION (COD_INSTALACION) VALUES ('CAMPO_JUEGO_2');
 
 
---Insercion de registros en la tabla 
-DELETE FROM PRODUCTO;
-INSERT INTO PRODUCTO(COD_PRODUCTO, TIPO, NOMBRE, PRECIO, UNIDADES, COD_COMPRA)
+--Insercion de registros en la tabla
+--DELETE FROM PRODUCTO;
+--INSERT INTO PRODUCTO(CODPRODUCTO, TIPO, NOMBRE, PRECIO, UNIDADES, CODCOMPRA)
+--VALUES
+--    ('EQ01','equipacion','Camiseta Primera Equipacion',64.95,0,NULL),
+--    ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95,0,NULL),
+--    ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95,0,NULL),
+--    ('EQ04','equipacion','Camiseta Personalizada',20.00,0,NULL),
+--    ('MO01','moda textil','Calcertines',9.95,0,NULL),
+--    ('MO02','moda textil','Camiseta de Calle',25.00,0,NULL),
+----    ('MO03','moda textil','Camiseta de Entrenamiento',29.95,0,NULL),
+--    ('MO04','moda textil','Sudadera',45.00,0,NULL),
+--    ('MO05','moda textil','Plumas',59.00,0,NULL),
+--    ('MO06','moda textil','Chubasquero',39.00,0,NULL),
+--    ('MO07','moda textil','Sudadera de Entrenamiento',55.00,0,NULL),
+--    ('MO08','moda textil','Polo',44.95,0,NULL),
+--    ('AC01','accesorio','Balon de Futbol',22.50,0,NULL),
+--    ('AC02','accesorio','Bolsa de Tela',9.90,0,NULL),
+--    ('AC03','accesorio','Braga de Cuello',11.50,0,NULL),
+----    ('AC04','accesorio','Bufanda Blanqui-Negra',12.00,0,NULL),
+--    ('AC05','accesorio','Bufanda Rosa',12.00,0,NULL),
+--    ('AC06','accesorio','Gorro de Lana',18.00,0,NULL),
+--    ('AC07','accesorio','Guantes de Lana',12.50,0,NULL),
+--    ('AC08','accesorio','Llavero',5.00,0,NULL),
+--    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
+       
+       
+-- Insertar turnos en la tabla TURNO (estos IDs coinciden con los de las otras tablas)
+DELETE FROM TURNO;
+INSERT INTO TURNO (ID_TURNO, ID_EMPLEADO, HORA_INICIO, HORA_FIN)
 VALUES
-    ('EQ01','equipacion','Camiseta Primera Equipacion',64.95,0,NULL),
-    ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95,0,NULL),
-    ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95,0,NULL),
-    ('EQ04','equipacion','Camiseta Personalizada',20.00,0,NULL),
-    ('MO01','moda textil','Calcertines',9.95,0,NULL),
-    ('MO02','moda textil','Camiseta de Calle',25.00,0,NULL),
-    ('MO03','moda textil','Camiseta de Entrenamiento',29.95,0,NULL),
-    ('MO04','moda textil','Sudadera',45.00,0,NULL),
-    ('MO05','moda textil','Plumas',59.00,0,NULL),
-    ('MO06','moda textil','Chubasquero',39.00,0,NULL),
-    ('MO07','moda textil','Sudadera de Entrenamiento',55.00,0,NULL),
-    ('MO08','moda textil','Polo',44.95,0,NULL),
-    ('AC01','accesorio','Balon de Futbol',22.50,0,NULL),
-    ('AC02','accesorio','Bolsa de Tela',9.90,0,NULL),
-    ('AC03','accesorio','Braga de Cuello',11.50,0,NULL),
-    ('AC04','accesorio','Bufanda Blanqui-Negra',12.00,0,NULL),
-    ('AC05','accesorio','Bufanda Rosa',12.00,0,NULL),
-    ('AC06','accesorio','Gorro de Lana',18.00,0,NULL),
-    ('AC07','accesorio','Guantes de Lana',12.50,0,NULL),
-    ('AC08','accesorio','Llavero',5.00,0,NULL),
-    ('AC09','accesorio','Zapatillas de Casa',22.50,0,NULL);
+    ('T001', 'E0000001', '09:00:00', '13:00:00'),
+    ('T002', 'E0000001', '14:00:00', '18:00:00'),
+    ('T003', 'E0000002', '09:00:00', '13:00:00'),
+    ('T004', 'E0000002', '14:00:00', '18:00:00'),
+    ('T005', 'E0000003', '09:00:00', '13:00:00'),
+    ('T006', 'E0000003', '14:00:00', '18:00:00'),
+    ('T007', 'E0000004', '09:00:00', '13:00:00'),
+    ('T008', 'E0000004', '14:00:00', '18:00:00');
+    
+-- Turnos semanales, asegurando que los IDs coincidan con la tabla TURNO
+DELETE FROM TURNO_SEMANAL;
+INSERT INTO TURNO_SEMANAL (ID_TURNO, ID_EMPLEADO, DIA_SEMANA)
+VALUES
+    ('T001', 'E0000001', 1),
+    ('T003', 'E0000002', 1),
+    ('T005', 'E0000003', 3), 
+    ('T007', 'E0000004', 3); 
+    
+    
+-- Turnos puntuales, asegurando que los IDs coincidan con la tabla TURNO
+DELETE FROM TURNO_PUNTUAL;
+INSERT INTO TURNO_PUNTUAL (ID_TURNO, ID_EMPLEADO, DIA)
+VALUES
+    ('T002', 'E0000001', '2024-10-15'),
+    ('T004', 'E0000002', '2024-10-15'),
+    ('T006', 'E0000003', '2024-10-17'),
+    ('T008', 'E0000004', '2024-10-17');
 

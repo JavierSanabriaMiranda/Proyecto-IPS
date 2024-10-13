@@ -1,5 +1,6 @@
 package backend.service.empleados.nodeportivos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
+import backend.service.empleados.nodeportivos.horarios.Turno;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionhorarios.GestorHorarios;
@@ -137,6 +139,18 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 			empDeportivos.remove(idEmpleado);
 		else if (empNoDeportivos.containsKey(idEmpleado))
 			empNoDeportivos.remove(idEmpleado);
+	}
+
+	@Override
+	public List<Turno> getHorarioDia(EmpleadoNoDeportivo emp, LocalDate fecha) {
+		return emp.getHorario().getHorarioDia(fecha);
+	}
+
+	@Override
+	public EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmp) {
+		if (!empNoDeportivos.containsKey(idEmp))
+			throw new IllegalArgumentException("No hay un empleado no deportivo con dicho id");
+		return empNoDeportivos.get(idEmp);
 	}
 
 

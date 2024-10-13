@@ -12,7 +12,7 @@ public class TurnoBase implements Turno {
 	public TurnoBase(String idTurno, LocalTime inicio, LocalTime fin) {
 		if (idTurno == null || inicio == null || fin == null)
 			throw new IllegalArgumentException("No se puede introducir una hora nula");
-		if (inicio.compareTo(fin) < 0)
+		if (inicio.compareTo(fin) > 0)
 			throw new IllegalArgumentException("La hora de finalización no puede ser menor que la hora de inicio");
 		this.idTurno = idTurno;
 		this.horaInicio = inicio;
