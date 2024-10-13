@@ -18,6 +18,6 @@ public class AddEquipoEnFormacion {
 	
 	public void execute() {
 		db.executeUpdate(SQL_EQUIPO, dto.idEquipo);
-		db.executeUpdate(SQL_FOR, dto.idEquipo, dto.categoria);
+		db.executeUpdate(SQL_FOR, dto.idEquipo, dto.categoria.toLowerCase());
 	}
 }

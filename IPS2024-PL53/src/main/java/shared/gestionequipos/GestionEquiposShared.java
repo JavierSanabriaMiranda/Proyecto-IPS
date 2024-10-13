@@ -1,6 +1,7 @@
 package shared.gestionequipos;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import backend.data.CreadorDataService;
@@ -68,6 +69,35 @@ public class GestionEquiposShared {
 	public List<EmpleadoDeportivo> getJugadoresSinEquipo() {
 		return gestor.getJugadoresSinEquipo();
 	}
+	
+	public List<EmpleadoDeportivo> getJugadoresSinEquipoEnRangoEdad(String categoriaString){
+		CategoriaEquipoFormacion categoria = CategoriaEquipoFormacion.getCategoria(categoriaString);
+		
+		List<EmpleadoDeportivo> jugadoresSinEquipo = getJugadoresSinEquipo();
+		List<EmpleadoDeportivo> jugadoresFiltrados = new ArrayList<>();
+
+	    // Obtener el rango de edad de la categoría
+	    int edadMinima = categoria.getEdadMinima();
+	    int edadMaxima = categoria.getEdadMaxima();
+
+	    // Obtener la fecha actual para calcular la edad
+	    Calendar calendar = Calendar.getInstance();
+	    int anioActual = calendar.get(Calendar.YEAR);
+	    
+	    for (EmpleadoDeportivo jugador : jugadoresSinEquipo) {
+	        // Calcular la edad del jugador
+	        Calendar fechaNacimiento = Calendar.getInstance();
+	        fechaNacimiento.setTime(jugador.getFechaNac());
+	        int edadJugador = anioActual - fechaNacimiento.get(Calendar.YEAR);
+
+	        // Comprobar si la edad está en el rango
+	        if (edadJugador >= edadMinima && edadJugador <= edadMaxima) {
+	            jugadoresFiltrados.add(jugador);
+	        }
+	    }
+	    
+	    return jugadoresFiltrados;
+	}
 
 	public List<EmpleadoDeportivo> getEntrenadoresSinEquipo() {
 		return gestor.getEntrenadoresSinEquipo();
@@ -76,6 +106,10 @@ public class GestionEquiposShared {
 	public List<Equipo> getEquiposProfesionales(){
 		return gestor.getEquiposPimerosEquipos();
 	}
+	
+	
+	
+	//Añadir Equipo a la BBDD y al servicio una vez creados en la interfaz:
 	
 	
 	public void añadeEquipoProfesional(List<EmpleadoDeportivo> jugadoresEquipo, List<EmpleadoDeportivo> entrenadoresEquipo, NivelEquipoProfesional nivel, String filialDe) {

@@ -131,7 +131,7 @@ VALUES ('EQ004', 'juvenil'),
        ('EQ006', 'infantil'),
        ('EQ007', 'alevin'),
        ('EQ008', 'benjamin'),
-       ('EQ009', 'pre_benjamin');
+       ('EQ009', 'prebenjamin');
 
 
 -- INSERCION DE JUGADORES CON EQUIPO
@@ -224,5 +224,135 @@ VALUES ('EMP014', NULL, 1),
 	   ('EMP023', NULL, 1);
 
 
+-- INSERCION DE JUGADORES PARA CADA CATEGORIA 
+
+-- Jugadores categoría Juvenil
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP030', '10000001A', 'Raúl', 'Giménez', '2006-05-11', '601111111', 25000.00),
+       ('EMP031', '10000002B', 'Alberto', 'Núñez', '2007-08-19', '601222222', 24000.00),
+       ('EMP032', '10000003C', 'Sergio', 'Cruz', '2008-03-25', '601333333', 23000.00),
+       ('EMP033', '10000004D', 'Pablo', 'Morales', '2006-11-30', '601444444', 26000.00),
+       ('EMP034', '10000005E', 'Marcos', 'García', '2008-07-04', '601555555', 24000.00),
+       ('EMP035', '10000006F', 'Diego', 'Sánchez', '2007-01-15', '601666666', 24500.00),
+       ('EMP036', '10000007G', 'Iván', 'Pérez', '2006-02-20', '601777777', 25000.00),
+       ('EMP037', '10000008H', 'Lucas', 'Martínez', '2007-06-18', '601888888', 24000.00),
+       ('EMP038', '10000009I', 'Fernando', 'Hernández', '2008-10-22', '601999999', 23500.00);
+
+-- Jugadores categoría Cadete
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP039', '20000001J', 'Andrés', 'Jiménez', '2009-03-12', '602111111', 23000.00),
+       ('EMP040', '20000002K', 'Jorge', 'López', '2010-08-25', '602222222', 22000.00),
+       ('EMP041', '20000003L', 'César', 'Gómez', '2009-06-14', '602333333', 21000.00),
+       ('EMP042', '20000004M', 'Tomás', 'Sanz', '2010-02-18', '602444444', 21500.00),
+       ('EMP043', '20000005N', 'Emilio', 'Santos', '2009-09-23', '602555555', 20500.00),
+       ('EMP044', '20000006O', 'Adrián', 'Romero', '2009-04-07', '602666666', 22000.00),
+       ('EMP045', '20000007P', 'Alejandro', 'Vega', '2010-11-19', '602777777', 21000.00),
+       ('EMP046', '20000008Q', 'Manuel', 'Duarte', '2009-12-30', '602888888', 21500.00),
+       ('EMP047', '20000009R', 'Francisco', 'Blanco', '2010-07-05', '602999999', 22000.00);
+
+-- Jugadores categoría Infantil
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP048', '30000001S', 'Hugo', 'Castro', '2011-01-10', '603111111', 20000.00),
+       ('EMP049', '30000002T', 'Mario', 'Alonso', '2012-06-25', '603222222', 19500.00),
+       ('EMP050', '30000003U', 'Rodrigo', 'Bautista', '2011-03-14', '603333333', 20500.00),
+       ('EMP051', '30000004V', 'Raúl', 'Reyes', '2012-10-29', '603444444', 19000.00),
+       ('EMP052', '30000005W', 'Daniel', 'Montero', '2011-12-18', '603555555', 20000.00),
+       ('EMP053', '30000006X', 'Carlos', 'Ortiz', '2011-04-23', '603666666', 19500.00),
+       ('EMP054', '30000007Y', 'José', 'Nieto', '2012-07-17', '603777777', 20500.00),
+       ('EMP055', '30000008Z', 'Santiago', 'Fernández', '2011-09-09', '603888888', 19500.00),
+       ('EMP056', '30000009A', 'Martín', 'Herrera', '2012-08-05', '603999999', 20000.00);
+
+-- Jugadores categoría Alevín
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP057', '40000001B', 'Alonso', 'Bravo', '2013-01-25', '604111111', 18000.00),
+       ('EMP058', '40000002C', 'Samuel', 'Navarro', '2014-05-30', '604222222', 17500.00),
+       ('EMP059', '40000003D', 'Gonzalo', 'Díaz', '2013-07-18', '604333333', 18000.00),
+       ('EMP060', '40000004E', 'David', 'Benítez', '2014-02-27', '604444444', 17000.00),
+       ('EMP061', '40000005F', 'Eric', 'Castilla', '2013-03-22', '604555555', 17500.00),
+       ('EMP062', '40000006G', 'Álvaro', 'Aguilar', '2014-08-12', '604666666', 18000.00),
+       ('EMP063', '40000007H', 'Miguel', 'Torres', '2013-06-04', '604777777', 17000.00),
+       ('EMP064', '40000008I', 'Iván', 'Méndez', '2014-11-03', '604888888', 17500.00),
+       ('EMP065', '40000009J', 'Pablo', 'Pérez', '2013-12-15', '604999999', 18000.00);
+
+-- Jugadores categoría Benjamín
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP066', '50000001K', 'Lucas', 'Rey', '2015-01-08', '605111111', 16000.00),
+       ('EMP067', '50000002L', 'Diego', 'Silva', '2016-09-24', '605222222', 15000.00),
+       ('EMP068', '50000003M', 'Victor', 'Gutiérrez', '2015-03-20', '605333333', 16000.00),
+       ('EMP069', '50000004N', 'Jaime', 'Campos', '2016-04-13', '605444444', 15000.00),
+       ('EMP070', '50000005O', 'Óscar', 'Gil', '2015-11-21', '605555555', 15500.00),
+       ('EMP071', '50000006P', 'Adrián', 'Pascual', '2016-05-06', '605666666', 15000.00),
+       ('EMP072', '50000007Q', 'Rafael', 'Quintana', '2015-07-14', '605777777', 16000.00),
+       ('EMP073', '50000008R', 'Héctor', 'García', '2016-02-22', '605888888', 15500.00),
+       ('EMP074', '50000009S', 'Felipe', 'Cabrera', '2015-06-18', '605999999', 15000.00);
+
+-- Jugadores categoría Pre-benjamín
+INSERT INTO EMPLEADO_DEPORTIVO (ID_EMPLEADO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, SALARIO_ANUAL)
+VALUES ('EMP075', '60000001T', 'Nicolás', 'Peña', '2017-01-09', '606111111', 14000.00),
+       ('EMP076', '60000002U', 'Eduardo', 'Lara', '2018-04-29', '606222222', 13500.00),
+       ('EMP077', '60000003V', 'Martín', 'Ortega', '2017-03-17', '606333333', 14000.00),
+       ('EMP078', '60000004W', 'José', 'Ruiz', '2018-11-14', '606444444', 13000.00),
+       ('EMP079', '60000005X', 'Bruno', 'Hernández', '2017-09-05', '606555555', 13500.00),
+       ('EMP080', '60000006Y', 'Julio', 'Castro', '2018-06-23', '606666666', 14000.00),
+       ('EMP081', '60000007Z', 'Antonio', 'Vargas', '2017-02-19', '606777777', 13500.00),
+       ('EMP082', '60000008A', 'Ismael', 'López', '2018-08-16', '606888888', 14000.00),
+       ('EMP083', '60000009B', 'Gabriel', 'Dávila', '2017-12-03', '606999999', 13000.00);
+
+-- Insertar los jugadores en la tabla JUGADOR, sin equipo (ID_EQUIPO será NULL)
+INSERT INTO JUGADOR (ID_JUGADOR, ID_EQUIPO)
+VALUES ('EMP030', NULL),
+       ('EMP031', NULL),
+       ('EMP032', NULL),
+       ('EMP033', NULL),
+       ('EMP034', NULL),
+       ('EMP035', NULL),
+       ('EMP036', NULL),
+       ('EMP037', NULL),
+       ('EMP038', NULL),
+       ('EMP039', NULL),
+       ('EMP040', NULL),
+       ('EMP041', NULL),
+       ('EMP042', NULL),
+       ('EMP043', NULL),
+       ('EMP044', NULL),
+       ('EMP045', NULL),
+       ('EMP046', NULL),
+       ('EMP047', NULL),
+       ('EMP048', NULL),
+       ('EMP049', NULL),
+       ('EMP050', NULL),
+       ('EMP051', NULL),
+       ('EMP052', NULL),
+       ('EMP053', NULL),
+       ('EMP054', NULL),
+       ('EMP055', NULL),
+       ('EMP056', NULL),
+       ('EMP057', NULL),
+       ('EMP058', NULL),
+       ('EMP059', NULL),
+       ('EMP060', NULL),
+       ('EMP061', NULL),
+       ('EMP062', NULL),
+       ('EMP063', NULL),
+       ('EMP064', NULL),
+       ('EMP065', NULL),
+       ('EMP066', NULL),
+       ('EMP067', NULL),
+       ('EMP068', NULL),
+       ('EMP069', NULL),
+       ('EMP070', NULL),
+       ('EMP071', NULL),
+       ('EMP072', NULL),
+       ('EMP073', NULL),
+       ('EMP074', NULL),
+       ('EMP075', NULL),
+       ('EMP076', NULL),
+       ('EMP077', NULL),
+       ('EMP078', NULL),
+       ('EMP079', NULL),
+       ('EMP080', NULL),
+       ('EMP081', NULL),
+       ('EMP082', NULL),
+       ('EMP083', NULL);
 
 

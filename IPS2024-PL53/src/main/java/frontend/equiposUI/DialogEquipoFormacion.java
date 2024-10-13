@@ -2,19 +2,35 @@ package frontend.equiposUI;
 
 import java.awt.BorderLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import backend.service.empleados.EmpleadoDeportivo;
+import backend.service.equipos.CategoriaEquipoFormacion;
+import backend.service.equipos.Equipo;
+import backend.service.equipos.EquipoProfesional;
+import backend.service.equipos.NivelEquipoProfesional;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DialogEquipoFormacion extends JDialog {
 
@@ -27,29 +43,31 @@ public class DialogEquipoFormacion extends JDialog {
 	private JButton btnAñadirEquipo;
 	private JPanel panelAñadir;
 	private JPanel panelEquipo;
-	private JButton btnAñadir;
+	private JButton btnAñadirJugador;
 	private JPanel panelCentroAñadir;
 	private JPanel panelAñadirJugadores;
 	private JLabel lblJugadores;
 	private JScrollPane spJugadores;
-	private JList listJugadores;
+	private JList<EmpleadoDeportivo>  listJugadores;
 	private JPanel panelAñadirEntrenadores;
 	private JLabel lblEntrenadores;
 	private JScrollPane spEntrenadores;
-	private JList listEntrenadores;
-	private JButton btnEliminar;
+	private JList<EmpleadoDeportivo>  listEntrenadores;
+	private JButton btnEliminarJugador;
 	private JPanel panelCentroEquipo;
 	private JPanel panelJugadoresEquipo;
 	private JLabel lbJugadoresAñadidos;
 	private JScrollPane spJugadoresAñadidios;
-	private JList listJugadoresEquipo;
+	private JList<EmpleadoDeportivo>  listJugadoresEquipo;
 	private JPanel panelEntrenadoresEquipo;
 	private JLabel lblEntrenadoresAñadidos;
 	private JScrollPane spEntrenadoresAñadidos;
-	private JList listEntrenadoresAñadidos;
-	private JComboBox cbCategoria;
-	private JLabel lblCategoria;
+	private JList<EmpleadoDeportivo>  listEntrenadoresAñadidos;
 	private VentanaPrincipalEquipos vpe;
+	private JButton btnAñadirEntrenador;
+	private JButton btnEliminarEntrenador;
+	private JLabel lblCategoria;
+	private JComboBox<CategoriaEquipoFormacion> cbCategorias;
 
 
 
@@ -57,7 +75,7 @@ public class DialogEquipoFormacion extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogEquipoFormacion(VentanaPrincipalEquipos vpe) {
-		setTitle("Añadir Equipo en Formación");
+		setTitle("Añadir Equipo Profesional");
 		setModal(true);
 		this.vpe = vpe;
 		setBounds(100, 100, 1060, 679);
@@ -88,9 +106,9 @@ public class DialogEquipoFormacion extends JDialog {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
 			panelNorte.setBackground(new Color(255, 255, 255));
-			panelNorte.setLayout(new BorderLayout(0, 0));
-			panelNorte.add(getCbCategoria());
-			panelNorte.add(getLblCategoria(), BorderLayout.WEST);
+			panelNorte.setLayout(new GridLayout(1, 0, 0, 0));
+			panelNorte.add(getLblCategoria());
+			panelNorte.add(getCbCategorias());
 		}
 		return panelNorte;
 	}
@@ -115,17 +133,112 @@ public class DialogEquipoFormacion extends JDialog {
 	private JButton getBtnAñadirEquipo() {
 		if (btnAñadirEquipo == null) {
 			btnAñadirEquipo = new JButton("Añadir Equipo");
+			btnAñadirEquipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (compruebaEquipo())
+						confirmarAñadirEquipo();
+					else
+						mostrarAdvertencia();
+				}
+			});
 			btnAñadirEquipo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			btnAñadirEquipo.setBackground(new Color(255, 255, 255));
 		}
 		return btnAñadirEquipo;
 	}
+	
+	/**
+	 * @return true si el equipo tiene al menos 7 jugadores y al menos 2 entrenadores
+	 */
+	private boolean compruebaEquipo() {
+		// Obtener el modelo de la lista de jugadores y verificar su tamaño
+	    DefaultListModel<EmpleadoDeportivo> jugadoresModel = (DefaultListModel<EmpleadoDeportivo>) getListJugadoresEquipo().getModel();
+	    if (jugadoresModel.getSize() < 7) {
+	        return false;
+	    }
+
+	    // Obtener el modelo de la lista de entrenadores y verificar su tamaño
+	    DefaultListModel<EmpleadoDeportivo> entrenadoresModel = (DefaultListModel<EmpleadoDeportivo>) getListEntrenadoresAñadidos().getModel();
+	    if (entrenadoresModel.getSize() < 2) {
+	        return false;
+	    }
+
+	    return true;
+	}
+	
+
+	private void confirmarAñadirEquipo() {
+	    // Mensaje de confirmación
+	    String mensaje = "<html>" +
+	                     "<h3 style='color:blue;'>¿Deseas añadir el equipo?</h3>" +
+	                     "<p>Recuerda que el orden de los entrenadores marcará su posición:</p>" +
+	                     "<ul>" +
+	                     "<li><strong>Primer Entrenador</strong></li>" +
+	                     "<li><strong>Segundo Entrenador</strong></li>" +
+	                     "<li><strong>Tercer Entrenador</strong></li>" +
+	                     "</ul>" +
+	                     "<p>Por favor, asegúrate de que el equipo cumple con los requisitos antes de proceder.</p>" +
+	                     "</html>";
+
+	    // Mostrar el JOptionPane de confirmación
+	    int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmar Añadir Equipo", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+	    // Procesar la respuesta
+	    if (respuesta == JOptionPane.YES_OPTION) {
+	    		añadeEquipo();
+	    		dispose();
+	    }
+	}
+
+
+	private void añadeEquipo() {
+		List<EmpleadoDeportivo> jugadoresEquipo = extraerJugadoresDesdeJList(getListJugadoresEquipo());
+		List<EmpleadoDeportivo> entrenadoresEquipo = extraerJugadoresDesdeJList(getListEntrenadoresAñadidos());
+		String categoria = getCbCategorias().getSelectedItem().toString();
+		
+		vpe.getGestionEquiposShared().añadeEquipoEnFormacion(jugadoresEquipo, entrenadoresEquipo, categoria);
+	}
+
+	
+	private List<EmpleadoDeportivo> extraerJugadoresDesdeJList(JList<EmpleadoDeportivo> listJugadoresEquipo) {
+	    // Crear una nueva lista para almacenar los jugadores
+	    List<EmpleadoDeportivo> jugadoresEquipo = new ArrayList<>();
+
+	    // Obtener el modelo de la JList
+	    DefaultListModel<EmpleadoDeportivo> model = (DefaultListModel<EmpleadoDeportivo>) listJugadoresEquipo.getModel();
+
+	    // Iterar sobre los elementos del modelo y agregarlos a la lista
+	    for (int i = 0; i < model.getSize(); i++) {
+	        jugadoresEquipo.add(model.getElementAt(i));
+	    }
+
+	    // Devolver la lista con los jugadores
+	    return jugadoresEquipo;
+	}
+
+	private void mostrarAdvertencia() {
+	    // Mensaje con formato
+	    String mensaje = "<html>" +
+	                     "<h3 style='color:red;'>¡Atención!</h3>" +
+	                     "<p>El número de jugadores debe ser mayor que <strong>7</strong>.</p>" +
+	                     "<p>El número de entrenadores debe ser mayor que <strong>2</strong>.</p>" +
+	                     "<p>Recuerda que el orden de los entrenadores marcará su posición:</p>" +
+	                     "<ul>" +
+	                     "<li><strong>Primer Entrenador</strong></li>" +
+	                     "<li><strong>Segundo Entrenador</strong></li>" +
+	                     "<li><strong>Tercer Entrenador</strong></li>" +
+	                     "</ul>" +
+	                     "</html>";
+
+	    // Mostrar el JOptionPane con el mensaje
+	    JOptionPane.showMessageDialog(null, mensaje, "Advertencia", JOptionPane.WARNING_MESSAGE);
+	}
+	
 	private JPanel getPanelAñadir() {
 		if (panelAñadir == null) {
 			panelAñadir = new JPanel();
 			panelAñadir.setBackground(new Color(255, 255, 255));
 			panelAñadir.setLayout(new BorderLayout(0, 0));
-			panelAñadir.add(getBtnAñadir(), BorderLayout.NORTH);
 			panelAñadir.add(getPanelCentroAñadir(), BorderLayout.CENTER);
 		}
 		return panelAñadir;
@@ -135,17 +248,47 @@ public class DialogEquipoFormacion extends JDialog {
 			panelEquipo = new JPanel();
 			panelEquipo.setBackground(new Color(255, 255, 255));
 			panelEquipo.setLayout(new BorderLayout(0, 0));
-			panelEquipo.add(getBtnEliminar(), BorderLayout.NORTH);
 			panelEquipo.add(getPanelCentroEquipo(), BorderLayout.CENTER);
 		}
 		return panelEquipo;
 	}
-	private JButton getBtnAñadir() {
-		if (btnAñadir == null) {
-			btnAñadir = new JButton("Añadir");
+	private JButton getBtnAñadirJugador() {
+		if (btnAñadirJugador == null) {
+			btnAñadirJugador = new JButton("Añadir Jugador");
+			btnAñadirJugador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					añadirJugador();
+				}
+			});
 		}
-		return btnAñadir;
+		return btnAñadirJugador;
 	}
+	
+	/**
+	 * Añade el jugador seleccionado al equipo
+	 */
+	private void añadirJugador() {
+	    // Obtener el jugador seleccionado de la lista de jugadores
+	    EmpleadoDeportivo jugadorSeleccionado = listJugadores.getSelectedValue();
+	    
+	    if (jugadorSeleccionado != null) {
+	        // Obtener el modelo de la lista de jugadores del equipo y de la lista original
+	        DefaultListModel<EmpleadoDeportivo> modeloJugadoresEquipo = (DefaultListModel<EmpleadoDeportivo>) listJugadoresEquipo.getModel();
+	        DefaultListModel<EmpleadoDeportivo> modeloJugadores = (DefaultListModel<EmpleadoDeportivo>) listJugadores.getModel();
+	        
+	        // Añadir el jugador seleccionado al modelo de la lista de jugadores del equipo
+	        modeloJugadoresEquipo.addElement(jugadorSeleccionado);
+	        
+	        // Remover el jugador del modelo de la lista de jugadores sin equipo
+	        modeloJugadores.removeElement(jugadorSeleccionado);
+	    } else {
+	        // Si no se seleccionó ningún jugador, mostrar un mensaje de error o advertencia
+	        JOptionPane.showMessageDialog(null, "Por favor, seleccione un jugador para añadir.");
+	    }
+	}
+
+
+	
 	private JPanel getPanelCentroAñadir() {
 		if (panelCentroAñadir == null) {
 			panelCentroAñadir = new JPanel();
@@ -176,15 +319,18 @@ public class DialogEquipoFormacion extends JDialog {
 		if (spJugadores == null) {
 			spJugadores = new JScrollPane();
 			spJugadores.setViewportView(getListJugadores());
+			spJugadores.setColumnHeaderView(getBtnAñadirJugador());
 		}
 		return spJugadores;
 	}
-	private JList getListJugadores() {
-		if (listJugadores == null) {
-			listJugadores = new JList();
-		}
-		return listJugadores;
+	private JList<EmpleadoDeportivo> getListJugadores() {
+	    if (listJugadores == null) {
+	        listJugadores = new JList<>(new DefaultListModel<>()); // Inicializa con DefaultListModel
+	    }
+
+	    return listJugadores;
 	}
+	
 	private JPanel getPanelAñadirEntrenadores() {
 		if (panelAñadirEntrenadores == null) {
 			panelAñadirEntrenadores = new JPanel();
@@ -206,21 +352,57 @@ public class DialogEquipoFormacion extends JDialog {
 		if (spEntrenadores == null) {
 			spEntrenadores = new JScrollPane();
 			spEntrenadores.setViewportView(getListEntrenadores());
+			spEntrenadores.setColumnHeaderView(getBtnAñadirEntrenador());
 		}
 		return spEntrenadores;
 	}
-	private JList getListEntrenadores() {
-		if (listEntrenadores == null) {
-			listEntrenadores = new JList();
-		}
-		return listEntrenadores;
+	private JList<EmpleadoDeportivo> getListEntrenadores() {
+	    if (listEntrenadores == null) {
+	        listEntrenadores = new JList<>(new DefaultListModel<>()); // Inicializa con DefaultListModel
+	    }
+	    
+	    // Obtener el modelo actual y llenarlo con los entrenadores sin equipo
+	    DefaultListModel<EmpleadoDeportivo> listModel = (DefaultListModel<EmpleadoDeportivo>) listEntrenadores.getModel();
+	    listModel.clear(); // Limpia el modelo actual
+	    
+	    for (EmpleadoDeportivo entrenador : vpe.getGestionEquiposShared().getEntrenadoresSinEquipo()) {
+	        listModel.addElement(entrenador);
+	    }
+	    
+	    return listEntrenadores;
 	}
-	private JButton getBtnEliminar() {
-		if (btnEliminar == null) {
-			btnEliminar = new JButton("Eliminar");
+	private JButton getBtnEliminarJugador() {
+		if (btnEliminarJugador == null) {
+			btnEliminarJugador = new JButton("Eliminar Jugador");
+			btnEliminarJugador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					eliminarJugador();
+				}
+			});
 		}
-		return btnEliminar;
+		return btnEliminarJugador;
 	}
+	
+	private void eliminarJugador() {
+	    // Obtener el jugador seleccionado de la lista de jugadores del equipo
+	    EmpleadoDeportivo jugadorSeleccionado = listJugadoresEquipo.getSelectedValue();
+	    
+	    if (jugadorSeleccionado != null) {
+	        // Obtener el modelo de la lista de jugadores del equipo
+	        DefaultListModel<EmpleadoDeportivo> modeloJugadoresEquipo = (DefaultListModel<EmpleadoDeportivo>) listJugadoresEquipo.getModel();
+	        
+	        // Eliminar el jugador seleccionado del modelo
+	        modeloJugadoresEquipo.removeElement(jugadorSeleccionado);
+	        
+	        // También puedes agregarlo nuevamente a la lista de jugadores sin equipo si es necesario
+	        DefaultListModel<EmpleadoDeportivo> modeloJugadores = (DefaultListModel<EmpleadoDeportivo>) listJugadores.getModel();
+	        modeloJugadores.addElement(jugadorSeleccionado);
+	    } else {
+	        // Si no se seleccionó ningún jugador, mostrar un mensaje de advertencia
+	        JOptionPane.showMessageDialog(null, "Por favor, seleccione un jugador para eliminar.");
+	    }
+	}
+
 	private JPanel getPanelCentroEquipo() {
 		if (panelCentroEquipo == null) {
 			panelCentroEquipo = new JPanel();
@@ -253,14 +435,15 @@ public class DialogEquipoFormacion extends JDialog {
 		if (spJugadoresAñadidios == null) {
 			spJugadoresAñadidios = new JScrollPane();
 			spJugadoresAñadidios.setViewportView(getListJugadoresEquipo());
+			spJugadoresAñadidios.setColumnHeaderView(getBtnEliminarJugador());
 		}
 		return spJugadoresAñadidios;
 	}
-	private JList getListJugadoresEquipo() {
-		if (listJugadoresEquipo == null) {
-			listJugadoresEquipo = new JList();
-		}
-		return listJugadoresEquipo;
+	private JList<EmpleadoDeportivo> getListJugadoresEquipo() {
+	    if (listJugadoresEquipo == null) {
+	        listJugadoresEquipo = new JList<>(new DefaultListModel<>()); // Inicializa con DefaultListModel
+	    }
+	    return listJugadoresEquipo;
 	}
 	private JPanel getPanelEntrenadoresEquipo() {
 		if (panelEntrenadoresEquipo == null) {
@@ -283,26 +466,128 @@ public class DialogEquipoFormacion extends JDialog {
 		if (spEntrenadoresAñadidos == null) {
 			spEntrenadoresAñadidos = new JScrollPane();
 			spEntrenadoresAñadidos.setViewportView(getListEntrenadoresAñadidos());
+			spEntrenadoresAñadidos.setColumnHeaderView(getBtnEliminarEntrenador());
 		}
 		return spEntrenadoresAñadidos;
 	}
-	private JList getListEntrenadoresAñadidos() {
-		if (listEntrenadoresAñadidos == null) {
-			listEntrenadoresAñadidos = new JList();
-		}
-		return listEntrenadoresAñadidos;
+	private JList<EmpleadoDeportivo> getListEntrenadoresAñadidos() {
+	    if (listEntrenadoresAñadidos == null) {
+	        listEntrenadoresAñadidos = new JList<>(new DefaultListModel<>()); // Inicializa con DefaultListModel
+	    }
+	    return listEntrenadoresAñadidos;
 	}
-	private JComboBox getCbCategoria() {
-		if (cbCategoria == null) {
-			cbCategoria = new JComboBox();
+	private JButton getBtnAñadirEntrenador() {
+		if (btnAñadirEntrenador == null) {
+			btnAñadirEntrenador = new JButton("Añadir Entrenador");
+			btnAñadirEntrenador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					añadirEntrenador();
+				}
+			});
 		}
-		return cbCategoria;
+		return btnAñadirEntrenador;
 	}
+	
+	/**
+	 * Añade un jugador a la lista de jugadores
+	 */
+	private void añadirEntrenador() {
+		 // Obtener el entrenador seleccionado de la lista de jugadores
+	    EmpleadoDeportivo entrenadorSeleccionado = listEntrenadores.getSelectedValue();
+	    
+	    if (entrenadorSeleccionado != null) {
+	        // Obtener el modelo de la lista de entrenador del equipo y de la lista original
+	        DefaultListModel<EmpleadoDeportivo> modeloEntrenadoresEquipo = (DefaultListModel<EmpleadoDeportivo>) listEntrenadoresAñadidos.getModel();
+	        DefaultListModel<EmpleadoDeportivo> modeloEntrenadores = (DefaultListModel<EmpleadoDeportivo>) listEntrenadores.getModel();
+	        
+	        // Añadir el jugador seleccionado al modelo de la lista de entrenadores del equipo
+	        modeloEntrenadoresEquipo.addElement(entrenadorSeleccionado);
+	        
+	        // Remover el jugador del modelo de la lista de entrenadores sin equipo
+	        modeloEntrenadores.removeElement(entrenadorSeleccionado);
+	    } else {
+	        // Si no se seleccionó ningún jugador, mostrar un mensaje de error o advertencia
+	        JOptionPane.showMessageDialog(null, "Por favor, seleccione un entrenador para añadir.");
+	    }
+	}
+	
+	private JButton getBtnEliminarEntrenador() {
+		if (btnEliminarEntrenador == null) {
+			btnEliminarEntrenador = new JButton("Eliminar Entrenador");
+			btnEliminarEntrenador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					eliminarEntrenador();
+				}
+			});
+		}
+		return btnEliminarEntrenador;
+	}
+	
+	private void eliminarEntrenador() {
+	    // Obtener el entrenador seleccionado de la lista de entrenadores añadidos
+	    EmpleadoDeportivo entrenadorSeleccionado = listEntrenadoresAñadidos.getSelectedValue();
+	    
+	    if (entrenadorSeleccionado != null) {
+	        // Obtener el modelo de la lista de entrenadores añadidos
+	        DefaultListModel<EmpleadoDeportivo> modeloEntrenadoresAñadidos = (DefaultListModel<EmpleadoDeportivo>) listEntrenadoresAñadidos.getModel();
+	        
+	        // Remover el entrenador seleccionado del modelo
+	        modeloEntrenadoresAñadidos.removeElement(entrenadorSeleccionado);
+	        
+	        // También puedes agregarlo nuevamente a la lista de entrenadores sin equipo si es necesario
+	        DefaultListModel<EmpleadoDeportivo> modeloEntrenadores = (DefaultListModel<EmpleadoDeportivo>) listEntrenadores.getModel();
+	        modeloEntrenadores.addElement(entrenadorSeleccionado);
+	    } else {
+	        // Si no se seleccionó ningún entrenador, mostrar un mensaje de advertencia
+	        JOptionPane.showMessageDialog(null, "Por favor, seleccione un entrenador para eliminar.");
+	    }
+	}
+
 	private JLabel getLblCategoria() {
 		if (lblCategoria == null) {
-			lblCategoria = new JLabel("Categoria: ");
-			lblCategoria.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			lblCategoria = new JLabel("Elija la Categoria del Equipo: ");
+			lblCategoria.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lblCategoria;
+	}
+	private JComboBox<CategoriaEquipoFormacion> getCbCategorias() {
+	    if (cbCategorias == null) {
+	        cbCategorias = new JComboBox<>();
+	        cbCategorias.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		eliminaJugadoresYEntrenadoresDeEquipo();
+	        		modificaListaDeJugadoresDisponibles();
+	        	}
+	        });
+
+	        // Rellenar el JComboBox con las categorías del enum
+	        for (CategoriaEquipoFormacion categoria : CategoriaEquipoFormacion.values()) {
+	            cbCategorias.addItem(categoria);
+	        }
+	        cbCategorias.setSelectedItem(CategoriaEquipoFormacion.JUVENIL);
+	    }
+	    return cbCategorias;
+	}
+	
+	private void eliminaJugadoresYEntrenadoresDeEquipo() {
+		if (listJugadoresEquipo != null) {
+	        DefaultListModel<EmpleadoDeportivo> modeloJugadores = (DefaultListModel<EmpleadoDeportivo>) listJugadoresEquipo.getModel();
+	        modeloJugadores.clear(); // Vacia la lista de jugadores
+	    }
+
+		if (listEntrenadoresAñadidos != null) {
+	        DefaultListModel<EmpleadoDeportivo> modeloEntrenadores = (DefaultListModel<EmpleadoDeportivo>) listEntrenadoresAñadidos.getModel();
+	        modeloEntrenadores.clear(); // Vacia la lista de entrenadores
+	    }
+	}
+	
+	private void modificaListaDeJugadoresDisponibles() {
+		if (listJugadores != null) {
+			DefaultListModel<EmpleadoDeportivo> listModel = (DefaultListModel<EmpleadoDeportivo>) listJugadores.getModel();
+		    listModel.clear(); // Limpia el modelo actual
+		    for (EmpleadoDeportivo jugador : vpe.getGestionEquiposShared().getJugadoresSinEquipoEnRangoEdad(getCbCategorias().getSelectedItem().toString())) {
+		        listModel.addElement(jugador);
+		    }
+		}
 	}
 }
