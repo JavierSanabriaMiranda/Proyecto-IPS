@@ -25,6 +25,7 @@ public class PanelHora extends JPanel {
 	private JLabel lbHora;
 	private JLabel lbEstado;
 	private Component horizontalStrut;
+	private Component horizontalStrut_1;
 
 	/**
 	 * Create the panel.
@@ -32,7 +33,8 @@ public class PanelHora extends JPanel {
 	public PanelHora() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		add(getHorizontalStrut_1());
 		add(getLbHora());
 		add(getHorizontalStrut());
 		add(getLbEstado());
@@ -68,5 +70,11 @@ public class PanelHora extends JPanel {
 			horizontalStrut = Box.createHorizontalStrut(20);
 		}
 		return horizontalStrut;
+	}
+	private Component getHorizontalStrut_1() {
+		if (horizontalStrut_1 == null) {
+			horizontalStrut_1 = Box.createHorizontalStrut(20);
+		}
+		return horizontalStrut_1;
 	}
 }

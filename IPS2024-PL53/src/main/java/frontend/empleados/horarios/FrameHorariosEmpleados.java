@@ -44,6 +44,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class FrameHorariosEmpleados extends JFrame {
 
@@ -200,6 +202,12 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JDateChooser getClFecha() {
 		if (clFecha == null) {
 			clFecha = new JDateChooser();
+			clFecha.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					if (!listEmpleados.isSelectionEmpty() && getClFecha().getDate() != null)
+						mostrarHorarioEmpleado();
+				}
+			});
 			// Establece el JDateChooser como no editable por teclado y le cambia el color
 			JTextField textCalendar = (JTextField) clFecha.getDateEditor().getUiComponent();
 			textCalendar.setEnabled(false);
@@ -225,7 +233,6 @@ public class FrameHorariosEmpleados extends JFrame {
 			pnHorario.setBackground(new Color(255, 255, 255));
 			pnHorario.setLayout(new BorderLayout(0, 0));
 			pnHorario.add(getPnModHorario(), BorderLayout.WEST);
-			pnHorario.add(getPnTablaHorario(), BorderLayout.CENTER);
 			pnHorario.add(getScTablaHorario(), BorderLayout.CENTER);
 		}
 		return pnHorario;
