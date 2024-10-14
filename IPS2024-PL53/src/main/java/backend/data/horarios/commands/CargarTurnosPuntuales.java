@@ -48,7 +48,6 @@ public class CargarTurnosPuntuales {
 	        dto.horaFin = fin.toLocalTime();
 	        
 	        dto.idEmp = (String) fila.get("idEmp");
-	        dto.codHorario = (String) fila.get("codHorario");
 	        
 	        Date dia = (Date) fila.get("dia");
 	        dto.dia = dia.toLocalDate();

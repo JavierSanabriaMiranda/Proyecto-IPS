@@ -45,7 +45,6 @@ public class CargarTurnosSemanales {
 	        dto.horaFin = fin.toLocalTime();
 	        
 			dto.idEmp = (String) fila.get("idEmp");
-	        dto.codHorario = (String) fila.get("codHorario");
 	        
 	        // Conversión de int a dia de la semana
 	        int diaSemana = (int) fila.get("diaSemana");

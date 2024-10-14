@@ -48,6 +48,7 @@ import java.awt.GridLayout;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -420,7 +421,28 @@ public class FrameHorariosEmpleados extends JFrame {
 	}
 	
 	private void addTurno() {
-		if (cumpleCondiciones());
+		boolean adicionCorrecta = false;
+		
+		if (cumpleCondiciones()) {
+			EmpleadoNoDeportivo empleado = getListEmpleados().getSelectedValue();
+			LocalTime hInicio = DateToLocalTime.convertDateToLocalTime((Date) getSpHoraInicio().getValue());
+			LocalTime hFin = DateToLocalTime.convertDateToLocalTime((Date) getSpHoraFin().getValue());
+			LocalDate dia = DateToLocalDate.convertToLocalDate(getClFecha().getDate());
+			
+			if (getRdbtPuntual().isSelected()) {
+				adicionCorrecta = gesHor.addTurnoPuntual(empleado, hInicio, hFin, dia);
+			}
+			else {
+				DayOfWeek diaSemana = dia.getDayOfWeek();
+				adicionCorrecta = gesHor.addTurnoSemanal(empleado, hInicio, hFin, diaSemana);
+			}
+		}
+		if (adicionCorrecta)
+			JOptionPane.showMessageDialog(this, "Se ha añadido el turno correctamente",
+					"Éxito al Añadir Turno", JOptionPane.INFORMATION_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(this, "Se ha superado el límite de horas (8h diarias o 40h semanales)",
+					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private boolean cumpleCondiciones() {

@@ -1,6 +1,8 @@
 package backend.service.empleados.nodeportivos;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -151,6 +153,18 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		if (!empNoDeportivos.containsKey(idEmp))
 			throw new IllegalArgumentException("No hay un empleado no deportivo con dicho id");
 		return empNoDeportivos.get(idEmp);
+	}
+
+	@Override
+	public boolean addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
+		return emp.getHorario().addAHorarioSemanal(hInicio, hFin, diaSemana);
+	}
+
+	@Override
+	public boolean addTurnoPuntual(String idEmp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
+		return emp.getHorario().addAHorarioPuntual(hInicio, hFin, dia);
 	}
 
 

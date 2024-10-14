@@ -1,12 +1,15 @@
 package shared.gestionhorarios;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import backend.data.CreadorDataService;
 import backend.data.empleados.DtoAssembler;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.data.horarios.HorarioCRUDService;
+import backend.data.horarios.TurnoDTO;
 import backend.data.horarios.TurnoPuntualDTO;
 import backend.data.horarios.TurnoSemanalDTO;
 import backend.service.empleados.EmpleadoNoDeportivo;
@@ -31,7 +34,42 @@ public class GestionHorariosShared {
 	public List<EmpleadoNoDeportivo> getEmpleadosNoDeportivosFromGestor() {
 		return gestor.getEmpleadosNoDeportivos();
 	}
+	
+	public boolean addTurnoSemanal(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+		boolean adicionCorrecta = gestor.addTurnoSemanal(emp.getIDEmpleado(), hInicio, hFin, diaSemana);
+		if (!adicionCorrecta)
+			return adicionCorrecta;
+		addTurnoSemanalABBDD(emp, hInicio, hFin, diaSemana);
+		return adicionCorrecta;
+	}
+	
+	private void addTurnoSemanalABBDD(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+		TurnoSemanalDTO dto = new TurnoSemanalDTO();
+		dto.idEmp = emp.getIDEmpleado();
+		dto.horaInicio = hInicio;
+		dto.horaFin = hFin;
+		dto.diaSemana = diaSemana;
+		
+		serviceHor.addTurnoSemanal(dto);
+	}
 
+	public boolean addTurnoPuntual(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+		boolean adicionCorrecta = gestor.addTurnoPuntual(emp.getIDEmpleado(), hInicio, hFin, dia);
+		if (!adicionCorrecta)
+			return adicionCorrecta;
+		addTurnoPuntual(emp, hInicio, hFin, dia);
+		return adicionCorrecta;
+	}
+	
+	private void addTurnoPuntualABBDD(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+		TurnoPuntualDTO dto = new TurnoPuntualDTO();
+		dto.idEmp = emp.getIDEmpleado();
+		dto.horaInicio = hInicio;
+		dto.horaFin = hFin;
+		dto.dia = dia;
+		
+		serviceHor.addTurnoPuntual(dto);
+	}
 	
 	private void cargarEmpleadosNoDeportivosDeBBDD() {
 		List<EmpleadoNoDeportivo> empleados = DtoAssembler.dtoToEmpleadoNoDeportivo(serviceEmp.cargarEmpleadosNoDeportivos());

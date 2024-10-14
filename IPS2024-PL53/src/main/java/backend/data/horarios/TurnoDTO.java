@@ -8,7 +8,6 @@ public class TurnoDTO {
 	public LocalTime horaInicio;
 	public LocalTime horaFin;
 	public String idEmp;
-	public String codHorario;
 
 
 }

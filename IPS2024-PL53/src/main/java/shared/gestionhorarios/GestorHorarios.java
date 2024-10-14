@@ -1,9 +1,10 @@
 package shared.gestionhorarios;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
-import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 
@@ -24,4 +25,8 @@ public interface GestorHorarios {
 	List<Turno> getHorarioDia(EmpleadoNoDeportivo emp, LocalDate fecha);
 
 	EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmp);
+	
+	boolean addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana);
+
+	boolean addTurnoPuntual(String idEmpleado, LocalTime hInicio, LocalTime hFin, LocalDate dia);
 }
