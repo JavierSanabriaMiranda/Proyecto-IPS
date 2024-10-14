@@ -10,6 +10,7 @@ import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import shared.gestionhorarios.GestionHorariosShared;
 import util.DateToLocalDate;
+import util.DateToLocalTime;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +18,8 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.border.LineBorder;
 
@@ -28,9 +31,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -43,9 +49,16 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.beans.PropertyChangeEvent;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class FrameHorariosEmpleados extends JFrame {
 
@@ -76,9 +89,11 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JLabel lbModificarTurnos;
 	private JSpinner spHoraInicio;
 	private JSpinner spHoraFin;
-	private JButton btBorrar;
-	private JButton btAdd;
+	private JButton btAddSemanal;
 	private JScrollPane scTablaHorario;
+	private JRadioButton rdbtSemanal;
+	private JRadioButton rdbtPuntual;
+	private ButtonGroup grupoBt = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -275,9 +290,9 @@ public class FrameHorariosEmpleados extends JFrame {
 			pnModHorario.setBackground(new Color(255, 255, 255));
 			GridBagLayout gbl_pnModHorario = new GridBagLayout();
 			gbl_pnModHorario.columnWidths = new int[]{21, 0, 46, 0};
-			gbl_pnModHorario.rowHeights = new int[]{41, 0, 44, 0, 0, 55, 0, 0, 0};
+			gbl_pnModHorario.rowHeights = new int[]{41, 0, 44, 0, 0, 55, 0, 0, 0, 0};
 			gbl_pnModHorario.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-			gbl_pnModHorario.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_pnModHorario.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 			pnModHorario.setLayout(gbl_pnModHorario);
 			GridBagConstraints gbc_lbModificarTurnos = new GridBagConstraints();
 			gbc_lbModificarTurnos.insets = new Insets(0, 0, 5, 5);
@@ -306,18 +321,24 @@ public class FrameHorariosEmpleados extends JFrame {
 			gbc_spHoraFin.gridx = 2;
 			gbc_spHoraFin.gridy = 4;
 			pnModHorario.add(getSpHoraFin(), gbc_spHoraFin);
-			GridBagConstraints gbc_btBorrar = new GridBagConstraints();
-			gbc_btBorrar.fill = GridBagConstraints.HORIZONTAL;
-			gbc_btBorrar.insets = new Insets(0, 0, 5, 5);
-			gbc_btBorrar.gridx = 1;
-			gbc_btBorrar.gridy = 6;
-			pnModHorario.add(getBtBorrar(), gbc_btBorrar);
-			GridBagConstraints gbc_btAdd = new GridBagConstraints();
-			gbc_btAdd.fill = GridBagConstraints.HORIZONTAL;
-			gbc_btAdd.insets = new Insets(0, 0, 0, 5);
-			gbc_btAdd.gridx = 1;
-			gbc_btAdd.gridy = 7;
-			pnModHorario.add(getBtAdd(), gbc_btAdd);
+			GridBagConstraints gbc_rdbtSemanal = new GridBagConstraints();
+			gbc_rdbtSemanal.anchor = GridBagConstraints.WEST;
+			gbc_rdbtSemanal.insets = new Insets(0, 0, 5, 5);
+			gbc_rdbtSemanal.gridx = 1;
+			gbc_rdbtSemanal.gridy = 6;
+			pnModHorario.add(getRdbtSemanal(), gbc_rdbtSemanal);
+			GridBagConstraints gbc_rdbtPuntual = new GridBagConstraints();
+			gbc_rdbtPuntual.anchor = GridBagConstraints.WEST;
+			gbc_rdbtPuntual.insets = new Insets(0, 0, 5, 5);
+			gbc_rdbtPuntual.gridx = 1;
+			gbc_rdbtPuntual.gridy = 7;
+			pnModHorario.add(getRdbtPuntual(), gbc_rdbtPuntual);
+			GridBagConstraints gbc_btAddSemanal = new GridBagConstraints();
+			gbc_btAddSemanal.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btAddSemanal.insets = new Insets(0, 0, 0, 5);
+			gbc_btAddSemanal.gridx = 1;
+			gbc_btAddSemanal.gridy = 8;
+			pnModHorario.add(getBtAddSemanal(), gbc_btAddSemanal);
 		}
 		return pnModHorario;
 	}
@@ -352,41 +373,87 @@ public class FrameHorariosEmpleados extends JFrame {
 	}
 	private JSpinner getSpHoraInicio() {
 		if (spHoraInicio == null) {
-			spHoraInicio = new JSpinner();
+			 // Modelo de spinner con Date
+	        SpinnerDateModel spinnerModel = new SpinnerDateModel();
+	        spHoraInicio = new JSpinner(spinnerModel);
+	        
+	        Date horaInicial;
+	        try {
+	        	horaInicial = new SimpleDateFormat("HH:mm").parse("00:00");
+            } catch (Exception e) {
+                throw new RuntimeException("Error al parsear las horas.", e);
+            }
+			
 			spHoraInicio.setFont(new Font("Arial", Font.PLAIN, 12));
-			// Se establece el formato del Spinner a Horas
-			spHoraInicio.setModel(new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.DAY_OF_MONTH));
-			JSpinner.DateEditor editor = new JSpinner.DateEditor(spHoraInicio, "HH:mm");
-			spHoraInicio.setEditor(editor);
+	        // Formatear el spinner para que muestre HH:mm
+	        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spHoraInicio, "HH:mm");
+	        spHoraInicio.setEditor(timeEditor);
+	        spHoraInicio.setValue(horaInicial);
 		}
 		return spHoraInicio;
 	}
+	
+
 	private JSpinner getSpHoraFin() {
 		if (spHoraFin == null) {
-			spHoraFin = new JSpinner();
+			 // Modelo de spinner con Date
+	        SpinnerDateModel spinnerModel = new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.HOUR_OF_DAY);
+			spHoraFin = new JSpinner(spinnerModel);
 			spHoraFin.setFont(new Font("Arial", Font.PLAIN, 12));
-			// Se establece el formato del Spinner a Horas
-			spHoraFin.setModel(new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.DAY_OF_MONTH));
-			JSpinner.DateEditor editor = new JSpinner.DateEditor(spHoraFin, "HH:mm");
-			spHoraFin.setEditor(editor);
+	        // Formatear el spinner para que muestre HH:mm
+	        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spHoraFin, "HH:mm");
+	        spHoraFin.setEditor(timeEditor);
 		}
 		return spHoraFin;
 	}
-	private JButton getBtBorrar() {
-		if (btBorrar == null) {
-			btBorrar = new JButton("Eliminar");
-			btBorrar.setFont(new Font("Arial", Font.PLAIN, 12));
+	private JButton getBtAddSemanal() {
+		if (btAddSemanal == null) {
+			btAddSemanal = new JButton("Añadir");
+			btAddSemanal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					addTurno();
+				}
+			});
+			btAddSemanal.setFont(new Font("Arial", Font.PLAIN, 12));
 		}
-		return btBorrar;
-	}
-	private JButton getBtAdd() {
-		if (btAdd == null) {
-			btAdd = new JButton("Añadir");
-			btAdd.setFont(new Font("Arial", Font.PLAIN, 12));
-		}
-		return btAdd;
+		return btAddSemanal;
 	}
 	
+	private void addTurno() {
+		if (cumpleCondiciones());
+	}
+
+	private boolean cumpleCondiciones() {
+		if (getClFecha().getDate() == null)  {
+			JOptionPane.showMessageDialog(this, "Se debe seleccionar la fecha para el turno",
+					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!getRdbtPuntual().isSelected() && !getRdbtSemanal().isSelected()) {
+			JOptionPane.showMessageDialog(this, "Se debe seleccionar el tipo de turno (Semanal o Puntual)",
+					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (getListEmpleados().isSelectionEmpty()) {
+			JOptionPane.showMessageDialog(this, "Se debe seleccionar al empleado al que asignar el turno",
+					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		
+		Date inicio = (Date) getSpHoraInicio().getValue();
+		Date fin = (Date) getSpHoraFin().getValue();
+
+		System.out.println("Converted LocalTime: " + inicio + " / " + fin); // Imprime el LocalTime convertido
+		
+		if (inicio.after(fin) || inicio.equals(fin)) {
+			JOptionPane.showMessageDialog(this, "La hora de inicio debe ser inferior a la hora de final del turno",
+					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;	
+	}
+
 	private void inicializarPanel() {
 		// Establecemos los Spinners a 00:00
 		spHoraInicio = null;
@@ -437,5 +504,23 @@ public class FrameHorariosEmpleados extends JFrame {
 			scTablaHorario.setViewportView(getPnTablaHorario());
 		}
 		return scTablaHorario;
+	}
+	private JRadioButton getRdbtSemanal() {
+		if (rdbtSemanal == null) {
+			rdbtSemanal = new JRadioButton("Semanal");
+			rdbtSemanal.setBackground(new Color(255, 255, 255));
+			rdbtSemanal.setFont(new Font("Arial", Font.PLAIN, 12));
+			grupoBt.add(rdbtSemanal);
+		}
+		return rdbtSemanal;
+	}
+	private JRadioButton getRdbtPuntual() {
+		if (rdbtPuntual == null) {
+			rdbtPuntual = new JRadioButton("Puntual");
+			rdbtPuntual.setBackground(new Color(255, 255, 255));
+			rdbtPuntual.setFont(new Font("Arial", Font.PLAIN, 12));
+			grupoBt.add(rdbtPuntual);
+		}
+		return rdbtPuntual;
 	}
 }

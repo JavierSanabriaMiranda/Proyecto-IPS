@@ -31,6 +31,7 @@ public class GestionHorariosShared {
 	public List<EmpleadoNoDeportivo> getEmpleadosNoDeportivosFromGestor() {
 		return gestor.getEmpleadosNoDeportivos();
 	}
+
 	
 	private void cargarEmpleadosNoDeportivosDeBBDD() {
 		List<EmpleadoNoDeportivo> empleados = DtoAssembler.dtoToEmpleadoNoDeportivo(serviceEmp.cargarEmpleadosNoDeportivos());
