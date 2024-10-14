@@ -18,7 +18,7 @@ public class FindAllPartidos {
 	private Database db = new Database();
 	
 	
-	public List<PartidoDTO> execute() throws SQLException{
+	public List<PartidoDTO> execute() {
 			Connection c = null;
 			PreparedStatement pst = null;
 			ResultSet rs = null;

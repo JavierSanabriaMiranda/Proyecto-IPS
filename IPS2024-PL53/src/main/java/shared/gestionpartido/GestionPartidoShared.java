@@ -9,9 +9,11 @@ import backend.data.partidos.PartidoDTO;
 import backend.data.partidos.PartidosCRUDService;
 
 public class GestionPartidoShared {
+	
+	PartidosCRUDService service = CreadorDataService.getPartidosService();
 
 	public Date[][] getTodosPartidos() {
-		PartidosCRUDService service = CreadorDataService.getPartidosService();
+		service = CreadorDataService.getPartidosService();
 		List<PartidoDTO> partidos = service.findAllPartidos();
 		
 		Date[][] partidosFechas = new Date[partidos.size()][3];
@@ -26,7 +28,15 @@ public class GestionPartidoShared {
 	}
 	
 	public String getIdPartidoByFechaInicioFin(Date fecha, Time inicio, Time fin) {
-		PartidosCRUDService service = CreadorDataService.getPartidosService();
+		service = CreadorDataService.getPartidosService();
 		return service.findIdByFechaInicioFin(fecha, inicio, fin);
+	}
+	
+	private List<PartidoDTO> getPartidosDentroRangoHoras(Date fecha, Time inicio, Time fin) {
+		return service.findPartidoByRangoHora(fecha, inicio, fin);
+	}
+	
+	public boolean checkExistePartidoRangoHora(Date fecha, Time inicio, Time fin) {
+		return getPartidosDentroRangoHoras(fecha, inicio, fin).size() > 0;
 	}
 }

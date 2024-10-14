@@ -8,6 +8,8 @@ import backend.data.horarios.HorarioCRUDImpl;
 import backend.data.horarios.HorarioCRUDService;
 import backend.data.entradas.EntradasCRUDImpl;
 import backend.data.entradas.EntradasCRUDService;
+import backend.data.entrenamientos.EntrenamientoCRUDImpl;
+import backend.data.entrenamientos.EntrenamientoCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.EquipoCRUDServiceImpl;
 import backend.data.merchandising.MerchandisingCRUDImpl;
@@ -55,5 +57,9 @@ public class CreadorDataService {
 
 	public static MerchandisingCRUDService getMerchandisingService() {
 		return new MerchandisingCRUDImpl();
+	}
+	
+	public static EntrenamientoCRUDService getEntrenamientoService() {
+		return new EntrenamientoCRUDImpl();
 	}
 }

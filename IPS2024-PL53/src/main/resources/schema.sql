@@ -11,6 +11,8 @@
 -- fallos SQL por borrado de tablas que estan referenciadas en otras tablas
 
 ------- ZONA DE DROPS -------
+DROP TABLE ENTREVISTA;
+DROP TABLE FRANJA_ENTREVISTA;
 DROP TABLE ENTRADA;
 DROP TABLE PARTIDO;
 DROP TABLE ABONO_TEMPORADA;
