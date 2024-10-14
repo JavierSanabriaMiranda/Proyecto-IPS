@@ -38,14 +38,14 @@ public class HorarioEmpleado implements Horario {
 	}
 
 	@Override
-	public boolean addAHorarioPuntual(LocalTime inicio, LocalTime fin, LocalDate dia) {
+	public TurnoPuntual addAHorarioPuntual(LocalTime inicio, LocalTime fin, LocalDate dia) {
 		long horas = Duration.between(inicio, fin).toHours();
 		if (isTurnoPuntualPermitido(dia, horas)) {
 			TurnoPuntual turnoNuevo = new TurnoPuntual(UUID.randomUUID().toString(), inicio, fin, dia);
 			addTurnoPuntual(turnoNuevo);
-			return true;
+			return turnoNuevo;
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -65,14 +65,14 @@ public class HorarioEmpleado implements Horario {
 	}
 
 	@Override
-	public boolean addAHorarioSemanal(LocalTime inicio, LocalTime fin, DayOfWeek diaSemana) {
+	public TurnoSemanal addAHorarioSemanal(LocalTime inicio, LocalTime fin, DayOfWeek diaSemana) {
 		long horas = Duration.between(inicio, fin).toHours();
 		if (isTurnoSemanalPermitido(diaSemana, horas)) {
 			TurnoSemanal turnoNuevo = new TurnoSemanal(UUID.randomUUID().toString(), inicio, fin, diaSemana);
 			addTurnoSemanal(turnoNuevo);
-			return true;
+			return turnoNuevo;
 		}
-		return false;
+		return null;
 	}
 	
 	private void addTurnoSemanal(TurnoSemanal turnoNuevo) {

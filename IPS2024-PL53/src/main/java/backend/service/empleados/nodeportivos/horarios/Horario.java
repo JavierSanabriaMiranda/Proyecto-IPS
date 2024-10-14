@@ -18,6 +18,14 @@ public interface Horario {
 	List<Turno> getHorarioDia(LocalDate dia);
 	Collection<List<TurnoSemanal>> getHorarioSemanal();
 	Collection<List<TurnoPuntual>> getHorarioPuntual();
-	boolean addAHorarioPuntual(LocalTime inicio, LocalTime fin, LocalDate dia);
-	boolean addAHorarioSemanal(LocalTime inicio, LocalTime fin, DayOfWeek diaSemana);
+	/**
+	 * Añade un turno puntual nuevo al horario del empleado y retorna dicho turno nuevo o null si no se 
+	 * ha podido crear
+	 */
+	TurnoPuntual addAHorarioPuntual(LocalTime inicio, LocalTime fin, LocalDate dia);
+	/**
+	 * Añade un turno semanal nuevo al horario del empleado y retorna dicho turno nuevo o null si no se 
+	 * ha podido crear
+	 */
+	TurnoSemanal addAHorarioSemanal(LocalTime inicio, LocalTime fin, DayOfWeek diaSemana);
 }

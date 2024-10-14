@@ -7,6 +7,8 @@ import java.util.List;
 
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.horarios.Turno;
+import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
+import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 
 public interface GestorHorarios {
 	
@@ -26,7 +28,7 @@ public interface GestorHorarios {
 
 	EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmp);
 	
-	boolean addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana);
+	TurnoSemanal addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana);
 
-	boolean addTurnoPuntual(String idEmpleado, LocalTime hInicio, LocalTime hFin, LocalDate dia);
+	TurnoPuntual addTurnoPuntual(String idEmpleado, LocalTime hInicio, LocalTime hFin, LocalDate dia);
 }

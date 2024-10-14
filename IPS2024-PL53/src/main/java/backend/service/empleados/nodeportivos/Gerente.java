@@ -15,6 +15,8 @@ import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
 import backend.service.empleados.nodeportivos.horarios.Turno;
+import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
+import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionhorarios.GestorHorarios;
@@ -156,13 +158,13 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	}
 
 	@Override
-	public boolean addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+	public TurnoSemanal addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
 		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
 		return emp.getHorario().addAHorarioSemanal(hInicio, hFin, diaSemana);
 	}
 
 	@Override
-	public boolean addTurnoPuntual(String idEmp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+	public TurnoPuntual addTurnoPuntual(String idEmp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
 		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
 		return emp.getHorario().addAHorarioPuntual(hInicio, hFin, dia);
 	}

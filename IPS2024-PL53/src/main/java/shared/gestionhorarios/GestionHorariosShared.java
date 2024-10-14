@@ -15,6 +15,8 @@ import backend.data.horarios.TurnoSemanalDTO;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.empleados.nodeportivos.horarios.Turno;
+import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
+import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 
 public class GestionHorariosShared {
 
@@ -35,16 +37,22 @@ public class GestionHorariosShared {
 		return gestor.getEmpleadosNoDeportivos();
 	}
 	
+	/**
+	 * Añade el turno tanto al empleado seleccionado como a la base de datos
+	 * @return true si se ha podido añadir el turno (cumple las restricciones de horas) false en caso contrario
+	 */
 	public boolean addTurnoSemanal(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
-		boolean adicionCorrecta = gestor.addTurnoSemanal(emp.getIDEmpleado(), hInicio, hFin, diaSemana);
-		if (!adicionCorrecta)
-			return adicionCorrecta;
-		addTurnoSemanalABBDD(emp, hInicio, hFin, diaSemana);
-		return adicionCorrecta;
+		TurnoSemanal turno = gestor.addTurnoSemanal(emp.getIDEmpleado(), hInicio, hFin, diaSemana);
+		if (turno == null)
+			return false;
+		
+		addTurnoSemanalABBDD(turno.getIDTurno(), emp, hInicio, hFin, diaSemana);
+		return true;
 	}
 	
-	private void addTurnoSemanalABBDD(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+	private void addTurnoSemanalABBDD(String idTurno, EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
 		TurnoSemanalDTO dto = new TurnoSemanalDTO();
+		dto.idTurno = idTurno;
 		dto.idEmp = emp.getIDEmpleado();
 		dto.horaInicio = hInicio;
 		dto.horaFin = hFin;
@@ -53,16 +61,21 @@ public class GestionHorariosShared {
 		serviceHor.addTurnoSemanal(dto);
 	}
 
+	/**
+	 * Añade el turno tanto al empleado seleccionado como a la base de datos
+	 * @return true si se ha podido añadir el turno (cumple las restricciones de horas) false en caso contrario
+	 */
 	public boolean addTurnoPuntual(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
-		boolean adicionCorrecta = gestor.addTurnoPuntual(emp.getIDEmpleado(), hInicio, hFin, dia);
-		if (!adicionCorrecta)
-			return adicionCorrecta;
-		addTurnoPuntual(emp, hInicio, hFin, dia);
-		return adicionCorrecta;
+		TurnoPuntual turno = gestor.addTurnoPuntual(emp.getIDEmpleado(), hInicio, hFin, dia);
+		if (turno == null)
+			return false;
+		addTurnoPuntualABBDD(turno.getIDTurno(), emp, hInicio, hFin, dia);
+		return true;
 	}
 	
-	private void addTurnoPuntualABBDD(EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+	private void addTurnoPuntualABBDD(String idTurno, EmpleadoNoDeportivo emp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
 		TurnoPuntualDTO dto = new TurnoPuntualDTO();
+		dto.idTurno = idTurno;
 		dto.idEmp = emp.getIDEmpleado();
 		dto.horaInicio = hInicio;
 		dto.horaFin = hFin;
