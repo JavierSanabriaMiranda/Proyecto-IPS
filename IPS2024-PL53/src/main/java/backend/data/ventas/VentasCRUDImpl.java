@@ -1,5 +1,8 @@
 package backend.data.ventas;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import backend.data.ventas.commands.AddClienteReserva;
@@ -7,6 +10,7 @@ import backend.data.ventas.commands.AddReserva;
 import backend.data.ventas.commands.AddVentas;
 import backend.data.ventas.commands.CargarReservas;
 import backend.data.ventas.commands.FindByCodVentas;
+import backend.data.ventas.commands.FindVentasFechas;
 
 public class VentasCRUDImpl implements VentasCRUDService {
 
@@ -33,6 +37,17 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	@Override
 	public List<ReservaDto> cargarReservas() {
 		return new CargarReservas().execute();
+	}
+
+	@Override
+	public List<VentaDto> findVentasFechas(Date inicio, Date fin) {
+		List<VentaDto> res = new ArrayList<>();
+		try {
+			res =  new FindVentasFechas(inicio,fin).execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return res;
 	}
 
 }

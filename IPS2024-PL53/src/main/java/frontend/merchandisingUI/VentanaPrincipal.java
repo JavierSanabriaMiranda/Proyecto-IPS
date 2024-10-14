@@ -461,20 +461,23 @@ public class VentanaPrincipal extends JFrame {
 	public JTable getTableResumenPedido() {
 	    if (tableResumenPedido == null) {
 	        String[] columnNames = {"Producto", "Cantidad", "Precio Unitario", "Total"};
-	        tableModelResumen = new DefaultTableModel(columnNames, 0) {
-				private static final long serialVersionUID = 1L;
-				@Override
-	            public boolean isCellEditable(int row, int column) {
-	                return false; // Todas las celdas no son editables
-	            }
-	        };
+	        tableModelResumen = new DefaultTableModel(columnNames, 0);
 	        tableResumenPedido = new JTable(tableModelResumen);
 	        tableResumenPedido.setFillsViewportHeight(true);
 	        tableResumenPedido.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	        tableResumenPedido.setRowHeight(25);
+	        tableResumenPedido.setFocusable(false);
+	        tableResumenPedido.setRowSelectionAllowed(false);
+	        tableResumenPedido.setColumnSelectionAllowed(false);
+	        tableResumenPedido.setCellSelectionEnabled(false);
+	        tableResumenPedido.getTableHeader().setReorderingAllowed(false); // Deshabilitar reordenamiento de columnas
+	        tableResumenPedido.getTableHeader().setResizingAllowed(false);   // Deshabilitar redimensionamiento de columnas
+	        tableResumenPedido.setEnabled(false); // Desactivar completamente la tabla
 	    }
 	    return tableResumenPedido;
 	}
+
+
 	
 	private JLabel getLbResumen() {
 		if (lbResumen == null) {

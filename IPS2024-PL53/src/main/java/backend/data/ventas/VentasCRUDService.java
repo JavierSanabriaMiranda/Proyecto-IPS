@@ -1,5 +1,6 @@
 package backend.data.ventas;
 
+import java.util.Date;
 import java.util.List;
 
 public interface VentasCRUDService {
@@ -13,4 +14,6 @@ public interface VentasCRUDService {
 	void addCliente(ClienteReservaDto dto);
 
 	List<ReservaDto> cargarReservas();
+
+	List<VentaDto> findVentasFechas(Date inicio, Date fin);
 }

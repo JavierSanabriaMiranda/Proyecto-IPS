@@ -18,6 +18,11 @@ public class VentaDto {
 		this.coste=coste;
 	}
 	
+	public VentaDto(Date fecha,float coste) {
+		this.fecha=fecha;
+		this.coste=coste;
+	}
+	
 	public String getIdVenta() {return idVenta;}
 	public void setIdVenta(String idVenta) {this.idVenta = idVenta;}
 	
@@ -28,6 +33,6 @@ public class VentaDto {
 	public void setFecha(Date fecha) {this.fecha = fecha;}
 
 	public float getCoste() {return coste;}
-	public void setCoste(float coste) {this.coste = coste;}	
+	public void setCoste(float coste) {this.coste = coste;}
 }
 
