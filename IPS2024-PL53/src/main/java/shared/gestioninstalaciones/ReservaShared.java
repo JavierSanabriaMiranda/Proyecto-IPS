@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import backend.data.entrenamientos.EntrenamientoCRUDService;
-import backend.data.entrenamientos.EntrenamientoCRUDServiceImpl;
+import backend.data.entrenamientos.EntrenamientoCRUDImpl;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.ventas.ClienteReservaDto;
 import backend.data.ventas.ReservaDto;
@@ -59,7 +59,7 @@ public class ReservaShared {
 	}
 
 	private List<Entrenamiento> cargarEntrenamientos() {
-		EntrenamientoCRUDService service = new EntrenamientoCRUDServiceImpl();
+		EntrenamientoCRUDService service = new EntrenamientoCRUDImpl();
 		DtoAssemblerEntrenamientos assembler = new DtoAssemblerEntrenamientos(this);
 		return assembler.dtoToEntrenamiento(service.cargarEntrenamientos());
 	}
