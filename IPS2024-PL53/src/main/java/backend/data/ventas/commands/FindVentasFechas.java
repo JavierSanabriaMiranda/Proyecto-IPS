@@ -93,7 +93,7 @@ public class FindVentasFechas {
         }
         
         // Comprobar en RESERVA DE INSTALACIONES
-        /* try (Connection c = db.getConnection();
+        try (Connection c = db.getConnection();
              PreparedStatement pst = c.prepareStatement("SELECT 1 FROM RESERVA WHERE COD_RESERVA = ?")) {
             pst.setString(1, idVenta);
             try (ResultSet rs = pst.executeQuery()) {
@@ -101,7 +101,7 @@ public class FindVentasFechas {
                     return "Reserva de Instalaciones";
                 }
             }
-        }*/
+        }
         
         return "Otro";
     }
