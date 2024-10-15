@@ -55,11 +55,11 @@ CREATE TABLE VENTAS (
 
 CREATE TABLE EMPLEADO_NO_DEPORTIVO (
 	ID_EMPLEADO_NO_DEP varchar(10),
-    DNI varchar(9),
+    DNI varchar(20),
     NOMBRE varchar (15),
     APELLIDO varchar(15),
     FECHA_NACIMIENTO date,
-    TELEFONO varchar(9),
+    TELEFONO varchar(20),
     POSICION varchar(40),
     SALARIO_ANUAL decimal(20,2),
     CONSTRAINT PK_EMP_NO_DEP PRIMARY KEY (ID_EMPLEADO_NO_DEP),
@@ -101,12 +101,12 @@ CREATE TABLE TURNO_PUNTUAL (
 
 CREATE TABLE EMPLEADO_DEPORTIVO (
 	ID_EMPLEADO_DEP varchar(10),
-    DNI varchar(9),
+    DNI varchar(20),
     NOMBRE varchar (15),
     APELLIDO varchar(15),
     FECHA_NACIMIENTO date,
-    TELEFONO varchar(9),
-    SALARIO_ANUAL decimal(8,2),
+    TELEFONO varchar(20),
+    SALARIO_ANUAL decimal(20,2),
     CONSTRAINT PK_EMP_DEP PRIMARY KEY (ID_EMPLEADO_DEP)
 );
 
