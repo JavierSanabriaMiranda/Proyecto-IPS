@@ -12,21 +12,23 @@ import java.util.List;
 import backend.data.Database;
 import backend.data.partidos.PartidoDTO;
 
-public class FindPartidoByRangoHora {
+public class FindPartidoByIdEquipoRangoHora {
 
 	private Database db = new Database();
+	private String idEquipo;
 	private Date fecha;
 	private Time inicio;
 	private Time fin;
 	
 	private static final String QUERY = "SELECT "
 			+ "ID_PARTIDO, HORA_FIN, HORA_INICIO, FECHA, ID_EQUIPO "
-			+ "FROM PARTIDO WHERE FECHA = ? AND "
-			+ "(HORA_INICIO <= ? AND HORA_FIN >= ?) OR "
+			+ "FROM PARTIDO WHERE FECHA = ? AND ID_EQUIPO = ? AND "
+			+ "((HORA_INICIO <= ? AND HORA_FIN >= ?) OR "
 			+ "(HORA_INICIO >= ? AND HORA_INICIO <= ?) OR "
-			+ "(HORA_FIN >= ? AND HORA_FIN <= ?)";
+			+ "(HORA_FIN >= ? AND HORA_FIN <= ?))";
 	
-	public FindPartidoByRangoHora(Date fecha, Time inicio, Time fin) {
+	public FindPartidoByIdEquipoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin) {
+		this.idEquipo = idEquipo;
 		this.fecha = fecha;
 		this.inicio = inicio;
 		this.fin = fin;
@@ -43,13 +45,14 @@ public class FindPartidoByRangoHora {
 			pst = c.prepareStatement(QUERY);
 			
 			pst.setDate(1, new java.sql.Date(fecha.getTime()));
+			pst.setString(2, idEquipo);
 			
-            pst.setTime(2, fin);
-            pst.setTime(3, inicio);
+            pst.setTime(3, fin);
             pst.setTime(4, inicio);
-            pst.setTime(5, fin);
-            pst.setTime(6, inicio);
-            pst.setTime(7, fin);
+            pst.setTime(5, inicio);
+            pst.setTime(6, fin);
+            pst.setTime(7, inicio);
+            pst.setTime(8, fin);
 			
 			rs = pst.executeQuery();
 			

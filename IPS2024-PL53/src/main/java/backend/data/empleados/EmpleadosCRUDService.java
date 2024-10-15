@@ -11,4 +11,6 @@ public interface EmpleadosCRUDService {
 	List<EmpleadoDTO> cargarEmpleadosNoDeportivos();
 	void eliminarEmpleado(EmpleadoDTO dto);
 	void updateEmpleadoDeportivo(EmpleadoDeportivoDTO dto);
+	String findIdEquipoByJugadorId(String idJugador);
+	List<EmpleadoDTO> findJugadoresProfesionales();
 }

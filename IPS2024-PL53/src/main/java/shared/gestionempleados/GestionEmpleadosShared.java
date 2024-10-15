@@ -221,6 +221,9 @@ public class GestionEmpleadosShared {
 		}
 	}
 
-
+	public static List<EmpleadoDTO> getAllJugadoresProfesionales() {
+		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+		return service.findJugadoresProfesionales();
+	}
 
 }

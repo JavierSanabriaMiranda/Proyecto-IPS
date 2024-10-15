@@ -10,6 +10,8 @@ import backend.data.entradas.EntradasCRUDImpl;
 import backend.data.entradas.EntradasCRUDService;
 import backend.data.entrenamientos.EntrenamientoCRUDImpl;
 import backend.data.entrenamientos.EntrenamientoCRUDService;
+import backend.data.entrevistas.EntrevistaCRUDImpl;
+import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.EquipoCRUDServiceImpl;
 import backend.data.merchandising.MerchandisingCRUDImpl;
@@ -61,5 +63,9 @@ public class CreadorDataService {
 	
 	public static EntrenamientoCRUDService getEntrenamientoService() {
 		return new EntrenamientoCRUDImpl();
+	}
+	
+	public static EntrevistaCRUDService getEntrevistaService() {
+		return new EntrevistaCRUDImpl();
 	}
 }

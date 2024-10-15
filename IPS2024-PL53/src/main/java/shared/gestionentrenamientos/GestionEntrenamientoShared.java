@@ -12,14 +12,14 @@ public class GestionEntrenamientoShared {
 	
 	EntrenamientoCRUDService servicio = CreadorDataService.getEntrenamientoService();
 	
-	private List<EntrenamientoDto> getEntrenamientosDentroRangoHoras(Date fecha, Time inicio, Time fin) {
-		List<EntrenamientoDto> res = servicio.findEntrenamientoByRangoHora(fecha, inicio, fin);
+	private List<EntrenamientoDto> getEntrenamientosDentroRangoHoras(String idEquipo, Date fecha, Time inicio, Time fin) {
+		List<EntrenamientoDto> res = servicio.findEntrenamientoByIdEquipoRangoHora(idEquipo, fecha, inicio, fin);
 		return res;
 	}
 	
 	
-	public boolean checkExisteEntrenamientoRangoHora(Date fecha, Time inicio, Time fin) {
-		return getEntrenamientosDentroRangoHoras(fecha, inicio, fin).size() > 0;
+	public boolean checkExisteEntrenamientoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin) {
+		return getEntrenamientosDentroRangoHoras(idEquipo, fecha, inicio, fin).size() > 0;
 	}
 
 }

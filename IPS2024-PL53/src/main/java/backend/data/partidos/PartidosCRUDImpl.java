@@ -5,7 +5,7 @@ import java.sql.Time;
 import java.util.List;
 import backend.data.partidos.commands.FindAllPartidos;
 import backend.data.partidos.commands.FindIdByFechaInicioFin;
-import backend.data.partidos.commands.FindPartidoByRangoHora;
+import backend.data.partidos.commands.FindPartidoByIdEquipoRangoHora;
 
 public class PartidosCRUDImpl implements PartidosCRUDService {
 
@@ -20,8 +20,8 @@ public class PartidosCRUDImpl implements PartidosCRUDService {
 	}
 
 	@Override
-	public List<PartidoDTO> findPartidoByRangoHora(Date fecha, Time inicio, Time fin) {
-		return new FindPartidoByRangoHora(fecha, inicio, fin).execute();
+	public List<PartidoDTO> findPartidoByIdEquipoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin) {
+		return new FindPartidoByIdEquipoRangoHora(idEquipo, fecha, inicio, fin).execute();
 	}
 
 }

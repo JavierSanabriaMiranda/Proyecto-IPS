@@ -10,5 +10,5 @@ public interface PartidosCRUDService {
 	
 	String findIdByFechaInicioFin(Date fecha, Time inicio, Time fin);
 	
-	List<PartidoDTO> findPartidoByRangoHora(Date fecha, Time inicio, Time fin);
+	List<PartidoDTO> findPartidoByIdEquipoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin);
 }
