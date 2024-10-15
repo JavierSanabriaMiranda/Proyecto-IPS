@@ -17,7 +17,7 @@ public class ProductoDTO {
         this.unidades = unidades;
         this.codigoCompra = codigoCompra;
     }
-
+    
     public ProductoDTO(String codProducto, String tipo, String nombre,float precio) {
     	this.codigo = codProducto;
         this.tipo = tipo;

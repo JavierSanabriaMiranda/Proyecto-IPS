@@ -2,6 +2,7 @@ package shared.gestionHistorial;
 
 import java.awt.CardLayout;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +29,6 @@ public class GestionHistorialShared {
 	public GestionHistorialShared(HistorialVentas v) {
 		this.view = v;
 		this.ventas = new ArrayList<VentaDto>();
-
-		this.initView();
 	}
 	
 	/**
@@ -58,10 +57,6 @@ public class GestionHistorialShared {
 		view.getBtSalir3().addActionListener(e -> SwingUtil.exceptionWrapper(() -> confirmar()));
 		
 		view.getBtAnterior2().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionAnterior()));
-	}
-
-	public void initView() {
-		
 	}
 	
 	private void controlarFechaInicio() {
@@ -107,27 +102,31 @@ public class GestionHistorialShared {
 		Date fin = (Date) view.getSpFin().getValue();
 		ventas = service.findVentasFechas(inicio, fin);
 		float total = addVentas(ventas);
-		view.getTfBalance().setText("Precio Total: " + total + "€");
+		view.getTfBalance().setText("Balance: " + total + "€");
 	}
 	
 	private float addVentas(List<VentaDto> ventas) {
-		float total=0;
-		for(VentaDto v : ventas) {
-		    Object[] rowData = {v.getConcepto(), v.getFecha(), v.getCoste()};
-		    view.getModelVentas().addRow(rowData);
-		    total+=v.getCoste();
-		}
-		return total;
+	    float total = 0;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+	    for (VentaDto v : ventas) {
+	        String fechaFormateada = dateFormat.format(v.getFecha());
+	        Object[] rowData = {v.getConcepto(), fechaFormateada, v.getCoste()};
+	        view.getModelVentas().addRow(rowData);
+	        total += v.getCoste();
+	    }
+	    
+	    return total;
 	}
 	
-	private void addCompraMerchandising(int fila) {
+	private void showTablaMerchandising(int fila) {
 		ProductoCRUDService service = CreadorDataService.getproductoService();
 		String id = ventas.get(fila).getIdVenta();
-		float total = rellenarTablaMerchandising(service.findProductsByMerchanId(id));
+		float total = addMerchandising(service.findProductsByMerchanId(id));
 		view.getTfBalance2().setText("Precio Total: " + total + "€");
 	}
 	
-	private float rellenarTablaMerchandising(List<ProductoDTO> productos) {
+	private float addMerchandising(List<ProductoDTO> productos) {
 		float balance=0;
 		for(ProductoDTO p : productos) {
 			float total = p.getUnidades() * p.getPrecio();
@@ -184,7 +183,7 @@ public class GestionHistorialShared {
 	}
 	
 	private void showPn2(int fila) {
-		addCompraMerchandising(fila);
+		showTablaMerchandising(fila);
 		((CardLayout)view.getFrmHistorialDeVentas().getContentPane().getLayout()).show(view.getFrmHistorialDeVentas().getContentPane(),"pn2");	
 	}
 

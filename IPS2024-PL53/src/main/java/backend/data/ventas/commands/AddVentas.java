@@ -1,5 +1,7 @@
 package backend.data.ventas.commands;
 
+import java.sql.Timestamp;
+
 import backend.data.Database;
 import backend.data.ventas.VentaDto;
 
@@ -17,11 +19,14 @@ public class AddVentas {
     }
 
     public void execute() {
+    	// Convertir la fecha a Timestamp para incluir horas y minutos
+        Timestamp timestamp = new Timestamp(venta.fecha.getTime());
+
         // Comprobar si el DNI es nulo
         if (venta.DNI == null) {
-            db.executeUpdate(QUERY, venta.idVenta, null, venta.fecha, venta.coste);
+            db.executeUpdate(QUERY, venta.idVenta, null, timestamp, venta.coste);
         } else {
-            db.executeUpdate(QUERY, venta.idVenta, venta.DNI, venta.fecha, venta.coste);
+            db.executeUpdate(QUERY, venta.idVenta, venta.DNI, timestamp, venta.coste);
         }
     }
 }

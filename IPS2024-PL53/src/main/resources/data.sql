@@ -88,7 +88,7 @@ VALUES
     ('EQ02','equipacion','Camiseta Segunda Equipacion',64.95),
     ('EQ03','equipacion','Camiseta Tercera Equipacion',64.95),
     ('EQ04','equipacion','Camiseta Personalizada',20.00),
-    ('MO01','moda textil','Calcertines',9.95),
+    ('MO01','moda textil','Calcetines',9.95),
     ('MO02','moda textil','Camiseta de Calle',25.00),
     ('MO03','moda textil','Camiseta de Entrenamiento',29.95),
     ('MO04','moda textil','Sudadera',45.00),

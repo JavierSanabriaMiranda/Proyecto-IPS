@@ -113,7 +113,7 @@ public class HistorialVentas {
 	public JPanel getPn1() {
 		if (pn1 == null) {
 			pn1 = new JPanel();
-			pn1.setBackground(Color.WHITE);
+			pn1.setBackground(new Color(224, 255, 255));
 	        pn1.setLayout(new BorderLayout(0, 0));
 	        pn1.add(getPnFechas(), BorderLayout.NORTH);
 	        pn1.add(getPnInfo1(), BorderLayout.SOUTH);
@@ -225,6 +225,7 @@ public class HistorialVentas {
 	public JTextField getTfBalance() {
 		if (tfBalance == null) {
 			tfBalance = new JTextField();
+			tfBalance.setHorizontalAlignment(SwingConstants.CENTER);
 			tfBalance.setBackground(Color.WHITE);
 			tfBalance.setFont(new Font("Tahoma", Font.BOLD, 12));
 			tfBalance.setEditable(false);
@@ -256,7 +257,7 @@ public class HistorialVentas {
 	private JPanel getPnVentas() {
 		if (pnVentas == null) {
 			pnVentas = new JPanel();
-			pnVentas.setBackground(Color.WHITE);
+			pnVentas.setBackground(new Color(224, 255, 255));
 			pnVentas.setLayout(new BorderLayout(0, 0));
 			pnVentas.add(getSrcTabla(), BorderLayout.CENTER);
 		}
@@ -266,7 +267,7 @@ public class HistorialVentas {
 	private JScrollPane getSrcTabla() {
 		if (srcTabla == null) {
 			srcTabla = new JScrollPane();
-			srcTabla.setBackground(Color.WHITE);
+			srcTabla.setBackground(new Color(224, 255, 255));
 			srcTabla.setViewportView(getTablaResumenVentas());
 		}
 		return srcTabla;
@@ -277,7 +278,7 @@ public class HistorialVentas {
 	        String[] columnNames = {"Concepto", "Fecha", "Cuantía ingreso"};
 	        tableModelResumen = new DefaultTableModel(columnNames, 0); 
 	        tablaResumenVentas = new JTable(tableModelResumen);
-	        tablaResumenVentas.setBackground(Color.WHITE);
+	        tablaResumenVentas.setBackground(new Color(224, 255, 255));
 	        tablaResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	        tablaResumenVentas.setRowHeight(25);
 	        tablaResumenVentas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solo una fila a la vez
@@ -377,6 +378,7 @@ public class HistorialVentas {
 	        String[] columnNames = {"Producto", "Cantidad", "Precio Unitario", "Total"};
 	        tableModelResumenCompraMerchan = new DefaultTableModel(columnNames, 0);
 	        tableResumenCompraMerchan = new JTable(tableModelResumenCompraMerchan);
+	        tableResumenCompraMerchan.setBackground(new Color(224, 255, 255));
 	        tableResumenCompraMerchan.setFillsViewportHeight(true);
 	        tableResumenCompraMerchan.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	        tableResumenCompraMerchan.setRowHeight(25);

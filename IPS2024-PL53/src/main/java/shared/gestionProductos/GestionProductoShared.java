@@ -99,11 +99,11 @@ public class GestionProductoShared {
 	
 	private void accionFinal() {
 		List<ProductoDTO> list = new ArrayList<ProductoDTO>();
+		String codCompra = ventaMerchandising.getCodCompra();
 		for(Producto p : ventaMerchandising.getProductos()) {
-			list.add(new ProductoDTO(p.getCode(), p.getType(), p.getName(), p.getPrice()));
+			list.add(new ProductoDTO(p.getCode(), p.getType(), p.getName(), p.getPrice(),p.getUnits(),codCompra));
 		}
-		saveOrder(list,ventaMerchandising.getCodCompra(),
-				ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
+		saveOrder(list, codCompra, ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
 		
 		initView();
 	}
