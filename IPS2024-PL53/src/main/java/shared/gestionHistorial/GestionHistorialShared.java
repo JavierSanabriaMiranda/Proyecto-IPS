@@ -101,8 +101,13 @@ public class GestionHistorialShared {
 		Date inicio = (Date) view.getSpInicio().getValue();
 		Date fin = (Date) view.getSpFin().getValue();
 		ventas = service.findVentasFechas(inicio, fin);
-		float total = addVentas(ventas);
-		view.getTfBalance().setText("Balance: " + total + "€");
+		if(ventas.size()!=0) {
+			float total = addVentas(ventas);
+			view.getTfBalance().setText("Balance: " + total + "€");
+		}else {
+			JOptionPane.showMessageDialog(null, "No hay ventas para el rango de fechas indicado");
+		}
+		
 	}
 	
 	private float addVentas(List<VentaDto> ventas) {

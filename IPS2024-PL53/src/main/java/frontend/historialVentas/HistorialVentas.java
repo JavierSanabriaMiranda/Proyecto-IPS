@@ -28,231 +28,229 @@ import shared.gestionHistorial.GestionHistorialShared;
 
 public class HistorialVentas {
 
-	private JFrame frmHistorialDeVentas;
-	private JPanel pnFechas;
-	private JPanel pnEtiquetas;
-	private JLabel lbFechaInicio;
-	private JLabel lbFechaFin;
-	private JPanel pnSpinners;
-	private JSpinner spInicio;
-	private JSpinner spFin;
-	private JPanel pnResumen;
-	private JTextField tfBalance;
-	private JButton btSeleccionar;
-	private JPanel pnVentas;
-	private JScrollPane srcTabla;
-	private JTable tablaResumenVentas;
-	private DefaultTableModel tableModelResumen;
-	private JPanel pn1;
-	private JButton btSalir;
-	private JPanel pn2;
-	private JPanel pnTitulo;
-	private JLabel lbCompraMerchandising;
-	private JPanel pnInfo2;
-	private JButton btAnterior;
-	private JScrollPane scrollPaneResumen;
-	private JTable tableResumenCompraMerchan;
-	private DefaultTableModel tableModelResumenCompraMerchan;
-	private JPanel pn3;
-	private JLabel lbDetalles;
-	private JPanel pnDetalles;
-	private JPanel pnInfo3;
-	private JButton btConfirmarFecha;
-	private JButton btAnterior2;
-	private JButton btSalir3;
-	private JTextField tfBalance2;
-	private JButton btSalir2;
+    private JFrame frmHistorialDeVentas;
+    private JPanel pnFechas;
+    private JPanel pnEtiquetas;
+    private JLabel lbFechaInicio;
+    private JLabel lbFechaFin;
+    private JPanel pnSpinners;
+    private JSpinner spInicio;
+    private JSpinner spFin;
+    private JPanel pnResumen;
+    private JTextField tfBalance;
+    private JButton btSeleccionar;
+    private JPanel pnVentas;
+    private JScrollPane srcTabla;
+    private JTable tablaResumenVentas;
+    private DefaultTableModel tableModelResumen;
+    private JPanel pn1;
+    private JButton btSalir;
+    private JPanel pn2;
+    private JPanel pnTitulo;
+    private JLabel lbCompraMerchandising;
+    private JPanel pnInfo2;
+    private JButton btAnterior;
+    private JScrollPane scrollPaneResumen;
+    private JTable tableResumenCompraMerchan;
+    private DefaultTableModel tableModelResumenCompraMerchan;
+    private JPanel pn3;
+    private JLabel lbDetalles;
+    private JPanel pnDetalles;
+    private JPanel pnInfo3;
+    private JButton btConfirmarFecha;
+    private JButton btAnterior2;
+    private JButton btSalir3;
+    private JTextField tfBalance2;
+    private JButton btSalir2;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					HistorialVentas window = new HistorialVentas();
-					GestionHistorialShared ghs = new GestionHistorialShared(window);
-					ghs.initController();
-					window.frmHistorialDeVentas.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+                    HistorialVentas window = new HistorialVentas();
+                    GestionHistorialShared ghs = new GestionHistorialShared(window);
+                    ghs.initController();
+                    window.frmHistorialDeVentas.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the application.
-	 */
-	public HistorialVentas() {
-		initialize();
-	}
+    /**
+     * Create the application.
+     */
+    public HistorialVentas() {
+        initialize();
+    }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmHistorialDeVentas = new JFrame();
-		frmHistorialDeVentas.setTitle("Historial de Ventas");
-		frmHistorialDeVentas.getContentPane().setBackground(Color.WHITE);
-		frmHistorialDeVentas.getContentPane().setLayout(new CardLayout(0, 0));
-		frmHistorialDeVentas.getContentPane().add(getPn1(), "pn1");
-		frmHistorialDeVentas.getContentPane().add(getPn2(), "pn2");
-		frmHistorialDeVentas.getContentPane().add(getPn3(), "pn3");
-		frmHistorialDeVentas.setBounds(100, 100, 780, 530);
-		frmHistorialDeVentas.setLocationRelativeTo(null);
-		frmHistorialDeVentas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	public JFrame getFrmHistorialDeVentas() {
-		return frmHistorialDeVentas;
-	}
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize() {
+        frmHistorialDeVentas = new JFrame();
+        frmHistorialDeVentas.setTitle("Historial de Ventas");
+        frmHistorialDeVentas.getContentPane().setBackground(Color.WHITE);
+        frmHistorialDeVentas.getContentPane().setLayout(new CardLayout(0, 0));
+        frmHistorialDeVentas.getContentPane().add(getPn1(), "pn1");
+        frmHistorialDeVentas.getContentPane().add(getPn2(), "pn2");
+        frmHistorialDeVentas.getContentPane().add(getPn3(), "pn3");
+        frmHistorialDeVentas.setBounds(100, 100, 780, 530);
+        frmHistorialDeVentas.setLocationRelativeTo(null);
+        frmHistorialDeVentas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-	public JPanel getPn1() {
-		if (pn1 == null) {
-			pn1 = new JPanel();
-			pn1.setBackground(new Color(224, 255, 255));
-	        pn1.setLayout(new BorderLayout(0, 0));
-	        pn1.add(getPnFechas(), BorderLayout.NORTH);
-	        pn1.add(getPnInfo1(), BorderLayout.SOUTH);
-	        pn1.add(getPnVentas(), BorderLayout.CENTER);
-		}
-		return pn1;
-	}
+    public JFrame getFrmHistorialDeVentas() {
+        return frmHistorialDeVentas;
+    }
 
-	private JPanel getPnFechas() {
-		if (pnFechas == null) {
-			pnFechas = new JPanel();
-			pnFechas.setMinimumSize(new Dimension(10, 30));
-			pnFechas.setBackground(Color.WHITE);
-			pnFechas.setLayout(new GridLayout(0, 1, 0, 0));
-			pnFechas.add(getPnEtiquetas());
-			pnFechas.add(getPnSpinners());
-			pnFechas.add(getBtConfirmarFecha());
-		}
-		return pnFechas;
-	}
-	
-	private JPanel getPnEtiquetas() {
-		if (pnEtiquetas == null) {
-			pnEtiquetas = new JPanel();
-			pnEtiquetas.setBackground(Color.WHITE);
-			pnEtiquetas.setLayout(new GridLayout(1, 2, 0, 0));
-			pnEtiquetas.add(getLbFechaInicio());
-			pnEtiquetas.add(getLbFechaFin());
-		}
-		return pnEtiquetas;
-	}
-	
-	private JLabel getLbFechaInicio() {
-		if (lbFechaInicio == null) {
-			lbFechaInicio = new JLabel("Fecha de inicio:");
-			lbFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lbFechaInicio.setBackground(Color.WHITE);
-		}
-		return lbFechaInicio;
-	}
-	
-	private JLabel getLbFechaFin() {
-		if (lbFechaFin == null) {
-			lbFechaFin = new JLabel("Fecha de fin:");
-			lbFechaFin.setFont(new Font("Tahoma", Font.BOLD, 11));
-		}
-		return lbFechaFin;
-	}
-	
-	private JPanel getPnSpinners() {
-		if (pnSpinners == null) {
-			pnSpinners = new JPanel();
-			pnSpinners.setMinimumSize(new Dimension(10, 20));
-			pnSpinners.setBackground(Color.WHITE);
-			pnSpinners.setLayout(new GridLayout(1, 2, 0, 0));
-			pnSpinners.add(getSpInicio());
-			pnSpinners.add(getSpFin());
-		}
-		return pnSpinners;
-	}
-	
-	public JSpinner getSpInicio() {
-	    if (spInicio == null) {
-	        spInicio = new JSpinner();
-	        spInicio.setBackground(new Color(224, 255, 255));
-	        Calendar calendar = Calendar.getInstance();
-	        Date today = calendar.getTime();
-	        spInicio.setModel(new SpinnerDateModel(today, null, today, Calendar.DAY_OF_YEAR));
-	        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spInicio, "dd/MM/yyyy");
-	        spInicio.setEditor(dateEditor);
-	    }
-	    return spInicio;
-	}
+    public JPanel getPn1() {
+        if (pn1 == null) {
+            pn1 = new JPanel();
+            pn1.setBackground(new Color(224, 255, 255));
+            pn1.setLayout(new BorderLayout(0, 0));
+            pn1.add(getPnFechas(), BorderLayout.NORTH);
+            pn1.add(getPnInfo1(), BorderLayout.SOUTH);
+            pn1.add(getPnVentas(), BorderLayout.CENTER);
+        }
+        return pn1;
+    }
 
-	public JSpinner getSpFin() {
-	    if (spFin == null) {
-	        spFin = new JSpinner();
-	        spFin.setBackground(new Color(224, 255, 255));
-	        Calendar calendar = Calendar.getInstance();
-	        Date today = calendar.getTime();
-	        spFin.setModel(new SpinnerDateModel(today, null, today, Calendar.DAY_OF_YEAR));
-	        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spFin, "dd/MM/yyyy");
-	        spFin.setEditor(dateEditor);
-	    }
-	    return spFin;
-	}
-	
-	public JButton getBtConfirmarFecha() {
-		if (btConfirmarFecha == null) {
-			btConfirmarFecha = new JButton("Confirmar fechas");
-			btConfirmarFecha.setFont(new Font("Tahoma", Font.BOLD, 11));
-			btConfirmarFecha.setBackground(new Color(152, 251, 152));
-		}
-		return btConfirmarFecha;
-	}
+    private JPanel getPnFechas() {
+        if (pnFechas == null) {
+            pnFechas = new JPanel();
+            pnFechas.setMinimumSize(new Dimension(10, 30));
+            pnFechas.setBackground(Color.WHITE);
+            pnFechas.setLayout(new GridLayout(0, 1, 0, 0));
+            pnFechas.add(getPnEtiquetas());
+            pnFechas.add(getPnSpinners());
+            pnFechas.add(getBtConfirmarFecha());
+        }
+        return pnFechas;
+    }
 
-	public JPanel getPnInfo1() {
-		if (pnResumen == null) {
-			pnResumen = new JPanel();
-			pnResumen.setBackground(new Color(224, 255, 255));
-			pnResumen.setLayout(new GridLayout(1, 2, 20, 0));
-			pnResumen.add(getTfBalance());
-			pnResumen.add(getBtSalir());
-			pnResumen.add(getBtSeleccionar());
-		}
-		return pnResumen;
-	}
-	
-	public JTextField getTfBalance() {
-		if (tfBalance == null) {
-			tfBalance = new JTextField();
-			tfBalance.setHorizontalAlignment(SwingConstants.CENTER);
-			tfBalance.setBackground(Color.WHITE);
-			tfBalance.setFont(new Font("Tahoma", Font.BOLD, 12));
-			tfBalance.setEditable(false);
-			tfBalance.setColumns(10);
-		}
-		return tfBalance;
-	}
-	
-	public JButton getBtSalir() {
-		if (btSalir == null) {
-			btSalir = new JButton("Salir");
-			btSalir.setForeground(Color.WHITE);
-			btSalir.setBackground(Color.RED);
-		}
-		return btSalir;
-	}
-	
-	public JButton getBtSeleccionar() {
-	    if (btSeleccionar == null) {
-	        btSeleccionar = new JButton("Seleccionar");
-	        btSeleccionar.setBackground(new Color(50, 205, 50));
-	        btSeleccionar.setForeground(Color.WHITE);
-	        btSeleccionar.setMnemonic('S');
-	        btSeleccionar.setEnabled(false); // Inicialmente deshabilitado
-	    }
-	    return btSeleccionar;
-	}
+    private JPanel getPnEtiquetas() {
+        if (pnEtiquetas == null) {
+            pnEtiquetas = new JPanel();
+            pnEtiquetas.setBackground(Color.WHITE);
+            pnEtiquetas.setLayout(new GridLayout(1, 2, 0, 0));
+            pnEtiquetas.add(getLbFechaInicio());
+            pnEtiquetas.add(getLbFechaFin());
+        }
+        return pnEtiquetas;
+    }
+
+    private JLabel getLbFechaInicio() {
+        if (lbFechaInicio == null) {
+            lbFechaInicio = new JLabel("Fecha de inicio:");
+            lbFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 11));
+            lbFechaInicio.setBackground(Color.WHITE);
+        }
+        return lbFechaInicio;
+    }
+
+    private JLabel getLbFechaFin() {
+        if (lbFechaFin == null) {
+            lbFechaFin = new JLabel("Fecha de fin:");
+            lbFechaFin.setFont(new Font("Tahoma", Font.BOLD, 11));
+        }
+        return lbFechaFin;
+    }
+
+    private JPanel getPnSpinners() {
+        if (pnSpinners == null) {
+            pnSpinners = new JPanel();
+            pnSpinners.setMinimumSize(new Dimension(10, 20));
+            pnSpinners.setBackground(Color.WHITE);
+            pnSpinners.setLayout(new GridLayout(1, 2, 0, 0));
+            pnSpinners.add(getSpInicio());
+            pnSpinners.add(getSpFin());
+        }
+        return pnSpinners;
+    }
+
+    public JSpinner getSpInicio() {
+        if (spInicio == null) {
+            spInicio = new JSpinner();
+            Calendar calendar = Calendar.getInstance();
+            Date today = calendar.getTime();
+            spInicio.setModel(new SpinnerDateModel(today, null, today, Calendar.DAY_OF_YEAR));
+            JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spInicio, "dd/MM/yyyy HH:mm");
+            spInicio.setEditor(dateEditor);
+        }
+        return spInicio;
+    }
+
+    public JSpinner getSpFin() {
+        if (spFin == null) {
+            spFin = new JSpinner();
+            Calendar calendar = Calendar.getInstance();
+            Date today = calendar.getTime();
+            spFin.setModel(new SpinnerDateModel(today, null, today, Calendar.DAY_OF_YEAR));
+            JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spFin, "dd/MM/yyyy HH:mm");
+            spFin.setEditor(dateEditor);
+        }
+        return spFin;
+    }
+
+    public JButton getBtConfirmarFecha() {
+        if (btConfirmarFecha == null) {
+            btConfirmarFecha = new JButton("Confirmar fechas");
+            btConfirmarFecha.setFont(new Font("Tahoma", Font.BOLD, 11));
+            btConfirmarFecha.setBackground(new Color(152, 251, 152));
+        }
+        return btConfirmarFecha;
+    }
+
+    public JPanel getPnInfo1() {
+        if (pnResumen == null) {
+            pnResumen = new JPanel();
+            pnResumen.setBackground(new Color(224, 255, 255));
+            pnResumen.setLayout(new GridLayout(1, 2, 20, 0));
+            pnResumen.add(getTfBalance());
+            pnResumen.add(getBtSalir());
+            pnResumen.add(getBtSeleccionar());
+        }
+        return pnResumen;
+    }
+
+    public JTextField getTfBalance() {
+        if (tfBalance == null) {
+            tfBalance = new JTextField();
+            tfBalance.setHorizontalAlignment(SwingConstants.CENTER);
+            tfBalance.setBackground(Color.WHITE);
+            tfBalance.setFont(new Font("Tahoma", Font.BOLD, 12));
+            tfBalance.setEditable(false);
+            tfBalance.setColumns(10);
+        }
+        return tfBalance;
+    }
+
+    public JButton getBtSalir() {
+        if (btSalir == null) {
+            btSalir = new JButton("Salir");
+            btSalir.setForeground(Color.WHITE);
+            btSalir.setBackground(Color.RED);
+        }
+        return btSalir;
+    }
+
+    public JButton getBtSeleccionar() {
+        if (btSeleccionar == null) {
+            btSeleccionar = new JButton("Seleccionar");
+            btSeleccionar.setBackground(new Color(50, 205, 50));
+            btSeleccionar.setForeground(Color.WHITE);
+            btSeleccionar.setMnemonic('S');
+            btSeleccionar.setEnabled(false); // Inicialmente deshabilitado
+        }
+        return btSeleccionar;
+    }
 
 	private JPanel getPnVentas() {
 		if (pnVentas == null) {
@@ -278,7 +276,7 @@ public class HistorialVentas {
 	        String[] columnNames = {"Concepto", "Fecha", "Cuantía ingreso"};
 	        tableModelResumen = new DefaultTableModel(columnNames, 0); 
 	        tablaResumenVentas = new JTable(tableModelResumen);
-	        tablaResumenVentas.setBackground(new Color(224, 255, 255));
+	        tablaResumenVentas.setBackground(new Color(255, 255, 255));
 	        tablaResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	        tablaResumenVentas.setRowHeight(25);
 	        tablaResumenVentas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solo una fila a la vez
@@ -286,9 +284,13 @@ public class HistorialVentas {
 	        tablaResumenVentas.setColumnSelectionAllowed(false); // Deshabilitar la selección de columnas
 	        tablaResumenVentas.getTableHeader().setReorderingAllowed(false);
 	        tablaResumenVentas.setDefaultEditor(Object.class, null); // Deshabilitar edición
+	        tablaResumenVentas.setShowHorizontalLines(true);
+	        tablaResumenVentas.setShowVerticalLines(true);
+	        tablaResumenVentas.setGridColor(Color.GRAY);
 	    }
 	    return tablaResumenVentas;
 	}
+
 
 
 
