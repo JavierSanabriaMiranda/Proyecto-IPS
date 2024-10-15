@@ -18,7 +18,7 @@ public class Entrada {
 	private Random random = new Random();
 	
 	public Entrada(Tribuna tribuna, Seccion seccion, int nFila, int nAsiento) {
-		this.cod_entrada = "" + random.nextInt(10000000);
+		this.cod_entrada = "E" + random.nextInt(10000000);
 		
 		while (ges.checkIfCodExists(cod_entrada)) {
 			this.cod_entrada = "E" + random.nextInt(10000000);

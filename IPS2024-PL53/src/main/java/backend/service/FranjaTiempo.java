@@ -11,4 +11,13 @@ public class FranjaTiempo {
 		this.inicio = inicio;
 		this.fin = fin;
 	}
+
+	public Time getInicio() {
+		return inicio;
+	}
+
+	public Time getFin() {
+		return fin;
+	}
+	
 }

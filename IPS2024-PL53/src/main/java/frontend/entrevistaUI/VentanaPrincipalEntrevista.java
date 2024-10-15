@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -84,6 +87,8 @@ public class VentanaPrincipalEntrevista extends JFrame {
 	}
 	
 	private void mostrarVentanaCrearEntrevistas() {
-		
+		VentanaSeleccionFranjaEntrevista frame = new VentanaSeleccionFranjaEntrevista();
+		frame.setVisible(true);
+		this.disable();
 	}
 }

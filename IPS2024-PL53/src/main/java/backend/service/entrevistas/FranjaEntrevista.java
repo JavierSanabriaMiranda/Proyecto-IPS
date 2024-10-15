@@ -13,4 +13,21 @@ public class FranjaEntrevista {
 		this.fecha = fecha;
 		this.franja = franja;
 	}
+	
+	@Override
+	public String toString() {
+		return "Fecha: " + this.fecha.toString() + ", hora de inicio: " + this.franja.getInicio() 
+			+ ", hora de fin: " + this.franja.getFin();
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public FranjaTiempo getFranja() {
+		return franja;
+	}
+	
+	
+	
 }
