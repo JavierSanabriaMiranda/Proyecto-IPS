@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JRadioButton;
@@ -374,9 +375,9 @@ public class DialogEquipoProfesional extends JDialog {
 
 	    DefaultListModel<EmpleadoDeportivo> listModel = (DefaultListModel<EmpleadoDeportivo>) listJugadores.getModel();
 	    listModel.clear(); // Limpia el modelo actual
-	    for (EmpleadoDeportivo jugador : vpe.getGestionEquiposShared().getJugadoresSinEquipo()) {
-	        listModel.addElement(jugador);
-	    }
+	    List<EmpleadoDeportivo> listaJugadores = vpe.getGestionEquiposShared().getJugadoresSinEquipo();
+	    Collections.sort(listaJugadores);
+	    listModel.addAll(listaJugadores);
 
 	    return listJugadores;
 	}
@@ -414,10 +415,9 @@ public class DialogEquipoProfesional extends JDialog {
 	    // Obtener el modelo actual y llenarlo con los entrenadores sin equipo
 	    DefaultListModel<EmpleadoDeportivo> listModel = (DefaultListModel<EmpleadoDeportivo>) listEntrenadores.getModel();
 	    listModel.clear(); // Limpia el modelo actual
-	    
-	    for (EmpleadoDeportivo entrenador : vpe.getGestionEquiposShared().getEntrenadoresSinEquipo()) {
-	        listModel.addElement(entrenador);
-	    }
+	    List<EmpleadoDeportivo> listaEntrenadores = vpe.getGestionEquiposShared().getEntrenadoresSinEquipo();
+		Collections.sort(listaEntrenadores);
+		listModel.addAll(listaEntrenadores);
 	    
 	    return listEntrenadores;
 	}
