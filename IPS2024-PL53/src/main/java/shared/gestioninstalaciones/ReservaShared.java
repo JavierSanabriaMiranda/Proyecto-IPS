@@ -118,7 +118,7 @@ public class ReservaShared {
 		VentaDto dtoV = new VentaDto();
 		dtoV.coste = coste;
 		dtoV.DNI = DNI;
-		dtoV.fecha = fecha;
+		dtoV.fecha = new Date();
 		dtoV.idVenta = codReserva;
 		service.addVentas(dtoV);
 		//Add de la Reserva
