@@ -14,14 +14,16 @@ import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
+import backend.service.ventas.Venta;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
 import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
+import shared.gestioninstalaciones.GerenteVentas;
 import shared.gestionhorarios.GestorHorarios;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GestorHorarios {
+public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas, GestorHorarios {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -35,7 +37,11 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	 * Generador aleatorio de IDs para la creación de nuevos empleados
 	 */
 	private GeneradorIDEmpleado generadorID = new GeneradorIDEmpleado();
-	
+	/**
+	 * Lista de las ventas realizadas
+	 */
+	private List<Venta> ventas = new ArrayList<Venta>();
+
 	/**
 	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento de datos
 	 * @param nombre
@@ -56,6 +62,10 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		empNoDeportivos = new HashMap<>();
 	}
 	
+	public List<Venta> getVentas() {
+		return this.ventas;
+	}
+
 	@Override
 	public PuestoEmpleado getPuesto() {
 		return PuestoEmpleado.GERENTE;
@@ -143,6 +153,14 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 			empDeportivos.remove(idEmpleado);
 		else if (empNoDeportivos.containsKey(idEmpleado))
 			empNoDeportivos.remove(idEmpleado);
+	}
+
+	/**
+	 * Método que implementa la interfaz GerenteVentas
+	 */
+	@Override
+	public void addVentaAGerenteVentas(Venta venta) {
+		ventas.add(venta);
 	}
 
 	@Override

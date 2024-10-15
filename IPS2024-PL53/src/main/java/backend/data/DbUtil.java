@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -196,6 +198,25 @@ public abstract class DbUtil {
 		} catch (SQLException e) {
 			//no causa excepcion intencionaamente
 		}		
+	}
+
+	/**
+	 * @param sql
+	 * @param nif
+	 * @return metodo que devuelve true si la select devuelve al menos un valor 
+	 */
+	public boolean executeQueryDevuelveValor(String sql, Object... params)  {
+		Connection conn=null;
+		try {
+			conn=this.getConnection();
+			MapListHandler beanListHandler=new MapListHandler();
+			QueryRunner runner=new QueryRunner();
+			return runner.query(conn, sql, beanListHandler, params).size()>=1;
+		} catch (SQLException e) {
+			throw new UnexpectedException(e);
+		} finally {
+			DbUtils.closeQuietly(conn);
+		}
 	}
 
 }

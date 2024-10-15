@@ -1,4 +1,4 @@
-package backend.model;
+package backend.service.ventas.merchandising;
 
 public class Producto {
 
@@ -68,7 +68,7 @@ public class Producto {
 		sb.append(this.type);
 		sb.append(" - ");
 		sb.append(this.price);
-		sb.append(" �\n");
+		sb.append(" €\n");
 		return sb.toString();
 	}
 }

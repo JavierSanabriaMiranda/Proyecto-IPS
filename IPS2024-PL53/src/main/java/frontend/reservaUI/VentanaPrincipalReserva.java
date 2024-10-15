@@ -4,20 +4,25 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import backend.service.ventas.reservas.Instalacion;
+import shared.gestioninstalaciones.ReservaShared;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
 public class VentanaPrincipalReserva extends JFrame {
@@ -25,12 +30,13 @@ public class VentanaPrincipalReserva extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelReserva;
 	private JLabel lblInstalacion;
-	private JComboBox comboBoxInstalaciones;
+	private JComboBox<Instalacion> comboBoxInstalaciones;
 	private JLabel lblDiaReserva;
 	private JDateChooser dateChooser;
 	private JButton btnSiguiente1;
 	private JButton btnAtras1;
-	
+	private ReservaShared reservaShared;
+	private Date fechaSeleccionada;
 
 	/**
 	 * Launch the application.
@@ -39,7 +45,8 @@ public class VentanaPrincipalReserva extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipalReserva frame = new VentanaPrincipalReserva();
+					ReservaShared reservaShared = new ReservaShared();
+					VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,14 +55,17 @@ public class VentanaPrincipalReserva extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPrincipalReserva() {
-		iniciarVentana();
+	
+	public VentanaPrincipalReserva(ReservaShared rs) {
+		iniciarVentana(rs);
+	}
+	
+	public ReservaShared getReservaShared() {
+		return reservaShared;
 	}
 
-	private void iniciarVentana() {
+	private void iniciarVentana(ReservaShared rs) {
+		this.reservaShared = rs;
 		setTitle("Reserva de Instalación");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -69,6 +79,7 @@ public class VentanaPrincipalReserva extends JFrame {
 		panelReserva.setLayout(null);
 		panelReserva.add(getLblInstalacion());
 		panelReserva.add(getLblDiaReserva());
+		panelReserva.add(getComboBoxInstalaciones());
 		panelReserva.add(getDateChooser());
         panelReserva.add(getBtnSiguiente1());
         panelReserva.add(getBtnAtras1());
@@ -82,27 +93,49 @@ public class VentanaPrincipalReserva extends JFrame {
 	        Calendar cal = Calendar.getInstance();
 	        Date hoy = cal.getTime();
 	        dateChooser.setMinSelectableDate(hoy); // No permite seleccionar fechas anteriores a hoy
-	        dateChooser.getCalendarButton().addActionListener(new ActionListener() {
-	        	public void actionPerformed(ActionEvent e) {
-	        		getBtnSiguiente1().setEnabled(true);
-	        	}
-	        });
+	        dateChooser.getDateEditor().setEnabled(false);
+	        dateChooser.getDateEditor().getUiComponent().setBackground(Color.WHITE); // Fondo deshabilitado
+	        dateChooser.getDateEditor().getUiComponent().setForeground(Color.BLUE); // Color del texto
+	        ((JTextField) dateChooser.getDateEditor().getUiComponent()).setDisabledTextColor(Color.BLACK); // Texto cuando está deshabilitado
 	        dateChooser.setSize(148, 57);
 	        dateChooser.setLocation(79, 188);
+	        dateChooser.setDate(null);
+	        dateChooser.addPropertyChangeListener("date", evt -> {
+	            actualizarBotonSiguiente();
+	        });
 		}
 		return dateChooser;
 	}
 
-	public JComboBox getComboBoxInstalaciones() {
-		if (comboBoxInstalaciones == null) {
-			comboBoxInstalaciones = new JComboBox();
-			lblInstalacion.setLabelFor(comboBoxInstalaciones);
-			comboBoxInstalaciones.setBounds(79, 94, 205, 32);
-		}
-		return comboBoxInstalaciones;
+	public Date getFechaSeleccionada() {
+		return this.fechaSeleccionada;
 	}
 
-	public void setComboBoxInstalaciones(JComboBox comboBoxInstalaciones) {
+	public JComboBox<Instalacion> getComboBoxInstalaciones() {
+	    if (comboBoxInstalaciones == null) {
+	        comboBoxInstalaciones = new JComboBox<>();
+	        lblInstalacion.setLabelFor(comboBoxInstalaciones);
+	        comboBoxInstalaciones.setBounds(79, 94, 205, 32);
+	        comboBoxInstalaciones.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                actualizarBotonSiguiente();
+	            }
+	        });
+
+	        // Crear el modelo basado en la lista de instalaciones
+	        DefaultComboBoxModel<Instalacion> model = new DefaultComboBoxModel<>();
+	        List<Instalacion> instalaciones = getReservaShared().getInstalaciones();
+	        for (Instalacion instalacion : instalaciones) {
+	            model.addElement(instalacion);  // Añadir cada instalación al modelo
+	        }
+	         
+	        // Establecer el modelo en el comboBox
+	        comboBoxInstalaciones.setModel(model);
+	    }
+	    return comboBoxInstalaciones;
+	}
+
+	public void setComboBoxInstalaciones(JComboBox<Instalacion> comboBoxInstalaciones) {
 		this.comboBoxInstalaciones = comboBoxInstalaciones;
 	}
 
@@ -143,6 +176,20 @@ public class VentanaPrincipalReserva extends JFrame {
 		return btnSiguiente1;
 	}
 	
+	private void actualizarBotonSiguiente() {
+	    // Habilitar el botón solo si hay una instalación seleccionada y una fecha seleccionada
+	    boolean isInstalacionSelected = comboBoxInstalaciones.getSelectedItem() != null;
+	    boolean isFechaSelected = dateChooser.getDate() != null;
+	    if (isFechaSelected) {
+	    	Date fecha = dateChooser.getDate(); //Este getDate me devuelve null
+	    	Calendar cal = Calendar.getInstance();
+	    	cal.setTime(fecha);
+	    	this.fechaSeleccionada = cal.getTime();
+	    }
+	    btnSiguiente1.setEnabled(isInstalacionSelected && isFechaSelected);
+	}
+	
+	
 
 	private void crearVentanaHorario() {
 		try {
@@ -156,8 +203,15 @@ public class VentanaPrincipalReserva extends JFrame {
 	private JButton getBtnAtras1() {
 		if (btnAtras1 == null) {
 			btnAtras1 = new JButton("Atras");
+			btnAtras1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnAtras1.setBounds(10, 390, 89, 23);
 		}
 		return btnAtras1;
 	}
+
+	
 }
