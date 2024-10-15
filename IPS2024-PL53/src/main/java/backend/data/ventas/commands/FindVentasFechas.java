@@ -83,7 +83,7 @@ public class FindVentasFechas {
         
         // Comprobar en ENTRADA
         try (Connection c = db.getConnection();
-             PreparedStatement pst = c.prepareStatement("SELECT 1 FROM ENTRADAS WHERE COD_ENTRADA = ?")) {
+             PreparedStatement pst = c.prepareStatement("SELECT 1 FROM ENTRADA WHERE COD_ENTRADA = ?")) {
             pst.setString(1, idVenta);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
