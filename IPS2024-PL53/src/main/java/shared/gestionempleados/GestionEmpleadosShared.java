@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import backend.data.CreadorDataService;
+import backend.data.empleados.DtoAssembler;
 import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadoDeportivoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
@@ -93,7 +94,7 @@ public class GestionEmpleadosShared {
 		List<EmpleadoDeportivoDTO> empleadosDeportivos = service.cargarEmpleadosDeportivos();
 		cargarEmpleadosDeportivosEnGestor(empleadosDeportivos);
 		
-		List<EmpleadoDTO> empleadosNoDeportivos = service.cargarEmpleadosNoDeportivos();
+		List<EmpleadoNoDeportivo> empleadosNoDeportivos = DtoAssembler.dtoToEmpleadoNoDeportivo(service.cargarEmpleadosNoDeportivos());
 		cargarEmpleadosNoDeportivosEnGestor(empleadosNoDeportivos);
 	}
 
@@ -211,22 +212,11 @@ public class GestionEmpleadosShared {
 		}
 	}
 	
-	private void cargarEmpleadosNoDeportivosEnGestor(List<EmpleadoDTO> empleadosNoDeportivos) {
-		for (EmpleadoDTO dto : empleadosNoDeportivos) {
-			String id = dto.id;
-			String nombre = dto.nombre;
-			String apellido = dto.apellido;
-			String DNI = dto.DNI;
-			String telefono = dto.telefono;
-			Date nacimiento = dto.fechaNac;
-			double salario = dto.salarioAnual;
-			PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
-			
-			CreadorEmpleadoNoDeportivo creador = creadoresNoDep.get(puesto);
-			
-			EmpleadoNoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
-			emp.setIDEmpleado(id);
-			
+	/**
+	 * Carga todos los empleados NO deportivos en la lista del gestor
+	 */
+	private void cargarEmpleadosNoDeportivosEnGestor(List<EmpleadoNoDeportivo> empleadosNoDeportivos) {
+		for (EmpleadoNoDeportivo emp : empleadosNoDeportivos) {
 			gestor.addEmpleadoNoDeportivo(emp);
 		}
 	}

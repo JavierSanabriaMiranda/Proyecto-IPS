@@ -4,12 +4,18 @@ import backend.data.clientes.ClientesCRUDImpl;
 import backend.data.clientes.ClientesCRUDService;
 import backend.data.empleados.EmpleadoCRUDImpl;
 import backend.data.empleados.EmpleadosCRUDService;
+import backend.data.horarios.HorarioCRUDImpl;
+import backend.data.horarios.HorarioCRUDService;
 import backend.data.entradas.EntradasCRUDImpl;
 import backend.data.entradas.EntradasCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.EquipoCRUDServiceImpl;
+import backend.data.merchandising.MerchandisingCRUDImpl;
+import backend.data.merchandising.MerchandisingCRUDService;
 import backend.data.partidos.PartidosCRUDImpl;
 import backend.data.partidos.PartidosCRUDService;
+import backend.data.productos.ProductoCRUDImpl;
+import backend.data.productos.ProductoCRUDService;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 
@@ -19,24 +25,35 @@ public class CreadorDataService {
 		return new EmpleadoCRUDImpl();
 	}
 
-	public static EntradasCRUDService getEntradaService() {
-		return new EntradasCRUDImpl();
+	public static HorarioCRUDService getHorarioService() {
+		return new HorarioCRUDImpl();
 	}
 
-	public static PartidosCRUDService getPartidosService() {
-		return new PartidosCRUDImpl();
+	public static ProductoCRUDService getproductoService() {
+		return  new ProductoCRUDImpl();
 	}
 
 	public static ClientesCRUDService getClientesService() {
 		return new ClientesCRUDImpl();
 	}
 
-    public static VentasCRUDService getVentasService() {
-        return new VentasCRUDImpl();
-    }
-    
+	public static EntradasCRUDService getEntradaService() {
+		return new EntradasCRUDImpl();
+	}
+
+	public static VentasCRUDService getVentasService() {
+		return new VentasCRUDImpl();
+	}
+
     public static EquipoCRUDService getEquiposService() {
     	return new EquipoCRUDServiceImpl();
     }
 
+	public static PartidosCRUDService getPartidosService() {
+		return new PartidosCRUDImpl();
+	}
+
+	public static MerchandisingCRUDService getMerchandisingService() {
+		return new MerchandisingCRUDImpl();
+	}
 }

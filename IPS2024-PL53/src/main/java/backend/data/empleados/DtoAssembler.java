@@ -23,15 +23,20 @@ import shared.gestionempleados.creadores.CreadorVendedorAbonos;
 
 public class DtoAssembler {
 
-	private static Map<PuestoEmpleado, CreadorEmpleadoDeportivo> creadoresDep = Map.of(PuestoEmpleado.ENTRENADOR,
-			new CreadorEntrenador(), PuestoEmpleado.JUGADOR, new CreadorJugador());
+	private static Map<PuestoEmpleado, CreadorEmpleadoDeportivo> creadoresDep = Map.of(
+			PuestoEmpleado.ENTRENADOR, new CreadorEntrenador(),
+			PuestoEmpleado.JUGADOR, new CreadorJugador()
+		);
 	private static Map<PuestoEmpleado, CreadorEmpleadoNoDeportivo> creadoresNoDep = Map.of(
-			PuestoEmpleado.DIRECTOR_COMUNICACIONES, new CreadorDirectorComunicaciones(), PuestoEmpleado.EMPLEADO_COCINA,
-			new CreadorEmpleadoCocina(), PuestoEmpleado.EMPLEADO_JARDINERIA, new CreadorEmpleadoJardineria(),
-			PuestoEmpleado.EMPLEADO_TIENDA, new CreadorEmpleadoTienda(), PuestoEmpleado.ENCARGADO_TIENDA,
-			new CreadorEncargadoTienda(), PuestoEmpleado.GERENTE, new CreadorGerente(),
-			PuestoEmpleado.GESTOR_INSTALACIONES, new CreadorGestorInstalaciones(), PuestoEmpleado.VENDEDOR_ABONOS,
-			new CreadorVendedorAbonos());
+			PuestoEmpleado.DIRECTOR_COMUNICACIONES, new CreadorDirectorComunicaciones(),
+			PuestoEmpleado.EMPLEADO_COCINA, new CreadorEmpleadoCocina(),
+			PuestoEmpleado.EMPLEADO_JARDINERIA, new CreadorEmpleadoJardineria(),
+			PuestoEmpleado.EMPLEADO_TIENDA, new CreadorEmpleadoTienda(),
+			PuestoEmpleado.ENCARGADO_TIENDA, new CreadorEncargadoTienda(),
+			PuestoEmpleado.GERENTE, new CreadorGerente(),
+			PuestoEmpleado.GESTOR_INSTALACIONES, new CreadorGestorInstalaciones(),
+			PuestoEmpleado.VENDEDOR_ABONOS, new CreadorVendedorAbonos()
+		);
 
 	/**
 	 * Recibe una lista de DTOs que son empleados deportivos y los convierte en objetos EmpleadoDeportivo
@@ -50,7 +55,7 @@ public class DtoAssembler {
 				double salario = dto.salarioAnual;
 				PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
 				
-				
+
 				CreadorEmpleadoDeportivo creador = creadoresDep.get(puesto);
 				EmpleadoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
 				emp.setIDEmpleado(id);
