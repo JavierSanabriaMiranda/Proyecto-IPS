@@ -25,6 +25,12 @@ public class ProductoDTO {
         this.precio = precio;
 	}
 
+	public ProductoDTO(String tipo, float precio, int unidades) {
+		this.tipo=tipo;
+		this.precio=precio;
+		this.unidades=unidades;
+	}
+
 	// Getters y Setters
     public String getCodigo() { return codigo; }
     public void setCodigo(String codigo) { this.codigo = codigo; }

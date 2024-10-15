@@ -78,7 +78,7 @@ public class VentaMerchandising extends VentaBase{
 		calcularPrecioTotal();
 	}
 	
-	private void calcularPrecioTotal() {
+	public void calcularPrecioTotal() {
 	    precioTotal = 0;
 	    for (Producto producto : orderList) {
 	        precioTotal += producto.getPrice() * producto.getUnits();

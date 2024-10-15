@@ -8,6 +8,7 @@ public class VentaDto {
 	public String DNI;
 	public Date fecha;
 	public float coste;
+	public String concepto;
 	
 	public VentaDto() {};
 	
@@ -18,11 +19,13 @@ public class VentaDto {
 		this.coste=coste;
 	}
 	
-	public VentaDto(Date fecha,float coste) {
+	public VentaDto(String id,Date fecha,float coste, String concepto) {
+		this.idVenta=id;
 		this.fecha=fecha;
 		this.coste=coste;
+		this.concepto=concepto;
 	}
-	
+
 	public String getIdVenta() {return idVenta;}
 	public void setIdVenta(String idVenta) {this.idVenta = idVenta;}
 	
@@ -34,5 +37,8 @@ public class VentaDto {
 
 	public float getCoste() {return coste;}
 	public void setCoste(float coste) {this.coste = coste;}
+	
+	public String getConcepto() {return concepto;}
+	public void setConcepto(String concepto) {this.concepto = concepto;}
 }
 

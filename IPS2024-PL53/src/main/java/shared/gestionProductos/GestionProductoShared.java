@@ -98,13 +98,14 @@ public class GestionProductoShared {
 	}
 	
 	private void accionFinal() {
-		initView();
 		List<ProductoDTO> list = new ArrayList<ProductoDTO>();
 		for(Producto p : ventaMerchandising.getProductos()) {
 			list.add(new ProductoDTO(p.getCode(), p.getType(), p.getName(), p.getPrice()));
 		}
 		saveOrder(list,ventaMerchandising.getCodCompra(),
 				ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
+		
+		initView();
 	}
 
 	private void createProductPanels(List<ProductoDTO> productos) {
@@ -139,7 +140,7 @@ public class GestionProductoShared {
 		model.setRowCount(0);
 	}
 	
-	public void saveOrder(List<ProductoDTO> orderList,String cod_compra, Date fecha, Float precio) {
+	public void saveOrder(List<ProductoDTO> orderList,String cod_compra, Date fecha, float precio) {
 		VentasCRUDService service = CreadorDataService.getVentasService();
 		MerchandisingCRUDService service2 =CreadorDataService.getMerchandisingService();
 		service.addVentas(new VentaDto(cod_compra,null,fecha,precio));

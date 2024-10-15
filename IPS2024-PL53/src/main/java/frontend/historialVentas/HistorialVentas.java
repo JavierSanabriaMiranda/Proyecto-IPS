@@ -58,6 +58,10 @@ public class HistorialVentas {
 	private JPanel pnDetalles;
 	private JPanel pnInfo3;
 	private JButton btConfirmarFecha;
+	private JButton btAnterior2;
+	private JButton btSalir3;
+	private JTextField tfBalance2;
+	private JButton btSalir2;
 
 	/**
 	 * Launch the application.
@@ -199,7 +203,7 @@ public class HistorialVentas {
 	
 	public JButton getBtConfirmarFecha() {
 		if (btConfirmarFecha == null) {
-			btConfirmarFecha = new JButton("Conmirmar fechas");
+			btConfirmarFecha = new JButton("Confirmar fechas");
 			btConfirmarFecha.setFont(new Font("Tahoma", Font.BOLD, 11));
 			btConfirmarFecha.setBackground(new Color(152, 251, 152));
 		}
@@ -271,13 +275,7 @@ public class HistorialVentas {
 	public JTable getTablaResumenVentas() {
 	    if (tablaResumenVentas == null) {
 	        String[] columnNames = {"Concepto", "Fecha", "Cuantía ingreso"};
-	        tableModelResumen = new DefaultTableModel(columnNames, 0) {
-	            private static final long serialVersionUID = 1L;
-	            @Override
-	            public boolean isCellEditable(int row, int column) {
-	                return false;
-	            }
-	        };
+	        tableModelResumen = new DefaultTableModel(columnNames, 0); 
 	        tablaResumenVentas = new JTable(tableModelResumen);
 	        tablaResumenVentas.setBackground(Color.WHITE);
 	        tablaResumenVentas.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -285,11 +283,13 @@ public class HistorialVentas {
 	        tablaResumenVentas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Permite seleccionar solo una fila a la vez
 	        tablaResumenVentas.setRowSelectionAllowed(true); // Permitir la selección de filas
 	        tablaResumenVentas.setColumnSelectionAllowed(false); // Deshabilitar la selección de columnas
-	        tablaResumenVentas.setCellSelectionEnabled(false); // Deshabilitar la selección de celdas
 	        tablaResumenVentas.getTableHeader().setReorderingAllowed(false);
+	        tablaResumenVentas.setDefaultEditor(Object.class, null); // Deshabilitar edición
 	    }
 	    return tablaResumenVentas;
 	}
+
+
 
 	public JPanel getPn2() {
 		if (pn2 == null) {
@@ -322,16 +322,36 @@ public class HistorialVentas {
 		return lbCompraMerchandising;
 	}
 	
-	public JPanel getPnInfo2() {
+	private JPanel getPnInfo2() {
 		if (pnInfo2 == null) {
 			pnInfo2 = new JPanel();
 			pnInfo2.setBackground(new Color(255, 255, 255));
 			pnInfo2.setLayout(new GridLayout(1, 2, 20, 0));
-			pnInfo2.add(getTfBalance());
-			pnInfo2.add(getBtSalir());
+			pnInfo2.add(getTfBalance2());
+			pnInfo2.add(getBtSalir2());
 			pnInfo2.add(getBtAnterior());
 		}
 		return pnInfo2;
+	}
+	
+	public JButton getBtSalir2() {
+		if (btSalir2 == null) {
+			btSalir2 = new JButton("Salir");
+			btSalir2.setForeground(Color.WHITE);
+			btSalir2.setBackground(Color.RED);
+		}
+		return btSalir2;
+	}
+	
+	public JTextField getTfBalance2() {
+		if (tfBalance2 == null) {
+			tfBalance2 = new JTextField();
+			tfBalance2.setBackground(Color.WHITE);
+			tfBalance2.setFont(new Font("Tahoma", Font.BOLD, 12));
+			tfBalance2.setEditable(false);
+			tfBalance2.setColumns(10);
+		}
+		return tfBalance2;
 	}
 	
 	public JButton getBtAnterior() {
@@ -377,7 +397,7 @@ public class HistorialVentas {
 			pn3 = new JPanel();
 			pn3.setBackground(new Color(255, 255, 255));
 			pn3.setLayout(new BorderLayout(0, 0));
-			pn3.add(getPnDetalles(), BorderLayout.NORTH);
+			pn3.add(getPnDetalles(), BorderLayout.CENTER);
 			pn3.add(getPnInfo3(), BorderLayout.SOUTH);
 		}
 		return pn3;
@@ -386,6 +406,7 @@ public class HistorialVentas {
 	private JPanel getPnDetalles() {
 		if (pnDetalles == null) {
 			pnDetalles = new JPanel();
+			pnDetalles.setBackground(Color.WHITE);
 			pnDetalles.setLayout(new BorderLayout(0, 0));
 			pnDetalles.add(getLbDetalles(), BorderLayout.CENTER);
 		}
@@ -395,6 +416,7 @@ public class HistorialVentas {
 	private JLabel getLbDetalles() {
 		if (lbDetalles == null) {
 			lbDetalles = new JLabel("No hay más detalles para esta venta");
+			lbDetalles.setBackground(Color.WHITE);
 			lbDetalles.setHorizontalAlignment(SwingConstants.CENTER);
 			lbDetalles.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
@@ -406,14 +428,36 @@ public class HistorialVentas {
 			pnInfo3 = new JPanel();
 			pnInfo3.setBackground(Color.WHITE);
 			pnInfo3.setLayout(new GridLayout(1, 2, 20, 0));
-			pnInfo3.add(getBtSalir());
-			pnInfo3.add(getBtAnterior());
+			pnInfo3.add(getBtSalir3());
+			pnInfo3.add(getBtAnterior2());
 		}
 		return pnInfo3;
 	}
 	
+	public JButton getBtSalir3() {
+		if (btSalir3 == null) {
+			btSalir3 = new JButton("Salir");
+			btSalir3.setForeground(Color.WHITE);
+			btSalir3.setBackground(Color.RED);
+		}
+		return btSalir3;
+	}
+	
+	public JButton getBtAnterior2() {
+		if (btAnterior2 == null) {
+			btAnterior2 = new JButton("Anterior");
+			btAnterior2.setBackground(new Color(50, 205, 50));
+			btAnterior2.setForeground(Color.WHITE);
+			btAnterior2.setMnemonic('A');
+		}
+		return btAnterior2;
+	}
 	
 	public DefaultTableModel getModelVentas() {
 		return tableModelResumen;
+	}
+	
+	public DefaultTableModel getModelMerchandising() {
+		return tableModelResumenCompraMerchan;
 	}
 }
