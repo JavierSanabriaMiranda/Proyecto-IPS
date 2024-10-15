@@ -21,7 +21,7 @@ public class AddTurnoSemanal {
 
 	public void execute() {
 		db.executeUpdate(QUERY_TURNO, dto.idTurno, dto.idEmp, dto.horaInicio, dto.horaFin);
-		db.executeUpdate(QUERY_TURNO_SEMANAL, dto.idTurno, dto.idEmp, dto.diaSemana);
+		db.executeUpdate(QUERY_TURNO_SEMANAL, dto.idTurno, dto.idEmp, dto.diaSemana.getValue());
 	}
 
 }

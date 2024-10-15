@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.time.LocalTime;
 import java.awt.FlowLayout;
 import java.awt.Component;
 import javax.swing.Box;
@@ -56,12 +57,12 @@ public class PanelHora extends JPanel {
 		return lbEstado;
 	}
 	
-	protected void setHora(int hora) {
-		int horaSiguiente = hora+1;
-		getLbHora().setText(hora + ":00 - " + horaSiguiente + ":00");
+	protected void setHora(LocalTime hora) {
+		LocalTime horaSiguiente = hora.plusHours(1);
+		getLbHora().setText(hora + " - " + horaSiguiente);
 	}
 
-	protected void setOcupado(int horaInicio, int horaFin) {
+	protected void setOcupado(LocalTime horaInicio, LocalTime horaFin) {
 		getLbEstado().setText("Trabajo de " + horaInicio + " a " + horaFin);
 		this.setBackground(Color.LIGHT_GRAY);
 	}

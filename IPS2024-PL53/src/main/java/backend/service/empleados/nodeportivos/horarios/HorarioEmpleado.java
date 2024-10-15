@@ -166,7 +166,7 @@ public class HorarioEmpleado implements Horario {
 			horas += contarHorasDia(LocalDate.ofYearDay(dia.getYear(), dia.getDayOfYear()-i));
 		// Cuenta las horas que tienen los dias posteriores de la semana
 		for (int i = 7; i > diaSemana; i--)
-			horas += contarHorasDia(LocalDate.ofYearDay(dia.getYear(), dia.getDayOfYear()+i));
+			horas += contarHorasDia(LocalDate.ofYearDay(dia.getYear(), dia.getDayOfYear()+i-diaSemana));
 		
 		return horas;
 	}

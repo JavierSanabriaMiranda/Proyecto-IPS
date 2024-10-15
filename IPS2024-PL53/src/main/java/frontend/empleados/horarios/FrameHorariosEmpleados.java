@@ -377,7 +377,6 @@ public class FrameHorariosEmpleados extends JFrame {
 			 // Modelo de spinner con Date
 	        SpinnerDateModel spinnerModel = new SpinnerDateModel();
 	        spHoraInicio = new JSpinner(spinnerModel);
-	        
 	        Date horaInicial;
 	        try {
 	        	horaInicial = new SimpleDateFormat("HH:mm").parse("00:00");
@@ -398,12 +397,19 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JSpinner getSpHoraFin() {
 		if (spHoraFin == null) {
 			 // Modelo de spinner con Date
-	        SpinnerDateModel spinnerModel = new SpinnerDateModel(new Date(1728597600667L), null, null, Calendar.HOUR_OF_DAY);
+	        SpinnerDateModel spinnerModel = new SpinnerDateModel();
 			spHoraFin = new JSpinner(spinnerModel);
+			Date horaInicial;
+	        try {
+	        	horaInicial = new SimpleDateFormat("HH:mm").parse("00:00");
+            } catch (Exception e) {
+                throw new RuntimeException("Error al parsear las horas.", e);
+            }
 			spHoraFin.setFont(new Font("Arial", Font.PLAIN, 12));
 	        // Formatear el spinner para que muestre HH:mm
 	        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spHoraFin, "HH:mm");
 	        spHoraFin.setEditor(timeEditor);
+	        spHoraFin.setValue(horaInicial);
 		}
 		return spHoraFin;
 	}
@@ -421,13 +427,13 @@ public class FrameHorariosEmpleados extends JFrame {
 	}
 	
 	private void addTurno() {
-		boolean adicionCorrecta = false;
-		
 		if (cumpleCondiciones()) {
 			EmpleadoNoDeportivo empleado = getListEmpleados().getSelectedValue();
 			LocalTime hInicio = DateToLocalTime.convertDateToLocalTime((Date) getSpHoraInicio().getValue());
 			LocalTime hFin = DateToLocalTime.convertDateToLocalTime((Date) getSpHoraFin().getValue());
 			LocalDate dia = DateToLocalDate.convertToLocalDate(getClFecha().getDate());
+			
+			boolean adicionCorrecta = false;
 			
 			if (getRdbtPuntual().isSelected()) {
 				adicionCorrecta = gesHor.addTurnoPuntual(empleado, hInicio, hFin, dia);
@@ -436,13 +442,18 @@ public class FrameHorariosEmpleados extends JFrame {
 				DayOfWeek diaSemana = dia.getDayOfWeek();
 				adicionCorrecta = gesHor.addTurnoSemanal(empleado, hInicio, hFin, diaSemana);
 			}
+			
+			if (adicionCorrecta) {
+				JOptionPane.showMessageDialog(this, "Se ha añadido el turno correctamente",
+						"Éxito al Añadir Turno", JOptionPane.INFORMATION_MESSAGE);
+				inicializarPanel();
+			}
+				
+			else
+				JOptionPane.showMessageDialog(this, "Se ha superado el límite de horas (8h diarias o 40h semanales)",
+						"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
 		}
-		if (adicionCorrecta)
-			JOptionPane.showMessageDialog(this, "Se ha añadido el turno correctamente",
-					"Éxito al Añadir Turno", JOptionPane.INFORMATION_MESSAGE);
-		else
-			JOptionPane.showMessageDialog(this, "Se ha superado el límite de horas (8h diarias o 40h semanales)",
-					"Error al Añadir Turno", JOptionPane.ERROR_MESSAGE);
+		
 	}
 
 	private boolean cumpleCondiciones() {
@@ -465,8 +476,6 @@ public class FrameHorariosEmpleados extends JFrame {
 		
 		Date inicio = (Date) getSpHoraInicio().getValue();
 		Date fin = (Date) getSpHoraFin().getValue();
-
-		System.out.println("Converted LocalTime: " + inicio + " / " + fin); // Imprime el LocalTime convertido
 		
 		if (inicio.after(fin) || inicio.equals(fin)) {
 			JOptionPane.showMessageDialog(this, "La hora de inicio debe ser inferior a la hora de final del turno",
@@ -477,11 +486,16 @@ public class FrameHorariosEmpleados extends JFrame {
 	}
 
 	private void inicializarPanel() {
+		Date horaInicial;
+        try {
+        	horaInicial = new SimpleDateFormat("HH:mm").parse("00:00");
+        } catch (Exception e) {
+            throw new RuntimeException("Error al parsear las horas.", e);
+        }
+		
 		// Establecemos los Spinners a 00:00
-		spHoraInicio = null;
-		spHoraFin = null;
-		getSpHoraInicio();
-		getSpHoraFin();
+		getSpHoraInicio().setValue(horaInicial);
+		getSpHoraFin().setValue(horaInicial);
 		getListEmpleados().clearSelection();
 		
 		// Llena la lsita con los empleados no deportivos
@@ -506,13 +520,18 @@ public class FrameHorariosEmpleados extends JFrame {
 	private void crearTablaHorarioEmpleado(List<Turno> turnos) {
 		for (int i = 0; i < 24; i++) {
 			PanelHora pnHora = new PanelHora();
-			pnHora.setHora(i);
+			LocalTime horaPanel = LocalTime.of(i, 0);
+			LocalTime horaSiguiente = horaPanel.plusHours(1);
+			pnHora.setHora(horaPanel);
+			
 			for (Turno turno : turnos) {
-				int horaInicio = turno.getHoraInicio().getHour();
-				int horaFin = turno.getHoraFin().getHour();
-				if (horaInicio >= i && horaInicio < i+1 || horaFin > i && horaFin < i+1 || 
-						horaInicio < i && horaFin > i)
-					pnHora.setOcupado(horaInicio, horaFin);
+				LocalTime inicio = turno.getHoraInicio();
+				LocalTime fin = turno.getHoraFin();
+				
+				if (!inicio.isBefore(horaPanel) && inicio.isBefore(horaSiguiente) || 
+						fin.isAfter(horaPanel) && fin.isBefore(horaSiguiente) || 
+						inicio.isBefore(horaPanel) && fin.isAfter(horaPanel))
+					pnHora.setOcupado(inicio, fin);
 			}
 			getPnTablaHorario().add(pnHora);
 		}

@@ -20,7 +20,6 @@ public class DateToLocalTime {
         int minute = calendar.get(Calendar.MINUTE);
 
         LocalTime localTime = LocalTime.of(hour, minute);
-        System.out.println("Converted LocalTime: " + localTime); // Imprime la hora y los minutos correctamente
         return localTime;
     }
 }
