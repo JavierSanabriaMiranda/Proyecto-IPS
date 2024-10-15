@@ -199,11 +199,6 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 
 
 	@Override
-	public void addVentaAGerenteVentas(Venta venta) {
-		ventas.add(venta);
-	}
-
-	@Override
 	public List<EmpleadoDeportivo> getJugadoresSinEquipo() {
 		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
 		for (EmpleadoDeportivo emp : empDeportivos.values()) {
