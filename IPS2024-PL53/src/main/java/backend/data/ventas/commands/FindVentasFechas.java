@@ -35,7 +35,7 @@ public class FindVentasFechas {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     String idVenta = rs.getString("ID_VENTAS");
-                    Date fecha = rs.getDate("FECHA");
+                    Date fecha = rs.getTimestamp("FECHA");
                     float coste = rs.getFloat("COSTE");
                     String tipoVenta = obtenerTipoVenta(idVenta);
                     
