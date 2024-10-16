@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a21d530f-4508-48b3-a753-ebd20f3e0a7b" name="Changes" comment="" />
+    <list default="true" id="a21d530f-4508-48b3-a753-ebd20f3e0a7b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/IPS2024-PL53/src/main/java/backend/data/ventas/commands/AddReserva.java" beforeDir="false" afterPath="$PROJECT_DIR$/IPS2024-PL53/src/main/java/backend/data/ventas/commands/AddReserva.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IPS2024-PL53/src/main/java/backend/data/ventas/commands/CargarReservas.java" beforeDir="false" afterPath="$PROJECT_DIR$/IPS2024-PL53/src/main/java/backend/data/ventas/commands/CargarReservas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IPS2024-PL53/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/IPS2024-PL53/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IPS2024-PL53/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/IPS2024-PL53/src/main/resources/schema.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +47,8 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Claudia/git/IPS2024-PL53"
   }
 }]]></component>
   <component name="RunManager">
