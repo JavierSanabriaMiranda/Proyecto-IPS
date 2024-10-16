@@ -7,7 +7,10 @@ import backend.data.empleados.commands.AddEmpleadoNoDeportivo;
 import backend.data.empleados.commands.CargarEmpleadosDeportivos;
 import backend.data.empleados.commands.CargarEmpleadosNoDeportivos;
 import backend.data.empleados.commands.EliminarEmpleado;
+import backend.data.empleados.commands.FindIdEquipoByJugadorId;
+import backend.data.empleados.commands.FindJugadoresProfesionales;
 import backend.data.empleados.commands.ModEmpleado;
+import backend.data.empleados.commands.UpdateEquipoDeEmpleadoDeportivo;
 
 public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 
@@ -27,7 +30,7 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	}
 
 	@Override
-	public List<EmpleadoDTO> cargarEmpleadosDeportivos() {
+	public List<EmpleadoDeportivoDTO> cargarEmpleadosDeportivos() {
 		return new CargarEmpleadosDeportivos().execute();
 	}
 
@@ -39,6 +42,19 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	@Override
 	public void eliminarEmpleado(EmpleadoDTO dto) {
 		new EliminarEmpleado(dto).execute();
+	}
+	
+	public String findIdEquipoByJugadorId(String idJugador) {
+		return new FindIdEquipoByJugadorId(idJugador).execute();
+	}
+	
+	public List<EmpleadoDTO> findJugadoresProfesionales() {
+		return new FindJugadoresProfesionales().execute();
+	}
+
+	@Override
+	public void updateEmpleadoDeportivo(EmpleadoDeportivoDTO dto) {
+		new UpdateEquipoDeEmpleadoDeportivo(dto).execute();
 	}
 
 }

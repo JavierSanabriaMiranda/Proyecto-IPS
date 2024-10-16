@@ -12,7 +12,7 @@ public class FranjaTiempo {
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
 	private LocalDate fecha;
-	
+
 	public FranjaTiempo(TipoEvento evento, LocalTime hInicio, LocalTime hFin, LocalDate fecha) {
 		this.evento = evento;
 		this.fecha = fecha;

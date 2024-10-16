@@ -141,20 +141,9 @@ public class HorarioReserva extends JDialog {
 	            spinnerTextField.setInputVerifier(new InputVerifier() {
 	                @Override
 	                public boolean verify(JComponent input) {
-	                    try {
-	                        Date horaInicio = (Date) spinnerHoraInicio.getValue();
-
-	                        // Asegurarse de que esté dentro del rango permitido
-	                        if (horaInicio.before(minHora) || horaInicio.after(maxHora)) {
-	                            JOptionPane.showMessageDialog(null, "La hora de inicio debe estar entre las 08:00 y las 22:00.");
-	                            return false;
-	                        }
-	                        return true;
-	                    } catch (Exception e) {
-	                        JOptionPane.showMessageDialog(null, "Error al verificar la hora de inicio.");
-	                        return false;
-	                    }
+	                    return verificarHoraInicio(minHora, maxHora);
 	                }
+					
 	            });
 
 	        } catch (Exception e) {
@@ -162,6 +151,22 @@ public class HorarioReserva extends JDialog {
 	        }
 	    }
 	    return spinnerHoraInicio;
+	}
+	
+	private boolean verificarHoraInicio(Date minHora, Date maxHora) {
+		try {
+            Date horaInicio = (Date) spinnerHoraInicio.getValue();
+
+            // Asegurarse de que esté dentro del rango permitido
+            if (horaInicio.before(minHora) || horaInicio.after(maxHora)) {
+                JOptionPane.showMessageDialog(null, "La hora de inicio debe estar entre las 08:00 y las 22:00.");
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al verificar la hora de inicio.");
+            return false;
+        }
 	}
 
 	private JSpinner getSpinnerHoraFin() {
@@ -190,36 +195,7 @@ public class HorarioReserva extends JDialog {
 	            spinnerTextField.setInputVerifier(new InputVerifier() {
 	                @Override
 	                public boolean verify(JComponent input) {
-	                    try {
-	                        Date horaInicio = (Date) spinnerHoraInicio.getValue();
-	                        Date horaFin = (Date) spinnerHoraFin.getValue();
-
-	                        // Asegurarse de que la hora de fin sea posterior a la de inicio
-	                        if (horaFin.before(horaInicio)) {
-	                            JOptionPane.showMessageDialog(null, "La hora de fin debe ser posterior a la hora de inicio.");
-	                            return false;
-	                        }
-
-	                        // Asegurarse de que la duración mínima sea de 1 hora
-	                        long diferenciaEnMillis = horaFin.getTime() - horaInicio.getTime();
-	                        long duracionEnMinutos = diferenciaEnMillis / (1000 * 60);
-
-	                        if (duracionEnMinutos < 60) {
-	                            JOptionPane.showMessageDialog(null, "La duración mínima de la reserva debe ser de 1 hora.");
-	                            return false;
-	                        }
-
-	                        // Asegurarse de que esté dentro del rango permitido
-	                        if (horaFin.before(minHora) || horaFin.after(maxHora)) {
-	                            JOptionPane.showMessageDialog(null, "La hora de fin debe estar entre las 08:00 y las 22:00.");
-	                            return false;
-	                        }
-
-	                        return true;
-	                    } catch (Exception e) {
-	                        JOptionPane.showMessageDialog(null, "Error al verificar la hora de fin.");
-	                        return false;
-	                    }
+	                    return verificarHoraFin(minHora, maxHora);
 	                }
 	            });
 
@@ -230,6 +206,39 @@ public class HorarioReserva extends JDialog {
 	    return spinnerHoraFin;
 	}
 
+	
+	private boolean verificarHoraFin(Date minHora, Date maxHora) {
+		try {
+            Date horaInicio = (Date) spinnerHoraInicio.getValue();
+            Date horaFin = (Date) spinnerHoraFin.getValue();
+
+            // Asegurarse de que la hora de fin sea posterior a la de inicio
+            if (horaFin.before(horaInicio)) {
+                JOptionPane.showMessageDialog(null, "La hora de fin debe ser posterior a la hora de inicio.");
+                return false;
+            }
+
+            // Asegurarse de que la duración mínima sea de 1 hora
+            long diferenciaEnMillis = horaFin.getTime() - horaInicio.getTime();
+            long duracionEnMinutos = diferenciaEnMillis / (1000 * 60);
+
+            if (duracionEnMinutos < 60) {
+                JOptionPane.showMessageDialog(null, "La duración mínima de la reserva debe ser de 1 hora.");
+                return false;
+            }
+
+            // Asegurarse de que esté dentro del rango permitido
+            if (horaFin.before(minHora) || horaFin.after(maxHora)) {
+                JOptionPane.showMessageDialog(null, "La hora de fin debe estar entre las 08:00 y las 22:00.");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al verificar la hora de fin.");
+            return false;
+        }
+	}
 
 	
 	private JLabel getLblHoraInicio() {

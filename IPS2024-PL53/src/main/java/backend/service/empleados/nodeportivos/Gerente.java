@@ -1,5 +1,8 @@
 package backend.service.empleados.nodeportivos;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,12 +14,21 @@ import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
+import backend.service.equipos.Equipo;
+import backend.service.equipos.GeneradorIDEquipo;
 import backend.service.ventas.Venta;
+import backend.service.ventas.Venta;
+import backend.service.empleados.nodeportivos.horarios.Turno;
+import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
+import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
+import shared.gestionequipos.GestorEquipos;
 import shared.gestioninstalaciones.GerenteVentas;
+import shared.gestioninstalaciones.GerenteVentas;
+import shared.gestionhorarios.GestorHorarios;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas {
+public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas, GestorEquipos, GestorHorarios {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -30,11 +42,15 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	 * Generador aleatorio de IDs para la creación de nuevos empleados
 	 */
 	private GeneradorIDEmpleado generadorID = new GeneradorIDEmpleado();
-	/**
-	 * Lista de las ventas realizadas
-	 */
+
+	private GeneradorIDEquipo generadorIDEquipo = new GeneradorIDEquipo();
+    /**
+     * Lista de las ventas realizadas
+     */
 	private List<Venta> ventas = new ArrayList<Venta>();
-	
+
+	private List<Equipo> equipos = new ArrayList<Equipo>();
+
 	/**
 	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento de datos
 	 * @param nombre
@@ -55,10 +71,11 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		empNoDeportivos = new HashMap<>();
 	}
 	
+
 	public List<Venta> getVentas() {
 		return this.ventas;
 	}
-	
+
 	@Override
 	public PuestoEmpleado getPuesto() {
 		return PuestoEmpleado.GERENTE;
@@ -156,6 +173,94 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		ventas.add(venta);
 	}
 
+	@Override
+	public List<Turno> getHorarioDia(EmpleadoNoDeportivo emp, LocalDate fecha) {
+		return emp.getHorario().getHorarioDia(fecha);
+	}
+
+	@Override
+	public EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmp) {
+		if (!empNoDeportivos.containsKey(idEmp))
+			throw new IllegalArgumentException("No hay un empleado no deportivo con dicho id");
+		return empNoDeportivos.get(idEmp);
+	}
+
+	@Override
+	public TurnoSemanal addTurnoSemanal(String idEmp, LocalTime hInicio, LocalTime hFin, DayOfWeek diaSemana) {
+		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
+		return emp.getHorario().addAHorarioSemanal(hInicio, hFin, diaSemana);
+	}
+
+	@Override
+	public TurnoPuntual addTurnoPuntual(String idEmp, LocalTime hInicio, LocalTime hFin, LocalDate dia) {
+		EmpleadoNoDeportivo emp = getEmpleadoNoDeportivo(idEmp);
+		return emp.getHorario().addAHorarioPuntual(hInicio, hFin, dia);
+	}
+
+
+	@Override
+	public List<EmpleadoDeportivo> getJugadoresSinEquipo() {
+		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
+		for (EmpleadoDeportivo emp : empDeportivos.values()) {
+			if (!emp.tieneEquipo() && emp.getPuesto().equals(PuestoEmpleado.JUGADOR))
+				jugadoresSinEquipo.add(emp);
+		}
+		return jugadoresSinEquipo;
+	}
+
+	@Override
+	public List<EmpleadoDeportivo> getEntrenadoresSinEquipo() {
+		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
+		for (EmpleadoDeportivo emp : empDeportivos.values()) {
+			if (!emp.tieneEquipo() && emp.getPuesto().equals(PuestoEmpleado.ENTRENADOR))
+				jugadoresSinEquipo.add(emp);
+		}
+		return jugadoresSinEquipo;
+	}
+
+	@Override
+	public void addEquipo(Equipo equipo) {
+		equipos.add(equipo);
+	}
+
+	@Override
+	public Equipo getEquipoByID(String idEquipo) {
+		for(Equipo equi : equipos) {
+			if (equi.getIdEquipo().equals(idEquipo)) {
+				return equi;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Equipo> getEquiposPimerosEquipos() {
+		List<Equipo> equiposPros = new ArrayList<Equipo>();
+		for (Equipo equi : equipos) {
+			if (equi.esProfesional())
+				equiposPros.add(equi);
+		}
+		return equiposPros;
+	}
+
+	@Override
+	public String generarIDEquipo() {
+	    int numeroID;
+	    do {
+	        numeroID = generadorIDEquipo.getNuevoID();
+	    } while (existeIDEquipo("EQU" + numeroID));
+
+	    return "EQU" + numeroID;
+	}
+
+	private boolean existeIDEquipo(String idEquipo) {
+	    for (Equipo equipo : equipos) {
+	        if (equipo.getIdEquipo().equals(idEquipo)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 
 
 }

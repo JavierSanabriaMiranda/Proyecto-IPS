@@ -25,8 +25,8 @@ public class ProductoDTO {
         this.precio = precio;
 	}
 
-	public ProductoDTO(String tipo, float precio, int unidades) {
-		this.tipo=tipo;
+	public ProductoDTO(String nombre, float precio, int unidades) {
+		this.nombre=nombre;
 		this.precio=precio;
 		this.unidades=unidades;
 	}
