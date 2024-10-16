@@ -13,6 +13,7 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -63,13 +64,15 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel pnConfirmacion;
 	private JPanel pnInfo3;
 	private JLabel lblAdvise;
-	private JLabel lbOk;
 	private JPanel pnBts3;
 	private JButton btnFinish;
 	private JScrollPane scrollPaneResumen;
 	private JLabel lbResumen;
 	private JTable tableResumenPedido;
 	private DefaultTableModel tableModelResumen;
+	private JLabel lbCorreo;
+	private JTextField tfCorreo;
+	private JPanel pnDatos;
 	
 	/**
 	 * Launch the application.
@@ -285,21 +288,49 @@ public class VentanaPrincipal extends JFrame {
 			btnNext2.setForeground(Color.WHITE);
 			btnNext2.setBackground(new Color(50, 205, 50));
 			btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNext2.setEnabled(false);
 		}
 		return btnNext2;
 	}
 	
-	
-
 	private JPanel getPnInfo2() {
 		if (pnInfo2 == null) {
 			pnInfo2 = new JPanel();
 			pnInfo2.setBackground(Color.WHITE);
-			pnInfo2.setLayout(new BorderLayout(0, 0));
-			pnInfo2.add(getPnBts2(), BorderLayout.SOUTH);
+			pnInfo2.setLayout(new GridLayout(2, 1, 0, 20));
+			pnInfo2.add(getPnDatos());
+			pnInfo2.add(getPnBts2());
 		}
 		return pnInfo2;
 	}
+	
+	private JPanel getPnDatos() {
+		if (pnDatos == null) {
+			pnDatos = new JPanel();
+			pnDatos.setBackground(Color.WHITE);
+			pnDatos.setLayout(new GridLayout(2, 1, 0, 0));
+			pnDatos.add(getLblCorreo());
+			pnDatos.add(getTfCorreo());
+		}
+		return pnDatos;
+	}
+	
+	private JLabel getLblCorreo() {
+        if (lbCorreo == null) {
+            lbCorreo = new JLabel("Correo electrónico:");
+            lbCorreo.setFont(new Font("Tahoma", Font.BOLD, 12));
+        }
+        return lbCorreo;
+    }
+
+    public JTextField getTfCorreo() {
+        if (tfCorreo == null) {
+            tfCorreo = new JTextField();
+            tfCorreo.setColumns(20);
+            tfCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        return tfCorreo;
+    }
 
 	private JPanel getPnFilters() {
 		if (pnFilters == null) {
@@ -391,12 +422,6 @@ public class VentanaPrincipal extends JFrame {
 	        gbc.weightx = 0.0; // No expandir horizontalmente
 	        gbc.weighty = 1.0;
 
-	        gbc.gridx = 0;
-	        gbc.gridy = 0;
-	        pnConfirmacion.add(getLbOk(), gbc);
-
-	        gbc.gridx = 1; // Mover a la siguiente columna
-	        gbc.insets = new Insets(10, 5, 10, 10); // Reducir el espaciado entre lbOk y lblAdvise
 	        pnConfirmacion.add(getLblAdvise(), gbc);
 	    }
 	    return pnConfirmacion;
@@ -405,18 +430,11 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblAdvise() {
 	    if (lblAdvise == null) {
 	        lblAdvise = new JLabel();
+	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/ok.png")));
 	        lblAdvise.setText("Gracias por confiar en nosotros!");
 	        lblAdvise.setFont(new Font("Tahoma", Font.BOLD, 28));
 	    }
 	    return lblAdvise;
-	}
-
-	private JLabel getLbOk() {
-	    if (lbOk == null) {
-	        lbOk = new JLabel("");
-	        lbOk.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/ok.png")));
-	    }
-	    return lbOk;
 	}
 
 	private JPanel getPnInfo3() {
@@ -476,8 +494,6 @@ public class VentanaPrincipal extends JFrame {
 	    }
 	    return tableResumenPedido;
 	}
-
-
 	
 	private JLabel getLbResumen() {
 		if (lbResumen == null) {
@@ -491,4 +507,5 @@ public class VentanaPrincipal extends JFrame {
 	public DefaultTableModel getTableModel() {
 		return tableModelResumen;
 	}
+
 }

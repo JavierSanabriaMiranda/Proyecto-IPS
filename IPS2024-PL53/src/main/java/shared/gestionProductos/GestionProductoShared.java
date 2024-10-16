@@ -1,10 +1,14 @@
 package shared.gestionProductos;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import backend.data.CreadorDataService;
@@ -15,6 +19,7 @@ import backend.data.productos.ProductoCRUDService;
 import backend.data.productos.ProductoDTO;
 import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDService;
+import backend.service.ventas.merchandising.EnviarCorreo;
 import backend.service.ventas.merchandising.Producto;
 import backend.service.ventas.merchandising.VentaMerchandising;
 import frontend.SwingUtil;
@@ -59,15 +64,33 @@ public class GestionProductoShared {
 		view.getBtAccesorios().addActionListener(e -> SwingUtil.exceptionWrapper(() -> createProductPanels(model.getFilterProducts("accesorio"))));
 		
 		view.getBtnFinish().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionFinal()));
+		
+		view.getTfCorreo().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor();
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor();
+            } 
+        });
 	}
 
 	public void initView() {
 		ventaMerchandising = new VentaMerchandising();
 		view.getTxtPrice().setText("");
 		view.getCarritoTextArea().setText("");
+		view.getTfCorreo().setText("");
 		view.getBtnNext1().setEnabled(false);
 		createProductPanels(model.findAllProducts());
-
 		showPn1();
 	}
 	
@@ -94,7 +117,6 @@ public class GestionProductoShared {
 	
 	private void accionAnterior() {
 		showPn1();
-		restablecerTablaModelo();
 	}
 	
 	private void accionFinal() {
@@ -104,8 +126,26 @@ public class GestionProductoShared {
 			list.add(new ProductoDTO(p.getCode(), p.getType(), p.getName(), p.getPrice(),p.getUnits(),codCompra));
 		}
 		saveOrder(list, codCompra, ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
-		
-		initView();
+		enviarCorreo();
+		initView();	
+	}
+	
+	private void toggleButtonState() {
+        view.getBtnNext2().setEnabled(!view.getTfCorreo().getText().trim().isEmpty());
+    }
+	
+	private void setBorderColor() {
+        if (view.getTfCorreo().getText().isEmpty()) {
+        	view.getTfCorreo().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        } else {
+        	view.getTfCorreo().setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        }
+    }
+
+	private void enviarCorreo() {
+		String remitente = view.getTfCorreo().getText();
+		EnviarCorreo en = new EnviarCorreo(ventaMerchandising.getCodCompra(),ventaMerchandising.toString(), remitente);
+		en.enviarMensaje();
 	}
 
 	private void createProductPanels(List<ProductoDTO> productos) {
@@ -128,6 +168,7 @@ public class GestionProductoShared {
 	
 	// Método para añadir un producto al resumen
 	private void addProductosResumen() {
+		restablecerTablaModelo();
 		for(Producto p : ventaMerchandising.getProductos()) {
 			float total = p.getUnits() * p.getPrice();
 		    Object[] rowData = {p.getName(), p.getUnits(), p.getPrice(), total};
