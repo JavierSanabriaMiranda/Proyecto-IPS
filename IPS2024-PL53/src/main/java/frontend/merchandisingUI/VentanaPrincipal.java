@@ -327,6 +327,7 @@ public class VentanaPrincipal extends JFrame {
         if (tfCorreo == null) {
             tfCorreo = new JTextField();
             tfCorreo.setColumns(20);
+            tfCorreo.setPreferredSize(new Dimension(300,30));
             tfCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         }
         return tfCorreo;
