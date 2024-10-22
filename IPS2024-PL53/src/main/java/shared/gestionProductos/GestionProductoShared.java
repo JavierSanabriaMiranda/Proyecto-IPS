@@ -144,7 +144,8 @@ public class GestionProductoShared {
 
 	private void enviarCorreo() {
 		String remitente = view.getTfCorreo().getText();
-		EnviarCorreo en = new EnviarCorreo(ventaMerchandising.getCodCompra(),ventaMerchandising.toString(), remitente);
+		EnviarCorreo en = new EnviarCorreo(ventaMerchandising.getCodCompra(),ventaMerchandising.toString()+
+				"\nPrecio Total: " + ventaMerchandising.getPrecioTotal() + "€", remitente);
 		en.enviarMensaje();
 	}
 
