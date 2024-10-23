@@ -42,7 +42,7 @@ public class CargarReservas {
         	dto.codInstalacion = (String) fila.get("COD_INSTALACION");
         	dto.numTarjeta = (String) fila.get("N_TARJETA");
         	dto.DNI = (String) fila.get("DNI");
-        	dto.fecha = (Date) fila.get("FECHA");
+        	dto.fecha = (Date) fila.get("FECHA_RESERVA");
         	
         	// Los valores "Decimal" de la base de datos se traen a java como BigDecimal por lo que
             // es necesaria una conversión a double
