@@ -1,18 +1,16 @@
 package frontend.entrevistaUI;
 
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
-
-import java.awt.GridLayout;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaPrincipalEntrevista extends JFrame {
 
@@ -20,22 +18,6 @@ public class VentanaPrincipalEntrevista extends JFrame {
 	private JPanel contentPane;
 	private JButton btEntrenadorCrearFranjas;
 	private JButton btDirectorComunicacionesCrearEntrevistas;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipalEntrevista frame = new VentanaPrincipalEntrevista();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -58,6 +40,7 @@ public class VentanaPrincipalEntrevista extends JFrame {
 		if (btEntrenadorCrearFranjas == null) {
 			btEntrenadorCrearFranjas = new JButton("Entrenador: Crear Franjas");
 			btEntrenadorCrearFranjas.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					mostrarVentanaCrearFranjas();
 				}
@@ -77,6 +60,7 @@ public class VentanaPrincipalEntrevista extends JFrame {
 		if (btDirectorComunicacionesCrearEntrevistas == null) {
 			btDirectorComunicacionesCrearEntrevistas = new JButton("Director de comunicaciones: Crear Entrevistas");
 			btDirectorComunicacionesCrearEntrevistas.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					mostrarVentanaCrearEntrevistas();
 				}
@@ -89,6 +73,6 @@ public class VentanaPrincipalEntrevista extends JFrame {
 	private void mostrarVentanaCrearEntrevistas() {
 		VentanaSeleccionFranjaEntrevista frame = new VentanaSeleccionFranjaEntrevista();
 		frame.setVisible(true);
-		this.disable();
+		this.setEnabled(false);
 	}
 }

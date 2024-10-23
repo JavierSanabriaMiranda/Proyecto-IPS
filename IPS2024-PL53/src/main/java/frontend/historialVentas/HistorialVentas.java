@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Calendar;
@@ -21,14 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-import shared.gestionHistorial.GestionHistorialShared;
-
-public class HistorialVentas {
-
-    private JFrame frmHistorialDeVentas;
+public class HistorialVentas extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
     private JPanel pnFechas;
     private JPanel pnEtiquetas;
     private JLabel lbFechaInicio;
@@ -64,26 +60,6 @@ public class HistorialVentas {
     private JButton btSalir2;
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                    HistorialVentas window = new HistorialVentas();
-                    GestionHistorialShared ghs = new GestionHistorialShared(window);
-                    ghs.initController();
-                    window.frmHistorialDeVentas.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
      * Create the application.
      */
     public HistorialVentas() {
@@ -94,20 +70,15 @@ public class HistorialVentas {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frmHistorialDeVentas = new JFrame();
-        frmHistorialDeVentas.setTitle("Historial de Ventas");
-        frmHistorialDeVentas.getContentPane().setBackground(Color.WHITE);
-        frmHistorialDeVentas.getContentPane().setLayout(new CardLayout(0, 0));
-        frmHistorialDeVentas.getContentPane().add(getPn1(), "pn1");
-        frmHistorialDeVentas.getContentPane().add(getPn2(), "pn2");
-        frmHistorialDeVentas.getContentPane().add(getPn3(), "pn3");
-        frmHistorialDeVentas.setBounds(100, 100, 780, 530);
-        frmHistorialDeVentas.setLocationRelativeTo(null);
-        frmHistorialDeVentas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public JFrame getFrmHistorialDeVentas() {
-        return frmHistorialDeVentas;
+        setTitle("Historial de Ventas");
+        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setLayout(new CardLayout(0, 0));
+        getContentPane().add(getPn1(), "pn1");
+        getContentPane().add(getPn2(), "pn2");
+        getContentPane().add(getPn3(), "pn3");
+        setBounds(100, 100, 780, 530);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public JPanel getPn1() {

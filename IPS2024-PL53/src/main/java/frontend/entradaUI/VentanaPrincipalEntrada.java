@@ -1,29 +1,22 @@
 package frontend.entradaUI;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
-
-import shared.gestionentrada.GestionEntradaShared;
-import shared.gestionpartido.GestionPartidoShared;
-
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.util.Date;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JList;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import shared.gestionentrada.GestionEntradaShared;
+import shared.gestionpartido.GestionPartidoShared;
 
 public class VentanaPrincipalEntrada extends JFrame {
 
@@ -39,22 +32,6 @@ public class VentanaPrincipalEntrada extends JFrame {
 	private JTable tablePartidos;
 	
 	private Date[][] datos;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipalEntrada frame = new VentanaPrincipalEntrada();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -99,6 +76,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 		if (btSeleccionar == null) {
 			btSeleccionar = new JButton("Seleccionar");
 			btSeleccionar.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					GestionEntradaShared ges = seleccionarPartido();
 					
@@ -135,6 +113,7 @@ public class VentanaPrincipalEntrada extends JFrame {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					dispose();
 				}

@@ -1,8 +1,18 @@
 package frontend.reservaUI;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -11,19 +21,6 @@ import com.toedter.calendar.JDateChooser;
 
 import backend.service.ventas.reservas.Instalacion;
 import shared.gestioninstalaciones.ReservaShared;
-
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.awt.event.ActionEvent;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 
 public class VentanaPrincipalReserva extends JFrame {
 
@@ -37,24 +34,6 @@ public class VentanaPrincipalReserva extends JFrame {
 	private JButton btnAtras1;
 	private ReservaShared reservaShared;
 	private Date fechaSeleccionada;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ReservaShared reservaShared = new ReservaShared();
-					VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	
 	public VentanaPrincipalReserva(ReservaShared rs) {
 		iniciarVentana(rs);
@@ -117,7 +96,8 @@ public class VentanaPrincipalReserva extends JFrame {
 	        lblInstalacion.setLabelFor(comboBoxInstalaciones);
 	        comboBoxInstalaciones.setBounds(79, 94, 205, 32);
 	        comboBoxInstalaciones.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
+	            @Override
+				public void actionPerformed(ActionEvent e) {
 	                actualizarBotonSiguiente();
 	            }
 	        });
@@ -166,7 +146,8 @@ public class VentanaPrincipalReserva extends JFrame {
 			btnSiguiente1 = new JButton("Siguiente");
 			btnSiguiente1.setEnabled(false);
 	        btnSiguiente1.addActionListener(new ActionListener() {
-	        	public void actionPerformed(ActionEvent e) {
+	        	@Override
+				public void actionPerformed(ActionEvent e) {
 	        		crearVentanaHorario();
 	        	}
 	        });
@@ -206,6 +187,7 @@ public class VentanaPrincipalReserva extends JFrame {
 		if (btnAtras1 == null) {
 			btnAtras1 = new JButton("Atras");
 			btnAtras1.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					dispose();
 				}

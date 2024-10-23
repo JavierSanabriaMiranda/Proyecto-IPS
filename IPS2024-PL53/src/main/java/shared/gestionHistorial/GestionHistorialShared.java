@@ -184,16 +184,16 @@ public class GestionHistorialShared {
 	}
 	
 	private void showPn1() {
-		((CardLayout)view.getFrmHistorialDeVentas().getContentPane().getLayout()).show(view.getFrmHistorialDeVentas().getContentPane(),"pn1");
+		((CardLayout)view.getContentPane().getLayout()).show(view.getContentPane(),"pn1");
 	}
 	
 	private void showPn2(int fila) {
 		showTablaMerchandising(fila);
-		((CardLayout)view.getFrmHistorialDeVentas().getContentPane().getLayout()).show(view.getFrmHistorialDeVentas().getContentPane(),"pn2");	
+		((CardLayout)view.getContentPane().getLayout()).show(view.getContentPane(),"pn2");	
 	}
 
 	private void showPn3() {
-		((CardLayout)view.getFrmHistorialDeVentas().getContentPane().getLayout()).show(view.getFrmHistorialDeVentas().getContentPane(),"pn3");
+		((CardLayout)view.getContentPane().getLayout()).show(view.getContentPane(),"pn3");
 	}
 
 	

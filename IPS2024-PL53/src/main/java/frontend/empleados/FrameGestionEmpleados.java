@@ -1,25 +1,22 @@
 package frontend.empleados;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import shared.gestionempleados.GestionEmpleadosShared;
-
-import java.awt.CardLayout;
-import java.awt.Dimension;
-
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.Color;
 
 public class FrameGestionEmpleados extends JFrame {
 
@@ -44,22 +41,6 @@ public class FrameGestionEmpleados extends JFrame {
 	private JPanel pnAdd;
 	private JPanel pnMod;
 	private JPanel pnRem;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameGestionEmpleados frame = new FrameGestionEmpleados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
