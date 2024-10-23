@@ -58,7 +58,7 @@ public class GestionPanelProductoShared {
     }
 	
 	private void associateImagesToPanel() {
-        adaptImage("/img/" + producto.getCode() + ".jpg");
+        adaptImage("/img/productos/" + producto.getCode() + ".jpg");
     }
 	
 	private void adaptImage(String imagePath) {

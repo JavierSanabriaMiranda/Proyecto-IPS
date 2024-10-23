@@ -74,7 +74,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal() {
 		setMinimumSize(new Dimension(900, 1000));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/logo.jpg")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/productos/logo.jpg")));
 		setTitle("Tienda Oficial");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 980, 1000);
@@ -103,7 +103,7 @@ public class VentanaPrincipal extends JFrame {
 			lbLogo = new JLabel("Tienda Oficial");
 			lbLogo.setFont(new Font("Arial Black", Font.PLAIN, 44));
 			lbLogo.setForeground(Color.BLACK);
-			lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/logo.jpg")));
+			lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/productos/logo.jpg")));
 		}
 		return lbLogo;
 	}
@@ -406,7 +406,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblAdvise() {
 	    if (lblAdvise == null) {
 	        lblAdvise = new JLabel();
-	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/ok.png")));
+	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/productos/ok.png")));
 	        lblAdvise.setText("Gracias por confiar en nosotros!");
 	        lblAdvise.setFont(new Font("Tahoma", Font.BOLD, 28));
 	    }
