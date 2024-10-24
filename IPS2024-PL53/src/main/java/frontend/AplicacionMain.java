@@ -20,6 +20,7 @@ import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.merchandisingUI.VentanaPrincipal;
+import frontend.noticias.CargarNoticia;
 import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionProductos.GestionProductoShared;
@@ -52,7 +53,7 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
-        frmAplicacionBurgosFc.setBounds(100, 100, 525, 250);
+        frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -143,9 +144,21 @@ public class AplicacionMain {
             inicializarHistorialDeVentas();
         });
         historialMenu.add(historialVentas);
+        
+     // Menú "Historial de Ventas"
+        JMenu noticiasMenu = new JMenu("Noticias");
+        menuBar.add(noticiasMenu);
+
+        // Opción "Ver Historial de Ventas"
+        JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
+        cargarNoticias.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarCargarNoticias();
+        });
+        noticiasMenu.add(cargarNoticias);
     }
 
-    private void inicializarGestionEmpleados() {
+	private void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
         configurarCierreVentana(frame);
         frame.setVisible(true);
@@ -198,6 +211,12 @@ public class AplicacionMain {
         configurarCierreVentana(window);
         window.setVisible(true);
     }
+    
+    private void inicializarCargarNoticias() {
+    	CargarNoticia frame = new CargarNoticia();
+    	configurarCierreVentana(frame);
+		frame.setVisible(true);
+	}
 
     // Método para configurar el comportamiento al cerrar ventanas
     private void configurarCierreVentana(JFrame frame) {
