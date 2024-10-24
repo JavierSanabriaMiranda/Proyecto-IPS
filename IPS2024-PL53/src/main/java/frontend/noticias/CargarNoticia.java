@@ -5,11 +5,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -17,6 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import backend.service.noticias.Imagen;
 
 public class CargarNoticia extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -25,16 +30,21 @@ public class CargarNoticia extends JFrame {
 	private JPanel pnTituloNoticia;
 	private JPanel pnTexto;
 	private JScrollPane scPanelTextoNoticia;
-	private JTextArea textAreaTextoNoticia;
+	private JTextArea taTextoNoticia;
 	private JPanel pnImagenesBotones;
 	private JPanel pnImagenes;
 	private JPanel pnBotones;
 	private JButton btCancelar;
 	private JButton btAñadir;
 	private JButton btElegirImagenes;
-	private JTable tablaImagenes;
 	private JTextField tfTitulo;
 	private JTextField textoTitulo;
+	private JPanel pnEliminar;
+	private JButton btEliminar;
+	private JScrollPane scPanelImagenes;
+	private JList<Imagen> listaImagenes;
+	public DefaultListModel<Imagen> modeloListaImagenes;
+	private JFileChooser selector;
 
 	/**
 	 * Create the frame.
@@ -43,7 +53,7 @@ public class CargarNoticia extends JFrame {
 		setBackground(Color.WHITE);
 		setTitle("Cargar Noticia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 550, 600);
+		setBounds(100, 100, 550, 650);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 230, 250));
@@ -61,10 +71,10 @@ public class CargarNoticia extends JFrame {
 			pnTitulo = new JPanel();
 			pnTitulo.setAlignmentY(1.0f);
 			pnTitulo.setAlignmentX(1.0f);
-			pnTitulo.setBackground(Color.WHITE);
+			pnTitulo.setBackground(new Color(230, 230, 250));
 			pnTitulo.setLayout(new BorderLayout(0, 0));
 			pnTitulo.add(getPnTituloNoticia(), BorderLayout.SOUTH);
-			pnTitulo.add(getTextField_1(), BorderLayout.CENTER);
+			pnTitulo.add(getTitulo(), BorderLayout.CENTER);
 		}
 		return pnTitulo;
 	}
@@ -74,7 +84,7 @@ public class CargarNoticia extends JFrame {
 			pnTituloNoticia.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "T\u00EDtulo:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			pnTituloNoticia.setBackground(Color.WHITE);
 			pnTituloNoticia.setLayout(new BorderLayout(10, 0));
-			pnTituloNoticia.add(getTextField_2(), BorderLayout.CENTER);
+			pnTituloNoticia.add(getTextoTitulo(), BorderLayout.CENTER);
 		}
 		return pnTituloNoticia;
 	}
@@ -92,18 +102,18 @@ public class CargarNoticia extends JFrame {
 		if (scPanelTextoNoticia == null) {
 			scPanelTextoNoticia = new JScrollPane();
 			scPanelTextoNoticia.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scPanelTextoNoticia.setViewportView(getTextAreaTextoNoticia());
+			scPanelTextoNoticia.setViewportView(getTaTextoNoticia());
 		}
 		return scPanelTextoNoticia;
 	}
-	private JTextArea getTextAreaTextoNoticia() {
-		if (textAreaTextoNoticia == null) {
-			textAreaTextoNoticia = new JTextArea();
-			textAreaTextoNoticia.setLineWrap(true);  // Habilitar el ajuste de línea
-	        textAreaTextoNoticia.setWrapStyleWord(true);  // Ajustar por palabra completa
-			textAreaTextoNoticia.setText("");
+	public JTextArea getTaTextoNoticia() {
+		if (taTextoNoticia == null) {
+			taTextoNoticia = new JTextArea();
+			taTextoNoticia.setLineWrap(true);  // Habilitar el ajuste de línea
+	        taTextoNoticia.setWrapStyleWord(true);  // Ajustar por palabra completa
+			taTextoNoticia.setText("");
 		}
-		return textAreaTextoNoticia;
+		return taTextoNoticia;
 	}
 	private JPanel getPnImagenesBotones() {
 		if (pnImagenesBotones == null) {
@@ -122,21 +132,22 @@ public class CargarNoticia extends JFrame {
 			pnImagenes.setBackground(Color.WHITE);
 			pnImagenes.setLayout(new BorderLayout(0, 0));
 			pnImagenes.add(getBtElegirImagenes(), BorderLayout.NORTH);
-			pnImagenes.add(getTablaImagenes(), BorderLayout.CENTER);
+			pnImagenes.add(getPnEliminar(), BorderLayout.SOUTH);
+			pnImagenes.add(getScPanelImagenes(), BorderLayout.CENTER);
 		}
 		return pnImagenes;
 	}
 	private JPanel getPnBotones() {
 		if (pnBotones == null) {
 			pnBotones = new JPanel();
-			pnBotones.setBackground(Color.WHITE);
+			pnBotones.setBackground(new Color(230, 230, 250));
 			pnBotones.setLayout(new GridLayout(1, 2, 0, 0));
 			pnBotones.add(getBtCancelar());
 			pnBotones.add(getBtAñadir());
 		}
 		return pnBotones;
 	}
-	private JButton getBtCancelar() {
+	public JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -145,7 +156,7 @@ public class CargarNoticia extends JFrame {
 		}
 		return btCancelar;
 	}
-	private JButton getBtAñadir() {
+	public JButton getBtAñadir() {
 		if (btAñadir == null) {
 			btAñadir = new JButton("Cargar");
 			btAñadir.setBackground(new Color(60, 179, 113));
@@ -155,21 +166,14 @@ public class CargarNoticia extends JFrame {
 		}
 		return btAñadir;
 	}
-	private JButton getBtElegirImagenes() {
+	public JButton getBtElegirImagenes() {
 		if (btElegirImagenes == null) {
 			btElegirImagenes = new JButton("Elegir Imágenes");
 			btElegirImagenes.setBackground(new Color(216, 191, 216));
 		}
 		return btElegirImagenes;
 	}
-	private JTable getTablaImagenes() {
-		if (tablaImagenes == null) {
-			tablaImagenes = new JTable();
-			tablaImagenes.setBackground(Color.WHITE);
-		}
-		return tablaImagenes;
-	}
-	private JTextField getTextField_1() {
+	private JTextField getTitulo() {
 		if (tfTitulo == null) {
 			tfTitulo = new JTextField();
 			tfTitulo.setFocusable(false);
@@ -181,11 +185,56 @@ public class CargarNoticia extends JFrame {
 		}
 		return tfTitulo;
 	}
-	private JTextField getTextField_2() {
+	public JTextField getTextoTitulo() {
 		if (textoTitulo == null) {
 			textoTitulo = new JTextField();
 			textoTitulo.setColumns(10);
 		}
 		return textoTitulo;
+	}
+	private JPanel getPnEliminar() {
+		if (pnEliminar == null) {
+			pnEliminar = new JPanel();
+			pnEliminar.setBackground(Color.WHITE);
+			pnEliminar.setLayout(new BorderLayout(0, 0));
+			pnEliminar.add(getBtEliminar(), BorderLayout.EAST);
+		}
+		return pnEliminar;
+	}
+	public JButton getBtEliminar() {
+		if (btEliminar == null) {
+			btEliminar = new JButton("Eliminar");
+			btEliminar.setEnabled(false);
+			btEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btEliminar.setForeground(Color.WHITE);
+			btEliminar.setBackground(Color.RED);
+			btEliminar.setVerticalAlignment(SwingConstants.BOTTOM);
+		}
+		return btEliminar;
+	}
+	private JScrollPane getScPanelImagenes() {
+		if (scPanelImagenes == null) {
+			scPanelImagenes = new JScrollPane();
+			scPanelImagenes.setBackground(Color.WHITE);
+			scPanelImagenes.setViewportView(getListaImagenes());
+		}
+		return scPanelImagenes;
+	}
+	public JList<Imagen> getListaImagenes() {
+		if (listaImagenes == null) {
+			modeloListaImagenes = new DefaultListModel<Imagen>();
+			listaImagenes = new JList<Imagen>(modeloListaImagenes);
+			listaImagenes.setBackground(Color.WHITE);
+		}
+		return listaImagenes;
+	}
+
+	public JFileChooser getSelector() {
+		if(selector == null) {
+			selector = new JFileChooser();
+			selector.setMultiSelectionEnabled(true);
+			selector.setFileFilter(new FileNameExtensionFilter("Imágenes", "jpg", "png"));
+		}
+		return selector;
 	}
 }
