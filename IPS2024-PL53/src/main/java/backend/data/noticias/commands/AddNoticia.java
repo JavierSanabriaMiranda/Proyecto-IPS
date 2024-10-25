@@ -1,5 +1,6 @@
 package backend.data.noticias.commands;
 
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,11 +26,15 @@ public class AddNoticia {
         try (Connection c = db.getConnection();
              PreparedStatement pst = c.prepareStatement(QUERY);
              PreparedStatement pst2 = c.prepareStatement(QUERY2)) {
+             
+            // Crear el CLOB y almacenar el texto
+            Clob texto_noticia = c.createClob();
+            texto_noticia.setString(1, noticia.getTexto());
 
             // Insertar la noticia
             pst.setString(1, noticia.getCodNoticia());
             pst.setString(2, noticia.getTitulo());
-            pst.setString(3, noticia.getTexto());
+            pst.setClob(3, texto_noticia);
             pst.executeUpdate();
 
             // Insertar imágenes si las hay
@@ -37,10 +42,12 @@ public class AddNoticia {
                 for (ImagenDTO img : imagenes) {
                     pst2.setString(1, img.getCodNoticia());
                     pst2.setString(2, img.getIdImagen());
-                    pst2.setString(3, img.getUrl());
+                    pst2.setString(3, img.getNombre());
                     pst2.executeUpdate();
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

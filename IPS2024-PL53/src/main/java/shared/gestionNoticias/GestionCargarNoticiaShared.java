@@ -2,9 +2,6 @@ package shared.gestionNoticias;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,19 +84,24 @@ public class GestionCargarNoticiaShared {
 	}
 	
 	private List<ImagenDTO> añadirImagenes(String cod_noticia) {
-        List<ImagenDTO> imagenes = new ArrayList<>();
-        for (int i = 0; i < view.modeloListaImagenes.size(); i++) {
-            Imagen imagen = view.modeloListaImagenes.get(i);        
-            try {
-                File imagenCopiada = copiarImagen(new File(imagen.getUrl()));
-                imagenes.add(new ImagenDTO(cod_noticia, generarCodigoUnico(), imagenCopiada.getName()));
-            } catch (IOException ex) {
-                System.err.println("Error al copiar la imagen: " + ex.getMessage());
-            }
-        }
+	    GestionImagenesShared servicioImagenes = new GestionImagenesShared();
+	    List<ImagenDTO> imagenes = new ArrayList<>();
 
-        return imagenes;
-    }
+	    List<File> archivosSeleccionados = new ArrayList<>();
+	    for (int i = 0; i < view.modeloListaImagenes.size(); i++) {
+	        archivosSeleccionados.add(new File(view.modeloListaImagenes.get(i).getUrl()));
+	    }
+	    try {
+	        List<String> nombresCopiados = servicioImagenes.copiarImagenes(archivosSeleccionados);
+	        for (String nombreCopiado : nombresCopiados) {
+	            imagenes.add(new ImagenDTO(cod_noticia, generarCodigoUnico(), nombreCopiado));
+	        }
+	    } catch (IOException ex) {
+	        System.err.println("Error al copiar las imágenes: " + ex.getMessage());
+	    }
+
+	    return imagenes;
+	}
 	
 	private void eliminarImagenes() {
 		for( int i=0; i<view.getListaImagenes().getSelectedValuesList().size();i++) {
@@ -124,23 +126,6 @@ public class GestionCargarNoticiaShared {
         String texto = view.getTaTextoNoticia().getText().trim();
 
         view.getBtAñadir().setEnabled(!titulo.isEmpty() && !texto.isEmpty());
-    }
-	
-	private File copiarImagen(File archivoOriginal) throws IOException {
-        // Asegurarse de que el directorio de destino existe
-        Path carpetaDestino = Path.of("src/main/java/img/noticias/");
-        if (!Files.exists(carpetaDestino)) {
-            Files.createDirectories(carpetaDestino); // Crear el directorio si no existe
-        }
-
-        // Crear una nueva ruta en la carpeta de destino
-        Path destinoImagen = carpetaDestino.resolve(archivoOriginal.getName());
-
-        // Copiar el archivo a la nueva ubicación
-        Files.copy(archivoOriginal.toPath(), destinoImagen, StandardCopyOption.REPLACE_EXISTING);
-
-        // Devolver el archivo copiado
-        return destinoImagen.toFile();
     }
 
 	private static String generarCodigoUnico() {

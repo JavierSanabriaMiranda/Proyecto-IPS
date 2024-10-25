@@ -3,13 +3,13 @@ package backend.data.noticias;
 public class ImagenDTO {
 	private String codigoNoticia;
 	private String idImagen;
-	private String url;
+	private String nombre;
 
     // Constructor
-    public ImagenDTO(String codigoNoticia, String idImagen, String url) {
+    public ImagenDTO(String codigoNoticia, String idImagen, String nombre) {
         this.codigoNoticia = codigoNoticia;
         this.idImagen = idImagen;
-        this.url = url;
+        this.nombre = nombre;
     }
 
     // Getters y Setters
@@ -19,6 +19,6 @@ public class ImagenDTO {
     public String getIdImagen() { return idImagen; }
     public void setIdImagen(String idImagen) { this.idImagen = idImagen; }
     
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 }
