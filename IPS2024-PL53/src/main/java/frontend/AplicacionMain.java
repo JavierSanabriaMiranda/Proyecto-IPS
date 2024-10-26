@@ -23,6 +23,7 @@ import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
+import frontend.noticias.PortalNoticias;
 import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
@@ -148,17 +149,25 @@ public class AplicacionMain {
         });
         historialMenu.add(historialVentas);
         
-     // Menú "Historial de Ventas"
+     // Menú "Noticias"
         JMenu noticiasMenu = new JMenu("Noticias");
         menuBar.add(noticiasMenu);
 
-        // Opción "Ver Historial de Ventas"
+        // Opción "Cargar Noticias"
         JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
         cargarNoticias.addActionListener(e -> {
             frmAplicacionBurgosFc.setVisible(false);
             inicializarCargarNoticias();
         });
         noticiasMenu.add(cargarNoticias);
+        
+     // Opción "Ver Portal Noticias"
+        JMenuItem portalNoticias = new JMenuItem("Portal de Noticias");
+        portalNoticias.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarPortalNoticias();
+        });
+        noticiasMenu.add(portalNoticias);
     }
 
 	private void inicializarGestionEmpleados() {
@@ -222,6 +231,11 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
 	}
+    
+    private void inicializarPortalNoticias() {
+    	PortalNoticias frame = new PortalNoticias();
+		frame.setVisible(true);
+    }
 
     // Método para configurar el comportamiento al cerrar ventanas
     private void configurarCierreVentana(JFrame frame) {
