@@ -3,6 +3,8 @@ package frontend;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -224,9 +226,9 @@ public class AplicacionMain {
     // Método para configurar el comportamiento al cerrar ventanas
     private void configurarCierreVentana(JFrame frame) {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+            public void windowClosed(WindowEvent windowEvent) {
                 SwingUtilities.invokeLater(() -> frmAplicacionBurgosFc.setVisible(true));
             }
         });
