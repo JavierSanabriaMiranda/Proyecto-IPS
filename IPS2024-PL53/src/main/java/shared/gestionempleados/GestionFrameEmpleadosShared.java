@@ -127,7 +127,7 @@ public class GestionFrameEmpleadosShared {
 	 * en ese caso lo añade
 	 */
 	private void addEmpleado() {
-		if (camposCorrectos()) {
+		if (camposCorrectosAdd()) {
 			String nombre = pnAdd.getTxNombre().getText();
 			String apellido = pnAdd.getTxApellido().getText();
 			String dni = pnAdd.getTxDNI().getText();
@@ -148,7 +148,7 @@ public class GestionFrameEmpleadosShared {
 
 	}
 
-	private boolean camposCorrectos() {
+	private boolean camposCorrectosAdd() {
 		// Se comprueba que los campos no están vacíos
 		if (pnAdd.getTxNombre().getText().isBlank() || pnAdd.getTxApellido().getText().isBlank() || 
 				pnAdd.getTxDNI().getText().isBlank() || pnAdd.getTxSalario().getText().isBlank() || 
@@ -169,18 +169,7 @@ public class GestionFrameEmpleadosShared {
 		return true;
 	}
 	
-	private boolean esMayorEdad(Date fecha) {
-        // Convierte la fecha de tipo Date a LocalDate
-        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
-        
-        // Obtiene la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-        
-        // Calcula la diferencia de años
-        Period periodo = Period.between(fechaLocal, fechaActual);
 
-        return periodo.getYears() >= 18;
-	}
 	
 	private void inicializarPanelAdd() {
 		pnAdd.getTxNombre().setText("");
@@ -209,7 +198,7 @@ public class GestionFrameEmpleadosShared {
 	}
 	
 	private void modEmpleado() {
-		if (camposCorrectos()) {
+		if (camposCorrectosMod()) {
 			if (!pnMod.getListEmpleados().isSelectionEmpty()) {
 				String id = pnMod.getListEmpleados().getSelectedValue().getIDEmpleado();
 				String nombre = pnMod.getTxNombre().getText();
@@ -233,6 +222,39 @@ public class GestionFrameEmpleadosShared {
 		}
 
 	}
+	
+	private boolean camposCorrectosMod() {
+		// Se comprueba que los campos no están vacíos
+		if (pnMod.getTxNombre().getText().isBlank() || pnMod.getTxApellido().getText().isBlank() 
+				|| pnMod.getTxDNI().getText().isBlank() || pnMod.getTxSalario().getText().isBlank() 
+				|| pnMod.getTxTelefono().getText().isBlank() || pnMod.getClFechaNac().getDate() == null) {
+			JOptionPane.showMessageDialog(pnMod, "Se deben rellenar todos los campos","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		// Si no es jugador de futbol y se intenta cambiar su fecha a menor de edad
+		if (!pnMod.getListEmpleados().getSelectedValue().getPuesto().equals(PuestoEmpleado.JUGADOR) && 
+				!esMayorEdad(pnMod.getClFechaNac().getDate())) {
+			JOptionPane.showMessageDialog(pnMod, "Solo los jugadores pueden ser menores de edad","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+			
+		return true;
+	}
+	
+	private boolean esMayorEdad(Date fecha) {
+        // Convierte la fecha de tipo Date a LocalDate
+        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
+        
+        // Obtiene la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+        
+        // Calcula la diferencia de años
+        Period periodo = Period.between(fechaLocal, fechaActual);
+
+        return periodo.getYears() >= 18;
+	}
+	
+	
 	
 	private void inicializarPanelMod() {
 		pnMod.getTxNombre().setText("");

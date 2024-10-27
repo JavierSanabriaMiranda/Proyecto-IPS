@@ -339,35 +339,7 @@ public class PanelModEmpleados extends JPanel {
 
 
 
-	private boolean camposCorrectos() {
-		// Se comprueba que los campos no están vacíos
-		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
-				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
-				|| getClFechaNac().getDate() == null) {
-			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		// Si no es jugador de futbol y se intenta cambiar su fecha a menor de edad
-		if (!getListEmpleados().getSelectedValue().getPuesto().equals(PuestoEmpleado.JUGADOR) && !esMayorEdad(getClFechaNac().getDate())) {
-			JOptionPane.showMessageDialog(this, "Solo los jugadores pueden ser menores de edad","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-			
-		return true;
-	}
-	
-	private boolean esMayorEdad(Date fecha) {
-        // Convierte la fecha de tipo Date a LocalDate
-        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
-        
-        // Obtiene la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-        
-        // Calcula la diferencia de años
-        Period periodo = Period.between(fechaLocal, fechaActual);
 
-        return periodo.getYears() >= 18;
-	}
 
 
 }
