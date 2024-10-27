@@ -27,6 +27,7 @@ import frontend.noticias.PortalNoticias;
 import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
+import shared.gestionNoticias.GestionPortalNoticiasShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestioninstalaciones.ReservaShared;
@@ -234,6 +235,9 @@ public class AplicacionMain {
     
     private void inicializarPortalNoticias() {
     	PortalNoticias frame = new PortalNoticias();
+    	GestionPortalNoticiasShared gpns = new GestionPortalNoticiasShared(frame);
+    	gpns.initController();
+    	configurarCierreVentana(frame);
 		frame.setVisible(true);
     }
 

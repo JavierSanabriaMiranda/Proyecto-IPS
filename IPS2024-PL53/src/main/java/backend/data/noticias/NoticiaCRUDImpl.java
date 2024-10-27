@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.data.noticias.commands.AddNoticia;
+import backend.data.noticias.commands.FindImagenesNoticia;
 import backend.data.noticias.commands.FindNoticias;
 
 public class NoticiaCRUDImpl implements NoticiaCRUDService {
@@ -27,4 +28,15 @@ public class NoticiaCRUDImpl implements NoticiaCRUDService {
         }
         return res;
     }
+
+	@Override
+	public List<String> findImagenesNoticia(String codNoticia) {
+		List<String> res = new ArrayList<>();
+        try {
+            res = new FindImagenesNoticia(codNoticia).execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+	}
 }

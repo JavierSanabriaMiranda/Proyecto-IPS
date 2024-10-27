@@ -89,7 +89,7 @@ public class GestionCargarNoticiaShared {
 
 	    List<File> archivosSeleccionados = new ArrayList<>();
 	    for (int i = 0; i < view.modeloListaImagenes.size(); i++) {
-	        archivosSeleccionados.add(new File(view.modeloListaImagenes.get(i).getUrl()));
+	        archivosSeleccionados.add(new File(view.modeloListaImagenes.get(i).getUrlImagen()));
 	    }
 	    try {
 	        List<String> nombresCopiados = servicioImagenes.copiarImagenes(archivosSeleccionados);

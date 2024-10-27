@@ -2,40 +2,38 @@ package frontend.noticias;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import backend.service.noticias.Noticia;
-
 public class PanelMiniaturaNoticia extends JPanel {
 	private static final long serialVersionUID = 1L;
-	Noticia noticia;
 	private JPanel pnTitulo;
 	private JButton btLeerMas;
-	private JLabel lbTitulo;
 	private JLabel imagen;
+	private JLabel lbTitulo;
 	
-	public PanelMiniaturaNoticia(Noticia noticia) {
-		this.noticia = noticia;
-		setBorder(new LineBorder(new Color(65, 105, 225), 2, true));
+	public PanelMiniaturaNoticia() {
+		setBorder(new LineBorder(new Color(70, 130, 180), 2, true));
 		setBackground(Color.WHITE);
 		setLayout(new GridLayout(2, 1, 0, 0));
+		setPreferredSize(new Dimension(140, 200));
+		
 		add(getImagen());
 		add(getPnTitulo());
 		
 	}	
 	
-	private JLabel getImagen() {
+	public JLabel getImagen() {
 		if (imagen == null) {
 			imagen = new JLabel("");
-			imagen.setIcon(new ImageIcon(PanelMiniaturaNoticia.class.getResource(noticia.getImagenes().get(0).getUrl())));
+			imagen.setBackground(new Color(224, 255, 255));
 			imagen.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return imagen;
@@ -44,7 +42,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 	private JPanel getPnTitulo() {
 		if (pnTitulo == null) {
 			pnTitulo = new JPanel();
-			pnTitulo.setBackground(Color.WHITE);
+			pnTitulo.setBackground(new Color(240, 248, 255));
 			pnTitulo.setLayout(new BorderLayout(0, 0));
 			pnTitulo.add(getBtLeerMas(), BorderLayout.SOUTH);
 			pnTitulo.add(getLbTitulo(), BorderLayout.CENTER);
@@ -52,21 +50,20 @@ public class PanelMiniaturaNoticia extends JPanel {
 		return pnTitulo;
 	}
 	
-	
-	private JButton getBtLeerMas() {
+	public JButton getBtLeerMas() {
 		if (btLeerMas == null) {
 			btLeerMas = new JButton("Leer Más");
-			btLeerMas.setBackground(new Color(216, 191, 216));
+			btLeerMas.setFont(new Font("Calibri", Font.BOLD, 11));
+			btLeerMas.setBackground(new Color(255, 228, 225));
 		}
 		return btLeerMas;
 	}
-	
-	private JLabel getLbTitulo() {
+	public JLabel getLbTitulo() {
 		if (lbTitulo == null) {
 			lbTitulo = new JLabel("");
-			lbTitulo.setFont(new Font("Serif", Font.BOLD, 18));
+			lbTitulo.setVerticalAlignment(SwingConstants.CENTER);
+			lbTitulo.setFont(new Font("Serif", Font.BOLD, 16));
 			lbTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-			lbTitulo.setText(noticia.getTitulo());
 		}
 		return lbTitulo;
 	}
