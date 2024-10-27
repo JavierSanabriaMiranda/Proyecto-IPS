@@ -3,9 +3,6 @@ package frontend.equiposUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +37,7 @@ public class VentanaPrincipalEquipos extends JFrame {
 		contentPane.add(getBtnEquipoProfesional());
 		contentPane.add(getBtnEquipoFormacion());
 	}
-	
+
 	public GestionEquiposShared getGestionEquiposShared() {
 		return ges;
 	}
@@ -53,55 +50,23 @@ public class VentanaPrincipalEquipos extends JFrame {
 		}
 		return lblAñadirEquipo;
 	}
-	private JButton getBtnEquipoProfesional() {
+
+	public JButton getBtnEquipoProfesional() {
 		if (btnEquipoProfesional == null) {
 			btnEquipoProfesional = new JButton("Equipo Profesional");
-			btnEquipoProfesional.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					creaVentanaEquipoProfesional();
-				}
 
-			});
 			btnEquipoProfesional.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		}
 		return btnEquipoProfesional;
 	}
-	
 
-	private void creaVentanaEquipoProfesional() {
-		try {
-			DialogEquipoProfesional dialog = new DialogEquipoProfesional(this);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	private JButton getBtnEquipoFormacion() {
+	public JButton getBtnEquipoFormacion() {
 		if (btnEquipoFormacion == null) {
 			btnEquipoFormacion = new JButton("Equipo en Formación");
-			btnEquipoFormacion.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					creaVentanaEquipoFormacion();
-				}
-			});
+
 			btnEquipoFormacion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		}
 		return btnEquipoFormacion;
 	}
-	
 
-	private void creaVentanaEquipoFormacion() {
-		try {
-			DialogEquipoFormacion dialog = new DialogEquipoFormacion(this);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	
 }

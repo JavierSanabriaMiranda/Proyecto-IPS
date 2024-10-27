@@ -28,6 +28,7 @@ import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
+import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 
@@ -200,6 +201,8 @@ public class AplicacionMain {
     private void inicializarGestionEquipos() {
         GestionEquiposShared ges = new GestionEquiposShared();
         VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos(ges);
+        GestionPanelEquiposShared gpes = new GestionPanelEquiposShared(frame);
+        gpes.initControllers();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
