@@ -20,9 +20,9 @@ public class GestionCampaniaShared {
 
 	public void crearCampania(int numAcciones) {
 		// Crear el objeto campaña
-		
+		CampaniaAccionistas newCampania = gestor.crearCampania(numAcciones);
 		// Guardar los datos de la campaña en la BBDD
-		
+		service.crearCampania(DtoAssembler.toDto(newCampania));
 	}
 
 	/**
@@ -39,6 +39,10 @@ public class GestionCampaniaShared {
 		CampaniaAccionistas campania = DtoAssembler.dtoToCampania(dto);
 		gestor.cargarCampania(campania);
 		return true;
+	}
+	
+	public int getFaseCampania() {
+		return gestor.getFaseCampania();
 	}
 	
 	

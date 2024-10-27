@@ -3,11 +3,13 @@ package shared.gestioncampania;
 import javax.swing.JOptionPane;
 
 import frontend.SwingUtil;
+import frontend.campaniaaccionistas.FrameCambiarFasesCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 
 public class GestionFrameCrearCampaniaShared {
 	
 	private FrameCreacionCampaniaAccionistas view;
+	private FrameCambiarFasesCampaniaAccionistas viewFases;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
 
 	public GestionFrameCrearCampaniaShared(FrameCreacionCampaniaAccionistas view) {
@@ -28,7 +30,6 @@ public class GestionFrameCrearCampaniaShared {
 
 	private void crearCampania() {
 		gesCam.crearCampania((int) view.getSpNumAcciones().getValue());
-		
 	}
 
 	private void cerrarVentana() {
@@ -41,11 +42,21 @@ public class GestionFrameCrearCampaniaShared {
 		
 		if (seleccion == JOptionPane.OK_OPTION) {
 			view.setVisible(false);
-			// TODO Crear Frame gestion de la campaña
+			crearViewFases();
 		}
 		else
 			view.dispose();
 			
+	}
+
+	private void crearViewFases() {
+		viewFases = new FrameCambiarFasesCampaniaAccionistas();
+		viewFases.setVisible(true);
+		initControllerFases();
+	}
+
+	private void initControllerFases() {
+		// TODO Rellenar con eventhandlers
 	}
 
 }

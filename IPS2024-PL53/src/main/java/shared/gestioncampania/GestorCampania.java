@@ -5,7 +5,7 @@ import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 
 public interface GestorCampania {
 
-	void crearCampania(int numAcciones);
+	CampaniaAccionistas crearCampania(int numAcciones);
 	
 	void cargarCampania(CampaniaAccionistas campania);
 	
@@ -23,4 +23,6 @@ public interface GestorCampania {
 	 * @return nuevo id del accionista
 	 */
 	String addNuevoAccionista(Accionista accionista);
+
+	int getFaseCampania();
 }

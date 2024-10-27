@@ -46,19 +46,26 @@ public class GestorDeCampanias implements GestorCampania {
 	}
 
 	@Override
-	public void crearCampania(int numAcciones) {
+	public CampaniaAccionistas crearCampania(int numAcciones) {
 		if (numAcciones <= 0)
 			throw new IllegalArgumentException("El número de acciones a vender no puede ser 0 o negativo");
 		String id = UUID.randomUUID().toString();
 		
 		
 		this.campania = new CampaniaAccionistas(id, numAcciones, numAcciones, 1, EstadoCampania.ABIERTA);
+		return campania;
 	}
 
 	@Override
 	public void cargarCampania(CampaniaAccionistas campania) {
-		// TODO Auto-generated method stub
-		
+		if (campania == null)
+			throw new IllegalArgumentException("La campaña no puede ser null");
+		this.campania = campania;
+	}
+
+	@Override
+	public int getFaseCampania() {
+		return campania.getFase();
 	}
 
 }

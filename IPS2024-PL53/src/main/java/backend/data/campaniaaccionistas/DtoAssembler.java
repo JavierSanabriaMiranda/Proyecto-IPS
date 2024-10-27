@@ -19,4 +19,14 @@ public class DtoAssembler {
 		
 		return new CampaniaAccionistas(cod, accIni, accRest, fase, estado);
 	}
+	
+	public static CampaniaDTO toDto(CampaniaAccionistas c) {
+		CampaniaDTO dto = new CampaniaDTO();
+		dto.codCampania = c.getCodigoCampania();
+		dto.accionesIniciales = c.getNumAccionesIniciales();
+		dto.accionesRestantes = c.getNumAccionesRestantes();
+		dto.estado = c.getEstado().toString();
+		dto.fase = c.getFase();
+		return dto;
+	}
 }
