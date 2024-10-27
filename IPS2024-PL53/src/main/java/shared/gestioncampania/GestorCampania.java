@@ -25,4 +25,10 @@ public interface GestorCampania {
 	String addNuevoAccionista(Accionista accionista);
 
 	int getFaseCampania();
+
+	void avanzarFase();
+
+	boolean isCampaniaFinalizada();
+
+	int getAccionesVendidas();
 }

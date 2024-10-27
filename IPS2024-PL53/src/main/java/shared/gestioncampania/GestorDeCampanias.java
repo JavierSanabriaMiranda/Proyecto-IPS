@@ -68,4 +68,19 @@ public class GestorDeCampanias implements GestorCampania {
 		return campania.getFase();
 	}
 
+	@Override
+	public void avanzarFase() {
+		campania.avanzarFase();
+	}
+
+	@Override
+	public boolean isCampaniaFinalizada() {
+		return campania.getEstado().equals(EstadoCampania.FINALIZADA);
+	}
+
+	@Override
+	public int getAccionesVendidas() {
+		return campania.getNumAccionesIniciales() - campania.getNumAccionesRestantes();
+	}
+
 }

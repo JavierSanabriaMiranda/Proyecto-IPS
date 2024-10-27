@@ -30,6 +30,8 @@ public class GestionFrameCrearCampaniaShared {
 
 	private void crearCampania() {
 		gesCam.crearCampania((int) view.getSpNumAcciones().getValue());
+		
+		crearViewFases();
 	}
 
 	private void cerrarVentana() {
@@ -51,12 +53,30 @@ public class GestionFrameCrearCampaniaShared {
 
 	private void crearViewFases() {
 		viewFases = new FrameCambiarFasesCampaniaAccionistas();
+		actualizarFaseEnLabel();
 		viewFases.setVisible(true);
 		initControllerFases();
 	}
 
 	private void initControllerFases() {
-		// TODO Rellenar con eventhandlers
+		viewFases.getBtAvanzar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> avanzarFase()));
+	}
+	
+	private void avanzarFase() {
+		gesCam.avanzarFase();
+		if (gesCam.isCampaniaFinalizada()) {
+			int ventas = gesCam.getAccionesVendidas();
+			
+			JOptionPane.showMessageDialog(viewFases, "La campaña ha sido finalizada\nAcciones vendidas: " + ventas, 
+					"Final de la Campaña", JOptionPane.INFORMATION_MESSAGE);
+			viewFases.dispose();
+			view.dispose();
+		}
+		
+	}
+
+	private void actualizarFaseEnLabel() {
+		viewFases.getLbFaseActual().setText("Fase Actual: " + gesCam.getFaseCampania());
 	}
 
 }

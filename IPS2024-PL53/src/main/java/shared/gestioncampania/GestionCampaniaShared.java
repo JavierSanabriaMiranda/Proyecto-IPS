@@ -45,5 +45,17 @@ public class GestionCampaniaShared {
 		return gestor.getFaseCampania();
 	}
 	
+	public void avanzarFase() {
+		gestor.avanzarFase();
+	}
+	
+	public boolean isCampaniaFinalizada() {
+		return gestor.isCampaniaFinalizada();
+	}
+
+	public int getAccionesVendidas() {
+		return gestor.getAccionesVendidas();
+	}
+	
 	
 }

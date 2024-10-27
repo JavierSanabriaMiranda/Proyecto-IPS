@@ -1,7 +1,5 @@
 package frontend.campaniaaccionistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -37,7 +35,7 @@ public class FrameCambiarFasesCampaniaAccionistas extends JFrame {
 		contentPane.add(getLbFaseActual());
 		contentPane.add(getBtAvanzar());
 	}
-	private JLabel getLbFaseActual() {
+	public JLabel getLbFaseActual() {
 		if (lbFaseActual == null) {
 			lbFaseActual = new JLabel("Fase Actual: ");
 			lbFaseActual.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -45,7 +43,7 @@ public class FrameCambiarFasesCampaniaAccionistas extends JFrame {
 		}
 		return lbFaseActual;
 	}
-	private JButton getBtAvanzar() {
+	public JButton getBtAvanzar() {
 		if (btAvanzar == null) {
 			btAvanzar = new JButton("Siguiente Fase");
 			btAvanzar.setBackground(new Color(255, 255, 255));
