@@ -43,7 +43,6 @@ public class GestionFrameCrearCampaniaShared {
 				+ "¿Quiere continuar con la gestión de la misma?", "Campaña en curso", JOptionPane.OK_CANCEL_OPTION);
 		
 		if (seleccion == JOptionPane.OK_OPTION) {
-			view.setVisible(false);
 			crearViewFases();
 		}
 		else
@@ -52,6 +51,7 @@ public class GestionFrameCrearCampaniaShared {
 	}
 
 	private void crearViewFases() {
+		view.setVisible(false);
 		viewFases = new FrameCambiarFasesCampaniaAccionistas();
 		actualizarFaseEnLabel();
 		viewFases.setVisible(true);
