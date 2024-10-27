@@ -5,23 +5,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import backend.service.horarios.FranjaTiempo;
-import backend.service.ventas.reservas.ClienteReserva;
-import backend.service.ventas.reservas.Instalacion;
-
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import java.awt.Font;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.util.Date;
-import java.awt.event.ActionEvent;
 
 public class ResumenReserva extends JDialog {
 
@@ -49,7 +38,7 @@ public class ResumenReserva extends JDialog {
 		setModal(true);
 		setTitle("ResumenReserva");
 		getContentPane().setBackground(new Color(255, 255, 255));
-		setBounds(100, 100, 594, 448);
+		setBounds(100, 100, 633, 488);
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
@@ -91,7 +80,7 @@ public class ResumenReserva extends JDialog {
 		if (textAreaResumen == null) {
 			textAreaResumen = new JTextArea();
 			textAreaResumen.setEditable(false);
-			textAreaResumen.setBounds(41, 67, 467, 80);
+			textAreaResumen.setBounds(41, 67, 467, 121);
 			
 			 StringBuilder sb = new StringBuilder();
 		        sb.append("- Día: ").append(hr.getFranjaReserva().getFecha()).append("\n");
@@ -115,25 +104,14 @@ public class ResumenReserva extends JDialog {
 		if (lblNombreApellidos == null) {
 			lblNombreApellidos = new JLabel("Nombre y Apellidos");
 			lblNombreApellidos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNombreApellidos.setBounds(41, 168, 163, 14);
+			lblNombreApellidos.setBounds(41, 199, 163, 14);
 		}
 		return lblNombreApellidos;
 	}
-	private JTextField getTxtNombreApellidos() {
+	public JTextField getTxtNombreApellidos() {
 		if (txtNombreApellidos == null) {
 			txtNombreApellidos = new JTextField();
-			txtNombreApellidos.getDocument().addDocumentListener(new DocumentListener() {
-	            public void insertUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void removeUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void changedUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	        });
-			txtNombreApellidos.setBounds(41, 193, 183, 20);
+			txtNombreApellidos.setBounds(41, 224, 183, 30);
 			txtNombreApellidos.setColumns(10);
 		}
 		return txtNombreApellidos;
@@ -142,72 +120,31 @@ public class ResumenReserva extends JDialog {
 		if (lblNumTarjeta == null) {
 			lblNumTarjeta = new JLabel("Número de tarjeta");
 			lblNumTarjeta.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblNumTarjeta.setBounds(41, 224, 163, 14);
+			lblNumTarjeta.setBounds(41, 255, 163, 14);
 		}
 		return lblNumTarjeta;
 	}
-	private JTextField getTxtNumTarjeta() {
+	public JTextField getTxtNumTarjeta() {
 		if (txtNumTarjeta == null) {
 			txtNumTarjeta = new JTextField();
-			txtNumTarjeta.getDocument().addDocumentListener(new DocumentListener() {
-	            public void insertUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void removeUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void changedUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	        });
-			txtNumTarjeta.setBounds(41, 249, 183, 20);
+			txtNumTarjeta.setBounds(41, 280, 183, 30);
 			txtNumTarjeta.setColumns(10);
 		}
 		return txtNumTarjeta;
 	}
-	private JButton getBtnReservar() {
+	public JButton getBtnReservar() {
 		if (btnReservar == null) {
 			btnReservar = new JButton("Reservar");
-			btnReservar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					reservar();
-					mostrarMensajeExito();
-					cerrarVentanas();
-				}
-			});
 			btnReservar.setEnabled(false);
-			btnReservar.setBounds(481, 377, 89, 23);
+			btnReservar.setBounds(520, 417, 89, 23);
 		}
 		return btnReservar;
 	}
 	
-	private void reservar() {
-		FranjaTiempo franja = hr.getFranjaReserva();
-		Instalacion inst = hr.getInstalacionReserva();
-		ClienteReserva cl = new ClienteReserva(getTxtNombreApellidos().getText());
-		float precio = hr.getPrecioReserva();
-		Date fecha = hr.getDateReserva();
-		String dni = getTxtDNI().getText();
-		String numTarj = getTxtNumTarjeta().getText();
-		
-		hr.getVpr().getReservaShared().addReserva(franja, inst, cl, precio, fecha, dni, numTarj);
-	}
-	
-	private static void mostrarMensajeExito() {
-        // Usamos JOptionPane para mostrar el mensaje
-        JOptionPane.showMessageDialog(null, "Reserva realizada con éxito", 
-                                      "Mensaje de Confirmación", 
-                                      JOptionPane.INFORMATION_MESSAGE);
-    }
-	private JButton getBtnAtras3() {
+	public JButton getBtnAtras3() {
 		if (btnAtras3 == null) {
 			btnAtras3 = new JButton("Atrás");
-			btnAtras3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btnAtras3.setBounds(10, 377, 89, 23);
+			btnAtras3.setBounds(10, 417, 89, 23);
 		}
 		return btnAtras3;
 	}
@@ -215,45 +152,18 @@ public class ResumenReserva extends JDialog {
 		if (lblDNI == null) {
 			lblDNI = new JLabel("DNI: ");
 			lblDNI.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblDNI.setBounds(41, 284, 163, 14);
+			lblDNI.setBounds(41, 321, 163, 14);
 		}
 		return lblDNI;
 	}
-	private JTextField getTxtDNI() {
+	public JTextField getTxtDNI() {
 		if (txtDNI == null) {
 			txtDNI = new JTextField();
-			txtDNI.getDocument().addDocumentListener(new DocumentListener() {
-	            public void insertUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void removeUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	            public void changedUpdate(DocumentEvent e) {
-	                actualizarBotonReserva();
-	            }
-	        });
 			txtDNI.setColumns(10);
-			txtDNI.setBounds(41, 309, 183, 20);
+			txtDNI.setBounds(41, 346, 183, 28);
 		}
 		return txtDNI;
 	}
 	
-	private void actualizarBotonReserva() {
-		String dni = getTxtDNI().getText();
-	    String nombreApellidos = getTxtNombreApellidos().getText();
-	    String numTarjeta = getTxtNumTarjeta().getText();
-
-	    if (!dni.isEmpty() && !nombreApellidos.isEmpty() && !numTarjeta.isEmpty()) {
-	        // Si todos los campos tienen valor, habilitar el botón "Reservar"
-	        getBtnReservar().setEnabled(true);
-	    } else {
-	        // Si algún campo está vacío, deshabilitar el botón "Reservar"
-	    	getBtnReservar().setEnabled(false);
-	    }
-	}
 	
-	private void cerrarVentanas() {
-		System.exit(0);
-	}
 }

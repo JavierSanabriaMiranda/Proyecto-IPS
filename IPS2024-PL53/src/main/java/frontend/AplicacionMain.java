@@ -28,6 +28,7 @@ import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
+import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 
 public class AplicacionMain {
@@ -190,6 +191,8 @@ public class AplicacionMain {
     private void inicializarReservas() {
         ReservaShared reservaShared = new ReservaShared();
         VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
+        GestionPanelReservaShared gprs = new GestionPanelReservaShared(frame);
+        gprs.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
