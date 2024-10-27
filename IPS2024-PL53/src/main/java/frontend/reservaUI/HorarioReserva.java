@@ -168,17 +168,10 @@ public class HorarioReserva extends JDialog {
 		panelHorario.removeAll(); // Limpiamos el panel antes de actualizar
 
 		// Suponemos que obtienes las franjas ocupadas del backend
-		LocalDate fechaSeleccionada = DateToLocalDate.convertToLocalDate(vpr.getFechaSeleccionada());// Aquí obtienes la
-																										// fecha
-																										// seleccionada
-																										// por el
-																										// cliente
+		LocalDate fechaSeleccionada = DateToLocalDate.convertToLocalDate(vpr.getFechaSeleccionada());
 
 		Instalacion inst = (Instalacion) vpr.getComboBoxInstalaciones().getSelectedItem();
-		List<FranjaTiempo> eventosDelDia = vpr.getReservaShared().getEventos(inst, fechaSeleccionada); // Eventos del
-																										// día en la
-																										// instalacion
-																										// seleccionada
+		List<FranjaTiempo> eventosDelDia = vpr.getReservaShared().getEventos(inst, fechaSeleccionada); 
 
 		// Crear 15 intervalos de 1 hora entre las 8:00 y las 22:00
 		LocalTime horaInicio = LocalTime.of(8, 0);

@@ -1,13 +1,13 @@
 package frontend.jardineriaUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import backend.service.empleados.EmpleadoNoDeportivo;
+import backend.service.ventas.reservas.Instalacion;
 import shared.gestionjardineria.JardinerosShared;
 
 import java.awt.Color;
@@ -17,9 +17,13 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 public class VentanaJardineros extends JFrame {
@@ -27,9 +31,9 @@ public class VentanaJardineros extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JScrollPane scJardineros;
-	private JList listJardineros;
+	private JList<EmpleadoNoDeportivo> listJardineros;
 	private JLabel lblJardineros;
-	private JComboBox cbInstalaciones;
+	private JComboBox<Instalacion> cbInstalaciones;
 	private JLabel lblInstalaciones;
 	private JLabel lblDia;
 	private JDateChooser dateChooser;
@@ -70,9 +74,14 @@ public class VentanaJardineros extends JFrame {
 		return scJardineros;
 	}
 
-	private JList getListJardineros() {
+	public JList<EmpleadoNoDeportivo> getListJardineros() {
 		if (listJardineros == null) {
-			listJardineros = new JList();
+			listJardineros = new JList<EmpleadoNoDeportivo>(new DefaultListModel<>());
+			DefaultListModel<EmpleadoNoDeportivo> listModel = (DefaultListModel<EmpleadoNoDeportivo>) listJardineros.getModel();
+			listModel.clear(); 
+			List<EmpleadoNoDeportivo> listaJardineros = getJardinerosShared().getJardineros();
+			Collections.sort(listaJardineros);
+			listModel.addAll(listaJardineros);
 		}
 		return listJardineros;
 	}
@@ -85,10 +94,20 @@ public class VentanaJardineros extends JFrame {
 		}
 		return lblJardineros;
 	}
-	private JComboBox getCbInstalaciones() {
+	public JComboBox<Instalacion> getCbInstalaciones() {
 		if (cbInstalaciones == null) {
-			cbInstalaciones = new JComboBox();
+			cbInstalaciones = new JComboBox<Instalacion>();
 			cbInstalaciones.setBounds(120, 408, 476, 22);
+			
+			// Crear el modelo basado en la lista de instalaciones
+	        DefaultComboBoxModel<Instalacion> model = new DefaultComboBoxModel<>();
+	        List<Instalacion> instalaciones = getJardinerosShared().getInstalaciones();
+	        for (Instalacion instalacion : instalaciones) {
+	            model.addElement(instalacion);  // Añadir cada instalación al modelo
+	        }
+	         
+	        // Establecer el modelo en el comboBox
+	        cbInstalaciones.setModel(model);
 		}
 		return cbInstalaciones;
 	}
@@ -127,7 +146,7 @@ public class VentanaJardineros extends JFrame {
 		}
 		return dateChooser;
 	}
-	private JButton getBtnSiguiente() {
+	public JButton getBtnSiguiente() {
 		if (btnSiguiente == null) {
 			btnSiguiente = new JButton("Siguiente");
 			btnSiguiente.setBounds(655, 591, 89, 23);

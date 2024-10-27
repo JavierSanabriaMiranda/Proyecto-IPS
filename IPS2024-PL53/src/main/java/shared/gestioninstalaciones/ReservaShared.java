@@ -13,7 +13,6 @@ import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
-import backend.service.empleados.GestorInstalaciones;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
@@ -60,13 +59,13 @@ public class ReservaShared {
 
 	private List<Entrenamiento> cargarEntrenamientos() {
 		EntrenamientoCRUDService service = new EntrenamientoCRUDImpl();
-		DtoAssemblerEntrenamientos assembler = new DtoAssemblerEntrenamientos(this);
+		DtoAssemblerEntrenamientos assembler = new DtoAssemblerEntrenamientos(gestor);
 		return assembler.dtoToEntrenamiento(service.cargarEntrenamientos());
 	}
 
 	private List<Reserva> cargarReservas() {
 		VentasCRUDService service = new VentasCRUDImpl();
-		DtoAssemblerVentas assembler = new DtoAssemblerVentas(this);
+		DtoAssemblerVentas assembler = new DtoAssemblerVentas(gestor);
 		return assembler.dtoToReserva(service.cargarReservas());
 	}
 	

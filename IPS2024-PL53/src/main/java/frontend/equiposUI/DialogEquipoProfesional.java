@@ -20,6 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JComboBox;
@@ -231,10 +232,8 @@ public class DialogEquipoProfesional extends JDialog {
 			List<EmpleadoDeportivo> listaJugadores = vpe.getGestionEquiposShared().getJugadoresSinEquipo();
 			Collections.sort(listaJugadores);
 			listModel.addAll(listaJugadores);
+			listJugadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
-
-		
-
 		return listJugadores;
 	}
 

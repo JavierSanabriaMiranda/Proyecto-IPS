@@ -13,7 +13,8 @@ VALUES
     ('E0000005', '56789012E', 'Javier', 'Sánchez', '1982-05-05', '600567890', 'empleado de tienda', 28000.40),
     ('E0000006', '67890123F', 'Clara', 'Hernández', '1993-08-15', '600678901', 'empleado de jardineria', 27000.60),
     ('E0000007', '78901234G', 'Sofia', 'Torres', '1997-02-28', '600789012', 'empleado de cocina', 26000.30),
-    ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00);
+    ('E0000008', '89012345H', 'Pedro', 'González', '1984-09-17', '600890123', 'director de comunicaciones', 50000.00),
+    ('E1000009', '27394280J', 'Marcos', 'García', '1995-04-10', '600236743', 'empleado de jardineria', 27000.60);
 
 
 
@@ -49,7 +50,7 @@ INSERT INTO VENTAS (ID_VENTAS, DNI, FECHA, COSTE) VALUES
 -- Insertar datos en la tabla RESERVA (relacionados con las ventas e instalaciones)
 DELETE FROM RESERVA;
 INSERT INTO RESERVA (COD_RESERVA, HORA_FIN, HORA_INICIO, COD_INSTALACION, FECHA_RESERVA, N_TARJETA) VALUES
-('V001', '14:00:00', '12:00:00',  'ZONA_ENTRENAMIENTO_1', '2024-10-20', '123456789012345678901234'),
+('V001', '14:00:00', '12:00:00',  'ZONA_ENTRENAMIENTO_1', '2024-10-30', '123456789012345678901234'),
 ('V002', '16:00:00', '14:00:00', 'ZONA_ENTRENAMIENTO_2', '2024-10-20', '123456789012345678901235'),
 ('V003', '18:00:00', '16:00:00',  'GIMNASIO_PRINCIPAL','2024-10-22', '123456789012345678901236'),
 ('V004', '10:00:00', '08:00:00',  'CAMPO_JUEGO_1', '2024-10-23', '123456789012345678901237'),

@@ -57,12 +57,12 @@ public class PanelHora extends JPanel {
 		return lbEstado;
 	}
 	
-	protected void setHora(LocalTime hora) {
+	public void setHora(LocalTime hora) {
 		LocalTime horaSiguiente = hora.plusHours(1);
 		getLbHora().setText(hora + " - " + horaSiguiente);
 	}
 
-	protected void setOcupado(LocalTime horaInicio, LocalTime horaFin) {
+	public void setOcupado(LocalTime horaInicio, LocalTime horaFin) {
 		getLbEstado().setText("Trabajo de " + horaInicio + " a " + horaFin);
 		this.setBackground(Color.LIGHT_GRAY);
 	}

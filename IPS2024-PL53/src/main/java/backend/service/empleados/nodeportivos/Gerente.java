@@ -17,7 +17,6 @@ import backend.service.empleados.GeneradorIDEmpleado;
 import backend.service.equipos.Equipo;
 import backend.service.equipos.GeneradorIDEquipo;
 import backend.service.ventas.Venta;
-import backend.service.ventas.Venta;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
 import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
@@ -25,10 +24,11 @@ import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionequipos.GestorEquipos;
 import shared.gestioninstalaciones.GerenteVentas;
-import shared.gestioninstalaciones.GerenteVentas;
+import shared.gestionjardineria.GestorJardineros;
 import shared.gestionhorarios.GestorHorarios;
 
-public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados, GerenteVentas, GestorEquipos, GestorHorarios {
+public class Gerente extends EmpleadoNoDeportivoBase
+		implements GestorEmpleados, GerenteVentas, GestorEquipos, GestorHorarios, GestorJardineros {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -44,15 +44,17 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	private GeneradorIDEmpleado generadorID = new GeneradorIDEmpleado();
 
 	private GeneradorIDEquipo generadorIDEquipo = new GeneradorIDEquipo();
-    /**
-     * Lista de las ventas realizadas
-     */
+	/**
+	 * Lista de las ventas realizadas
+	 */
 	private List<Venta> ventas = new ArrayList<Venta>();
 
 	private List<Equipo> equipos = new ArrayList<Equipo>();
 
 	/**
-	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento de datos
+	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento
+	 * de datos
+	 * 
 	 * @param nombre
 	 * @param apellido
 	 * @param DNI
@@ -70,7 +72,6 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		empDeportivos = new HashMap<>();
 		empNoDeportivos = new HashMap<>();
 	}
-	
 
 	public List<Venta> getVentas() {
 		return this.ventas;
@@ -85,11 +86,11 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	public String addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
-		
+
 		String idNuevo = generarIDEmpleado();
 		emp.setIDEmpleado(idNuevo);
 		empDeportivos.put(emp.getIDEmpleado(), emp);
-		
+
 		return idNuevo;
 	}
 
@@ -97,14 +98,14 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	public String addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
-		
+
 		String idNuevo = generarIDEmpleado();
 		emp.setIDEmpleado(idNuevo);
 		empNoDeportivos.put(emp.getIDEmpleado(), emp);
-		
+
 		return idNuevo;
 	}
-	
+
 	@Override
 	public void addEmpleadoDeportivo(EmpleadoDeportivo emp) {
 		if (emp == null)
@@ -118,17 +119,19 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
 		empNoDeportivos.put(emp.getIDEmpleado(), emp);
 	}
-	
+
 	/**
-	 * Genera un ID de empleado único de la forma EXXXXXXX donde las X son números aleatorios
+	 * Genera un ID de empleado único de la forma EXXXXXXX donde las X son números
+	 * aleatorios
+	 * 
 	 * @return
 	 */
 	private String generarIDEmpleado() {
 		int numeroID;
 		do {
 			numeroID = generadorID.getNuevoID();
-		} while(empDeportivos.containsKey("E" + numeroID) || empNoDeportivos.containsKey("E" + numeroID));
-		
+		} while (empDeportivos.containsKey("E" + numeroID) || empNoDeportivos.containsKey("E" + numeroID));
+
 		return "E" + numeroID;
 	}
 
@@ -145,7 +148,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	public List<EmpleadoDeportivo> getEmpleadosDeportivos() {
 		List<EmpleadoDeportivo> empleados = new ArrayList<>();
 		empleados.addAll(empDeportivos.values());
-		
+
 		return empleados;
 	}
 
@@ -153,7 +156,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 	public List<EmpleadoNoDeportivo> getEmpleadosNoDeportivos() {
 		List<EmpleadoNoDeportivo> empleados = new ArrayList<>();
 		empleados.addAll(empNoDeportivos.values());
-		
+
 		return empleados;
 	}
 
@@ -197,7 +200,6 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 		return emp.getHorario().addAHorarioPuntual(hInicio, hFin, dia);
 	}
 
-
 	@Override
 	public List<EmpleadoDeportivo> getJugadoresSinEquipo() {
 		List<EmpleadoDeportivo> jugadoresSinEquipo = new ArrayList<EmpleadoDeportivo>();
@@ -225,7 +227,7 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 
 	@Override
 	public Equipo getEquipoByID(String idEquipo) {
-		for(Equipo equi : equipos) {
+		for (Equipo equi : equipos) {
 			if (equi.getIdEquipo().equals(idEquipo)) {
 				return equi;
 			}
@@ -245,22 +247,34 @@ public class Gerente extends EmpleadoNoDeportivoBase implements GestorEmpleados,
 
 	@Override
 	public String generarIDEquipo() {
-	    int numeroID;
-	    do {
-	        numeroID = generadorIDEquipo.getNuevoID();
-	    } while (existeIDEquipo("EQU" + numeroID));
+		int numeroID;
+		do {
+			numeroID = generadorIDEquipo.getNuevoID();
+		} while (existeIDEquipo("EQU" + numeroID));
 
-	    return "EQU" + numeroID;
+		return "EQU" + numeroID;
 	}
 
 	private boolean existeIDEquipo(String idEquipo) {
-	    for (Equipo equipo : equipos) {
-	        if (equipo.getIdEquipo().equals(idEquipo)) {
-	            return true;
-	        }
-	    }
-	    return false;
+		for (Equipo equipo : equipos) {
+			if (equipo.getIdEquipo().equals(idEquipo)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
+	// ------------ Jardineria-----------
+	
+	@Override
+	public List<EmpleadoNoDeportivo> getJardineros() {
+		List<EmpleadoNoDeportivo> jardineros = new ArrayList<>();
+		for (EmpleadoNoDeportivo emp : empNoDeportivos.values()) {
+			if (emp.getPuesto().equals(PuestoEmpleado.EMPLEADO_JARDINERIA)) {
+				jardineros.add(emp);
+			}
+		}
+		return jardineros;
+	}
 
 }

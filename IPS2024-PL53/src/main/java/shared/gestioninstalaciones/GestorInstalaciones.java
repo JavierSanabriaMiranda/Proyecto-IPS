@@ -1,8 +1,7 @@
-package backend.service.empleados;
+package shared.gestioninstalaciones;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import backend.data.instalaciones.InstalacionCRUDService;
@@ -12,7 +11,6 @@ import backend.service.horarios.FranjaTiempo;
 import backend.service.ventas.reservas.GeneradorCodReserva;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
-import shared.gestioninstalaciones.GestorReserva;
 
 public class GestorInstalaciones implements GestorReserva{
 	
