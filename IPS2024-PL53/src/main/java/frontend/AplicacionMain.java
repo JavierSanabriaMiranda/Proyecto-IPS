@@ -29,6 +29,7 @@ import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
+import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestioninstalaciones.ReservaShared;
 
 public class AplicacionMain {
@@ -172,6 +173,8 @@ public class AplicacionMain {
 
     private void inicializarHorariosEmpleados() {
         FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
+        GestionFrameHorariosShared gfh = new GestionFrameHorariosShared(frame);
+        gfh.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
