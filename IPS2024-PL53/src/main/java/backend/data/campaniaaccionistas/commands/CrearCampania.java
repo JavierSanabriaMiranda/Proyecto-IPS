@@ -5,7 +5,11 @@ import backend.data.campaniaaccionistas.CampaniaDTO;
 
 public class CrearCampania {
 	
-	private static final String QUERY = "INSERT INTO CAMPANIA_ACCIONISTAS "
+	private static final String QUERY_VENTAS = "INSERT INTO VENTAS "
+			+ "(ID_VENTAS) VALUES (?)";
+
+	
+	private static final String QUERY_CAMPANIA = "INSERT INTO CAMPANIA_ACCIONISTAS "
 			+ "(COD_CAMPANIA, NUMERO_ACCIONES_INICIAL, NUMERO_ACCIONES_RESTANTES, FASE, ESTADO) "
 			+ "VALUES (?, ?, ?, ?, ?)";
 
@@ -19,7 +23,9 @@ public class CrearCampania {
 	}
 
 	public void execute() {
-		db.executeUpdate(QUERY, dto.codCampania, dto.accionesIniciales, 
+		db.executeUpdate(QUERY_VENTAS, dto.codCampania);
+		
+		db.executeUpdate(QUERY_CAMPANIA, dto.codCampania, dto.accionesIniciales, 
 				dto.accionesRestantes, dto.fase, dto.estado);
 	}
 	

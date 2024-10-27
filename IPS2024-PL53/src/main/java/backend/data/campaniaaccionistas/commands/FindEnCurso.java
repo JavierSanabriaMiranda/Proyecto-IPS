@@ -12,7 +12,7 @@ import backend.data.campaniaaccionistas.CampaniaDTO;
 public class FindEnCurso {
 	
 	private static final String QUERY = "SELECT * FROM CAMPANIA_ACCIONISTAS "
-	        + "WHERE ESTADO = 'ABIERTA'";
+	        + "WHERE ESTADO = 'abierta'";
 	
 	private Database db = new Database();
 
@@ -34,7 +34,7 @@ public class FindEnCurso {
 	    for (Map<String, Object> fila : listaMap) {
 	    	CampaniaDTO dto = new CampaniaDTO(); // Renombrado a dto
 	        dto.codCampania = (String) fila.get("COD_CAMPANIA");
-	        dto.accionesIniciales = (int) fila.get("NUMERO_ACCIONES_INICIALES");
+	        dto.accionesIniciales = (int) fila.get("NUMERO_ACCIONES_INICIAL");
 	        dto.accionesRestantes = (int) fila.get("NUMERO_ACCIONES_RESTANTES");
 	        dto.fase = (int) fila.get("FASE");
 	        dto.estado = (String) fila.get("ESTADO");

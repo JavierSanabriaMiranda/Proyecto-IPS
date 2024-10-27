@@ -10,4 +10,6 @@ public interface CampaniaAccionistasCRUDService {
 	Optional<CampaniaDTO> findEnCurso();
 
 	void crearCampania(CampaniaDTO dto);
+
+	void actualizarCampania(CampaniaDTO dto);
 }

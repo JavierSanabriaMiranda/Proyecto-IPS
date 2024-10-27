@@ -47,8 +47,15 @@ public class GestionCampaniaShared {
 	
 	public void avanzarFase() {
 		gestor.avanzarFase();
+		
+		actualizarCampaniaEnBBDD();
 	}
 	
+	private void actualizarCampaniaEnBBDD() {
+		CampaniaAccionistas c = gestor.getCampania();
+		service.actualizarCampania(DtoAssembler.toDto(c));
+	}
+
 	public boolean isCampaniaFinalizada() {
 		return gestor.isCampaniaFinalizada();
 	}

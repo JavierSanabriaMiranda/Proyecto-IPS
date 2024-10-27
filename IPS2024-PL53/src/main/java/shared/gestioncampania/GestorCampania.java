@@ -31,4 +31,6 @@ public interface GestorCampania {
 	boolean isCampaniaFinalizada();
 
 	int getAccionesVendidas();
+
+	CampaniaAccionistas getCampania();
 }

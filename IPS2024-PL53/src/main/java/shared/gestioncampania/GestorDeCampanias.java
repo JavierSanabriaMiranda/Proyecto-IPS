@@ -49,7 +49,7 @@ public class GestorDeCampanias implements GestorCampania {
 	public CampaniaAccionistas crearCampania(int numAcciones) {
 		if (numAcciones <= 0)
 			throw new IllegalArgumentException("El número de acciones a vender no puede ser 0 o negativo");
-		String id = UUID.randomUUID().toString();
+		String id = UUID.randomUUID().toString().substring(0, 16);
 		
 		
 		this.campania = new CampaniaAccionistas(id, numAcciones, numAcciones, 1, EstadoCampania.ABIERTA);
@@ -81,6 +81,11 @@ public class GestorDeCampanias implements GestorCampania {
 	@Override
 	public int getAccionesVendidas() {
 		return campania.getNumAccionesIniciales() - campania.getNumAccionesRestantes();
+	}
+
+	@Override
+	public CampaniaAccionistas getCampania() {
+		return this.campania;
 	}
 
 }

@@ -72,7 +72,8 @@ public class GestionFrameCrearCampaniaShared {
 			viewFases.dispose();
 			view.dispose();
 		}
-		
+		else 
+			actualizarFaseEnLabel();
 	}
 
 	private void actualizarFaseEnLabel() {
