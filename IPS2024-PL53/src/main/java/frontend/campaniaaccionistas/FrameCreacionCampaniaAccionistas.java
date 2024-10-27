@@ -20,7 +20,6 @@ public class FrameCreacionCampaniaAccionistas extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
 	private JPanel contentPane;
 	private JLabel lbCrearNuevaCampania;
 	private JLabel lbNumAcciones;
@@ -49,9 +48,6 @@ public class FrameCreacionCampaniaAccionistas extends JFrame {
 		contentPane.add(getBtCrear());
 	}
 	
-	public GestionCampaniaShared getGesCam() {
-		return gesCam;
-	}
 	
 	private JLabel getLbCrearNuevaCampania() {
 		if (lbCrearNuevaCampania == null) {

@@ -28,6 +28,7 @@ import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
+import shared.gestioncampania.GestionFrameCrearCampaniaShared;
 import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionhorarios.GestionFrameHorariosShared;
@@ -244,8 +245,11 @@ public class AplicacionMain {
     
     private void inicializarCrearCampania() {
     	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
+    	GestionFrameCrearCampaniaShared gfcv = new GestionFrameCrearCampaniaShared(frame);
+    	gfcv.initController();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
+    	gfcv.cargarCampaniaEnCurso();
     }
 
     // Método para configurar el comportamiento al cerrar ventanas

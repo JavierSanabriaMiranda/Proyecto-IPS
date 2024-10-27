@@ -1,10 +1,13 @@
 package shared.gestioncampania;
 
 import backend.service.ventas.campanaAccionistas.Accionista;
+import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 
 public interface GestorCampania {
 
 	void crearCampania(int numAcciones);
+	
+	void cargarCampania(CampaniaAccionistas campania);
 	
 	/**
 	 * Añade un accionista que ya tiene id a la lista de accionistas

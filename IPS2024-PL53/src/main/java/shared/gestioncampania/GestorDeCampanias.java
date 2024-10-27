@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import backend.service.ventas.campanaAccionistas.Accionista;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
+import backend.service.ventas.campanaAccionistas.CampaniaAccionistas.EstadoCampania;
 
 public class GestorDeCampanias implements GestorCampania {
 	
@@ -51,7 +52,13 @@ public class GestorDeCampanias implements GestorCampania {
 		String id = UUID.randomUUID().toString();
 		
 		
-		this.campania = new CampaniaAccionistas(id, numAcciones, numAcciones, 1);
+		this.campania = new CampaniaAccionistas(id, numAcciones, numAcciones, 1, EstadoCampania.ABIERTA);
+	}
+
+	@Override
+	public void cargarCampania(CampaniaAccionistas campania) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
