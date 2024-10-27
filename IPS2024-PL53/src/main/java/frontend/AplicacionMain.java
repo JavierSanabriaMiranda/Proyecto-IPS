@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
@@ -58,7 +59,7 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
-        frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
+        frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -161,6 +162,18 @@ public class AplicacionMain {
             inicializarCargarNoticias();
         });
         noticiasMenu.add(cargarNoticias);
+        
+        // Menú "Accionistas"
+        JMenu accionistasMenu = new JMenu("Accionistas");
+        menuBar.add(accionistasMenu);
+
+        // Opción "Ver Historial de Ventas"
+        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
+        crearCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarCrearCampania();
+        });
+        accionistasMenu.add(crearCampania);
     }
 
 	private void inicializarGestionEmpleados() {
@@ -228,6 +241,12 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
 	}
+    
+    private void inicializarCrearCampania() {
+    	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
 
     // Método para configurar el comportamiento al cerrar ventanas
     private void configurarCierreVentana(JFrame frame) {

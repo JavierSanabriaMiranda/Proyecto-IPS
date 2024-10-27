@@ -29,10 +29,10 @@ public class VentanaPrincipalEquipos extends JFrame {
 		setTitle("Añadir Equipo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 615, 407);
+		this.setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(3, 1, 0, 0));
