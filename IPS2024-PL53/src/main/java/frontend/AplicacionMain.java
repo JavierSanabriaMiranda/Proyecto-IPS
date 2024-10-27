@@ -27,6 +27,7 @@ import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
+import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestioninstalaciones.ReservaShared;
 
@@ -163,6 +164,8 @@ public class AplicacionMain {
 
 	private void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
+        GestionFrameEmpleadosShared gfe = new GestionFrameEmpleadosShared(frame);
+        gfe.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }

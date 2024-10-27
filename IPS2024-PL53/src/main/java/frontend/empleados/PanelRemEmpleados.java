@@ -98,19 +98,10 @@ public class PanelRemEmpleados extends JPanel {
 		}
 		return scEmpleados;
 	}
-	private JList<Empleado> getListEmpleados() {
+	public JList<Empleado> getListEmpleados() {
 		if (listEmpleados == null) {
 			listEmpleados = new JList<Empleado>();
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			listEmpleados.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(!listEmpleados.isSelectionEmpty()) {
-						mostrarInfoEmpleado(listEmpleados.getSelectedValue());
-						getBtEliminar().setEnabled(true);
-					}
-				}
-			});
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
 			
 			modeloList = new DefaultListModel<>();
@@ -119,21 +110,12 @@ public class PanelRemEmpleados extends JPanel {
 		return listEmpleados;
 	}
 	
-	private void mostrarInfoEmpleado(Empleado emp) {
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("ID de Empleado: " + emp.getIDEmpleado() + "\n");
-		sb.append("Nombre: " + emp.getNombre() + "\n");
-		sb.append("Apellido: " + emp.getApellido() + "\n");
-		sb.append("DNI: " + emp.getDNI() + "\n");
-		sb.append("Teléfono: " + emp.getTelefono() + "\n");
-		sb.append("Fecha de Nacimiento: " + emp.getFechaNac() + "\n");
-		sb.append("Puesto: " + emp.getPuesto().toString().toUpperCase() + "\n");
-		
-		getTxDatos().setText(sb.toString());
+	public DefaultListModel<Empleado> getModeloList() {
+		return modeloList;
 	}
+	
 
-	private JTextPane getTxDatos() {
+	public JTextPane getTxDatos() {
 		if (txDatos == null) {
 			txDatos = new JTextPane();
 			txDatos.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -156,34 +138,17 @@ public class PanelRemEmpleados extends JPanel {
 		}
 		return pnBtEliminar;
 	}
-	private JButton getBtEliminar() {
+	public JButton getBtEliminar() {
 		if (btEliminar == null) {
 			btEliminar = new JButton("Eliminar");
-			btEliminar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (pedirConfirmacion() == JOptionPane.YES_OPTION) {
-						eliminarEmpleado();
-					}
-				}
-			});
 			btEliminar.setFont(new Font("Arial", Font.PLAIN, 12));
 			btEliminar.setEnabled(false);
 			
 		}
 		return btEliminar;
 	}
-	
-	private void eliminarEmpleado() {
-		gesEmp.eliminarEmpleado(getListEmpleados().getSelectedValue());
-		JOptionPane.showMessageDialog(this, "Se ha eliminado al empleado correctamente", "Confirmación de Eliminación de Empleado", 
-				JOptionPane.INFORMATION_MESSAGE);
-		inicializarPanel();
-	}
 
-	private int pedirConfirmacion() {
-		return JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este empleado?", 
-				"Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
-	}
+
 
 	private JLabel getLbEmpleados() {
 		if (lbEmpleados == null) {
@@ -195,18 +160,7 @@ public class PanelRemEmpleados extends JPanel {
 		return lbEmpleados;
 	}
 
-	public void inicializarPanel() {
-		getBtEliminar().setEnabled(false);
-		getListEmpleados().clearSelection();
-		getTxDatos().setText("");
-		
-		// Limpia la lista y añade los empleados ordenados
-		modeloList.clear();
-		List<Empleado> empleados = gesEmp.getEmpleadosFromGestor();
-		Collections.sort(empleados);
-		modeloList.addAll(empleados);
 
-	}
 	private Component getVerticalStrut() {
 		if (verticalStrut == null) {
 			verticalStrut = Box.createVerticalStrut(20);
