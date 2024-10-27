@@ -21,6 +21,7 @@ import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.historialVentas.HistorialVentas;
+import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.reservaUI.VentanaPrincipalReserva;
@@ -31,6 +32,8 @@ import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
+import shared.gestionjardineria.GestionPanelJardineriaShared;
+import shared.gestionjardineria.JardinerosShared;
 
 public class AplicacionMain {
 
@@ -161,6 +164,15 @@ public class AplicacionMain {
             inicializarCargarNoticias();
         });
         noticiasMenu.add(cargarNoticias);
+        
+        JMenuItem horarioJardineros = new JMenuItem("Horarios Jardinería");
+        horarioJardineros.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarJardineria();
+        });
+        gestionMenu.add(horarioJardineros);
+        
+        
     }
 
 	private void inicializarGestionEmpleados() {
@@ -228,6 +240,15 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
 	}
+    
+    private void inicializarJardineria() {
+    	JardinerosShared js = new JardinerosShared();
+    	VentanaJardineros frame = new VentanaJardineros(js);
+    	GestionPanelJardineriaShared gpjs = new GestionPanelJardineriaShared(frame);
+    	gpjs.initController();
+    	configurarCierreVentana(frame);
+        frame.setVisible(true);
+    }
 
     // Método para configurar el comportamiento al cerrar ventanas
     private void configurarCierreVentana(JFrame frame) {
