@@ -230,11 +230,12 @@ public class CargarNoticia extends JFrame {
 	}
 
 	public JFileChooser getSelector() {
-		if(selector == null) {
-			selector = new JFileChooser();
-			selector.setMultiSelectionEnabled(true);
-			selector.setFileFilter(new FileNameExtensionFilter("Imágenes", "jpg", "png"));
-		}
-		return selector;
+	    if (selector == null) {
+	        selector = new JFileChooser();
+	        selector.setMultiSelectionEnabled(true);
+	        selector.setFileFilter(new FileNameExtensionFilter("Imágenes", "jpg", "jpeg", "png", "gif", "bmp", "tiff", "avif"));
+	    }
+	    return selector;
 	}
+
 }
