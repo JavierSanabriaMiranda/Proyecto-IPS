@@ -1,14 +1,20 @@
 package shared.gestioncampania;
 
+import java.util.Optional;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import backend.data.CreadorDataService;
+import backend.data.accionistas.AccionistaDTO;
+import backend.data.accionistas.AccionistasCRUDService;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 
 public class GestionFrameParticiparCampania {
 	
 	private FrameParticiparEnCampaniaAccionistas view;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
+	private AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
 
 	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view) {
 		this.view = view;
@@ -35,13 +41,28 @@ public class GestionFrameParticiparCampania {
 			view.dispose();
 		} 
 		else {
-			accederACampania();
+			accederACampania(dni);
 		}
 	}
 	
-	private void accederACampania() {
-		// TODO Auto-generated method stub
-		
+	private void accederACampania(String dni) {
+		Optional<AccionistaDTO> optAccionista = serviceAccionista.findByDniAccionista(dni);
+		int fase = gesCam.getFaseCampania();
+		switch (fase) {
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		default:
+			throw new IllegalStateException("La campaña está en la fase " + fase + " que no se "
+					+ "encuentra dentro de lo esperado");
+		}
+			
 	}
 
 	/**

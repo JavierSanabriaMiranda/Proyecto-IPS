@@ -1,5 +1,7 @@
 package backend.data;
 
+import backend.data.accionistas.AccionistasCRUDImpl;
+import backend.data.accionistas.AccionistasCRUDService;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDImpl;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDService;
 import backend.data.clientes.ClientesCRUDImpl;
@@ -79,5 +81,9 @@ public class CreadorDataService {
 	
 	public static CampaniaAccionistasCRUDService getCampaniasService() {
 		return new CampaniaAccionistasCRUDImpl();
+	}
+	
+	public static AccionistasCRUDService getAccionistasService() {
+		return new AccionistasCRUDImpl();
 	}
 }
