@@ -6,4 +6,6 @@ public interface AccionistasCRUDService {
 
 	Optional<AccionistaDTO> findByDniAccionista(String dni);
 
+	int getNumAccionesByDniAccionista(String dniAccionista);
+
 }

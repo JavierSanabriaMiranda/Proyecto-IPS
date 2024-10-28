@@ -28,4 +28,12 @@ public class Accionista {
 	public void setIdAccionista(String id) {
 		this.idAccionista = id;
 	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
 }

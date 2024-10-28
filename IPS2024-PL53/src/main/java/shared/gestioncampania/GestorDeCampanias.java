@@ -1,8 +1,5 @@
 package shared.gestioncampania;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import backend.service.ventas.campanaAccionistas.Accionista;
@@ -10,40 +7,29 @@ import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas.EstadoCampania;
 
 public class GestorDeCampanias implements GestorCampania {
-	
-	private Random random = new Random();
-	private Map<String, Accionista> accionistas = new HashMap<>();
+
+	// Accionista que ha hecho el ingreso a la campaña
+	private Accionista accionista; 
 	private CampaniaAccionistas campania;
 
 	@Override
 	public void addAccionista(Accionista accionista) {
 		if (accionista == null)
 			throw new IllegalArgumentException("El accionista a añadir no puede ser nulo");
-		accionistas.put(accionista.getIdAccionista(), accionista);
+		this.accionista = accionista;
 	}
 
 	@Override
 	public String addNuevoAccionista(Accionista accionista) {
 		if (accionista == null)
 			throw new IllegalArgumentException("El accionista a añadir no puede ser nulo");
-		String newId = generarNuevoIdAccionista();
+		String newId = UUID.randomUUID().toString().substring(0, 17);
 		accionista.setIdAccionista(newId);
+		
+		this.accionista = accionista;
 		return newId;
 	}
-	
-	/**
-	 * Genera un nuevo id de accionista que no exista con el formato "AXXXXXXXX" 
-	 * donde las X son números aleatorios
-	 * @return nuevo id de accionista que no existe
-	 */
-	private String generarNuevoIdAccionista() {
-		String newId = "";
-		do {
-			int numId = random.nextInt(10000000);
-			newId = "A" + numId;	
-		} while (accionistas.containsKey(newId));
-		return newId;
-	}
+
 
 	@Override
 	public CampaniaAccionistas crearCampania(int numAcciones) {
@@ -86,6 +72,11 @@ public class GestorDeCampanias implements GestorCampania {
 	@Override
 	public CampaniaAccionistas getCampania() {
 		return this.campania;
+	}
+
+	@Override
+	public Accionista getAccionista() {
+		return accionista;
 	}
 
 }

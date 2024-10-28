@@ -2,6 +2,8 @@ package backend.data.campaniaaccionistas;
 
 import java.util.Optional;
 
+import backend.data.accionistas.AccionistaDTO;
+
 public interface CampaniaAccionistasCRUDService {
 
 	/**
@@ -12,4 +14,8 @@ public interface CampaniaAccionistasCRUDService {
 	void crearCampania(CampaniaDTO dto);
 
 	void actualizarCampania(CampaniaDTO dto);
+
+	Optional<AccionistaDTO> getAccionistaEnCampaniaByDni(String dniAccionista);
+
+	void addAccionistaEnCampania(String idAccionista, String codCampania, int numAccionesIniciales);
 }

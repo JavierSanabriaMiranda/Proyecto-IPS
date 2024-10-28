@@ -33,4 +33,6 @@ public interface GestorCampania {
 	int getAccionesVendidas();
 
 	CampaniaAccionistas getCampania();
+
+	Accionista getAccionista();
 }

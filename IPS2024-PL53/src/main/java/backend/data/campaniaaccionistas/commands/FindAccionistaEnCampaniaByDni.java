@@ -1,4 +1,4 @@
-package backend.data.accionistas.commands;
+package backend.data.campaniaaccionistas.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,21 +8,21 @@ import java.util.Optional;
 import backend.data.Database;
 import backend.data.DatabaseException;
 import backend.data.accionistas.AccionistaDTO;
-import backend.data.campaniaaccionistas.CampaniaDTO;
 
-public class FindByDniAccionista {
+public class FindAccionistaEnCampaniaByDni {
 	
-	private static final String QUERY = "SELECT * FROM ACCIONISTA WHERE DNI = ?";
-	
+	private static final String QUERY = "SELECT * FROM PARTICIPA_EN_CAMPANIA P "
+			+ "INNER JOIN ACCIONISTA A ON A.ID_ACCIONISTA = P.ID_ACCIONISTA WHERE P.ID_ACCIONISTA = ?";
+
 	private Database db = new Database();
 	private String dni;
-
-	public FindByDniAccionista(String dni) {
-		if (dni == null)
+	
+	public FindAccionistaEnCampaniaByDni(String dni) {
+		if (dni == null) 
 			throw new IllegalArgumentException("El dni no puede ser null");
 		this.dni = dni;
 	}
-
+	
 	public Optional<AccionistaDTO> execute() {
 		List<Map<String, Object>> mapsAccionista = db.executeQueryMap(QUERY, dni);
 		List<AccionistaDTO> accionistas = mapsToAccionista(mapsAccionista);
@@ -48,5 +48,4 @@ public class FindByDniAccionista {
 	    }
 	    return lista; 		
 	}
-
 }

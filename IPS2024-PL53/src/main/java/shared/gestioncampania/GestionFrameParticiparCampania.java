@@ -5,16 +5,14 @@ import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import backend.data.CreadorDataService;
-import backend.data.accionistas.AccionistaDTO;
-import backend.data.accionistas.AccionistasCRUDService;
+import backend.data.campaniaaccionistas.CampaniaDTO;
+import backend.data.campaniaaccionistas.DtoAssembler;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 
 public class GestionFrameParticiparCampania {
 	
 	private FrameParticiparEnCampaniaAccionistas view;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
-	private AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
 
 	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view) {
 		this.view = view;
@@ -28,8 +26,7 @@ public class GestionFrameParticiparCampania {
 		else {
 			JOptionPane.showMessageDialog(null, "Ninguna campaña se encuentra abierta actualmente", 
 					"No existe campaña abierta", JOptionPane.INFORMATION_MESSAGE);
-			view.setVisible(true);
-			view.dispose();
+			cerrarVentana();
 		}
 	}
 
@@ -37,8 +34,7 @@ public class GestionFrameParticiparCampania {
 		String dni = obtenerDniCliente();
 		// Si el cliente ha cancelado la operación
 		if (dni == null) {
-			view.setVisible(true);
-			view.dispose();
+			cerrarVentana();
 		} 
 		else {
 			accederACampania(dni);
@@ -46,14 +42,18 @@ public class GestionFrameParticiparCampania {
 	}
 	
 	private void accederACampania(String dni) {
-		Optional<AccionistaDTO> optAccionista = serviceAccionista.findByDniAccionista(dni);
+		boolean esAccionista = gesCam.esAccionista(dni);
+		
 		int fase = gesCam.getFaseCampania();
 		switch (fase) {
 		case 1:
-			
-			break;
 		case 2:
-			
+			if (!esAccionista)
+				informarDeNoAccesoACliente(fase);
+			else {
+				accederComoAccionista(fase);
+			}
+				
 			break;
 		case 3:
 			
@@ -63,6 +63,20 @@ public class GestionFrameParticiparCampania {
 					+ "encuentra dentro de lo esperado");
 		}
 			
+	}
+
+	private void accederComoAccionista(int fase) {
+		// Comprobamos si el acceso a la campaña por parte del accionista ya está registrado en la BDD
+		// (Si ya habia accedido con anterioridad) y en caso de que no, lo registramos
+		gesCam.registrarAccionista();
+			
+	}
+
+	private void informarDeNoAccesoACliente(int fase) {
+		JOptionPane.showMessageDialog(null, "La campaña se encuentra aún en la fase " + 1 + "para "
+				+ "acceder sin ser accionista, deberá esperar a la fase 3", "Acceso no permitido", 
+				JOptionPane.INFORMATION_MESSAGE);
+		cerrarVentana();
 	}
 
 	/**
@@ -93,6 +107,11 @@ public class GestionFrameParticiparCampania {
         	return textField.getText();
         }
         return null;
+	}
+	
+	private void cerrarVentana() {
+		view.setVisible(true);
+		view.dispose();
 	}
 
 }
