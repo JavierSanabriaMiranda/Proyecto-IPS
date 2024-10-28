@@ -16,6 +16,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.productos.ProductoCRUDImpl;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
+import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
@@ -29,6 +30,7 @@ import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestioncampania.GestionFrameCrearCampaniaShared;
+import shared.gestioncampania.GestionFrameParticiparCampania;
 import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionhorarios.GestionFrameHorariosShared;
@@ -175,6 +177,13 @@ public class AplicacionMain {
             inicializarCrearCampania();
         });
         accionistasMenu.add(crearCampania);
+        
+        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
+        accederCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarParticiparEnACampania();
+        });
+        accionistasMenu.add(accederCampania);
     }
 
 	private void inicializarGestionEmpleados() {
@@ -250,6 +259,14 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
     	gfcv.cargarCampaniaEnCurso();
+    }
+    
+    private void inicializarParticiparEnACampania() {
+    	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
+    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
+    	configurarCierreVentana(frame);
+    	
+    	gfpc.cargarCampaniaEnCurso();
     }
 
     // Método para configurar el comportamiento al cerrar ventanas
