@@ -81,6 +81,21 @@ public class Instalacion {
 	    // Si no hubo solapamientos ni conflictos con la restricción de 1h30, es posible
 	    return true;
 	}
+	
+	public boolean esFranjaPosibleParaJardinero(FranjaTiempo fj) {
+	    // Obtener eventos existentes en la fecha de la franja de tiempo propuesta
+	    LocalDate fecha = fj.getFecha(); 
+	    List<FranjaTiempo> eventosDelDia = getEventos(fecha);
+
+	    for (FranjaTiempo evento : eventosDelDia) {
+	        // Si la nueva franja se solapa con un evento existente
+	        if (solapa(fj, evento)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
 
 	// Verifica si dos franjas de tiempo se solapan
 	private boolean solapa(FranjaTiempo nueva, FranjaTiempo existente) {

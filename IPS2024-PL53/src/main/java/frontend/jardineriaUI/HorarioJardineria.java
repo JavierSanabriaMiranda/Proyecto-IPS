@@ -246,7 +246,7 @@ public class HorarioJardineria extends JDialog {
 		}
 		return pnSeleccionHoras;
 	}
-	private JSpinner getSpHoraInicio() {
+	public JSpinner getSpHoraInicio() {
 		if (spHoraInicio == null) {
 			SpinnerDateModel spinnerModel = new SpinnerDateModel();
 	        spHoraInicio = new JSpinner(spinnerModel);
@@ -268,7 +268,7 @@ public class HorarioJardineria extends JDialog {
 		}
 		return spHoraInicio;
 	}
-	private JSpinner getSpHoraFin() {
+	public JSpinner getSpHoraFin() {
 		if (spHoraFin == null) {
 			SpinnerDateModel spinnerModel = new SpinnerDateModel();
 			spHoraFin = new JSpinner(spinnerModel);
@@ -305,14 +305,16 @@ public class HorarioJardineria extends JDialog {
 		}
 		return lblHoraFin;
 	}
-	private JButton getBtnAñadir() {
+	public JButton getBtnAñadir() {
 		if (btnAñadir == null) {
 			btnAñadir = new JButton("Añadir");
 			btnAñadir.setBounds(251, 438, 89, 23);
 		}
 		return btnAñadir;
 	}
-	private JButton getBtnAtras2() {
+	
+	
+	public JButton getBtnAtras2() {
 		if (btnAtras2 == null) {
 			btnAtras2 = new JButton("Atras");
 			btnAtras2.setBounds(10, 438, 89, 23);

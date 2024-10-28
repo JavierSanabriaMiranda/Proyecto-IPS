@@ -75,6 +75,11 @@ public class GestorInstalaciones implements GestorReserva{
 	}
 	
 	@Override
+	public boolean isHorarioValidoParaJardinero(Instalacion instalacion ,FranjaTiempo franja) {
+		return instalacion.esFranjaPosibleParaJardinero(franja);
+	}
+	
+	@Override
 	public Instalacion buscaInstalacion(String codInstalacion) {
 		for (Instalacion inst : instalaciones) {
 			if (inst.getNombreInstalacion().equals(codInstalacion)){

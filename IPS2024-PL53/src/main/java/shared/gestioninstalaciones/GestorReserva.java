@@ -23,4 +23,6 @@ public interface GestorReserva {
 	
 	public List<Instalacion> getInstalaciones();
 
+	boolean isHorarioValidoParaJardinero(Instalacion instalacion, FranjaTiempo franja);
+
 }

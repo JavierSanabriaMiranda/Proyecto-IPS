@@ -117,5 +117,9 @@ public class JardinerosShared {
 		return gestorInstalaciones.consultarDisponibilidad(instalacion, fecha);
 	}
 
+	public boolean isHorarioValidoParaJardinero(Instalacion instalacion, FranjaTiempo franja) {
+		return gestorInstalaciones.isHorarioValidoParaJardinero(instalacion, franja);
+	}
+
 
 }
