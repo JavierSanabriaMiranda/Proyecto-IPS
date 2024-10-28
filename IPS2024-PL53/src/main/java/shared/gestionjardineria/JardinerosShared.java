@@ -9,6 +9,9 @@ import backend.data.empleados.EmpleadosCRUDService;
 import backend.data.entrenamientos.EntrenamientoCRUDImpl;
 import backend.data.entrenamientos.EntrenamientoCRUDService;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
+import backend.data.horarios.HorarioCRUDService;
+import backend.data.horarios.TurnoPuntualDTO;
+import backend.data.horarios.TurnoSemanalDTO;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
@@ -27,12 +30,35 @@ public class JardinerosShared {
 	private GestorJardineros gestor = new Gerente();
 	GestorReserva gestorInstalaciones = new GestorInstalaciones();
 	EmpleadosCRUDService serviceEmp = CreadorDataService.getEmpleadosService();
+	HorarioCRUDService serviceHor = CreadorDataService.getHorarioService();
 	
 	public JardinerosShared() {
 		cargarEmpleadosNoDeportivos();
 		cargarInstalaciones();
 		cargarReservaEnInstalaciones();
 		cargarEntrenamientosEnInstalaciones();
+		cargarHorariosDeBBDD();
+	}
+	
+	private void cargarHorariosDeBBDD() {
+		cargarTurnosSemanales();
+		cargarTurnosPuntuales();
+	}
+
+	private void cargarTurnosSemanales() {
+		List<TurnoSemanalDTO> dtosSemanales = serviceHor.cargarTurnosSemanales();
+		for (TurnoSemanalDTO dtoSemanal : dtosSemanales) {
+			EmpleadoNoDeportivo emp = gestor.getEmpleadoNoDeportivo(dtoSemanal.idEmp);
+			emp.getHorario().addAHorarioSemanal(dtoSemanal.horaInicio, dtoSemanal.horaFin, dtoSemanal.diaSemana);
+		}
+	}
+	
+	private void cargarTurnosPuntuales() {
+		List<TurnoPuntualDTO> dtosPuntuales = serviceHor.cargarTurnosPuntuales();
+		for (TurnoPuntualDTO dtoPuntual : dtosPuntuales) {
+			EmpleadoNoDeportivo emp = gestor.getEmpleadoNoDeportivo(dtoPuntual.idEmp);
+			emp.getHorario().addAHorarioPuntual(dtoPuntual.horaInicio, dtoPuntual.horaFin, dtoPuntual.dia);
+		}
 	}
 	private void cargarReservaEnInstalaciones() {
 		List<Reserva> reservas = cargarReservas();

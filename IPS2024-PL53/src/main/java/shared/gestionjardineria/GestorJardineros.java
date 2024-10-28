@@ -13,5 +13,7 @@ public interface GestorJardineros {
 	void addEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
 
 	List<Turno> getHorarioDia(EmpleadoNoDeportivo emp, LocalDate fecha);
+	
+	EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmp);
 
 }
