@@ -104,6 +104,11 @@ public class GestorDeCampanias implements GestorCampania {
 	public int getNumAccionesCompradasAccionista() {
 		return numAccionesCompradasAccionista;
 	}
+
+	@Override
+	public double getPrecioAcciones() {
+		return campania.getPrecioAcciones();
+	}
 	
 	
 

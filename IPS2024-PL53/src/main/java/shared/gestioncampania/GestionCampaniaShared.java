@@ -116,5 +116,9 @@ public class GestionCampaniaShared {
 		return gestor.getNumAccionesCompradasAccionista();
 	}
 
+	public double getPrecioAcciones() {
+		return gestor.getPrecioAcciones();
+	}
+
 	
 }

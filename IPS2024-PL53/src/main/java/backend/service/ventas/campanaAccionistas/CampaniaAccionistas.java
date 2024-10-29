@@ -7,6 +7,7 @@ public class CampaniaAccionistas extends VentaBase {
 	private static final int FASE_1 = 1;
 	private static final int FASE_2 = 2;
 	private static final int FASE_3 = 3;
+	private static final int PRECIO_ESTANDAR = 60;
 	
 	public enum EstadoCampania {
 		ABIERTA("abierta"), FINALIZADA("finalizada");
@@ -28,6 +29,7 @@ public class CampaniaAccionistas extends VentaBase {
 	private int numAccionesIniciales;
 	private int numAccionesRestantes;
 	private int fase;
+	private double precioAcciones = PRECIO_ESTANDAR;
 	
 	public CampaniaAccionistas(String codCampania, int accionesIniciales, int accionesRestantes, int fase, 
 				EstadoCampania estado) {
@@ -75,8 +77,9 @@ public class CampaniaAccionistas extends VentaBase {
 		return numAccionesRestantes;
 	}
 	
-	
-	
-	
+	public double getPrecioAcciones() {
+		return this.precioAcciones;
+	}
+
 	
 }

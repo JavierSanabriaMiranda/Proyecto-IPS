@@ -1,14 +1,9 @@
 package shared.gestioncampania;
 
-import java.util.Optional;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import backend.data.campaniaaccionistas.CampaniaDTO;
-import backend.data.campaniaaccionistas.DtoAssembler;
 import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 
@@ -68,7 +63,7 @@ public class GestionFrameParticiparCampania {
 			throw new IllegalStateException(
 					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
 		}
-
+		view.setVisible(true);
 	}
 
 	private void accederComoAccionista() {
@@ -98,6 +93,17 @@ public class GestionFrameParticiparCampania {
 					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
 		}
 		ponerLimiteSpinner(fase);
+		view.getSpAcciones().setValue(1);
+		actualizarPrecio();
+	}
+
+	private void actualizarPrecio() {
+		int numAccionesAComprar = (int) view.getSpAcciones().getValue();
+		double precioUnaAccion = gesCam.getPrecioAcciones();
+		double precioTotal = numAccionesAComprar * precioUnaAccion;
+		
+		String texto = view.getLbPrecio().getText();
+		view.getLbPrecio().setText(String.format("%s %.2f\u20AC",texto, precioTotal));
 	}
 
 	private void ponerLimiteSpinner(int fase) {
@@ -144,7 +150,7 @@ public class GestionFrameParticiparCampania {
 
 	private void informarDeNoAccesoACliente(int fase) {
 		JOptionPane.showMessageDialog(null,
-				"La campaña se encuentra aún en la fase " + 1 + "para "
+				"La campaña se encuentra aún en la fase " + fase + " para "
 						+ "acceder sin ser accionista, deberá esperar a la fase 3",
 				"Acceso no permitido", JOptionPane.INFORMATION_MESSAGE);
 		cerrarVentana();
@@ -180,11 +186,11 @@ public class GestionFrameParticiparCampania {
 
 	private void darInfoFuncionamientoCampania() {
 		String info = "El funcionamiento de la campaña es el siguiente:\n";
-		info += "	-Fase 1: Solo pueden acceder accionistas y como máximo podrán comprar\n";
+		info += "	- Fase 1: Solo pueden acceder accionistas y como máximo podrán comprar\n";
 		info += "	el número de acciones que tenían al realizar su primer ingreso\n";
-		info += "	-Fase 2: Solo pueden acceder accionistas y podrán comprar acciones\n";
+		info += "	- Fase 2: Solo pueden acceder accionistas y podrán comprar acciones\n";
 		info += "	hasta que se agoten las fijadas para la campaña\n";
-		info += "	-Fase 3: Pueden acceder clientes no accionistas y se podrán comprar acciones\n";
+		info += "	- Fase 3: Pueden acceder clientes no accionistas y se podrán comprar acciones\n";
 		info += "	hasta que se agoten las fijadas para la campaña\n";
 		JOptionPane.showMessageDialog(view, info, "Funcionamiento de las Campañas", JOptionPane.INFORMATION_MESSAGE);
 	}

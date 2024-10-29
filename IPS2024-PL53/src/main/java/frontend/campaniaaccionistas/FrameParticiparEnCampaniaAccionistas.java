@@ -97,7 +97,7 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 		if (lbPrecio == null) {
 			lbPrecio = new JLabel("Precio total: ");
 			lbPrecio.setFont(new Font("Arial", Font.BOLD, 16));
-			lbPrecio.setBounds(115, 221, 138, 40);
+			lbPrecio.setBounds(115, 221, 295, 40);
 		}
 		return lbPrecio;
 	}

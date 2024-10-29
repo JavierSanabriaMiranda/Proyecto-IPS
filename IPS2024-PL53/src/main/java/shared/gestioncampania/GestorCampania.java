@@ -45,4 +45,6 @@ public interface GestorCampania {
 	int getAccionesInicialesAccionista();
 
 	int getNumAccionesCompradasAccionista();
+
+	double getPrecioAcciones();
 }
