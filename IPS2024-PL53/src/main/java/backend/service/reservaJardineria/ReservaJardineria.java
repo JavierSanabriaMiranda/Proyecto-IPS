@@ -1,6 +1,6 @@
 package backend.service.reservaJardineria;
 
-import backend.service.FranjaTiempo;
+import backend.service.horarios.FranjaTiempo;
 import backend.service.empleados.nodeportivos.EmpleadoJardineria;
 import backend.service.ventas.reservas.Instalacion;
 

@@ -8,15 +8,16 @@ import java.util.List;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
+import backend.service.reservaJardineria.ReservaJardineria;
 
 public class Instalacion {
 	private String nombreInstalacion;
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private List<Entrenamiento> entrenamientos = new ArrayList<Entrenamiento>();
+	private List<ReservaJardineria> reservasJardinerias = new ArrayList<>();
 	
 	public Instalacion(String nombreInstalacion) {
 		this.nombreInstalacion = nombreInstalacion;
-		
 	}
 	
 	
@@ -29,6 +30,10 @@ public class Instalacion {
 	}
 	public String getNombreInstalacion() {
 		return nombreInstalacion;
+	}
+	
+	public List<ReservaJardineria> getReservasJardineria(){
+		return reservasJardinerias;
 	}
 
 	public List<FranjaTiempo> getEventos(LocalDate dia) {
@@ -43,8 +48,15 @@ public class Instalacion {
 				lista.add(entrenamiento.getHorario());
 			}
 		}
+//		for (ReservaJardineria reservaJar : reservasJardinerias) {
+//			if (reservaJar.getHorario().getFecha().equals(dia)) {
+//				lista.add(reservaJar.getHorario());
+//			}
+//		}
 		return lista;
 	}
+	
+	
 	
 	public void addReserva(Reserva reserva) {
 		this.reservas.add(reserva);
@@ -53,6 +65,10 @@ public class Instalacion {
 
 	public void addEntrenamiento(Entrenamiento entrenamiento) {
 		this.entrenamientos.add(entrenamiento);
+	}
+	
+	public void addReservaJardineria(ReservaJardineria reserva) {
+		this.reservasJardinerias.add(reserva);
 	}
 
 

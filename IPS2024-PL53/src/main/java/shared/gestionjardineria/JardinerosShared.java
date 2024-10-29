@@ -1,6 +1,7 @@
 package shared.gestionjardineria;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import backend.data.CreadorDataService;
@@ -12,18 +13,24 @@ import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.horarios.HorarioCRUDService;
 import backend.data.horarios.TurnoPuntualDTO;
 import backend.data.horarios.TurnoSemanalDTO;
+import backend.data.reservaJardineria.ReservaJardineriaCRUDImpl;
+import backend.data.reservaJardineria.ReservaJardineriaCRUDService;
+import backend.data.reservaJardineria.ReservaJardineriaDTO;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
 import backend.service.empleados.EmpleadoNoDeportivo;
+import backend.service.empleados.nodeportivos.EmpleadoJardineria;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
+import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
 import shared.gestioninstalaciones.GestorInstalaciones;
 import shared.gestioninstalaciones.GestorReserva;
+import util.DateToLocalTimeConverter;
 
 public class JardinerosShared {
 	
@@ -119,6 +126,35 @@ public class JardinerosShared {
 
 	public boolean isHorarioValidoParaJardinero(Instalacion instalacion, FranjaTiempo franja) {
 		return gestorInstalaciones.isHorarioValidoParaJardinero(instalacion, franja);
+	}
+	
+	public void addReservaJardineria(FranjaTiempo franja, Instalacion inst, EmpleadoJardineria empleado, Date fecha) {
+		String codReservaJardineria = gestorInstalaciones.creaCodReservaJardineria();
+		String codInst = inst.getNombreInstalacion();
+		
+		ReservaJardineria reserva = new ReservaJardineria(franja, inst, empleado, codReservaJardineria);
+		gestorInstalaciones.addReservaJardineriaAInstalacion(reserva, inst);
+		
+		addReservaJardineriaABDD(codReservaJardineria, codInst, empleado,franja, fecha);
+	}
+
+	private void addReservaJardineriaABDD(String codReservaJardineria, String codInst, EmpleadoJardineria empleado,
+			FranjaTiempo franja, Date fecha) {
+		ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
+		
+		ReservaJardineriaDTO dto = new ReservaJardineriaDTO();
+		dto.codInstalacion = codInst;
+		dto.codReservaJardineria = codReservaJardineria;
+		dto.fecha = fecha;
+		dto.horaFin = DateToLocalTimeConverter.combinarFechaYHora(fecha, franja.getHoraFin());
+		dto.horaInicio = DateToLocalTimeConverter.combinarFechaYHora(fecha, franja.getHoraInicio());
+		dto.idJardinero = empleado.getIDEmpleado();
+		
+		service.addReservaJardineria(dto);
+	}
+
+	public Instalacion buscaInstalacion(String nombreInstalacion) {
+		return gestorInstalaciones.buscaInstalacion(nombreInstalacion);
 	}
 
 

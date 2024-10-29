@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import backend.service.empleados.EmpleadoNoDeportivo;
+import backend.service.empleados.nodeportivos.EmpleadoJardineria;
 import backend.service.empleados.nodeportivos.horarios.Horario;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.horarios.FranjaTiempo;
@@ -100,9 +101,36 @@ public class GestionPanelJardineriaShared {
 			JOptionPane.showMessageDialog(null, "El horario seleccionado no se encuentra dentro del horario disponible de la instalación.",
 					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
 		} else {
-			System.out.println("Añadido");
+			diagJar.getVj().getJardinerosShared().addReservaJardineria(getFranjaReserva(), getInstalacionReserva(), 
+					getEmpleado(), diagJar.getVj().getDateChooser().getDate());
+			JOptionPane.showMessageDialog(null, "La asignación al empleado se ha realizado con éxito.", 
+                    "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
 		}
 		
+	}
+	
+	private EmpleadoJardineria getEmpleado() {
+		EmpleadoNoDeportivo empleado = diagJar.getVj().getListJardineros().getSelectedValue();
+		return (EmpleadoJardineria) empleado;
+	}
+	
+	
+	private FranjaTiempo getFranjaReserva() {
+		Date horaInicio = (Date) diagJar.getSpHoraInicio().getValue();
+		Date horaFin = (Date) diagJar.getSpHoraFin().getValue();
+		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA_JARDINERIA, inicio, fin,
+				DateToLocalDate.convertToLocalDate(diagJar.getVj().getDateChooser().getDate()));
+		return franja;
+	}
+
+	private Instalacion getInstalacionReserva() {
+		Instalacion inst = (Instalacion) diagJar.getVj().getCbInstalaciones().getSelectedItem();
+		String nombreInstalacion = inst.getNombreInstalacion();
+		Instalacion instalacion = diagJar.getVj().getJardinerosShared().buscaInstalacion(nombreInstalacion);
+		return instalacion;
 	}
 
 

@@ -1,6 +1,6 @@
 package backend.service.horarios;
 
 public enum TipoEvento {
-	ENTRENAMIENTO, RESERVA;
+	ENTRENAMIENTO, RESERVA, RESERVA_JARDINERIA;
 
 }
