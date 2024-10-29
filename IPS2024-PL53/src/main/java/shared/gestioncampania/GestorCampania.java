@@ -35,4 +35,14 @@ public interface GestorCampania {
 	CampaniaAccionistas getCampania();
 
 	Accionista getAccionista();
+
+	void setAccionesIniciales(int numAccionesIniciales);
+
+	void setAccionesCompradas(int numAccionesCompradas);
+
+	int getAccionesRestantesCampania();
+
+	int getAccionesInicialesAccionista();
+
+	int getNumAccionesCompradasAccionista();
 }

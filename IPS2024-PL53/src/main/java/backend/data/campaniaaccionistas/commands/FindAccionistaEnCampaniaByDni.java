@@ -8,6 +8,7 @@ import java.util.Optional;
 import backend.data.Database;
 import backend.data.DatabaseException;
 import backend.data.accionistas.AccionistaDTO;
+import backend.data.campaniaaccionistas.AccionistaEnCampaniaDTO;
 
 public class FindAccionistaEnCampaniaByDni {
 	
@@ -23,9 +24,9 @@ public class FindAccionistaEnCampaniaByDni {
 		this.dni = dni;
 	}
 	
-	public Optional<AccionistaDTO> execute() {
+	public Optional<AccionistaEnCampaniaDTO> execute() {
 		List<Map<String, Object>> mapsAccionista = db.executeQueryMap(QUERY, dni);
-		List<AccionistaDTO> accionistas = mapsToAccionista(mapsAccionista);
+		List<AccionistaEnCampaniaDTO> accionistas = mapsToAccionista(mapsAccionista);
 		if (accionistas.size() > 1) 
 			throw new DatabaseException("La base de datos está en un estado inconsistente "
 					+ "al haber más de un accionista con el mismo DNI");
@@ -34,15 +35,16 @@ public class FindAccionistaEnCampaniaByDni {
 		return Optional.of(accionistas.get(0));
 	}
 	
-	private List<AccionistaDTO> mapsToAccionista(List<Map<String, Object>> listaMap) {
-		List<AccionistaDTO> lista = new ArrayList<>();
+	private List<AccionistaEnCampaniaDTO> mapsToAccionista(List<Map<String, Object>> listaMap) {
+		List<AccionistaEnCampaniaDTO> lista = new ArrayList<>();
 	    
 	    // Recorre cada mapa y convierte los datos en un objeto EmpleadoDTO.
 	    for (Map<String, Object> fila : listaMap) {
-	    	AccionistaDTO dto = new AccionistaDTO(); // Renombrado a dto
+	    	AccionistaEnCampaniaDTO dto = new AccionistaEnCampaniaDTO(); // Renombrado a dto
 	        dto.idAccionista = (String) fila.get("ID_ACCIONISTA");
-	        dto.dniAccionista = (String) fila.get("DNI");
-	        dto.nombreAccionista = (String) fila.get("NOMBRE");
+	        dto.codCampania = (String) fila.get("COD_CAMPANIA");
+	        dto.numAccionesIniciales = (int) fila.get("NUM_ACCIONES_INICIALES");
+	        dto.numAccionesCompradas = (int) fila.get("NUM_ACCIONES_COMPRADAS");
 	        
 	        lista.add(dto);
 	    }

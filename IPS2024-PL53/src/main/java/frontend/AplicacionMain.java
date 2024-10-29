@@ -265,7 +265,7 @@ public class AplicacionMain {
     	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
     	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
     	configurarCierreVentana(frame);
-    	
+    	gfpc.initController();
     	gfpc.cargarCampaniaEnCurso();
     }
 

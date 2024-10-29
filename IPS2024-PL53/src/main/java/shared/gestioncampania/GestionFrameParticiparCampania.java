@@ -4,27 +4,35 @@ import java.util.Optional;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import backend.data.campaniaaccionistas.CampaniaDTO;
 import backend.data.campaniaaccionistas.DtoAssembler;
+import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 
 public class GestionFrameParticiparCampania {
-	
+
 	private FrameParticiparEnCampaniaAccionistas view;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
 
 	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view) {
 		this.view = view;
 	}
-	
+
+	public void initController() {
+		view.getBtInfo().addActionListener(e -> SwingUtil.exceptionWrapper(() -> darInfoFuncionamientoCampania()));
+		view.getBtSalir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentana()));
+	}
+
 	public void cargarCampaniaEnCurso() {
 		boolean cargarCampania = gesCam.cargarCampaniaEnCurso();
 		// Si hay una campaña ya en curso
 		if (cargarCampania)
 			unirseACampania();
 		else {
-			JOptionPane.showMessageDialog(null, "Ninguna campaña se encuentra abierta actualmente", 
+			JOptionPane.showMessageDialog(null, "Ninguna campaña se encuentra abierta actualmente",
 					"No existe campaña abierta", JOptionPane.INFORMATION_MESSAGE);
 			cerrarVentana();
 		}
@@ -35,15 +43,14 @@ public class GestionFrameParticiparCampania {
 		// Si el cliente ha cancelado la operación
 		if (dni == null) {
 			cerrarVentana();
-		} 
-		else {
+		} else {
 			accederACampania(dni);
 		}
 	}
-	
+
 	private void accederACampania(String dni) {
 		boolean esAccionista = gesCam.esAccionista(dni);
-		
+
 		int fase = gesCam.getFaseCampania();
 		switch (fase) {
 		case 1:
@@ -51,67 +58,135 @@ public class GestionFrameParticiparCampania {
 			if (!esAccionista)
 				informarDeNoAccesoACliente(fase);
 			else {
-				accederComoAccionista(fase);
+				accederComoAccionista();
 			}
-				
 			break;
 		case 3:
-			
+			inicializarPanel();
 			break;
 		default:
-			throw new IllegalStateException("La campaña está en la fase " + fase + " que no se "
-					+ "encuentra dentro de lo esperado");
+			throw new IllegalStateException(
+					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
 		}
-			
+
 	}
 
-	private void accederComoAccionista(int fase) {
-		// Comprobamos si el acceso a la campaña por parte del accionista ya está registrado en la BDD
+	private void accederComoAccionista() {
+		// Comprobamos si el acceso a la campaña por parte del accionista ya está
+		// registrado en la BDD
 		// (Si ya habia accedido con anterioridad) y en caso de que no, lo registramos
 		gesCam.registrarAccionista();
-			
+		inicializarPanel();
+	}
+
+	private void inicializarPanel() {
+		int fase = gesCam.getFaseCampania();
+
+		mostrarFase(fase);
+		mostrarAccionesRestantesCampania();
+
+		switch (fase) {
+		case 1:
+			mostrarLimiteAcciones();
+			break;
+		case 2:
+		case 3:
+			view.getLbLimiteAcciones().setVisible(false);
+			break;
+		default:
+			throw new IllegalStateException(
+					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
+		}
+		ponerLimiteSpinner(fase);
+	}
+
+	private void ponerLimiteSpinner(int fase) {
+		SpinnerNumberModel model;
+		int limite;
+		switch (fase) {
+		case 1:
+			limite = gesCam.getAccionesInicialesAccionista() - gesCam.getNumAccionesCompradasAccionista();
+			model = new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(limite),
+					Integer.valueOf(1));
+			break;
+		case 2:
+		case 3:
+			limite = gesCam.getAccionesRestantesCampania();
+			model = new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(limite),
+					Integer.valueOf(1));
+			break;
+		default:
+			throw new IllegalStateException(
+					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
+		}
+
+		view.getSpAcciones().setModel(model);
+	}
+
+	private void mostrarLimiteAcciones() {
+		int accionesLimite = gesCam.getAccionesInicialesAccionista();
+
+		String texto = view.getLbLimiteAcciones().getText();
+		view.getLbLimiteAcciones().setText(texto + " " + accionesLimite);
+	}
+
+	private void mostrarAccionesRestantesCampania() {
+		int accionesRestantes = gesCam.getAccionesRestantesCampania();
+
+		String texto = view.getLbAccionesRestantesCampania().getText();
+		view.getLbAccionesRestantesCampania().setText(texto + " " + accionesRestantes);
+	}
+
+	private void mostrarFase(int fase) {
+		String texto = view.getLbFase().getText();
+		view.getLbFase().setText(texto + " " + fase);
 	}
 
 	private void informarDeNoAccesoACliente(int fase) {
-		JOptionPane.showMessageDialog(null, "La campaña se encuentra aún en la fase " + 1 + "para "
-				+ "acceder sin ser accionista, deberá esperar a la fase 3", "Acceso no permitido", 
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null,
+				"La campaña se encuentra aún en la fase " + 1 + "para "
+						+ "acceder sin ser accionista, deberá esperar a la fase 3",
+				"Acceso no permitido", JOptionPane.INFORMATION_MESSAGE);
 		cerrarVentana();
 	}
 
 	/**
 	 * Crea un JOptionPane para que el usuario introduzca su DNI
 	 * 
-	 * @return dni introducido por el cliente o null en caso de que haya cancelado la operación
+	 * @return dni introducido por el cliente o null en caso de que haya cancelado
+	 *         la operación
 	 */
 	private String obtenerDniCliente() {
 		// Crear el JTextField
-        JTextField textField = new JTextField();
+		JTextField textField = new JTextField();
 
-        // Opciones de los botones
-        Object[] options = {"Aceptar", "Cancelar"};
+		// Opciones de los botones
+		Object[] options = { "Aceptar", "Cancelar" };
 
-        // Mostrar el JOptionPane con el JTextField y las opciones de botones
-        int option = JOptionPane.showOptionDialog(
-                null,
-                new Object[]{"Introduzca su DNI", textField},
-                "Acceso a Campaña",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-        
-        if (option == JOptionPane.OK_OPTION) {
-        	return textField.getText();
-        }
-        return null;
+		// Mostrar el JOptionPane con el JTextField y las opciones de botones
+		int option = JOptionPane.showOptionDialog(null, new Object[] { "Introduzca su DNI", textField },
+				"Acceso a Campaña", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+		if (option == JOptionPane.OK_OPTION) {
+			return textField.getText();
+		}
+		return null;
 	}
-	
+
 	private void cerrarVentana() {
 		view.setVisible(true);
 		view.dispose();
+	}
+
+	private void darInfoFuncionamientoCampania() {
+		String info = "El funcionamiento de la campaña es el siguiente:\n";
+		info += "	-Fase 1: Solo pueden acceder accionistas y como máximo podrán comprar\n";
+		info += "	el número de acciones que tenían al realizar su primer ingreso\n";
+		info += "	-Fase 2: Solo pueden acceder accionistas y podrán comprar acciones\n";
+		info += "	hasta que se agoten las fijadas para la campaña\n";
+		info += "	-Fase 3: Pueden acceder clientes no accionistas y se podrán comprar acciones\n";
+		info += "	hasta que se agoten las fijadas para la campaña\n";
+		JOptionPane.showMessageDialog(view, info, "Funcionamiento de las Campañas", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

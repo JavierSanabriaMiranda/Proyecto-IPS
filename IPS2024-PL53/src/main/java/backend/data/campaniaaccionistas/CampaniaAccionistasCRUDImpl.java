@@ -27,7 +27,7 @@ public class CampaniaAccionistasCRUDImpl implements CampaniaAccionistasCRUDServi
 	}
 
 	@Override
-	public Optional<AccionistaDTO> getAccionistaEnCampaniaByDni(String dniAccionista) {
+	public Optional<AccionistaEnCampaniaDTO> getAccionistaEnCampaniaByDni(String dniAccionista) {
 		return new FindAccionistaEnCampaniaByDni(dniAccionista).execute();
 	}
 

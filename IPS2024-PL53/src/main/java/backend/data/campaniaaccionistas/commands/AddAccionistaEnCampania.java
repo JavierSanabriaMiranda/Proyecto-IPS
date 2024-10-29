@@ -5,7 +5,7 @@ import backend.data.Database;
 public class AddAccionistaEnCampania {
 	
 	private static final String QUERY = "INSERT INTO PARTICIPA_EN_CAMPANIA "
-			+ "(COD_CAMPANIA, ID_ACCIONISTA, NUM_ACCIONES) VALUES (?, ?, ?)";
+			+ "(COD_CAMPANIA, ID_ACCIONISTA, NUM_ACCIONES_INICIALES, NUM_ACCIONES_COMPRADAS) VALUES (?, ?, ?)";
 	
 	private Database db = new Database();
 	private String idAccionista;
@@ -23,7 +23,7 @@ public class AddAccionistaEnCampania {
 	}
 
 	public void execute() {
-		db.executeUpdate(QUERY, codCampania, idAccionista, numAcciones);
+		db.executeUpdate(QUERY, codCampania, idAccionista, numAcciones, 0);
 	}
 
 }

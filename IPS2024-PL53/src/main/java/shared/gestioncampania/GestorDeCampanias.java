@@ -10,6 +10,8 @@ public class GestorDeCampanias implements GestorCampania {
 
 	// Accionista que ha hecho el ingreso a la campaña
 	private Accionista accionista; 
+	private int numAccionesInicialesAccionista;
+	private int numAccionesCompradasAccionista;
 	private CampaniaAccionistas campania;
 
 	@Override
@@ -78,5 +80,31 @@ public class GestorDeCampanias implements GestorCampania {
 	public Accionista getAccionista() {
 		return accionista;
 	}
+
+	@Override
+	public void setAccionesIniciales(int numAccionesIniciales) {
+		this.numAccionesInicialesAccionista = numAccionesIniciales;
+	}
+
+	@Override
+	public void setAccionesCompradas(int numAccionesCompradas) {
+		this.numAccionesCompradasAccionista = numAccionesCompradas;
+	}
+
+	@Override
+	public int getAccionesRestantesCampania() {
+		return campania.getNumAccionesRestantes();
+	}
+
+	@Override
+	public int getAccionesInicialesAccionista() {
+		return numAccionesInicialesAccionista;
+	}
+
+	public int getNumAccionesCompradasAccionista() {
+		return numAccionesCompradasAccionista;
+	}
+	
+	
 
 }

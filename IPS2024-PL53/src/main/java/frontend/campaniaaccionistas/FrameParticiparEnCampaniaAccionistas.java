@@ -25,6 +25,7 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 	private JLabel lbPrecio;
 	private JButton btComprar;
 	private JButton btSalir;
+	private JLabel lbAccionesRestantesCampania;
 
 
 	/**
@@ -49,16 +50,17 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 		contentPane.add(getLbPrecio());
 		contentPane.add(getBtComprar());
 		contentPane.add(getBtSalir());
+		contentPane.add(getLbAccionesRestantesCampania());
 	}
-	private JLabel getLbFase() {
+	public JLabel getLbFase() {
 		if (lbFase == null) {
 			lbFase = new JLabel("Fase Actual: ");
 			lbFase.setFont(new Font("Arial", Font.BOLD, 30));
-			lbFase.setBounds(172, 36, 228, 86);
+			lbFase.setBounds(169, 11, 228, 86);
 		}
 		return lbFase;
 	}
-	private JButton getBtInfo() {
+	public JButton getBtInfo() {
 		if (btInfo == null) {
 			btInfo = new JButton("Info");
 			btInfo.setFont(new Font("Arial", Font.BOLD, 12));
@@ -66,20 +68,20 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 		}
 		return btInfo;
 	}
-	private JLabel getLbLimiteAcciones() {
+	public JLabel getLbLimiteAcciones() {
 		if (lbLimiteAcciones == null) {
 			lbLimiteAcciones = new JLabel("Su limite de acciones para esta fase es de: ");
 			lbLimiteAcciones.setFont(new Font("Arial", Font.PLAIN, 16));
-			lbLimiteAcciones.setBounds(105, 129, 362, 35);
+			lbLimiteAcciones.setBounds(115, 140, 362, 35);
 		}
 		return lbLimiteAcciones;
 	}
-	private JSpinner getSpAcciones() {
+	public JSpinner getSpAcciones() {
 		if (spAcciones == null) {
 			spAcciones = new JSpinner();
 			spAcciones.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 			spAcciones.setFont(new Font("Arial", Font.PLAIN, 14));
-			spAcciones.setBounds(327, 182, 62, 23);
+			spAcciones.setBounds(286, 189, 62, 23);
 		}
 		return spAcciones;
 	}
@@ -87,19 +89,19 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 		if (lbAcciones == null) {
 			lbAcciones = new JLabel("Numero de acciones:");
 			lbAcciones.setFont(new Font("Arial", Font.PLAIN, 16));
-			lbAcciones.setBounds(172, 175, 161, 35);
+			lbAcciones.setBounds(115, 182, 161, 35);
 		}
 		return lbAcciones;
 	}
-	private JLabel getLbPrecio() {
+	public JLabel getLbPrecio() {
 		if (lbPrecio == null) {
 			lbPrecio = new JLabel("Precio total: ");
 			lbPrecio.setFont(new Font("Arial", Font.BOLD, 16));
-			lbPrecio.setBounds(195, 216, 138, 40);
+			lbPrecio.setBounds(115, 221, 138, 40);
 		}
 		return lbPrecio;
 	}
-	private JButton getBtComprar() {
+	public JButton getBtComprar() {
 		if (btComprar == null) {
 			btComprar = new JButton("Comprar");
 			btComprar.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -107,12 +109,20 @@ public class FrameParticiparEnCampaniaAccionistas extends JFrame {
 		}
 		return btComprar;
 	}
-	private JButton getBtSalir() {
+	public JButton getBtSalir() {
 		if (btSalir == null) {
 			btSalir = new JButton("Salir");
 			btSalir.setFont(new Font("Arial", Font.PLAIN, 12));
 			btSalir.setBounds(491, 314, 62, 23);
 		}
 		return btSalir;
+	}
+	public JLabel getLbAccionesRestantesCampania() {
+		if (lbAccionesRestantesCampania == null) {
+			lbAccionesRestantesCampania = new JLabel("Acciones Restantes de la Campaña: ");
+			lbAccionesRestantesCampania.setFont(new Font("Arial", Font.PLAIN, 16));
+			lbAccionesRestantesCampania.setBounds(115, 94, 362, 35);
+		}
+		return lbAccionesRestantesCampania;
 	}
 }

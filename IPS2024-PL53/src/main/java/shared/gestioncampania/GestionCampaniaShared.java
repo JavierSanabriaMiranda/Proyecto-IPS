@@ -5,6 +5,7 @@ import java.util.Optional;
 import backend.data.CreadorDataService;
 import backend.data.accionistas.AccionistaDTO;
 import backend.data.accionistas.AccionistasCRUDService;
+import backend.data.campaniaaccionistas.AccionistaEnCampaniaDTO;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDService;
 import backend.data.campaniaaccionistas.CampaniaDTO;
 import backend.data.campaniaaccionistas.DtoAssembler;
@@ -84,16 +85,35 @@ public class GestionCampaniaShared {
 	 */
 	public void registrarAccionista() {
 		Accionista acc = gestor.getAccionista();
-		Optional<AccionistaDTO> optAcc = serviceCampania.getAccionistaEnCampaniaByDni(acc.getIdAccionista());
+		Optional<AccionistaEnCampaniaDTO> optAcc = serviceCampania.getAccionistaEnCampaniaByDni(acc.getIdAccionista());
 		if (optAcc.isEmpty()) {
-			Accionista accionista = gestor.getAccionista();
-			int numAccionesIniciales = serviceAccionista.getNumAccionesByDniAccionista(accionista.getDni());
+			int numAccionesIniciales = serviceAccionista.getNumAccionesByDniAccionista(acc.getDni());
 			
-			String idAccionista = accionista.getIdAccionista();
+			String idAccionista = acc.getIdAccionista();
 			String codCampania = gestor.getCampania().getCodigoCampania();
+			gestor.setAccionesIniciales(0);
+			gestor.setAccionesCompradas(0);
+			// Se registra el primer acceso del accionista en la base de datos
 			serviceCampania.addAccionistaEnCampania(idAccionista, codCampania, numAccionesIniciales);
+		} else {
+			AccionistaEnCampaniaDTO accEnCampania = optAcc.get();
+			gestor.setAccionesIniciales(accEnCampania.numAccionesIniciales);
+			gestor.setAccionesCompradas(accEnCampania.numAccionesCompradas);
 		}
 			
+			
+	}
+
+	public int getAccionesRestantesCampania() {
+		return gestor.getAccionesRestantesCampania();
+	}
+
+	public int getAccionesInicialesAccionista() {
+		return gestor.getAccionesInicialesAccionista();
+	}
+	
+	public int getNumAccionesCompradasAccionista() {
+		return gestor.getNumAccionesCompradasAccionista();
 	}
 
 	
