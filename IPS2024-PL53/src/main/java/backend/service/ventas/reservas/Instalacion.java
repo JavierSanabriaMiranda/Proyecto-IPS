@@ -69,7 +69,6 @@ public class Instalacion {
 	
 	public void addReservaJardineria(ReservaJardineria reserva) {
 		this.reservasJardinerias.add(reserva);
-		
 	}
 
 
@@ -105,17 +104,11 @@ public class Instalacion {
 	    return true;
 	}
 
-
-	//TODO Devolverselo a la clase Shared
-	private ReservaJardineria comprobarCoincidenciaConJardineria(FranjaTiempo fj) {
+	
+	public ReservaJardineria comprobarCoincidenciaConJardineria(FranjaTiempo fj) {
 		for (ReservaJardineria reserva : reservasJardinerias) {
 	    	if (solapa(fj, reserva.getHorario())) {
 	    		return reserva;
-	    		
-//	    		//Elimino de BDD
-//	    		
-//	    		//Elimino de la lista de reservas de jardineria
-//	    		reservasJardinerias.remove(reserva);
 	    	}
 	    }
 		return null;

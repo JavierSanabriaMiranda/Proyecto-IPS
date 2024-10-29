@@ -18,9 +18,14 @@ public class ReservaJardineria implements ReservaParaInstalacion{
 		this.instalacion = instalacion;
 		this.jardinero = jardinero;
 		this.codReservaJardineria = codReservaJardineria;
-		this.jardinero.addTurno(this);
+		if (jardinero != null)
+			addReservaAEmpleado();
+		
 	}
 	
+	public void addReservaAEmpleado() {
+		this.jardinero.addTurno(this);
+	}
 	
 	public FranjaTiempo getHorario() {
 		return horario;

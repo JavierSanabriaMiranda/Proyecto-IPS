@@ -31,5 +31,7 @@ public interface GestorReserva {
 	public String creaCodReservaJardineria();
 	
 	List<ReservaJardineria> getReservasJardineria();
+	
+	ReservaJardineria comprobarCoincidenciaConJardineria(Instalacion instalacion , FranjaTiempo franja);
 
 }

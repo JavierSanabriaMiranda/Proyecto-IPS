@@ -7,4 +7,6 @@ public interface ReservaJardineriaCRUDService {
 	void addReservaJardineria(ReservaJardineriaDTO res);
 	
 	List<ReservaJardineriaDTO> cargarReservasJardineria();
+	
+	void deleteReservaJardineria(String codReserva);
 }

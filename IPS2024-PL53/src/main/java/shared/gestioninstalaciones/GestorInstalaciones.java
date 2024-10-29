@@ -140,6 +140,11 @@ public class GestorInstalaciones implements GestorReserva{
 		}
 		return reservasDeTodasLasInstalaciones;
 	}
+
+	@Override
+	public ReservaJardineria comprobarCoincidenciaConJardineria(Instalacion instalacion, FranjaTiempo franja) {
+		return instalacion.comprobarCoincidenciaConJardineria(franja);
+	}
 	
 	
 
