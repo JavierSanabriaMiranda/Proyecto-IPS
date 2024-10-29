@@ -196,14 +196,17 @@ public class HorarioJardineria extends JDialog {
 			// Verificar si esta franja está ocupada por reservas o entrenamientos
 			boolean estaReservada = false;
 			boolean esEntrenamiento = false;
+			boolean jardinero = false;
 
 			for (FranjaTiempo evento : eventosDelDia) {
 				if (evento.getHoraInicio().isBefore(intervaloFin) && evento.getHoraFin().isAfter(intervaloInicio)) {
 					// Si el evento es un entrenamiento o una reserva
 					if (evento.getEvento() == TipoEvento.ENTRENAMIENTO) {
 						esEntrenamiento = true;
-					} else {
+					} else if (evento.getEvento() == TipoEvento.RESERVA){
 						estaReservada = true;
+					} else {
+						jardinero = true;
 					}
 					break; // No necesitamos seguir buscando si ya encontramos un solapamiento
 				}
@@ -211,12 +214,16 @@ public class HorarioJardineria extends JDialog {
 
 			// Establecer el color de fondo según el estado
 			if (esEntrenamiento) {
-				labelHorario.setBackground(Color.GRAY); // Azul para entrenamientos
+				labelHorario.setBackground(Color.GRAY); 
 				labelHorario.setText(labelHorario.getText() + " (Entrenamiento)");
 			} else if (estaReservada) {
-				labelHorario.setBackground(Color.DARK_GRAY); // Rojo para reservas
+				labelHorario.setBackground(Color.DARK_GRAY); 
 				labelHorario.setForeground(Color.WHITE);
 				labelHorario.setText(labelHorario.getText() + " (Reservado)");
+			} else if (jardinero) {
+				labelHorario.setBackground(Color.LIGHT_GRAY); // Rojo para reservas
+				labelHorario.setForeground(Color.BLACK);
+				labelHorario.setText(labelHorario.getText() + " (Jardinería)");
 			} else {
 				labelHorario.setBackground(Color.WHITE); // Blanco para disponibilidad
 				labelHorario.setText(labelHorario.getText() + "Libre");

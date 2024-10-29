@@ -1,10 +1,11 @@
 package backend.service.reservaJardineria;
 
 import backend.service.horarios.FranjaTiempo;
+import backend.service.instalaciones.ReservaParaInstalacion;
 import backend.service.empleados.nodeportivos.EmpleadoJardineria;
 import backend.service.ventas.reservas.Instalacion;
 
-public class ReservaJardineria {
+public class ReservaJardineria implements ReservaParaInstalacion{
 	
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
@@ -17,6 +18,7 @@ public class ReservaJardineria {
 		this.instalacion = instalacion;
 		this.jardinero = jardinero;
 		this.codReservaJardineria = codReservaJardineria;
+		this.jardinero.addTurno(this);
 	}
 	
 	
@@ -31,6 +33,12 @@ public class ReservaJardineria {
 	}
 	public String getCodReservaJardineria() {
 		return codReservaJardineria;
+	}
+
+
+	@Override
+	public int getPrioridad() {
+		return 2;
 	}
 	
 	

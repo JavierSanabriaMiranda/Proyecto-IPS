@@ -128,6 +128,18 @@ public class GestorInstalaciones implements GestorReserva{
 
 	    return cod;
 	}
+
+	/**
+	 * Devuelve una lista con TODAS las reservas de todas las instalaciones
+	 */
+	@Override
+	public List<ReservaJardineria> getReservasJardineria() {
+		List<ReservaJardineria> reservasDeTodasLasInstalaciones = new ArrayList<>();
+		for (Instalacion instalacion : instalaciones) {
+			reservasDeTodasLasInstalaciones.addAll(instalacion.getReservasJardineria());
+		}
+		return reservasDeTodasLasInstalaciones;
+	}
 	
 	
 

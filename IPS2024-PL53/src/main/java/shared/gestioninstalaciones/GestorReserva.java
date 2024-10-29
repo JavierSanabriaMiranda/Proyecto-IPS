@@ -29,5 +29,7 @@ public interface GestorReserva {
 	void addReservaJardineriaAInstalacion(ReservaJardineria reserva, Instalacion instalacion);
 	
 	public String creaCodReservaJardineria();
+	
+	List<ReservaJardineria> getReservasJardineria();
 
 }

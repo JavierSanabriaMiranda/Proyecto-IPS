@@ -16,6 +16,7 @@ import backend.data.horarios.TurnoSemanalDTO;
 import backend.data.reservaJardineria.ReservaJardineriaCRUDImpl;
 import backend.data.reservaJardineria.ReservaJardineriaCRUDService;
 import backend.data.reservaJardineria.ReservaJardineriaDTO;
+import backend.data.reservaJardineria.commands.DtoAssemblerJardineros;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
@@ -44,9 +45,11 @@ public class JardinerosShared {
 		cargarInstalaciones();
 		cargarReservaEnInstalaciones();
 		cargarEntrenamientosEnInstalaciones();
+		cargarReservaJardineriaEnInstalaciones();
 		cargarHorariosDeBBDD();
 	}
 	
+
 	private void cargarHorariosDeBBDD() {
 		cargarTurnosSemanales();
 		cargarTurnosPuntuales();
@@ -67,6 +70,25 @@ public class JardinerosShared {
 			emp.getHorario().addAHorarioPuntual(dtoPuntual.horaInicio, dtoPuntual.horaFin, dtoPuntual.dia);
 		}
 	}
+	
+	private void cargarReservaJardineriaEnInstalaciones() {
+		List<ReservaJardineria> reservasJardineria = cargarResevasJardineria();
+		for (Instalacion inst : gestorInstalaciones.getInstalaciones()) {
+			for (ReservaJardineria reserva : reservasJardineria) {
+				if (reserva.getInstalacion().getNombreInstalacion().equals(inst.getNombreInstalacion()))
+					inst.addReservaJardineria(reserva);
+			}
+		}
+	}
+	
+	private List<ReservaJardineria> cargarResevasJardineria() {
+		ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
+		DtoAssemblerJardineros assembler = new DtoAssemblerJardineros(gestorInstalaciones, gestor);
+		return assembler.dtoToReservaJardineria(service.cargarReservasJardineria());
+	}
+
+
+
 	private void cargarReservaEnInstalaciones() {
 		List<Reserva> reservas = cargarReservas();
 		for (Instalacion inst : gestorInstalaciones.getInstalaciones()) {
@@ -110,7 +132,7 @@ public class JardinerosShared {
 
 	public List<EmpleadoNoDeportivo> getJardineros(){
 		return gestor.getJardineros();
-	}
+	} 
 	
 	public List<Instalacion> getInstalaciones(){
 		return gestorInstalaciones.getInstalaciones();
@@ -155,6 +177,10 @@ public class JardinerosShared {
 
 	public Instalacion buscaInstalacion(String nombreInstalacion) {
 		return gestorInstalaciones.buscaInstalacion(nombreInstalacion);
+	}
+	
+	public EmpleadoNoDeportivo buscaEmpleado(String empleadoId) {
+		return gestor.getEmpleadoNoDeportivo(empleadoId);
 	}
 
 

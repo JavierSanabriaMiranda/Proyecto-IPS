@@ -48,11 +48,11 @@ public class Instalacion {
 				lista.add(entrenamiento.getHorario());
 			}
 		}
-//		for (ReservaJardineria reservaJar : reservasJardinerias) {
-//			if (reservaJar.getHorario().getFecha().equals(dia)) {
-//				lista.add(reservaJar.getHorario());
-//			}
-//		}
+		for (ReservaJardineria reservaJar : reservasJardinerias) {
+			if (reservaJar.getHorario().getFecha().equals(dia)) {
+				lista.add(reservaJar.getHorario());
+			}
+		}
 		return lista;
 	}
 	
@@ -69,9 +69,16 @@ public class Instalacion {
 	
 	public void addReservaJardineria(ReservaJardineria reserva) {
 		this.reservasJardinerias.add(reserva);
+		
 	}
 
 
+	/**
+	 * Metodo para la reserva de instalaciones desde el punto de vista de un cliente
+	 * 
+	 * Se tendrá en cuenta la prioridad, en este caso al ser un cliente, si 
+	 * hay una reserva de jardineria, en la franja seleccionada, se podrá reservar igual.
+	 */
 	public boolean esFranjaPosible(FranjaTiempo fj) {
 	    // Duración mínima de la reserva: 60 minutos (1 hora)
 	    if (fj.getDuracion() < 60) {
@@ -84,7 +91,7 @@ public class Instalacion {
 
 	    for (FranjaTiempo evento : eventosDelDia) {
 	        // Si la nueva franja se solapa con un evento existente
-	        if (solapa(fj, evento)) {
+	        if (solapa(fj, evento) && evento.getEvento() != TipoEvento.RESERVA_JARDINERIA) {
 	            return false;
 	        }
 
@@ -97,7 +104,27 @@ public class Instalacion {
 	    // Si no hubo solapamientos ni conflictos con la restricción de 1h30, es posible
 	    return true;
 	}
+
+
+	//TODO Devolverselo a la clase Shared
+	private ReservaJardineria comprobarCoincidenciaConJardineria(FranjaTiempo fj) {
+		for (ReservaJardineria reserva : reservasJardinerias) {
+	    	if (solapa(fj, reserva.getHorario())) {
+	    		return reserva;
+	    		
+//	    		//Elimino de BDD
+//	    		
+//	    		//Elimino de la lista de reservas de jardineria
+//	    		reservasJardinerias.remove(reserva);
+	    	}
+	    }
+		return null;
+	}
 	
+	/**
+	 * No se tiene en cuenta la hora y media de diferencia cuando la reserva es despues de un entrenamiento, ni la duracion minima
+	 * Al ser la de menor prioridad, cuando solape con un evento cualquiera, devolverá false, incluso si es un evento de jardineria
+	 */
 	public boolean esFranjaPosibleParaJardinero(FranjaTiempo fj) {
 	    // Obtener eventos existentes en la fecha de la franja de tiempo propuesta
 	    LocalDate fecha = fj.getFecha(); 

@@ -197,7 +197,7 @@ public class HorarioReserva extends JDialog {
 					// Si el evento es un entrenamiento o una reserva
 					if (evento.getEvento() == TipoEvento.ENTRENAMIENTO) {
 						esEntrenamiento = true;
-					} else {
+					} else if(evento.getEvento() == TipoEvento.RESERVA) {
 						estaReservada = true;
 					}
 					break; // No necesitamos seguir buscando si ya encontramos un solapamiento

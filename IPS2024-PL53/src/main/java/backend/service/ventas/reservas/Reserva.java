@@ -3,9 +3,10 @@ package backend.service.ventas.reservas;
 import java.util.Date;
 
 import backend.service.horarios.FranjaTiempo;
+import backend.service.instalaciones.ReservaParaInstalacion;
 import backend.service.ventas.VentaBase;
 
-public class Reserva extends VentaBase{
+public class Reserva extends VentaBase  implements ReservaParaInstalacion{
 	
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
@@ -52,6 +53,11 @@ public class Reserva extends VentaBase{
 
 	public void setCliente(ClienteReserva cliente) {
 		this.cliente = cliente;
+	}
+
+	@Override
+	public int getPrioridad() {
+		return 1;
 	}
 
 	

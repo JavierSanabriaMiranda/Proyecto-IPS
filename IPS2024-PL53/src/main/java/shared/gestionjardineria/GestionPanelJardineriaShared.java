@@ -15,6 +15,7 @@ import backend.service.empleados.nodeportivos.horarios.Horario;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
+import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
 import frontend.SwingUtil;
 import frontend.jardineriaUI.HorarioJardineria;
@@ -100,6 +101,9 @@ public class GestionPanelJardineriaShared {
 		} else if (!isValidHorarioInstalacion()) {
 			JOptionPane.showMessageDialog(null, "El horario seleccionado no se encuentra dentro del horario disponible de la instalación.",
 					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
+		} else if (tieneEmpleadoAsignadaLaborDeJardineria()) {
+			JOptionPane.showMessageDialog(null, "El empleado ya tiene asignada una tarea de jardinería a la hora seleccionada",
+					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
 		} else {
 			diagJar.getVj().getJardinerosShared().addReservaJardineria(getFranjaReserva(), getInstalacionReserva(), 
 					getEmpleado(), diagJar.getVj().getDateChooser().getDate());
@@ -111,7 +115,12 @@ public class GestionPanelJardineriaShared {
 	}
 	
 	private EmpleadoJardineria getEmpleado() {
-		EmpleadoNoDeportivo empleado = diagJar.getVj().getListJardineros().getSelectedValue();
+		//Esto me devuelve una copia, no puedo devolver esa copia, tiene que ser el empleado no deportivo de la lista del gerente
+		EmpleadoNoDeportivo empleadoCopia = diagJar.getVj().getListJardineros().getSelectedValue();
+		String idEmpleado = empleadoCopia.getIDEmpleado();
+		//Extraigo ese empleado no deportivo de la lista del gerente en base a su id
+		EmpleadoNoDeportivo empleado = diagJar.getVj().getJardinerosShared().buscaEmpleado(idEmpleado);
+		//Hago un cast, pero es seguro que ese empleado va a ser un EmpleadoJardineria
 		return (EmpleadoJardineria) empleado;
 	}
 	
@@ -197,6 +206,44 @@ public class GestionPanelJardineriaShared {
 	    return false;
 	}
 	
+	/**
+	 * Este metodo comprueba que el empleado seleccionado no tiene ya asignada una tarea de jardineria 
+	 * el dia seleccionado a la hora seleccionada. Independientemente de la instalacion que quiera reservar, si ya 
+	 * tiene otra tarea a esa hora, no se podrá resevar.
+	 */
+	private boolean tieneEmpleadoAsignadaLaborDeJardineria() {
+		//Obtengo la franja de tiempo en la que se quiere reservar
+		Date horaInicio = (Date) diagJar.getSpHoraInicio().getValue();
+		Date horaFin = (Date) diagJar.getSpHoraFin().getValue();
+
+		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA_JARDINERIA, inicio, fin,
+				DateToLocalDate.convertToLocalDate(diagJar.getVj().getDateChooser().getDate()));
+		
+		Date fecha = diagJar.getVj().getDateChooser().getDate();
+		
+		
+		//Obtengo el empleado  al que se le va a asignar la instalacion y sus turnos
+		EmpleadoNoDeportivo empleadoCopia = diagJar.getVj().getListJardineros().getSelectedValue();
+		String idEmpleado = empleadoCopia.getIDEmpleado();
+		EmpleadoNoDeportivo empleado = diagJar.getVj().getJardinerosShared().buscaEmpleado(idEmpleado);
+		EmpleadoJardineria jardinero = (EmpleadoJardineria) empleado;
+		List<ReservaJardineria> turnosDelJardinero = jardinero.getTurnosReservas();
+		
+		//Para cada reserva que tenga el empleado, compruebo que no se solapa con la reserva que voy a crear
+		for(ReservaJardineria reserva : turnosDelJardinero) {
+			if (solapa(franja, reserva.getHorario()) && DateToLocalDate.convertToLocalDate(fecha).equals(reserva.getHorario().getFecha())) {
+				return true;
+			}
+		}
+		return false;	
+	}
+	
+	private boolean solapa(FranjaTiempo nueva, FranjaTiempo existente) {
+	    return nueva.getHoraInicio().isBefore(existente.getHoraFin()) && nueva.getHoraFin().isAfter(existente.getHoraInicio())
+	    		 && !(nueva.getHoraFin().equals(existente.getHoraInicio()));
+	}
 
 	private boolean isValidHorarioInstalacion() {
 		Date horaInicio = (Date) diagJar.getSpHoraInicio().getValue();
@@ -204,7 +251,7 @@ public class GestionPanelJardineriaShared {
 
 		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
 		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
-		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin,
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA_JARDINERIA, inicio, fin,
 				DateToLocalDate.convertToLocalDate(diagJar.getVj().getDateChooser().getDate()));
 		Instalacion instalacion = (Instalacion) diagJar.getVj().getCbInstalaciones().getSelectedItem();
 
