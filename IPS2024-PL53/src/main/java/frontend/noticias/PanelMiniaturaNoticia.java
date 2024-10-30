@@ -33,7 +33,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 	public JLabel getImagen() {
 		if (imagen == null) {
 			imagen = new JLabel("");
-			imagen.setBackground(new Color(224, 255, 255));
+			imagen.setBackground(Color.WHITE);
 			imagen.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return imagen;
@@ -42,7 +42,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 	private JPanel getPnTitulo() {
 		if (pnTitulo == null) {
 			pnTitulo = new JPanel();
-			pnTitulo.setBackground(new Color(240, 248, 255));
+			pnTitulo.setBackground(Color.WHITE);
 			pnTitulo.setLayout(new BorderLayout(0, 0));
 			pnTitulo.add(getBtLeerMas(), BorderLayout.SOUTH);
 			pnTitulo.add(getLbTitulo(), BorderLayout.CENTER);
@@ -61,6 +61,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 	public JLabel getLbTitulo() {
 		if (lbTitulo == null) {
 			lbTitulo = new JLabel("");
+			lbTitulo.setBackground(Color.WHITE);
 			lbTitulo.setVerticalAlignment(SwingConstants.CENTER);
 			lbTitulo.setFont(new Font("Serif", Font.BOLD, 16));
 			lbTitulo.setHorizontalAlignment(SwingConstants.CENTER);

@@ -3,9 +3,13 @@ package frontend;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
+import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
@@ -27,6 +32,7 @@ import frontend.noticias.PortalNoticias;
 import frontend.reservaUI.VentanaPrincipalReserva;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
+import shared.gestionNoticias.GestionImagenesShared;
 import shared.gestionNoticias.GestionPortalNoticiasShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
@@ -61,7 +67,33 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
+		
+		//Boton para inicializar base de datos	
+		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
+		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GestionImagenesShared gis = new GestionImagenesShared();
+				gis.eliminarArchivosCarpeta();
+				Database db=new Database();
+				db.createDatabase(false);
+			}
+		});
+		frmAplicacionBurgosFc.getContentPane().add(btnInicializarBaseDeDatos);
+		
+		//Boton para cargar los datos iniciales
+		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
+		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Database db=new Database();
+				db.createDatabase(false);
+				db.loadDatabase();
+			}
+		});
+		frmAplicacionBurgosFc.getContentPane().add(btnCargarDatosIniciales);
+        
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
