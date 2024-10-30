@@ -55,7 +55,20 @@ public class Instalacion {
 		}
 		return lista;
 	}
-	
+	public List<FranjaTiempo> getEventosSinJardineria(LocalDate dia) {
+		List<FranjaTiempo> lista = new ArrayList<FranjaTiempo>();
+		for (Reserva reserva : reservas) {
+			if (reserva.getHorario().getFecha().equals(dia)) { 
+				lista.add(reserva.getHorario());
+			}
+		}
+		for (Entrenamiento entrenamiento : entrenamientos) {
+			if (entrenamiento.getHorario().getFecha().equals(dia)) {
+				lista.add(entrenamiento.getHorario());
+			}
+		}
+		return lista;
+	}
 	
 	
 	public void addReserva(Reserva reserva) {
@@ -117,15 +130,17 @@ public class Instalacion {
 	/**
 	 * No se tiene en cuenta la hora y media de diferencia cuando la reserva es despues de un entrenamiento, ni la duracion minima
 	 * Al ser la de menor prioridad, cuando solape con un evento cualquiera, devolverá false, incluso si es un evento de jardineria
+	 * 
+	 * Dos jardineros pueden trabajar juntos en la misma instalacion, a la misma hora, el mismo dia. 
 	 */
 	public boolean esFranjaPosibleParaJardinero(FranjaTiempo fj) {
 	    // Obtener eventos existentes en la fecha de la franja de tiempo propuesta
 	    LocalDate fecha = fj.getFecha(); 
-	    List<FranjaTiempo> eventosDelDia = getEventos(fecha);
+	    List<FranjaTiempo> eventosDelDia = getEventosSinJardineria(fecha);
 
 	    for (FranjaTiempo evento : eventosDelDia) {
 	        // Si la nueva franja se solapa con un evento existente
-	        if (solapa(fj, evento)) {
+	    	if (solapa(fj, evento)) {
 	            return false;
 	        }
 	    }

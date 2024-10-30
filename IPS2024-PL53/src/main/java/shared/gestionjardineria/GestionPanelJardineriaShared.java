@@ -255,6 +255,8 @@ public class GestionPanelJardineriaShared {
 				DateToLocalDate.convertToLocalDate(diagJar.getVj().getDateChooser().getDate()));
 		Instalacion instalacion = (Instalacion) diagJar.getVj().getCbInstalaciones().getSelectedItem();
 
+		
+		
 		if (diagJar.getVj().getJardinerosShared().isHorarioValidoParaJardinero(instalacion, franja)) {
 			return true;
 		} else {
