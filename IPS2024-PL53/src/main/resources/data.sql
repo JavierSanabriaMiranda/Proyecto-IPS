@@ -32,7 +32,8 @@ INSERT INTO CLIENTE (DNI, NOMBRE) VALUES
 ('87654321B', 'Maria Lopez'),
 ('45678912C', 'Carlos Ramirez'),
 ('78965432D', 'Laura Martinez'),
-('15975328E', 'Ana Garcia');
+('15975328E', 'Ana Garcia'),
+('15975338E', 'Pepe Cosmen');
 
 -- Insertar datos en la tabla VENTAS (relacionados con los clientes)
 DELETE FROM VENTAS;
@@ -41,7 +42,9 @@ INSERT INTO VENTAS (ID_VENTAS, DNI, FECHA, COSTE) VALUES
 ('V002', '87654321B', '2024-10-21', 200.50),
 ('V003', '45678912C', '2024-10-22', 175.75),
 ('V004', '78965432D', '2024-10-23', 180.00),
-('V005', '15975328E', '2024-10-24', 220.00);
+('V005', '15975328E', '2024-10-24', 220.00),
+('V006', '15975338E', '2024-10-20', 20.00);
+
 
 -- Insertar datos en la tabla RESERVA (relacionados con las ventas e instalaciones)
 DELETE FROM RESERVA;
@@ -69,6 +72,11 @@ VALUES
 	('P000000002','11:00:00','10:00:00','2024-04-10','EQUIPO002'),
 	('P000000003','12:00:00','10:00:00','2024-04-10','EQUIPO003');
 
+
+-- Insertar datos en la tabla ENTRADA (relacionadas con las ventas)
+DELETE FROM ENTRADA;
+INSERT INTO ENTRADA VALUES
+    ('V006', 'A', 'A', 0, 0, 'P000000001');
 
 
 -- Insertar en la tabla ENTRENAMIENTO (relacionados con las instalaciones y el equipo)

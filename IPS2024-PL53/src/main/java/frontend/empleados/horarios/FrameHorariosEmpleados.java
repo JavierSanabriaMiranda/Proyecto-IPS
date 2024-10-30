@@ -1,65 +1,55 @@
 package frontend.empleados.horarios;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 import backend.service.empleados.EmpleadoNoDeportivo;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import shared.gestionhorarios.GestionHorariosShared;
 import util.DateToLocalDate;
 import util.DateToLocalTime;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.border.LineBorder;
-
-import com.toedter.calendar.JDateChooser;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.List;
-import java.util.Calendar;
-import java.util.Collections;
-import java.awt.GridLayout;
-import javax.swing.ListSelectionModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.beans.PropertyChangeListener;
-import java.text.SimpleDateFormat;
-import java.beans.PropertyChangeEvent;
-import javax.swing.JRadioButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class FrameHorariosEmpleados extends JFrame {
 
@@ -95,22 +85,6 @@ public class FrameHorariosEmpleados extends JFrame {
 	private JRadioButton rdbtSemanal;
 	private JRadioButton rdbtPuntual;
 	private ButtonGroup grupoBt = new ButtonGroup();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -219,6 +193,7 @@ public class FrameHorariosEmpleados extends JFrame {
 		if (clFecha == null) {
 			clFecha = new JDateChooser();
 			clFecha.addPropertyChangeListener(new PropertyChangeListener() {
+				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					if (!listEmpleados.isSelectionEmpty() && getClFecha().getDate() != null)
 						mostrarHorarioEmpleado();
@@ -417,6 +392,7 @@ public class FrameHorariosEmpleados extends JFrame {
 		if (btAddSemanal == null) {
 			btAddSemanal = new JButton("Añadir");
 			btAddSemanal.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					addTurno();
 				}

@@ -4,8 +4,6 @@ import backend.data.clientes.ClientesCRUDImpl;
 import backend.data.clientes.ClientesCRUDService;
 import backend.data.empleados.EmpleadoCRUDImpl;
 import backend.data.empleados.EmpleadosCRUDService;
-import backend.data.horarios.HorarioCRUDImpl;
-import backend.data.horarios.HorarioCRUDService;
 import backend.data.entradas.EntradasCRUDImpl;
 import backend.data.entradas.EntradasCRUDService;
 import backend.data.entrenamientos.EntrenamientoCRUDImpl;
@@ -14,8 +12,12 @@ import backend.data.entrevistas.EntrevistaCRUDImpl;
 import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.EquipoCRUDServiceImpl;
+import backend.data.horarios.HorarioCRUDImpl;
+import backend.data.horarios.HorarioCRUDService;
 import backend.data.merchandising.MerchandisingCRUDImpl;
 import backend.data.merchandising.MerchandisingCRUDService;
+import backend.data.noticias.NoticiaCRUDImpl;
+import backend.data.noticias.NoticiaCRUDService;
 import backend.data.partidos.PartidosCRUDImpl;
 import backend.data.partidos.PartidosCRUDService;
 import backend.data.productos.ProductoCRUDImpl;
@@ -67,5 +69,9 @@ public class CreadorDataService {
 	
 	public static EntrevistaCRUDService getEntrevistaService() {
 		return new EntrevistaCRUDImpl();
+	}
+	
+	public static NoticiaCRUDService getNoticiaService() {
+		return new NoticiaCRUDImpl();
 	}
 }

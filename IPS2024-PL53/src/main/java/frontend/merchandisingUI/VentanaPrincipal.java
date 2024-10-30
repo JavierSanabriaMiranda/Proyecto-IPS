@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,13 +24,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-
-import backend.data.productos.ProductoCRUDImpl;
-import shared.gestionProductos.GestionProductoShared;
 
 public class VentanaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -73,36 +68,16 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lbCorreo;
 	private JTextField tfCorreo;
 	private JPanel pnDatos;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					VentanaPrincipal frame = new VentanaPrincipal();
-					GestionProductoShared gps = new GestionProductoShared(new ProductoCRUDImpl(),frame);
-					gps.initController();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
 		setMinimumSize(new Dimension(900, 1000));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/logo.jpg")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/productos/logo.jpg")));
 		setTitle("Tienda Oficial");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 882);
+		setBounds(100, 100, 980, 1000);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,7 +103,7 @@ public class VentanaPrincipal extends JFrame {
 			lbLogo = new JLabel("Tienda Oficial");
 			lbLogo.setFont(new Font("Arial Black", Font.PLAIN, 44));
 			lbLogo.setForeground(Color.BLACK);
-			lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/logo.jpg")));
+			lbLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/productos/logo.jpg")));
 		}
 		return lbLogo;
 	}
@@ -327,6 +302,7 @@ public class VentanaPrincipal extends JFrame {
         if (tfCorreo == null) {
             tfCorreo = new JTextField();
             tfCorreo.setColumns(20);
+            tfCorreo.setPreferredSize(new Dimension(300,30));
             tfCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         }
         return tfCorreo;
@@ -430,7 +406,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblAdvise() {
 	    if (lblAdvise == null) {
 	        lblAdvise = new JLabel();
-	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/ok.png")));
+	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/productos/ok.png")));
 	        lblAdvise.setText("Gracias por confiar en nosotros!");
 	        lblAdvise.setFont(new Font("Tahoma", Font.BOLD, 28));
 	    }

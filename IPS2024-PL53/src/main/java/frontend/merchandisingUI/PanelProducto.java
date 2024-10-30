@@ -47,7 +47,7 @@ public class PanelProducto extends JPanel {
             lbArticulo.setFont(new Font("Tahoma", Font.BOLD, 12));
             lbArticulo.setForeground(new Color(0, 0, 0));
             lbArticulo.setText(producto.toString());
-            lbArticulo.setIcon(new ImageIcon(PanelProducto.class.getResource("/img/" + producto.getCode() + ".jpg")));
+            lbArticulo.setIcon(new ImageIcon(PanelProducto.class.getResource("/img/productos/" + producto.getCode() + ".jpg")));
         }
         return lbArticulo;
     }
