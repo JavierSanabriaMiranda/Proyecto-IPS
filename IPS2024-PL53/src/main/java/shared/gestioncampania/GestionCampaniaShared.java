@@ -17,6 +17,7 @@ public class GestionCampaniaShared {
 	private GestorCampania gestor = new GestorDeCampanias();
 	private CampaniaAccionistasCRUDService serviceCampania = CreadorDataService.getCampaniasService();
 	private AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
+	private String dniClienteNoRegistrado;
 
 
 	public void crearCampania(int numAcciones) {
@@ -72,8 +73,11 @@ public class GestionCampaniaShared {
 	 */
 	public boolean esAccionista(String dni) {
 		Optional<AccionistaDTO> optAccionista = serviceAccionista.findByDniAccionista(dni);
-		if (optAccionista.isEmpty())
+		if (optAccionista.isEmpty()) {
+			dniClienteNoRegistrado = dni;
 			return false;
+		}
+			
 		// Si hay un accionista se guarda en el gestor
 		gestor.addAccionista(backend.data.accionistas.DtoAssembler.dtoToAccionista(optAccionista.get()));
 		return true;
@@ -127,8 +131,8 @@ public class GestionCampaniaShared {
 		return gestor.getAccionista();
 	}
 
-	public void registrarClienteComoNuevoAccionista(String dni, String nombre) {
-		Accionista acc = new Accionista(dni, nombre);
+	public void registrarClienteComoNuevoAccionista(String nombre) {
+		Accionista acc = new Accionista(dniClienteNoRegistrado, nombre);
 		acc.setIdAccionista(gestor.addNuevoAccionista(acc)); 
 		
 		AccionistaDTO dtoAcc = backend.data.accionistas.DtoAssembler.toDto(acc);

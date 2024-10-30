@@ -231,18 +231,20 @@ public class GestionFrameParticiparCampania {
 	}
 
 	private void comprobarDatosCorrectosRegistro() {
-		String dni = viewRegistro.getTxDni().getText();
 		String nombre = viewRegistro.getTxNombre().getText();
-		if (dni.isBlank() || nombre.isBlank())
+		if (nombre.isBlank())
 			JOptionPane.showMessageDialog(viewRegistro, "Se deben rellenar todos los campos", "Error en registro", JOptionPane.ERROR_MESSAGE);
 		else {
-			registrarNuevoAccionistaEnBDD(dni, nombre);
+			registrarNuevoAccionistaEnBDD(nombre);
 			// TODO hacer que compre las acciones
 		}
 	}
 
-	private void registrarNuevoAccionistaEnBDD(String dni, String nombre) {
-		gesCam.registrarClienteComoNuevoAccionista(dni, nombre);
+	private void registrarNuevoAccionistaEnBDD(String nombre) {
+		gesCam.registrarClienteComoNuevoAccionista(nombre);
+		JOptionPane.showMessageDialog(viewRegistro, "Se ha registrado correctamente como accionista", 
+				"Registro Completado", JOptionPane.INFORMATION_MESSAGE);
+		cerrarVentanaRegistro();
 	}
 
 	private void cerrarVentanaRegistro() {
