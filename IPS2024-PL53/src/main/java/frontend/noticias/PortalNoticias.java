@@ -45,7 +45,6 @@ public class PortalNoticias extends JFrame {
     private JButton btImagenExpandida;
 
     public PortalNoticias() {
-        setResizable(false);
         setTitle("Portal de Noticias");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 650, 585);
@@ -187,6 +186,7 @@ public class PortalNoticias extends JFrame {
     public JButton getBtImagen() {
         if (btImagen == null) {
             btImagen = new JButton("");
+            btImagen.setToolTipText("Pulsar para ampliar");
             btImagen.setHorizontalAlignment(SwingConstants.CENTER);
             btImagen.setBackground(Color.WHITE);
             btImagen.setPreferredSize(new Dimension(150, 100));
