@@ -8,4 +8,6 @@ public interface AccionistasCRUDService {
 
 	int getNumAccionesByDniAccionista(String dniAccionista);
 
+	void addNuevoAccionista(AccionistaDTO dto);
+
 }

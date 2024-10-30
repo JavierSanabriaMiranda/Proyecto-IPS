@@ -120,5 +120,24 @@ public class GestionCampaniaShared {
 		return gestor.getPrecioAcciones();
 	}
 
+	/**
+	 * @return accionista o null si el cliente no está registrado como accionista
+	 */
+	public Accionista getAccionista() {
+		return gestor.getAccionista();
+	}
+
+	public void registrarClienteComoNuevoAccionista(String dni, String nombre) {
+		Accionista acc = new Accionista(dni, nombre);
+		acc.setIdAccionista(gestor.addNuevoAccionista(acc)); 
+		
+		AccionistaDTO dtoAcc = backend.data.accionistas.DtoAssembler.toDto(acc);
+		serviceAccionista.addNuevoAccionista(dtoAcc);
+		
+		CampaniaAccionistas campania = gestor.getCampania();
+		
+		serviceCampania.addAccionistaEnCampania(acc.getIdAccionista(), campania.getCodigoCampania(), 0);
+	}
+
 	
 }

@@ -1,6 +1,11 @@
 package shared.gestioncampania;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameCambiarFasesCampaniaAccionistas;
@@ -54,12 +59,19 @@ public class GestionFrameCrearCampaniaShared {
 		view.setVisible(false);
 		viewFases = new FrameCambiarFasesCampaniaAccionistas();
 		actualizarFaseEnLabel();
-		viewFases.setVisible(true);
+		viewFases.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initControllerFases();
+		viewFases.setVisible(true);
 	}
 
 	private void initControllerFases() {
 		viewFases.getBtAvanzar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> avanzarFase()));
+		viewFases.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+                SwingUtilities.invokeLater(() -> view.dispose());
+            }
+        });
 	}
 	
 	private void avanzarFase() {

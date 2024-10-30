@@ -4,12 +4,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import backend.service.ventas.campanaAccionistas.Accionista;
 import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
+import frontend.campaniaaccionistas.FrameRegistrarNuevoAccionista;
 
 public class GestionFrameParticiparCampania {
 
 	private FrameParticiparEnCampaniaAccionistas view;
+	private FrameRegistrarNuevoAccionista viewRegistro;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
 
 	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view) {
@@ -19,6 +22,8 @@ public class GestionFrameParticiparCampania {
 	public void initController() {
 		view.getBtInfo().addActionListener(e -> SwingUtil.exceptionWrapper(() -> darInfoFuncionamientoCampania()));
 		view.getBtSalir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentana()));
+		view.getSpAcciones().addChangeListener(e -> SwingUtil.exceptionWrapper(() -> actualizarPrecio()));
+		view.getBtComprar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> comprarAcciones()));
 	}
 
 	public void cargarCampaniaEnCurso() {
@@ -63,7 +68,6 @@ public class GestionFrameParticiparCampania {
 			throw new IllegalStateException(
 					"La campaña está en la fase " + fase + " que no se " + "encuentra dentro de lo esperado");
 		}
-		view.setVisible(true);
 	}
 
 	private void accederComoAccionista() {
@@ -95,15 +99,16 @@ public class GestionFrameParticiparCampania {
 		ponerLimiteSpinner(fase);
 		view.getSpAcciones().setValue(1);
 		actualizarPrecio();
+		view.setVisible(true);
 	}
 
 	private void actualizarPrecio() {
 		int numAccionesAComprar = (int) view.getSpAcciones().getValue();
 		double precioUnaAccion = gesCam.getPrecioAcciones();
 		double precioTotal = numAccionesAComprar * precioUnaAccion;
-		
-		String texto = view.getLbPrecio().getText();
-		view.getLbPrecio().setText(String.format("%s %.2f\u20AC",texto, precioTotal));
+
+		String texto = "Precio total:";
+		view.getLbPrecio().setText(String.format("%s %.2f\u20AC", texto, precioTotal));
 	}
 
 	private void ponerLimiteSpinner(int fase) {
@@ -132,20 +137,20 @@ public class GestionFrameParticiparCampania {
 	private void mostrarLimiteAcciones() {
 		int accionesLimite = gesCam.getAccionesInicialesAccionista();
 
-		String texto = view.getLbLimiteAcciones().getText();
-		view.getLbLimiteAcciones().setText(texto + " " + accionesLimite);
+		String texto = "Su limite de acciones para esta fase es de: ";
+		view.getLbLimiteAcciones().setText(texto + accionesLimite);
 	}
 
 	private void mostrarAccionesRestantesCampania() {
 		int accionesRestantes = gesCam.getAccionesRestantesCampania();
 
-		String texto = view.getLbAccionesRestantesCampania().getText();
-		view.getLbAccionesRestantesCampania().setText(texto + " " + accionesRestantes);
+		String texto = "Acciones Restantes de la Campaña: ";
+		view.getLbAccionesRestantesCampania().setText(texto + accionesRestantes);
 	}
 
 	private void mostrarFase(int fase) {
-		String texto = view.getLbFase().getText();
-		view.getLbFase().setText(texto + " " + fase);
+		String texto = "Fase Actual: ";
+		view.getLbFase().setText(texto + fase);
 	}
 
 	private void informarDeNoAccesoACliente(int fase) {
@@ -181,6 +186,7 @@ public class GestionFrameParticiparCampania {
 
 	private void cerrarVentana() {
 		view.setVisible(true);
+
 		view.dispose();
 	}
 
@@ -194,5 +200,56 @@ public class GestionFrameParticiparCampania {
 		info += "	hasta que se agoten las fijadas para la campaña\n";
 		JOptionPane.showMessageDialog(view, info, "Funcionamiento de las Campañas", JOptionPane.INFORMATION_MESSAGE);
 	}
+
+	private void comprarAcciones() {
+		int fase = gesCam.getFaseCampania();
+		Accionista acc = gesCam.getAccionista();
+		// Si es un cliente no accionista (se deben registrar sus datos para hacerlo
+		// accionista)
+		if (acc == null)
+			registrarDatosNuevoAccionista();
+	}
+
+	/**
+	 * Método que crea un frame de registro de accionista que recoge los datos de este para registrarlo
+	 */
+	private void registrarDatosNuevoAccionista() {
+		viewRegistro = new FrameRegistrarNuevoAccionista();
+		initControllerRegistroAccionista();
+		
+		view.setVisible(false);
+		viewRegistro.setVisible(true);
+	}
+	
+	private void initControllerRegistroAccionista() {
+		viewRegistro.getBtCancelar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentanaRegistro()));
+		viewRegistro.getBtAceptar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> registrarNuevoAccionista()));
+	}
+
+	private void registrarNuevoAccionista() {
+		comprobarDatosCorrectosRegistro();
+	}
+
+	private void comprobarDatosCorrectosRegistro() {
+		String dni = viewRegistro.getTxDni().getText();
+		String nombre = viewRegistro.getTxNombre().getText();
+		if (dni.isBlank() || nombre.isBlank())
+			JOptionPane.showMessageDialog(viewRegistro, "Se deben rellenar todos los campos", "Error en registro", JOptionPane.ERROR_MESSAGE);
+		else {
+			registrarNuevoAccionistaEnBDD(dni, nombre);
+			// TODO hacer que compre las acciones
+		}
+	}
+
+	private void registrarNuevoAccionistaEnBDD(String dni, String nombre) {
+		gesCam.registrarClienteComoNuevoAccionista(dni, nombre);
+	}
+
+	private void cerrarVentanaRegistro() {
+		view.setVisible(true);
+		viewRegistro.dispose();
+	}
+
+
 
 }
