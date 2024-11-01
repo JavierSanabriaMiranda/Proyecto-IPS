@@ -25,6 +25,7 @@ import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
+import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
@@ -38,6 +39,7 @@ import shared.gestionNoticias.GestionPortalNoticiasShared;
 import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
+import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
@@ -152,7 +154,7 @@ public class AplicacionMain {
         ventasMenu.add(reservasInstalaciones);
 
         // Menú "Equipos"
-        JMenu equiposMenu = new JMenu("Añadir Equipos");
+        JMenu equiposMenu = new JMenu("Equipos");
         menuBar.add(equiposMenu);
 
         // Opción "Añadir equipos"
@@ -215,6 +217,13 @@ public class AplicacionMain {
             inicializarPortalNoticias();
         });
         noticiasMenu.add(portalNoticias);
+        
+        JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
+        horariosEntrenamientos.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarHorarioEquipos();
+        });
+        equiposMenu.add(horariosEntrenamientos);
     }
 
 	private void inicializarGestionEmpleados() {
@@ -298,6 +307,14 @@ public class AplicacionMain {
     	gpns.initController();
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
+    }
+    
+    private void inicializarHorarioEquipos() {
+    	VentanaHorarioEquipos frame = new VentanaHorarioEquipos();
+    	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
+    	gpes.initControllers();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
     }
 
     // Método para configurar el comportamiento al cerrar ventanas
