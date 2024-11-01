@@ -129,9 +129,11 @@ public class ReservaShared {
 		return gestor.isHorarioValido(inst, franja);
 	}
 	
-	private void borrarReservaDeJardineriaDeBBDD(ReservaJardineria reserva) {
-		ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
-		service.deleteReservaJardineria(reserva.getCodReservaJardineria());
+	private void borrarReservaDeJardineriaDeBBDD(List<ReservaJardineria> reservas) {
+		for(ReservaJardineria reserva :reservas) {
+			ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
+			service.deleteReservaJardineria(reserva.getCodReservaJardineria());
+		}
 	}
 
 	
@@ -159,13 +161,15 @@ public class ReservaShared {
 	}
 
 	private void borraReservaJardineriaCoincidente(FranjaTiempo horario, Instalacion instalacion, Reserva reserva) {
-		ReservaJardineria reservaJardineria = gestor.comprobarCoincidenciaConJardineria(instalacion, horario);
+		List<ReservaJardineria> reservaJardineria = gestor.comprobarCoincidenciaConJardineria(instalacion, horario);
 		//Si es != null significa que la reserva coincide con la de un jardinero, asi que hay que borrar esa reserva
-		if (reserva != null) {
+		if (!reservaJardineria.isEmpty()) {
 			//Borrar reserva de la BBDD
 			borrarReservaDeJardineriaDeBBDD(reservaJardineria);
 			//Borrar reserva de la lista de reservas de la instalacion
-			gestor.getReservasJardineria().remove(reservaJardineria);
+			for(ReservaJardineria reservaJar : reservaJardineria) {
+				gestor.getReservasJardineria().remove(reservaJar);
+			}
 		}
 	}
 	

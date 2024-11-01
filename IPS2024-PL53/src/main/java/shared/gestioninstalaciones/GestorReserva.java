@@ -32,6 +32,6 @@ public interface GestorReserva {
 	
 	List<ReservaJardineria> getReservasJardineria();
 	
-	ReservaJardineria comprobarCoincidenciaConJardineria(Instalacion instalacion , FranjaTiempo franja);
+	List<ReservaJardineria> comprobarCoincidenciaConJardineria(Instalacion instalacion , FranjaTiempo franja);
 
 }

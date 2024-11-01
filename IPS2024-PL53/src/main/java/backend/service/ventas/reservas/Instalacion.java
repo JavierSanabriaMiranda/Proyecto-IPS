@@ -118,13 +118,14 @@ public class Instalacion {
 	}
 
 	
-	public ReservaJardineria comprobarCoincidenciaConJardineria(FranjaTiempo fj) {
+	public List<ReservaJardineria> comprobarCoincidenciaConJardineria(FranjaTiempo fj) {
+		List<ReservaJardineria> reservasCoincidentes = new ArrayList<>();
 		for (ReservaJardineria reserva : reservasJardinerias) {
 	    	if (solapa(fj, reserva.getHorario())) {
-	    		return reserva;
+	    		reservasCoincidentes.add(reserva);
 	    	}
 	    }
-		return null;
+		return reservasCoincidentes;
 	}
 	
 	/**
