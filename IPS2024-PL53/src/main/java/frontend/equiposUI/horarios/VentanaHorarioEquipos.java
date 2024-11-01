@@ -247,14 +247,14 @@ public class VentanaHorarioEquipos extends JFrame {
 		}
 		return spHoraFin;
 	}
-	private JButton getBtnAtras() {
+	public JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atrás");
 			btnAtras.setBounds(23, 297, 89, 23);
 		}
 		return btnAtras;
 	}
-	private JButton getBtnAñadirEntrenamiento() {
+	public JButton getBtnAñadirEntrenamiento() {
 		if (btnAñadirEntrenamiento == null) {
 			btnAñadirEntrenamiento = new JButton("Añadir Entrenamiento");
 			btnAñadirEntrenamiento.setBounds(220, 297, 155, 23);

@@ -8,4 +8,6 @@ public interface EntrenamientoCRUDService {
 	
 	public List<EntrenamientoDto> cargarEntrenamientos();
 	List<EntrenamientoDto> findEntrenamientoByIdEquipoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin);
+	
+	public void addEntrenamiento(EntrenamientoDto dto);
 }

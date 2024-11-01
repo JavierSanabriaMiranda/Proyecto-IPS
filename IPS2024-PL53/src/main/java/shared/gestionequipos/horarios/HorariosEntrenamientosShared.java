@@ -132,6 +132,10 @@ public class HorariosEntrenamientosShared {
 	public List<FranjaTiempo> getEventos(Instalacion instalacion, LocalDate fecha) {
 		return gestorInstalaciones.consultarDisponibilidad(instalacion, fecha);
 	}
+	
+	public boolean isHorarioValido(Instalacion inst, FranjaTiempo franja) {
+		return gestorInstalaciones.isHorarioValido(inst, franja);
+	}
 
 
 }

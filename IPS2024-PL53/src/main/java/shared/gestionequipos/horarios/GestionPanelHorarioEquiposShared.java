@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -17,6 +18,7 @@ import backend.service.ventas.reservas.Instalacion;
 import frontend.SwingUtil;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import util.DateToLocalDate;
+import util.DateToLocalTimeConverter;
 
 public class GestionPanelHorarioEquiposShared {
 
@@ -32,8 +34,22 @@ public class GestionPanelHorarioEquiposShared {
 	
 	public void initControllers() {
 		view.getBtnHorario().addActionListener(e -> SwingUtil.exceptionWrapper(() -> compruebaFechaYMuestraHorario()));
+		
+		view.getBtnAtras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> view.dispose()));
+		
+		view.getBtnAñadirEntrenamiento().addActionListener(e -> SwingUtil.exceptionWrapper(() -> resgistrarEntrenamiento()));
+		
+		view.getCbInstalaciones().addActionListener(e -> SwingUtil.exceptionWrapper(() ->vaciaPanelHorario()));
+		
+		view.getDateChooser().getDateEditor().addPropertyChangeListener("date", e -> 
+        SwingUtil.exceptionWrapper(() -> vaciaPanelHorario()));
 	}
 	
+	private void vaciaPanelHorario() {
+		view.getPnHorarioContent().removeAll();
+		view.repaint();
+		view.revalidate();
+	}
 	
 	
 	private void compruebaFechaYMuestraHorario() {
@@ -104,5 +120,56 @@ public class GestionPanelHorarioEquiposShared {
 
 		view.getPnHorarioContent().revalidate();
 		view.getPnHorarioContent().repaint();
+	}
+	
+	private void resgistrarEntrenamiento() {
+		if (!verificarHoraInicioAnteriorAHoraFin()) {
+			JOptionPane.showMessageDialog(null, "La hora de inicio debe ser anterior a la hora de fin.",
+					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
+		} else if (verificarSeleccionDeFecha()) {
+			JOptionPane.showMessageDialog(null, "Debe seleccionar el día del entrenamiento.",
+					"Error en la selección de día", JOptionPane.WARNING_MESSAGE);
+		} else if (!isValidHorarioInstalacion()) {
+			JOptionPane.showMessageDialog(null, "El horario seleccionado no se encuentra dentro del horario disponible de la instalación.",
+					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
+		}
+		else {
+			System.out.println("Añadido");
+		}
+	}
+	
+	private boolean verificarSeleccionDeFecha() {
+		if(view.getDateChooser().getDate() == null)
+			return true;
+		return false;
+	}
+
+	private boolean verificarHoraInicioAnteriorAHoraFin() {
+		Date horaInicio = (Date) view.getSpHoraInicio().getValue();
+		Date horaFin = (Date) view.getSpHoraFin().getValue();
+		if (horaInicio.before(horaFin) || !horaInicio.equals(horaFin)) {
+			return true;
+		}
+		return false;
+
+	}
+	
+	private boolean isValidHorarioInstalacion() {
+		Date horaInicio = (Date) view.getSpHoraInicio().getValue();
+		Date horaFin = (Date) view.getSpHoraFin().getValue();
+
+		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO, inicio, fin,
+				DateToLocalDate.convertToLocalDate(view.getDateChooser().getDate()));
+		Instalacion instalacion = (Instalacion) view.getCbInstalaciones().getSelectedItem();
+
+		
+		
+		if (view.getHorarioEntrenamientoShared().isHorarioValido(instalacion, franja)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
