@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
+import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.Instalacion;
@@ -134,8 +135,44 @@ public class GestionPanelHorarioEquiposShared {
 					"Error en la selección de horas", JOptionPane.WARNING_MESSAGE);
 		}
 		else {
-			System.out.println("Añadido");
+			addEntrenamiento();
+			JOptionPane.showMessageDialog(null, "El horario del entrenamiento ha sido registrado.",
+					"Entrenamiento registrado", JOptionPane.INFORMATION_MESSAGE);
+			view.dispose();
 		}
+	}
+	
+	
+	private void addEntrenamiento() {
+		Date fecha = view.getDateChooser().getDate();
+		
+		view.getHorarioEntrenamientoShared().addEntrenamiento(getEntrenador(), getInstalacionReserva(), getFranjaReserva(), fecha);
+	}
+	
+	
+	
+	public FranjaTiempo getFranjaReserva() {
+		Date horaInicio = (Date) view.getSpHoraInicio().getValue();
+		Date horaFin = (Date) view.getSpHoraFin().getValue();
+		LocalTime inicio = DateToLocalTimeConverter.convertDateToLocalTime(horaInicio);
+		LocalTime fin = DateToLocalTimeConverter.convertDateToLocalTime(horaFin);
+		FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, inicio, fin,
+				DateToLocalDate.convertToLocalDate(view.getDateChooser().getDate()));
+		return franja;
+	}
+
+	public Instalacion getInstalacionReserva() {
+		Instalacion inst = (Instalacion) view.getCbInstalaciones().getSelectedItem();
+		String nombreInstalacion = inst.getNombreInstalacion();
+		Instalacion instalacion = view.getHorarioEntrenamientoShared().buscaInstalacion(nombreInstalacion);
+		return instalacion;
+	}
+	
+	public EmpleadoDeportivo getEntrenador() {
+		EmpleadoDeportivo inst = (EmpleadoDeportivo) view.getCbEntrenadores().getSelectedItem();
+		String idEntrenador = inst.getIDEmpleado();
+		EmpleadoDeportivo empleado = view.getHorarioEntrenamientoShared().buscaEmpleado(idEntrenador);
+		return empleado;
 	}
 	
 	private boolean verificarSeleccionDeFecha() {

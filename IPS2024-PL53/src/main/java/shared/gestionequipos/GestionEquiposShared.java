@@ -169,7 +169,6 @@ public class GestionEquiposShared {
 		addEquipoFormacionABBDD(idEquipo, categoria);
 		updateEmpleadosEnBBDD(jugadoresEquipo, entrenadoresEquipo, idEquipo);
 		updateEquipoFormacionEnEmpleadosYGestor(jugadoresEquipo, entrenadoresEquipo, categoria, idEquipo);
-		
 	}
 	
 	private void addEquipoFormacionABBDD(String idEquipo, String categoria) {

@@ -28,7 +28,7 @@ public class Entrenamiento implements ReservaParaInstalacion{
 	public String getIdEntrenamiento() {
 		return idEntrenamiento;
 	}
-	private String getIdEquipo() {
+	public String getIdEquipo() {
 		return idEquipo;
 	}
 

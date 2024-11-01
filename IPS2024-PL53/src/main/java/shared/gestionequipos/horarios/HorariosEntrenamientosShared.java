@@ -2,6 +2,7 @@ package shared.gestionequipos.horarios;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import backend.data.CreadorDataService;
@@ -10,6 +11,7 @@ import backend.data.empleados.EmpleadoDeportivoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
 import backend.data.entrenamientos.EntrenamientoCRUDImpl;
 import backend.data.entrenamientos.EntrenamientoCRUDService;
+import backend.data.entrenamientos.EntrenamientoDto;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.command.DtoAssemblerEquipo;
@@ -28,18 +30,20 @@ import backend.service.ventas.reservas.Reserva;
 import shared.gestionequipos.GestorEquipos;
 import shared.gestioninstalaciones.GestorInstalaciones;
 import shared.gestioninstalaciones.GestorReserva;
+import util.DateToLocalTimeConverter;
 
 public class HorariosEntrenamientosShared {
 
 	EmpleadosCRUDService serviceEmp = CreadorDataService.getEmpleadosService();
 	EquipoCRUDService serviceEquip = CreadorDataService.getEquiposService();
+	EntrenamientoCRUDService serviceEntr = new EntrenamientoCRUDImpl();
 	private GestorReserva gestorInstalaciones = new GestorInstalaciones();
 	private GestorEquipos gestorEquipos = new Gerente();
 	
 	public HorariosEntrenamientosShared() {
 		cargaInstalaciones();
-		cargarEmpleadosDeportivos();
 		cargarEquipos();
+		cargarEmpleadosDeportivos();
 		cargarReservaEnInstalaciones();
 		cargarEntrenamientosEnInstalaciones();
 	}
@@ -125,8 +129,8 @@ public class HorariosEntrenamientosShared {
 		return gestorEquipos;
 	}
 	
-	public List<EmpleadoDeportivo> getEntrenadores(){
-		return gestorEquipos.getEntrenadores();
+	public List<EmpleadoDeportivo> getEntrenadoresConEquipo(){
+		return gestorEquipos.getEntrenadoresConEquipo();
 	}
 	
 	public List<FranjaTiempo> getEventos(Instalacion instalacion, LocalDate fecha) {
@@ -137,5 +141,33 @@ public class HorariosEntrenamientosShared {
 		return gestorInstalaciones.isHorarioValido(inst, franja);
 	}
 
+	public void addEntrenamiento(EmpleadoDeportivo entrenador, Instalacion instalacion, FranjaTiempo horario, Date fecha) {
+		String idEntrenamiento = gestorInstalaciones.creaCodEntrenamiento();
+		
+		Entrenamiento entrenamiento = new Entrenamiento(idEntrenamiento, horario, instalacion, entrenador.getEquipo().getIdEquipo());
+		gestorInstalaciones.addEntrenamientoAInstalacion(entrenamiento, instalacion);
+		
+		addEntrenamientoABDD(instalacion, horario, entrenador, idEntrenamiento, fecha);
+	}
 
+	private void addEntrenamientoABDD(Instalacion instalacion, FranjaTiempo horario, EmpleadoDeportivo entrenador, String idEntrenamiento, Date fecha) {
+		EntrenamientoDto dto = new EntrenamientoDto();
+		dto.codInstalacion = instalacion.getNombreInstalacion();
+		dto.fecha = fecha;
+		dto.horaFinal = DateToLocalTimeConverter.combinarFechaYHora(fecha, horario.getHoraFin());
+		dto.horaInicio = DateToLocalTimeConverter.combinarFechaYHora(fecha, horario.getHoraInicio());
+		dto.idEntrenamiento = idEntrenamiento;
+		dto.idEquipo = entrenador.getEquipo().getIdEquipo();
+		
+		serviceEntr.addEntrenamiento(dto);
+	}
+
+	public Instalacion buscaInstalacion(String nombreInstalacion) {
+		return gestorInstalaciones.buscaInstalacion(nombreInstalacion);
+		
+	}
+
+	public EmpleadoDeportivo buscaEmpleado(String idEntrenador) {
+		return gestorEquipos.buscaEmpleado(idEntrenador);
+	}
 }

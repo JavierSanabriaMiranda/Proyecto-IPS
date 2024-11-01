@@ -266,16 +266,16 @@ VALUES ('EMP014', '12344321J', 'Andrea', 'García', '1978-08-30', '601567890', 4
 
 -- Insertar en la tabla ENTRENADOR, dejando ID_EQUIPO como NULL y asignando la posición
 INSERT INTO ENTRENADOR (ID_ENTRENADOR, ID_EQUIPO, POSICION_ENTRENADOR)
-VALUES ('EMP014', NULL, 1),
-       ('EMP015', NULL, 2),
-       ('EMP016', NULL, 1),
-       ('EMP017', NULL, 1),
-	   ('EMP018', NULL, 2),
-	   ('EMP019', NULL, 1),
-	   ('EMP020', NULL, 2),
-	   ('EMP021', NULL, 1),
-	   ('EMP022', NULL, 2),
-	   ('EMP023', NULL, 1);
+VALUES ('EMP014', NULL, NULL),
+       ('EMP015', NULL, NULL),
+       ('EMP016', NULL, NULL),
+       ('EMP017', NULL, NULL),
+	   ('EMP018', NULL, NULL),
+	   ('EMP019', NULL, NULL),
+	   ('EMP020', NULL, NULL),
+	   ('EMP021', NULL, NULL),
+	   ('EMP022', NULL, NULL),
+	   ('EMP023', NULL, NULL);
 
 
 -- INSERCION DE JUGADORES PARA CADA CATEGORIA

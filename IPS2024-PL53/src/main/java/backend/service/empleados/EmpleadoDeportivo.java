@@ -7,4 +7,6 @@ public interface EmpleadoDeportivo extends Empleado {
 	boolean tieneEquipo();
 
 	void setEquipo(Equipo equipo);
+	
+	Equipo getEquipo();
 }

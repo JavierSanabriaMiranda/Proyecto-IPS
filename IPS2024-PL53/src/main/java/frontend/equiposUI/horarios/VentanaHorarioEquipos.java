@@ -120,14 +120,14 @@ public class VentanaHorarioEquipos extends JFrame {
 		}
 		return pnSeleccionEquipo;
 	}
-	private JComboBox<EmpleadoDeportivo> getCbEntrenadores() {
+	public JComboBox<EmpleadoDeportivo> getCbEntrenadores() {
 		if (cbEntrenadores == null) {
 			cbEntrenadores = new JComboBox<EmpleadoDeportivo>();
 			cbEntrenadores.setBounds(34, 70, 278, 22);
 			
 			// Crear el modelo basado en la lista de instalaciones
 	        DefaultComboBoxModel<EmpleadoDeportivo> model = new DefaultComboBoxModel<>();
-	        List<EmpleadoDeportivo> entrenadores = hes.getEntrenadores();
+	        List<EmpleadoDeportivo> entrenadores = hes.getEntrenadoresConEquipo();
 	        for (EmpleadoDeportivo entrenador : entrenadores) {
 	            model.addElement(entrenador);  // Añadir cada instalación al modelo
 	        }
