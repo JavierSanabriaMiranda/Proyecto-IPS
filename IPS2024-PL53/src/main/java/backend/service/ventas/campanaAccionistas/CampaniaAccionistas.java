@@ -85,6 +85,8 @@ public class CampaniaAccionistas extends VentaBase {
 		if (numAcciones > numAccionesRestantes)
 			throw new IllegalArgumentException("No quedan acciones suficientes para realizar la operación");
 		this.numAccionesRestantes = numAccionesRestantes - numAcciones;
+		if (numAccionesRestantes == 0)
+			estado = EstadoCampania.FINALIZADA;
 	}
 
 	

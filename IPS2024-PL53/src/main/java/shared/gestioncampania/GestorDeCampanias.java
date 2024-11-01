@@ -116,7 +116,7 @@ public class GestorDeCampanias implements GestorCampania {
 	@Override
 	public void comprarAcciones(int numAcciones) {
 		campania.reducirAccionesRestantes(numAcciones);
-		numAccionesCompradasAccionista = numAccionesCompradasAccionista + numAcciones;
+		numAccionesCompradasAccionista = numAccionesCompradasAccionista + numAcciones;		
 	}
 
 	@Override
