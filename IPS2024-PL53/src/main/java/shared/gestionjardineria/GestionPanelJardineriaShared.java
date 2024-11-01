@@ -41,6 +41,8 @@ public class GestionPanelJardineriaShared {
 
 	public void initController() {
 		view.getBtnSiguiente().addActionListener(e -> SwingUtil.exceptionWrapper(() -> actionSiguiente()));
+		
+		view.getBtnAtras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> view.dispose()));
 	}
 
 	private void actionSiguiente() {
@@ -87,6 +89,7 @@ public class GestionPanelJardineriaShared {
 	private void initControllersHorario() {
 		diagJar.getBtnAñadir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> validarHorario()));
 
+		diagJar.getBtnAtras2().addActionListener(e -> SwingUtil.exceptionWrapper(() -> diagJar.dispose()));
 	}
 
 	// ---------------------------METODOS PARA LA VENTANA DE HORARIO JARDINERIA--------------------------
@@ -109,7 +112,8 @@ public class GestionPanelJardineriaShared {
 					getEmpleado(), diagJar.getVj().getDateChooser().getDate());
 			JOptionPane.showMessageDialog(null, "La asignación al empleado se ha realizado con éxito.", 
                     "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-			System.exit(0);
+			diagJar.dispose();
+			view.dispose();
 		}
 		
 	}

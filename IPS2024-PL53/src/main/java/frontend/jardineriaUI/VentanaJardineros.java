@@ -49,6 +49,7 @@ public class VentanaJardineros extends JFrame {
 		this.jardinerosShared = js;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 768, 662);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -153,7 +154,7 @@ public class VentanaJardineros extends JFrame {
 		}
 		return btnSiguiente;
 	}
-	private JButton getBtnAtras() {
+	public JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atrás");
 			btnAtras.setBounds(10, 591, 89, 23);
