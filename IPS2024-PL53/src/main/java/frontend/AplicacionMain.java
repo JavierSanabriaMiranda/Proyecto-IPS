@@ -75,7 +75,7 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
-        frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
+        frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
