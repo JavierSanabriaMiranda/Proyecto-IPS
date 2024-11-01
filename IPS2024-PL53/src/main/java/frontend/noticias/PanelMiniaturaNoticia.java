@@ -23,7 +23,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 		setBorder(new LineBorder(new Color(70, 130, 180), 2, true));
 		setBackground(Color.WHITE);
 		setLayout(new GridLayout(2, 1, 0, 0));
-		setPreferredSize(new Dimension(140, 200));
+		setPreferredSize(new Dimension(140, 250));
 		
 		add(getImagen());
 		add(getPnTitulo());
@@ -63,7 +63,7 @@ public class PanelMiniaturaNoticia extends JPanel {
 			lbTitulo = new JLabel("");
 			lbTitulo.setBackground(Color.WHITE);
 			lbTitulo.setVerticalAlignment(SwingConstants.CENTER);
-			lbTitulo.setFont(new Font("Serif", Font.BOLD, 16));
+			lbTitulo.setFont(new Font("Serif", Font.BOLD, 15));
 			lbTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lbTitulo;

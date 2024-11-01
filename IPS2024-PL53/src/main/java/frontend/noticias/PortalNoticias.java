@@ -47,7 +47,8 @@ public class PortalNoticias extends JFrame {
     public PortalNoticias() {
         setTitle("Portal de Noticias");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 650, 585);
+        setBounds(100, 100, 750, 640);
+        setMinimumSize(new Dimension(850,740));
         setLocationRelativeTo(null);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(173, 216, 230));
@@ -104,7 +105,7 @@ public class PortalNoticias extends JFrame {
         if (pnNoticias == null) {
             pnNoticias = new JPanel();
             pnNoticias.setBackground(new Color(220, 220, 220));
-            pnNoticias.setLayout(new GridLayout(0, 4, 5, 5));
+            pnNoticias.setLayout(new GridLayout(0, 3, 5, 5));
         }
         return pnNoticias;
     }
@@ -146,7 +147,7 @@ public class PortalNoticias extends JFrame {
             lbTituloNoticia = new JLabel("");
             lbTituloNoticia.setHorizontalAlignment(SwingConstants.CENTER);
             lbTituloNoticia.setBackground(Color.WHITE);
-            lbTituloNoticia.setFont(new Font("Serif", Font.BOLD, 40));
+            lbTituloNoticia.setFont(new Font("Serif", Font.BOLD, 30));
         }
         return lbTituloNoticia;
     }
