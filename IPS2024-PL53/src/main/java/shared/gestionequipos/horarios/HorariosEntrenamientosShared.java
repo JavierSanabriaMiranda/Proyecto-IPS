@@ -15,6 +15,9 @@ import backend.data.entrenamientos.EntrenamientoDto;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.command.DtoAssemblerEquipo;
+import backend.data.reservaJardineria.ReservaJardineriaCRUDImpl;
+import backend.data.reservaJardineria.ReservaJardineriaCRUDService;
+import backend.data.reservaJardineria.ReservaJardineriaDTO;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
@@ -25,11 +28,14 @@ import backend.service.equipos.EquipoEnFormacion;
 import backend.service.equipos.EquipoProfesional;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
+import backend.service.horarios.TipoEvento;
+import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
 import shared.gestionequipos.GestorEquipos;
 import shared.gestioninstalaciones.GestorInstalaciones;
 import shared.gestioninstalaciones.GestorReserva;
+import util.DateToLocalDate;
 import util.DateToLocalTimeConverter;
 
 public class HorariosEntrenamientosShared {
@@ -46,6 +52,33 @@ public class HorariosEntrenamientosShared {
 		cargarEmpleadosDeportivos();
 		cargarReservaEnInstalaciones();
 		cargarEntrenamientosEnInstalaciones();
+		cargarReservaJardineriaEnInstalaciones();
+	}
+	
+	private void cargarReservaJardineriaEnInstalaciones() {
+		List<ReservaJardineria> reservasJardineria = cargarResevasJardineria();
+		for (Instalacion inst : gestorInstalaciones.getInstalaciones()) {
+			for (ReservaJardineria reserva : reservasJardineria) {
+				if (reserva.getInstalacion().getNombreInstalacion().equals(inst.getNombreInstalacion()))
+					inst.addReservaJardineria(reserva);
+			}
+		}
+	}
+	private List<ReservaJardineria> cargarResevasJardineria() {
+		ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
+		List<ReservaJardineriaDTO> dtos = service.cargarReservasJardineria();
+		List<ReservaJardineria> reservas = new ArrayList<>();
+		for(ReservaJardineriaDTO dto: dtos) {
+			Instalacion inst = gestorInstalaciones.buscaInstalacion(dto.codInstalacion);
+			FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA_JARDINERIA, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio),
+					DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFin), DateToLocalDate.convertToLocalDate(dto.fecha));
+			//EmpleadoJardineria empleado = (EmpleadoJardineria) gestorJardineros.getEmpleadoNoDeportivo(dto.idJardinero);
+			ReservaJardineria reserva = new ReservaJardineria(franja, inst, null, dto.codReservaJardineria);
+			
+			reservas.add(reserva);
+		}
+		
+		return reservas;
 	}
 	
 	private void cargarEmpleadosDeportivos() {
@@ -140,6 +173,14 @@ public class HorariosEntrenamientosShared {
 	public boolean isHorarioValido(Instalacion inst, FranjaTiempo franja) {
 		return gestorInstalaciones.isHorarioValido(inst, franja);
 	}
+	
+	public Instalacion buscaInstalacion(String nombreInstalacion) {
+		return gestorInstalaciones.buscaInstalacion(nombreInstalacion);
+	}
+
+	public EmpleadoDeportivo buscaEmpleado(String idEntrenador) {
+		return gestorEquipos.buscaEmpleado(idEntrenador);
+	}
 
 	public void addEntrenamiento(EmpleadoDeportivo entrenador, Instalacion instalacion, FranjaTiempo horario, Date fecha) {
 		String idEntrenamiento = gestorInstalaciones.creaCodEntrenamiento();
@@ -148,6 +189,10 @@ public class HorariosEntrenamientosShared {
 		gestorInstalaciones.addEntrenamientoAInstalacion(entrenamiento, instalacion);
 		
 		addEntrenamientoABDD(instalacion, horario, entrenador, idEntrenamiento, fecha);
+		
+		
+		//Borro la reserva de jardineria si es que coincide con el entrenamiento
+		borraReservaJardineriaCoincidente(horario, instalacion);
 	}
 
 	private void addEntrenamientoABDD(Instalacion instalacion, FranjaTiempo horario, EmpleadoDeportivo entrenador, String idEntrenamiento, Date fecha) {
@@ -161,13 +206,26 @@ public class HorariosEntrenamientosShared {
 		
 		serviceEntr.addEntrenamiento(dto);
 	}
-
-	public Instalacion buscaInstalacion(String nombreInstalacion) {
-		return gestorInstalaciones.buscaInstalacion(nombreInstalacion);
-		
+	
+	private void borraReservaJardineriaCoincidente(FranjaTiempo horario, Instalacion instalacion) {
+		List<ReservaJardineria> reservaJardineria = gestorInstalaciones.comprobarCoincidenciaConJardineria(instalacion, horario);
+		//Si es != null significa que la reserva coincide con la de un jardinero, asi que hay que borrar esa reserva
+		if (!reservaJardineria.isEmpty()) {
+			//Borrar reserva de la BBDD
+			borrarReservaDeJardineriaDeBBDD(reservaJardineria);
+			//Borrar reserva de la lista de reservas de la instalacion
+			for(ReservaJardineria reservaJar : reservaJardineria) {
+				gestorInstalaciones.getReservasJardineria().remove(reservaJar);
+			}
+		}
+	}
+	
+	private void borrarReservaDeJardineriaDeBBDD(List<ReservaJardineria> reservas) {
+		for(ReservaJardineria reserva :reservas) {
+			ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
+			service.deleteReservaJardineria(reserva.getCodReservaJardineria());
+		}
 	}
 
-	public EmpleadoDeportivo buscaEmpleado(String idEntrenador) {
-		return gestorEquipos.buscaEmpleado(idEntrenador);
-	}
+	
 }

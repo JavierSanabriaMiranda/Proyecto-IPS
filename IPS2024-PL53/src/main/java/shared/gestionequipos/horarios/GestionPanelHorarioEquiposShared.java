@@ -188,7 +188,6 @@ public class GestionPanelHorarioEquiposShared {
 			return true;
 		}
 		return false;
-
 	}
 	
 	private boolean isValidHorarioInstalacion() {
