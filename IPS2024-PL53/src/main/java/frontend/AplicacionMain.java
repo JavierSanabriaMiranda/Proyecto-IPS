@@ -40,6 +40,7 @@ import shared.gestionProductos.GestionProductoShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
+import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
@@ -310,7 +311,8 @@ public class AplicacionMain {
     }
     
     private void inicializarHorarioEquipos() {
-    	VentanaHorarioEquipos frame = new VentanaHorarioEquipos();
+    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
+    	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
     	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
     	gpes.initControllers();
     	configurarCierreVentana(frame);

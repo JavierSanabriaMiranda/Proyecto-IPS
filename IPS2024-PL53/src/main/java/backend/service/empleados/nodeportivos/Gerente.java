@@ -277,4 +277,16 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		return jardineros;
 	}
 
+	//--------- Horarios Entrenamientos -----------------
+	@Override
+	public List<EmpleadoDeportivo> getEntrenadores() {
+		List<EmpleadoDeportivo> entrenadores = new ArrayList<>();
+		for (EmpleadoDeportivo emp : empDeportivos.values()) {
+			if (emp.getPuesto().equals(PuestoEmpleado.ENTRENADOR)) {
+				entrenadores.add(emp);
+			}
+		}
+		return entrenadores;
+	}
+
 }
