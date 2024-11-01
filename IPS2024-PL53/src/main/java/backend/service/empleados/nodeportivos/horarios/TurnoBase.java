@@ -39,5 +39,10 @@ public class TurnoBase implements Turno {
 	public long getHorasDuracion() {
 		return Duration.between(horaInicio, horaFin).toHours();
 	}
+
+	@Override
+	public int compareTo(Turno o) {
+		return this.horaInicio.compareTo(o.getHoraInicio());
+	}
 	
 }

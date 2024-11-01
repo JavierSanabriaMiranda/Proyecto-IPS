@@ -3,9 +3,10 @@ package backend.service.eventos;
 import java.util.Date;
 
 import backend.service.horarios.FranjaTiempo;
+import backend.service.instalaciones.ReservaParaInstalacion;
 import backend.service.ventas.reservas.Instalacion;
 
-public class Entrenamiento {
+public class Entrenamiento implements ReservaParaInstalacion{
 
 	private Date fecha;
 	private FranjaTiempo horario;
@@ -26,6 +27,11 @@ public class Entrenamiento {
 	}
 	public Instalacion getInstalacion() {
 		return instalacion;
+	}
+
+	@Override
+	public int getPrioridad() {
+		return 1;
 	}
 	
 	

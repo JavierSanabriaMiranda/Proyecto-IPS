@@ -1,10 +1,10 @@
 package shared.gestioninstalaciones;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import backend.service.horarios.FranjaTiempo;
+import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
 
@@ -23,5 +23,15 @@ public interface GestorReserva {
 	public List<Instalacion> cargarInstalaciones();
 	
 	public List<Instalacion> getInstalaciones();
+
+	boolean isHorarioValidoParaJardinero(Instalacion instalacion, FranjaTiempo franja);
+	
+	void addReservaJardineriaAInstalacion(ReservaJardineria reserva, Instalacion instalacion);
+	
+	public String creaCodReservaJardineria();
+	
+	List<ReservaJardineria> getReservasJardineria();
+	
+	List<ReservaJardineria> comprobarCoincidenciaConJardineria(Instalacion instalacion , FranjaTiempo franja);
 
 }
