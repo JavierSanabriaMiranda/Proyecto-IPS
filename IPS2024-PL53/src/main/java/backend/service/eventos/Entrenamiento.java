@@ -1,7 +1,5 @@
 package backend.service.eventos;
 
-import java.util.Date;
-
 import backend.service.horarios.FranjaTiempo;
 import backend.service.instalaciones.ReservaParaInstalacion;
 import backend.service.ventas.reservas.Instalacion;
@@ -12,8 +10,9 @@ public class Entrenamiento implements ReservaParaInstalacion{
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
 	private String idEntrenamiento;
+	private String idEquipo;
 	
-	public Entrenamiento(String idEntrenamiento, FranjaTiempo horario, Instalacion instalacion) {
+	public Entrenamiento(String idEntrenamiento, FranjaTiempo horario, Instalacion instalacion, String idEquipo) {
 		super();
 		this.idEntrenamiento = idEntrenamiento;
 		this.horario = horario;
@@ -28,6 +27,9 @@ public class Entrenamiento implements ReservaParaInstalacion{
 	}
 	public String getIdEntrenamiento() {
 		return idEntrenamiento;
+	}
+	private String getIdEquipo() {
+		return idEquipo;
 	}
 
 	@Override
