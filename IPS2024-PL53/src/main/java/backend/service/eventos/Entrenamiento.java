@@ -8,25 +8,26 @@ import backend.service.ventas.reservas.Instalacion;
 
 public class Entrenamiento implements ReservaParaInstalacion{
 
-	private Date fecha;
+	
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
+	private String idEntrenamiento;
 	
-	public Entrenamiento(Date fecha, FranjaTiempo horario, Instalacion instalacion) {
+	public Entrenamiento(String idEntrenamiento, FranjaTiempo horario, Instalacion instalacion) {
 		super();
-		this.fecha = fecha;
+		this.idEntrenamiento = idEntrenamiento;
 		this.horario = horario;
 		this.instalacion = instalacion;
 	}
 	
-	public Date getFecha() {
-		return fecha;
-	}
 	public FranjaTiempo getHorario() {
 		return horario;
 	}
 	public Instalacion getInstalacion() {
 		return instalacion;
+	}
+	public String getIdEntrenamiento() {
+		return idEntrenamiento;
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class DtoAssemblerEntrenamientos {
 			Instalacion inst = ges.buscaInstalacion(dto.codInstalacion);
 			FranjaTiempo franja = new FranjaTiempo(TipoEvento.ENTRENAMIENTO, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio),
 					DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFinal), DateToLocalDate.convertToLocalDate(dto.fecha) );
-			Entrenamiento ent = new Entrenamiento(dto.fecha, franja, inst);
+			Entrenamiento ent = new Entrenamiento(dto.idEntrenamiento, franja, inst);
 			
 			listaIns.add(ent);
 		}
