@@ -18,9 +18,9 @@ public class DtoAssembler {
 	public static AccionDTO toDto(Accion acc, String idAccionista) {
 		
 		AccionDTO dto = new AccionDTO();
-		dto.idAccion = acc.getIdAccion();
-		dto.precio = acc.getPrecio();
-		dto.idAccionista = idAccionista;
+		dto.setIdAccion(acc.getIdAccion());
+		dto.setPrecio(acc.getPrecio());
+		dto.setIdAccionista(idAccionista);
 		
 		return dto;
 	}

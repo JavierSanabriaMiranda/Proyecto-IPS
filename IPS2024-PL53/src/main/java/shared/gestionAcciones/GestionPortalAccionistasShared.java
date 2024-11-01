@@ -21,8 +21,6 @@ public class GestionPortalAccionistasShared {
 		
 		initView();
 	}
-	
-	
 
 	/**
 	 * Inicializacion del controlador: anyade los manejadores de eventos a los objetos del UI.
@@ -70,7 +68,7 @@ public class GestionPortalAccionistasShared {
 	}
 	
 	private void rellenarPanelAcciones() {
-		AccionesCRUDService service = CreadorDataService.getAccionistasService();
+		AccionesCRUDService service = CreadorDataService.getAccionesService();
 		List<AccionDTO> acciones = service.findAccionesByDNI(view.getTfDNI().getText());
 		for(AccionDTO a : acciones) {
 			view.getPnListaAcciones().add(new PanelAccion(new Accion(a.getIdAccion())));

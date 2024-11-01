@@ -21,7 +21,7 @@ public class AddAcciones {
 
 	public void execute() {
 		for (AccionDTO dto : acciones) {
-			db.executeUpdate(QUERY, dto.idAccion, dto.idAccionista, dto.precio);
+			db.executeUpdate(QUERY, dto.getIdAccion(), dto.getIdAccionista(), dto.getPrecio());
 		}
 	}
 
