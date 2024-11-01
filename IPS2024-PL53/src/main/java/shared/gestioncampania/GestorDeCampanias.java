@@ -104,6 +104,7 @@ public class GestorDeCampanias implements GestorCampania {
 		return numAccionesInicialesAccionista;
 	}
 
+	@Override
 	public int getNumAccionesCompradasAccionista() {
 		return numAccionesCompradasAccionista;
 	}
@@ -124,7 +125,7 @@ public class GestorDeCampanias implements GestorCampania {
 		List<Accion> nuevasAcciones = new ArrayList<>();
 		for (int i = 0; i < numAcciones; i++) {
 			String id = UUID.randomUUID().toString().substring(0,10).toUpperCase();
-			Accion acc = new Accion(id);
+			Accion acc = new Accion(id,false);
 			nuevasAcciones.add(acc);
 		}
 		

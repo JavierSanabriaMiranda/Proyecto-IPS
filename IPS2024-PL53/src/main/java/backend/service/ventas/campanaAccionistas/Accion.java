@@ -6,18 +6,20 @@ public class Accion {
 	
 	private String idAccion;
 	private float precio;
+	private boolean isEnVenta;
 	
-	public Accion(String id, float precio) {
+	public Accion(String id, float precio, boolean isEnVenta) {
 		if (id == null)
 			throw new IllegalArgumentException("El id de la acción no puede ser nulo");
 		if (precio <= 0)
 			throw new IllegalArgumentException("El precio de la acción no puede ser negativo o 0");
 		this.setIdAccion(id);
 		this.setPrecio(precio);
+		this.setEnVenta(isEnVenta);
 	}
 	
-	public Accion(String id) {
-		this(id, PRECIO_ESTANDAR);
+	public Accion(String id, boolean isEnVenta) {
+		this(id, PRECIO_ESTANDAR,isEnVenta);
 	}
 
 	public String getIdAccion() {
@@ -34,6 +36,14 @@ public class Accion {
 
 	public void setPrecio(float precio) {
 		this.precio = precio;
+	}
+
+	public boolean isEnVenta() {
+		return isEnVenta;
+	}
+
+	public void setEnVenta(boolean isEnVenta) {
+		this.isEnVenta = isEnVenta;
 	}
 
 }

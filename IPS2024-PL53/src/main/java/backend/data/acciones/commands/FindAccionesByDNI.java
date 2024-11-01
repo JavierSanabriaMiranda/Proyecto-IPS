@@ -11,7 +11,7 @@ import backend.data.Database;
 import backend.data.acciones.AccionDTO;
 
 public class FindAccionesByDNI {
-private static final String QUERY = "SELECT ID_ACCION FROM ACCION, ACCIONISTA WHERE "
+private static final String QUERY = "SELECT ID_ACCION, ISENVENTA FROM ACCION, ACCIONISTA WHERE "
 		+ "accion.ID_ACCIONISTA=accionista.ID_ACCIONISTA AND DNI=?";
     
     private Database db = new Database();
@@ -33,7 +33,8 @@ private static final String QUERY = "SELECT ID_ACCION FROM ACCION, ACCIONISTA WH
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     AccionDTO accion = new AccionDTO(
-                        rs.getString("ID_ACCION")
+                        rs.getString("ID_ACCION"),
+                        rs.getBoolean("ISENVENTA")
                     );
                     acciones.add(accion);
                 }

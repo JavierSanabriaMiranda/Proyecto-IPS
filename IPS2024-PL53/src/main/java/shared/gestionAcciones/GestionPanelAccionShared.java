@@ -1,8 +1,11 @@
 package shared.gestionAcciones;
 
+import backend.data.CreadorDataService;
+import backend.data.acciones.AccionDTO;
+import backend.data.acciones.AccionesCRUDService;
 import backend.service.ventas.campanaAccionistas.Accion;
 import frontend.SwingUtil;
-import frontend.campaña_de_acciones.PanelAccion;
+import frontend.portalAccionistas.PanelAccion;
 
 public class GestionPanelAccionShared {
 	private PanelAccion view;
@@ -16,7 +19,9 @@ public class GestionPanelAccionShared {
 	}
 	
 	private void initView(){
-		view.getLbCodigoAccion().setText(accion.getIdAccion());	
+		view.getLbCodigoAccion().setText(accion.getIdAccion());
+		view.getBtQuitar().setEnabled(accion.isEnVenta());
+		view.getBtVender().setEnabled(!accion.isEnVenta());
 	}
 
 	public void initController() {		
@@ -26,11 +31,17 @@ public class GestionPanelAccionShared {
 	}
 
 	private void accionVender() {
-		// TODO Auto-generated method stub
+		view.getBtQuitar().setEnabled(true);
+		AccionesCRUDService service = CreadorDataService.getAccionesService();
+		service.updateIsEnVenta(new AccionDTO(accion.getIdAccion(),accion.isEnVenta()), true);
+		view.getBtVender().setEnabled(false);
 	}
 	
 	private void accionQuitar() {
-		// TODO Auto-generated method stub
+		view.getBtQuitar().setEnabled(false);
+		AccionesCRUDService service = CreadorDataService.getAccionesService();
+		service.updateIsEnVenta(new AccionDTO(accion.getIdAccion(),accion.isEnVenta()), false);
+		view.getBtVender().setEnabled(true);
 	}
 
 }

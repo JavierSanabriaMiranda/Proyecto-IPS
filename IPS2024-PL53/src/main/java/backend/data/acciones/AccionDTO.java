@@ -4,6 +4,7 @@ public class AccionDTO {
 	private String id_accion;
 	private String id_accionista;
 	private float precio;
+	private boolean isEnVenta;
 
 	public AccionDTO(String id_accion, String id_accionista, float precio) {
 		this.id_accion=id_accion;
@@ -11,8 +12,9 @@ public class AccionDTO {
 		this.precio=precio;
 	}
 	
-	public AccionDTO(String id_accion) {
+	public AccionDTO(String id_accion,boolean isEnVenta) {
 		this.id_accion=id_accion;
+		this.setEnVenta(isEnVenta);
 	}
 	
 	public AccionDTO() {
@@ -27,4 +29,7 @@ public class AccionDTO {
     
     public float getPrecio() { return precio; }
     public void setPrecio(float precio) { this.precio = precio; }
+
+	public boolean isEnVenta() {return isEnVenta;}
+	public void setEnVenta(boolean isEnVenta) {this.isEnVenta = isEnVenta;}
 }

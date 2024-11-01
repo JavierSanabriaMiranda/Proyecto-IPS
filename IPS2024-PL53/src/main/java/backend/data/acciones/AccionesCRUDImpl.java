@@ -6,6 +6,7 @@ import java.util.List;
 
 import backend.data.acciones.commands.AddAcciones;
 import backend.data.acciones.commands.FindAccionesByDNI;
+import backend.data.acciones.commands.UpdateIsEnVenta;
 
 public class AccionesCRUDImpl implements AccionesCRUDService {
 
@@ -24,6 +25,15 @@ public class AccionesCRUDImpl implements AccionesCRUDService {
         }
     	
     	return res;
+	}
+
+	@Override
+	public void updateIsEnVenta(AccionDTO accion, boolean estado) {
+    	try {
+            new UpdateIsEnVenta(accion,estado).execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 }

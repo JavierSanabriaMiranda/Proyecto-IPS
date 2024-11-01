@@ -3,16 +3,18 @@ package shared.gestionAcciones;
 import java.awt.CardLayout;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import backend.data.CreadorDataService;
 import backend.data.acciones.AccionDTO;
 import backend.data.acciones.AccionesCRUDService;
+import backend.data.accionistas.AccionistasCRUDService;
 import backend.service.ventas.campanaAccionistas.Accion;
 import frontend.SwingUtil;
-import frontend.campaña_de_acciones.PanelAccion;
-import frontend.campaña_de_acciones.PortalAccionistas;
+import frontend.portalAccionistas.PanelAccion;
+import frontend.portalAccionistas.PortalAccionistas;
 
 public class GestionPortalAccionistasShared {
 	PortalAccionistas view;
@@ -31,7 +33,7 @@ public class GestionPortalAccionistasShared {
 	public void initController() {
 		view.getBtSalir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> view.dispose()));
 		
-		view.getBtLogin().addActionListener(e -> SwingUtil.exceptionWrapper(() -> showPn2()));
+		view.getBtLogin().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionLogin()));
 		
 		view.getBtComprar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionComprar()));
 		
@@ -63,21 +65,30 @@ public class GestionPortalAccionistasShared {
 
 	private void showPn2() {
 		((CardLayout) view.getContentPane().getLayout()).show(view.getContentPane(), "pn2");
-		view.getLbAcciones().setText("Acciones permitidas: "+calcularAccionesPermitidas());
 		rellenarPanelAcciones();
+	}
+	
+	private void accionLogin() {
+		AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
+		if(!serviceAccionista.findByDniAccionista(view.getTfDNI().getText()).isEmpty()) {
+			showPn2();
+		}else {
+			JOptionPane.showMessageDialog(view, "El accionista no existe");
+			initView();
+		}
+			
 	}
 	
 	private void rellenarPanelAcciones() {
 		AccionesCRUDService service = CreadorDataService.getAccionesService();
 		List<AccionDTO> acciones = service.findAccionesByDNI(view.getTfDNI().getText());
 		for(AccionDTO a : acciones) {
-			view.getPnListaAcciones().add(new PanelAccion(new Accion(a.getIdAccion())));
+			Accion accion = new Accion(a.getIdAccion(),a.isEnVenta());
+			PanelAccion pn = new PanelAccion(accion);
+			GestionPanelAccionShared gpas = new GestionPanelAccionShared(pn,accion);
+			gpas.initController();
+			view.getPnListaAcciones().add(pn);
 		}
-	}
-
-	private String calcularAccionesPermitidas() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	private void accionComprar() {

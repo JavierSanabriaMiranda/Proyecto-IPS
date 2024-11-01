@@ -1,4 +1,4 @@
-package frontend.campaña_de_acciones;
+package frontend.portalAccionistas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,7 +28,7 @@ public class PanelAccion extends JPanel {
 	public PanelAccion(Accion accion) {
 		setBorder(new LineBorder(new Color(65, 105, 225), 2, true));
 		this.accion=accion;
-		setBackground(Color.WHITE);
+		setBackground(new Color(173, 216, 230));
 		setLayout(new BorderLayout(0, 0));
 		add(getLbAccion(), BorderLayout.WEST);
 		add(getLbCodigoAccion(), BorderLayout.CENTER);
@@ -56,7 +56,7 @@ public class PanelAccion extends JPanel {
 	private JPanel getPnBtAcciones() {
 		if (pnBtAcciones == null) {
 			pnBtAcciones = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrar horizontalmente
-			pnBtAcciones.setBackground(Color.WHITE);
+			pnBtAcciones.setBackground(new Color(173, 216, 230));
 			pnBtAcciones.add(getBtVender());
 			pnBtAcciones.add(getBtQuitar());
 		}
@@ -64,7 +64,7 @@ public class PanelAccion extends JPanel {
 	}
 	public JButton getBtVender() {
 		if (btVender == null) {
-			btVender = new JButton("Vender");
+			btVender = new JButton("Poner a la Venta");
 			btVender.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btVender.setForeground(Color.WHITE);
 			btVender.setBackground(new Color(60, 179, 113));
@@ -73,7 +73,7 @@ public class PanelAccion extends JPanel {
 	}
 	public JButton getBtQuitar() {
 		if (btQuitar == null) {
-			btQuitar = new JButton("Quitar Venta");
+			btQuitar = new JButton("Quitar de la Venta");
 			btQuitar.setEnabled(false);
 			btQuitar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btQuitar.setForeground(Color.WHITE);
