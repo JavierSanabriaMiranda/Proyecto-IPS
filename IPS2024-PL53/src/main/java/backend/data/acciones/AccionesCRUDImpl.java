@@ -1,0 +1,22 @@
+package backend.data.acciones;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import backend.data.acciones.commands.FindAccionesByDNI;
+
+public class AccionesCRUDImpl implements AccionesCRUDService {
+
+	@Override
+	public List<AccionDTO> findAccionesByDNI(String DNI) {
+		List<AccionDTO> res = new ArrayList<>();
+    	try {
+            res = new FindAccionesByDNI(DNI).execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	
+    	return res;
+	}
+}
