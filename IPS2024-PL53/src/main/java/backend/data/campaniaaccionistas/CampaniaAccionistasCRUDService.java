@@ -15,7 +15,9 @@ public interface CampaniaAccionistasCRUDService {
 
 	void actualizarCampania(CampaniaDTO dto);
 
-	Optional<AccionistaEnCampaniaDTO> getAccionistaEnCampaniaByDni(String dniAccionista);
+	Optional<AccionistaEnCampaniaDTO> getAccionistaEnCampaniaByDni(String dniAccionista, String codCampania);
 
 	void addAccionistaEnCampania(String idAccionista, String codCampania, int numAccionesIniciales);
+
+	void actualizarAccionistaEnCampania(AccionistaEnCampaniaDTO dtoAccCamp);
 }

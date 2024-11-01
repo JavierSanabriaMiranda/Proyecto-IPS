@@ -1,5 +1,8 @@
 package shared.gestioncampania;
 
+import java.util.List;
+
+import backend.service.ventas.campanaAccionistas.Accion;
 import backend.service.ventas.campanaAccionistas.Accionista;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 
@@ -47,4 +50,8 @@ public interface GestorCampania {
 	int getNumAccionesCompradasAccionista();
 
 	double getPrecioAcciones();
+
+	void comprarAcciones(int numAcciones);
+
+	List<Accion> generarAcciones(int numAcciones);
 }

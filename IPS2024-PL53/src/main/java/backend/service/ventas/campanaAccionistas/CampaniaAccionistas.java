@@ -80,6 +80,12 @@ public class CampaniaAccionistas extends VentaBase {
 	public double getPrecioAcciones() {
 		return this.precioAcciones;
 	}
+	
+	public void reducirAccionesRestantes(int numAcciones) {
+		if (numAcciones > numAccionesRestantes)
+			throw new IllegalArgumentException("No quedan acciones suficientes para realizar la operación");
+		this.numAccionesRestantes = numAccionesRestantes - numAcciones;
+	}
 
 	
 }

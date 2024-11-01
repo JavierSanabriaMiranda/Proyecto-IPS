@@ -1,7 +1,10 @@
 package shared.gestioncampania;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import backend.service.ventas.campanaAccionistas.Accion;
 import backend.service.ventas.campanaAccionistas.Accionista;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas.EstadoCampania;
@@ -108,6 +111,25 @@ public class GestorDeCampanias implements GestorCampania {
 	@Override
 	public double getPrecioAcciones() {
 		return campania.getPrecioAcciones();
+	}
+
+	@Override
+	public void comprarAcciones(int numAcciones) {
+		campania.reducirAccionesRestantes(numAcciones);
+		numAccionesCompradasAccionista = numAccionesCompradasAccionista + numAcciones;
+	}
+
+	@Override
+	public List<Accion> generarAcciones(int numAcciones) {
+		List<Accion> nuevasAcciones = new ArrayList<>();
+		for (int i = 0; i < numAcciones; i++) {
+			String id = UUID.randomUUID().toString().substring(0,10).toUpperCase();
+			Accion acc = new Accion(id);
+			nuevasAcciones.add(acc);
+		}
+		
+		accionista.addAcciones(nuevasAcciones);
+		return nuevasAcciones;
 	}
 	
 	

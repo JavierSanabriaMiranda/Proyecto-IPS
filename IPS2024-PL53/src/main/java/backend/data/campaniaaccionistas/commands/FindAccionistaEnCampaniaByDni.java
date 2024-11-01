@@ -13,19 +13,24 @@ import backend.data.campaniaaccionistas.AccionistaEnCampaniaDTO;
 public class FindAccionistaEnCampaniaByDni {
 	
 	private static final String QUERY = "SELECT * FROM PARTICIPA_EN_CAMPANIA P "
-			+ "INNER JOIN ACCIONISTA A ON A.ID_ACCIONISTA = P.ID_ACCIONISTA WHERE P.ID_ACCIONISTA = ?";
+			+ "INNER JOIN ACCIONISTA A ON A.ID_ACCIONISTA = P.ID_ACCIONISTA WHERE P.ID_ACCIONISTA = ? "
+			+ "AND COD_CAMPANIA = ?";
 
 	private Database db = new Database();
 	private String dni;
+	private String codCampania;
 	
-	public FindAccionistaEnCampaniaByDni(String dni) {
+	public FindAccionistaEnCampaniaByDni(String dni, String codCampania) {
 		if (dni == null) 
 			throw new IllegalArgumentException("El dni no puede ser null");
+		if (codCampania == null) 
+			throw new IllegalArgumentException("El código de campaña no puede ser null");
 		this.dni = dni;
+		this.codCampania = codCampania;
 	}
 	
 	public Optional<AccionistaEnCampaniaDTO> execute() {
-		List<Map<String, Object>> mapsAccionista = db.executeQueryMap(QUERY, dni);
+		List<Map<String, Object>> mapsAccionista = db.executeQueryMap(QUERY, dni, codCampania);
 		List<AccionistaEnCampaniaDTO> accionistas = mapsToAccionista(mapsAccionista);
 		if (accionistas.size() > 1) 
 			throw new DatabaseException("La base de datos está en un estado inconsistente "

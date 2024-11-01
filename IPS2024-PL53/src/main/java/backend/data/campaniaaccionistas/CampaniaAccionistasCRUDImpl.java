@@ -7,6 +7,7 @@ import backend.data.campaniaaccionistas.commands.AddAccionistaEnCampania;
 import backend.data.campaniaaccionistas.commands.CrearCampania;
 import backend.data.campaniaaccionistas.commands.FindAccionistaEnCampaniaByDni;
 import backend.data.campaniaaccionistas.commands.FindEnCurso;
+import backend.data.campaniaaccionistas.commands.UpdateAccionistaEnCampania;
 import backend.data.campaniaaccionistas.commands.UpdateCampania;
 
 public class CampaniaAccionistasCRUDImpl implements CampaniaAccionistasCRUDService {
@@ -27,13 +28,18 @@ public class CampaniaAccionistasCRUDImpl implements CampaniaAccionistasCRUDServi
 	}
 
 	@Override
-	public Optional<AccionistaEnCampaniaDTO> getAccionistaEnCampaniaByDni(String dniAccionista) {
-		return new FindAccionistaEnCampaniaByDni(dniAccionista).execute();
+	public Optional<AccionistaEnCampaniaDTO> getAccionistaEnCampaniaByDni(String dniAccionista, String codCampania) {
+		return new FindAccionistaEnCampaniaByDni(dniAccionista, codCampania).execute();
 	}
 
 	@Override
 	public void addAccionistaEnCampania(String idAccionista, String codCampania, int numAccionesIniciales) {
 		new AddAccionistaEnCampania(idAccionista, codCampania, numAccionesIniciales).execute();
+	}
+
+	@Override
+	public void actualizarAccionistaEnCampania(AccionistaEnCampaniaDTO dtoAccCamp) {
+		new UpdateAccionistaEnCampania(dtoAccCamp).execute();
 	}
 
 }

@@ -21,7 +21,7 @@ public class GetNumAccionesByDniAccionista {
 
 	public int execute() {
 		List<Map<String, Object>> acciones = db.executeQueryMap(QUERY, dni);
-		int numAcciones = (int) acciones.get(0).get("NUM_ACCIONES");
+		int numAcciones = ((Long) acciones.get(0).get("NUM_ACCIONES")).intValue();
 		return numAcciones;
 	}
 

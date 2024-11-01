@@ -62,7 +62,10 @@ public class GestionFrameParticiparCampania {
 			}
 			break;
 		case 3:
-			inicializarPanel();
+			if (esAccionista)
+				accederComoAccionista();
+			else
+				inicializarPanel();
 			break;
 		default:
 			throw new IllegalStateException(
@@ -75,7 +78,15 @@ public class GestionFrameParticiparCampania {
 		// registrado en la BDD
 		// (Si ya habia accedido con anterioridad) y en caso de que no, lo registramos
 		gesCam.registrarAccionista();
-		inicializarPanel();
+		if (gesCam.isLimiteFase1Superado()) {
+			JOptionPane.showMessageDialog(view,
+					"Usted ha superado el límite de acciones para esta fase, "
+							+ "espere a que se avance a la siguiente fase para seguir comprando",
+					"Límite " + "de acciones para Fase 1 Superado", JOptionPane.INFORMATION_MESSAGE);
+			cerrarVentana();
+		}
+		else
+			inicializarPanel();
 	}
 
 	private void inicializarPanel() {
@@ -135,7 +146,7 @@ public class GestionFrameParticiparCampania {
 	}
 
 	private void mostrarLimiteAcciones() {
-		int accionesLimite = gesCam.getAccionesInicialesAccionista();
+		int accionesLimite = gesCam.getAccionesInicialesAccionista() - gesCam.getNumAccionesCompradasAccionista();
 
 		String texto = "Su limite de acciones para esta fase es de: ";
 		view.getLbLimiteAcciones().setText(texto + accionesLimite);
@@ -202,28 +213,40 @@ public class GestionFrameParticiparCampania {
 	}
 
 	private void comprarAcciones() {
-		int fase = gesCam.getFaseCampania();
 		Accionista acc = gesCam.getAccionista();
 		// Si es un cliente no accionista (se deben registrar sus datos para hacerlo
 		// accionista)
 		if (acc == null)
 			registrarDatosNuevoAccionista();
+		else
+			realizarCompra();
+	}
+
+	private void realizarCompra() {
+		int numAcciones = (int) view.getSpAcciones().getValue();
+		gesCam.comprarAcciones(numAcciones);
+
+		JOptionPane.showMessageDialog(view, "¡Felicidades! Ha comprado un total de " + numAcciones + " acciones",
+				"Confirmación de compra", JOptionPane.INFORMATION_MESSAGE);
+		view.dispose();
 	}
 
 	/**
-	 * Método que crea un frame de registro de accionista que recoge los datos de este para registrarlo
+	 * Método que crea un frame de registro de accionista que recoge los datos de
+	 * este para registrarlo
 	 */
 	private void registrarDatosNuevoAccionista() {
 		viewRegistro = new FrameRegistrarNuevoAccionista();
 		initControllerRegistroAccionista();
-		
+
 		view.setVisible(false);
 		viewRegistro.setVisible(true);
 	}
-	
+
 	private void initControllerRegistroAccionista() {
 		viewRegistro.getBtCancelar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentanaRegistro()));
-		viewRegistro.getBtAceptar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> registrarNuevoAccionista()));
+		viewRegistro.getBtAceptar()
+				.addActionListener(e -> SwingUtil.exceptionWrapper(() -> registrarNuevoAccionista()));
 	}
 
 	private void registrarNuevoAccionista() {
@@ -233,25 +256,24 @@ public class GestionFrameParticiparCampania {
 	private void comprobarDatosCorrectosRegistro() {
 		String nombre = viewRegistro.getTxNombre().getText();
 		if (nombre.isBlank())
-			JOptionPane.showMessageDialog(viewRegistro, "Se deben rellenar todos los campos", "Error en registro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(viewRegistro, "Se deben rellenar todos los campos", "Error en registro",
+					JOptionPane.ERROR_MESSAGE);
 		else {
 			registrarNuevoAccionistaEnBDD(nombre);
-			// TODO hacer que compre las acciones
 		}
 	}
 
 	private void registrarNuevoAccionistaEnBDD(String nombre) {
 		gesCam.registrarClienteComoNuevoAccionista(nombre);
-		JOptionPane.showMessageDialog(viewRegistro, "Se ha registrado correctamente como accionista", 
+		JOptionPane.showMessageDialog(viewRegistro, "Se ha registrado correctamente como accionista",
 				"Registro Completado", JOptionPane.INFORMATION_MESSAGE);
 		cerrarVentanaRegistro();
+		realizarCompra();
 	}
 
 	private void cerrarVentanaRegistro() {
 		view.setVisible(true);
 		viewRegistro.dispose();
 	}
-
-
 
 }

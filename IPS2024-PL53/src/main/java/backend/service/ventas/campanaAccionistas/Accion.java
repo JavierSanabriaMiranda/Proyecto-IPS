@@ -20,4 +20,14 @@ public class Accion {
 		this(id, PRECIO_ESTANDAR);
 	}
 
+	public String getIdAccion() {
+		return idAccion;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+	
+	
+
 }

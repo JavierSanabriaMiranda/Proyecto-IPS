@@ -1,14 +1,18 @@
 package shared.gestioncampania;
 
+import java.util.List;
 import java.util.Optional;
 
 import backend.data.CreadorDataService;
+import backend.data.acciones.AccionDTO;
+import backend.data.acciones.AccionesCRUDService;
 import backend.data.accionistas.AccionistaDTO;
 import backend.data.accionistas.AccionistasCRUDService;
 import backend.data.campaniaaccionistas.AccionistaEnCampaniaDTO;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDService;
 import backend.data.campaniaaccionistas.CampaniaDTO;
 import backend.data.campaniaaccionistas.DtoAssembler;
+import backend.service.ventas.campanaAccionistas.Accion;
 import backend.service.ventas.campanaAccionistas.Accionista;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
 
@@ -17,6 +21,7 @@ public class GestionCampaniaShared {
 	private GestorCampania gestor = new GestorDeCampanias();
 	private CampaniaAccionistasCRUDService serviceCampania = CreadorDataService.getCampaniasService();
 	private AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
+	private AccionesCRUDService serviceAcciones = CreadorDataService.getAccionesService();
 	private String dniClienteNoRegistrado;
 
 
@@ -67,7 +72,8 @@ public class GestionCampaniaShared {
 	}
 
 	/**
-	 * Comprueba si el dni introducido pertenece a un accionista y de ser así, lo guarda como atributo de la clase
+	 * Comprueba si el dni introducido pertenece a un accionista, de NO ser así, lo guarda como DNI de cliente
+	 * no registrado
 	 * 
 	 * @return true si el dni pertenece a un accionista, false en caso contrario
 	 */
@@ -80,6 +86,7 @@ public class GestionCampaniaShared {
 			
 		// Si hay un accionista se guarda en el gestor
 		gestor.addAccionista(backend.data.accionistas.DtoAssembler.dtoToAccionista(optAccionista.get()));
+		
 		return true;
 	}
 
@@ -89,13 +96,14 @@ public class GestionCampaniaShared {
 	 */
 	public void registrarAccionista() {
 		Accionista acc = gestor.getAccionista();
-		Optional<AccionistaEnCampaniaDTO> optAcc = serviceCampania.getAccionistaEnCampaniaByDni(acc.getIdAccionista());
+		CampaniaAccionistas camp = gestor.getCampania();
+		Optional<AccionistaEnCampaniaDTO> optAcc = serviceCampania.getAccionistaEnCampaniaByDni(acc.getIdAccionista(), camp.getCodigoCampania());
 		if (optAcc.isEmpty()) {
 			int numAccionesIniciales = serviceAccionista.getNumAccionesByDniAccionista(acc.getDni());
 			
 			String idAccionista = acc.getIdAccionista();
 			String codCampania = gestor.getCampania().getCodigoCampania();
-			gestor.setAccionesIniciales(0);
+			gestor.setAccionesIniciales(numAccionesIniciales);
 			gestor.setAccionesCompradas(0);
 			// Se registra el primer acceso del accionista en la base de datos
 			serviceCampania.addAccionistaEnCampania(idAccionista, codCampania, numAccionesIniciales);
@@ -141,6 +149,36 @@ public class GestionCampaniaShared {
 		CampaniaAccionistas campania = gestor.getCampania();
 		
 		serviceCampania.addAccionistaEnCampania(acc.getIdAccionista(), campania.getCodigoCampania(), 0);
+	}
+
+	public void comprarAcciones(int numAcciones) {
+		gestor.comprarAcciones(numAcciones);
+		List<Accion> accionesCompradas = gestor.generarAcciones(numAcciones); 
+		String idAccionista = getAccionista().getIdAccionista();
+		
+		List<AccionDTO> dtosAcc = backend.data.acciones.DtoAssembler.toDtoList(accionesCompradas, idAccionista);
+		
+		// Añade las nuevas acciones a la base de datos
+		serviceAcciones.addAcciones(dtosAcc);
+		// Actualiza la campaña en la base de datos
+		CampaniaAccionistas camp = gestor.getCampania();
+		CampaniaDTO dtoCamp = DtoAssembler.toDto(camp);
+		
+		serviceCampania.actualizarCampania(dtoCamp);
+		
+		AccionistaEnCampaniaDTO dtoAccCamp = new AccionistaEnCampaniaDTO();
+		dtoAccCamp.codCampania = camp.getCodigoCampania();
+		dtoAccCamp.idAccionista = idAccionista;
+		dtoAccCamp.numAccionesCompradas = gestor.getNumAccionesCompradasAccionista();
+		
+		serviceCampania.actualizarAccionistaEnCampania(dtoAccCamp);
+	}
+
+	public boolean isLimiteFase1Superado() {
+		if (gestor.getFaseCampania()!= 1)
+			return false;
+		else
+			return gestor.getAccionesInicialesAccionista()-gestor.getNumAccionesCompradasAccionista() == 0;
 	}
 
 	
