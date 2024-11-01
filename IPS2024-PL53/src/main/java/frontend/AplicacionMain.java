@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.campaña_de_acciones.PortalAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
@@ -30,6 +31,7 @@ import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
 import frontend.reservaUI.VentanaPrincipalReserva;
+import shared.gestionAcciones.GestionPortalAccionistasShared;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionNoticias.GestionImagenesShared;
@@ -137,6 +139,14 @@ public class AplicacionMain {
             inicializarEntradas();
         });
         ventasMenu.add(ventasEntradas);
+        
+     // Opción "Ventas de Entradas"
+        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
+        campanaAccionistas.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarPortalAccionistas();
+        });
+        ventasMenu.add(campanaAccionistas);
 
         // Opción "Reservar instalaciones"
         JMenuItem reservasInstalaciones = new JMenuItem("Reservar Instalaciones");
@@ -268,6 +278,14 @@ public class AplicacionMain {
     private void inicializarPortalNoticias() {
     	PortalNoticias frame = new PortalNoticias();
     	GestionPortalNoticiasShared gpns = new GestionPortalNoticiasShared(frame);
+    	gpns.initController();
+    	configurarCierreVentana(frame);
+		frame.setVisible(true);
+    }
+    
+    private void inicializarPortalAccionistas() {
+    	PortalAccionistas frame = new PortalAccionistas();
+    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);
     	gpns.initController();
     	configurarCierreVentana(frame);
 		frame.setVisible(true);

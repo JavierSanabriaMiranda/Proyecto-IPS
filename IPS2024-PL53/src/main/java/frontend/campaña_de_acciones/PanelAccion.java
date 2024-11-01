@@ -44,7 +44,7 @@ public class PanelAccion extends JPanel {
 		}
 		return lbAccion;
 	}
-	private JLabel getLbCodigoAccion() {
+	public JLabel getLbCodigoAccion() {
 		if (lbCodigoAccion == null) {
 			lbCodigoAccion = new JLabel("");
 			lbCodigoAccion.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -62,7 +62,7 @@ public class PanelAccion extends JPanel {
 		}
 		return pnBtAcciones;
 	}
-	private JButton getBtVender() {
+	public JButton getBtVender() {
 		if (btVender == null) {
 			btVender = new JButton("Vender");
 			btVender.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -71,7 +71,7 @@ public class PanelAccion extends JPanel {
 		}
 		return btVender;
 	}
-	private JButton getBtQuitar() {
+	public JButton getBtQuitar() {
 		if (btQuitar == null) {
 			btQuitar = new JButton("Quitar Venta");
 			btQuitar.setEnabled(false);

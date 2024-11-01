@@ -3,10 +3,10 @@ package frontend.campaña_de_acciones;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,23 +40,8 @@ public class PortalAccionistas extends JFrame {
 	private JPanel pnListaAcciones;
 	private JPanel pnSalir;
 	private JButton btSalir;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					PortalAccionistas frame = new PortalAccionistas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPanel pnComprar;
+	private JButton btComprar;
 
 	/**
 	 * Create the frame.
@@ -66,14 +51,21 @@ public class PortalAccionistas extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
-		contentPane.add(getPn1(), "pn1");		
-		contentPane.add(getPn2(), "name_8996637731500");
+		setContentPane(getContentPane());
+		
+	}
+	
+	@Override
+	public JPanel getContentPane() {
+		if(contentPane == null) {
+			contentPane = new JPanel();
+			contentPane.setBackground(Color.WHITE);
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			contentPane.setLayout(new CardLayout(0, 0));
+			contentPane.add(getPn1(), "pn1");		
+			contentPane.add(getPn2(), "pn2");
+		}
+		return contentPane;
 	}
 
 	private JPanel getPn1() {
@@ -119,7 +111,7 @@ public class PortalAccionistas extends JFrame {
 		return imagenLogin;
 	}
 
-	private JButton getBtLogin() {
+	public JButton getBtLogin() {
 		if (btLogin == null) {
 			btLogin = new JButton("Login");
 			btLogin.setEnabled(false);
@@ -157,7 +149,7 @@ public class PortalAccionistas extends JFrame {
 		}
 		return pnDNI;
 	}
-	private JTextField getTfDNI() {
+	public JTextField getTfDNI() {
 		if (tfDNI == null) {
 			tfDNI = new JTextField();
 			tfDNI.setHorizontalAlignment(SwingConstants.CENTER);
@@ -173,6 +165,7 @@ public class PortalAccionistas extends JFrame {
 			pn2.setLayout(new BorderLayout(0, 0));
 			pn2.add(getLbTituloAcciones(), BorderLayout.NORTH);
 			pn2.add(getPnAcciones(), BorderLayout.CENTER);
+			pn2.add(getPnSalir(), BorderLayout.SOUTH);
 		}
 		return pn2;
 	}
@@ -194,13 +187,14 @@ public class PortalAccionistas extends JFrame {
 			pnAcciones.setLayout(new BorderLayout(0, 0));
 			pnAcciones.add(getLbAcciones(), BorderLayout.NORTH);
 			pnAcciones.add(getScAcciones(), BorderLayout.CENTER);
-			pnAcciones.add(getPnSalir(), BorderLayout.SOUTH);
+			pnAcciones.add(getPnComprar(), BorderLayout.SOUTH);
 		}
 		return pnAcciones;
 	}
-	private JLabel getLbAcciones() {
+
+	public JLabel getLbAcciones() {
 		if (lbAcciones == null) {
-			lbAcciones = new JLabel("Acciones Permitidas: ");
+			lbAcciones = new JLabel("");
 			lbAcciones.setFont(new Font("Dialog", Font.PLAIN, 27));
 		}
 		return lbAcciones;
@@ -213,7 +207,7 @@ public class PortalAccionistas extends JFrame {
 		}
 		return scAcciones;
 	}
-	private JPanel getPnListaAcciones() {
+	public JPanel getPnListaAcciones() {
 		if (pnListaAcciones == null) {
 			pnListaAcciones = new JPanel();
 			pnListaAcciones.setBackground(Color.WHITE);
@@ -230,7 +224,7 @@ public class PortalAccionistas extends JFrame {
 		}
 		return pnSalir;
 	}
-	private JButton getBtSalir() {
+	public JButton getBtSalir() {
 		if (btSalir == null) {
 			btSalir = new JButton("Salir");
 			btSalir.setForeground(Color.WHITE);
@@ -238,5 +232,23 @@ public class PortalAccionistas extends JFrame {
 			btSalir.setFont(new Font("Arial", Font.BOLD, 16));
 		}
 		return btSalir;
+	}
+	private JPanel getPnComprar() {
+		if (pnComprar == null) {
+			pnComprar = new JPanel();
+			pnComprar.setBackground(Color.WHITE);
+			pnComprar.setLayout(new FlowLayout());
+			pnComprar.add(getBtComprar());
+		}
+		return pnComprar;
+	}
+	public JButton getBtComprar() {
+		if (btComprar == null) {
+			btComprar = new JButton("Comprar más acciones");
+			btComprar.setMargin(new Insets(2, 100, 2, 100));
+			btComprar.setBackground(new Color(230, 230, 250));
+			btComprar.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		}
+		return btComprar;
 	}
 }
