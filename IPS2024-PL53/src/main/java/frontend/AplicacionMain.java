@@ -150,14 +150,6 @@ public class AplicacionMain {
             inicializarEntradas();
         });
         ventasMenu.add(ventasEntradas);
-        
-     // Opción "Ventas de Entradas"
-        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
-        campanaAccionistas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarPortalAccionistas();
-        });
-        ventasMenu.add(campanaAccionistas);
 
         // Opción "Reservar instalaciones"
         JMenuItem reservasInstalaciones = new JMenuItem("Reservar Instalaciones");
@@ -235,8 +227,14 @@ public class AplicacionMain {
         // Menú "Accionistas"
         JMenu accionistasMenu = new JMenu("Accionistas");
         menuBar.add(accionistasMenu);
+        
+        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
+        campanaAccionistas.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarPortalAccionistas();
+        });
+        accionistasMenu.add(campanaAccionistas);
 
-        // Opción "Ver Historial de Ventas"
         JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
         crearCampania.addActionListener(e -> {
             frmAplicacionBurgosFc.setVisible(false);
