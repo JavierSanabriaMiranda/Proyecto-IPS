@@ -14,6 +14,9 @@ public class AccionDTO {
 	public AccionDTO(String id_accion) {
 		this.id_accion=id_accion;
 	}
+	
+	public AccionDTO() {
+	}
 
     // Getters y Setters
     public String getIdAccion() { return id_accion; }

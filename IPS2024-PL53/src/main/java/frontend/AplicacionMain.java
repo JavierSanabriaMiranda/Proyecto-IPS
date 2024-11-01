@@ -20,6 +20,8 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
+import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.campaña_de_acciones.PortalAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
@@ -27,6 +29,7 @@ import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.historialVentas.HistorialVentas;
+import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
@@ -37,8 +40,16 @@ import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionNoticias.GestionImagenesShared;
 import shared.gestionNoticias.GestionPortalNoticiasShared;
 import shared.gestionProductos.GestionProductoShared;
+import shared.gestioncampania.GestionFrameCrearCampaniaShared;
+import shared.gestioncampania.GestionFrameParticiparCampania;
+import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
+import shared.gestionequipos.GestionPanelEquiposShared;
+import shared.gestionhorarios.GestionFrameHorariosShared;
+import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
+import shared.gestionjardineria.GestionPanelJardineriaShared;
+import shared.gestionjardineria.JardinerosShared;
 
 public class AplicacionMain {
 
@@ -66,12 +77,12 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
-        frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
+        frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
-		
-		//Boton para inicializar base de datos	
+
+		//Boton para inicializar base de datos
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			@Override
@@ -83,7 +94,7 @@ public class AplicacionMain {
 			}
 		});
 		frmAplicacionBurgosFc.getContentPane().add(btnInicializarBaseDeDatos);
-		
+
 		//Boton para cargar los datos iniciales
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
 		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
@@ -95,7 +106,7 @@ public class AplicacionMain {
 			}
 		});
 		frmAplicacionBurgosFc.getContentPane().add(btnCargarDatosIniciales);
-        
+
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
@@ -203,7 +214,16 @@ public class AplicacionMain {
             inicializarCargarNoticias();
         });
         noticiasMenu.add(cargarNoticias);
-        
+
+        JMenuItem horarioJardineros = new JMenuItem("Horarios Jardinería");
+        horarioJardineros.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarJardineria();
+        });
+        gestionMenu.add(horarioJardineros);
+
+
+
      // Opción "Ver Portal Noticias"
         JMenuItem portalNoticias = new JMenuItem("Portal de Noticias");
         portalNoticias.addActionListener(e -> {
@@ -211,16 +231,39 @@ public class AplicacionMain {
             inicializarPortalNoticias();
         });
         noticiasMenu.add(portalNoticias);
+
+        // Menú "Accionistas"
+        JMenu accionistasMenu = new JMenu("Accionistas");
+        menuBar.add(accionistasMenu);
+
+        // Opción "Ver Historial de Ventas"
+        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
+        crearCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarCrearCampania();
+        });
+        accionistasMenu.add(crearCampania);
+
+        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
+        accederCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarParticiparEnACampania();
+        });
+        accionistasMenu.add(accederCampania);
     }
 
 	private void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
+        GestionFrameEmpleadosShared gfe = new GestionFrameEmpleadosShared(frame);
+        gfe.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
 
     private void inicializarHorariosEmpleados() {
         FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
+        GestionFrameHorariosShared gfh = new GestionFrameHorariosShared(frame);
+        gfh.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
@@ -242,6 +285,8 @@ public class AplicacionMain {
     private void inicializarReservas() {
         ReservaShared reservaShared = new ReservaShared();
         VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
+        GestionPanelReservaShared gprs = new GestionPanelReservaShared(frame);
+        gprs.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
@@ -249,6 +294,8 @@ public class AplicacionMain {
     private void inicializarGestionEquipos() {
         GestionEquiposShared ges = new GestionEquiposShared();
         VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos(ges);
+        GestionPanelEquiposShared gpes = new GestionPanelEquiposShared(frame);
+        gpes.initControllers();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
@@ -274,7 +321,16 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
 	}
-    
+
+    private void inicializarJardineria() {
+    	JardinerosShared js = new JardinerosShared();
+    	VentanaJardineros frame = new VentanaJardineros(js);
+    	GestionPanelJardineriaShared gpjs = new GestionPanelJardineriaShared(frame);
+    	gpjs.initController();
+    	configurarCierreVentana(frame);
+        frame.setVisible(true);
+    }
+
     private void inicializarPortalNoticias() {
     	PortalNoticias frame = new PortalNoticias();
     	GestionPortalNoticiasShared gpns = new GestionPortalNoticiasShared(frame);
@@ -289,6 +345,23 @@ public class AplicacionMain {
     	gpns.initController();
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
+    }
+
+    private void inicializarCrearCampania() {
+    	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
+    	GestionFrameCrearCampaniaShared gfcv = new GestionFrameCrearCampaniaShared(frame);
+    	gfcv.initController();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    	gfcv.cargarCampaniaEnCurso();
+    }
+
+    private void inicializarParticiparEnACampania() {
+    	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
+    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
+    	configurarCierreVentana(frame);
+    	gfpc.initController();
+    	gfpc.cargarCampaniaEnCurso();
     }
 
     // Método para configurar el comportamiento al cerrar ventanas

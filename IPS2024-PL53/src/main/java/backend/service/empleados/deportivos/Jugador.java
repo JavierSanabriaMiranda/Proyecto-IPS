@@ -29,10 +29,5 @@ public class Jugador extends EmpleadoDeportivoBase {
 			return true;
 		return false;
 	}
-	
-	@Override
-	public String toString() {
-		return getNombre() + " " + getApellido();
-	}
-	
+
 }

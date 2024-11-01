@@ -5,9 +5,9 @@ public class Accion {
 	private static final int PRECIO_ESTANDAR = 60;
 	
 	private String idAccion;
-	private double precio;
+	private float precio;
 	
-	public Accion(String id, double precio) {
+	public Accion(String id, float precio) {
 		if (id == null)
 			throw new IllegalArgumentException("El id de la acción no puede ser nulo");
 		if (precio <= 0)
@@ -28,11 +28,11 @@ public class Accion {
 		this.idAccion = idAccion;
 	}
 
-	public double getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 

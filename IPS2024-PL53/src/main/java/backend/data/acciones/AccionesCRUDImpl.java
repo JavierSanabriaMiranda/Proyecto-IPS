@@ -4,10 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.data.acciones.commands.AddAcciones;
 import backend.data.acciones.commands.FindAccionesByDNI;
 
 public class AccionesCRUDImpl implements AccionesCRUDService {
 
+	@Override
+	public void addAcciones(List<AccionDTO> dtosAcc) {
+		new AddAcciones(dtosAcc).execute();
+	}
+	
 	@Override
 	public List<AccionDTO> findAccionesByDNI(String DNI) {
 		List<AccionDTO> res = new ArrayList<>();
@@ -19,4 +25,5 @@ public class AccionesCRUDImpl implements AccionesCRUDService {
     	
     	return res;
 	}
+
 }

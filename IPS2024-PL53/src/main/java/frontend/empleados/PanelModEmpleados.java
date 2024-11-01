@@ -45,7 +45,6 @@ public class PanelModEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GestionEmpleadosShared gesEmp;
 	private JPanel pnDatos;
 	private JPanel pnEmpleados;
 	private JScrollPane scrollPaneEmp;
@@ -70,8 +69,7 @@ public class PanelModEmpleados extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelModEmpleados(GestionEmpleadosShared gesEmp) {
-		this.gesEmp = gesEmp;
+	public PanelModEmpleados() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BorderLayout(0, 0));
@@ -194,15 +192,9 @@ public class PanelModEmpleados extends JPanel {
 		return scrollPaneEmp;
 	}
 
-	private JList<Empleado> getListEmpleados() {
+	public JList<Empleado> getListEmpleados() {
 		if (listEmpleados == null) {
 			listEmpleados = new JList<Empleado>();
-			listEmpleados.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					rellenarDatosEmpleado();
-				}
-			});
 			listEmpleados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listEmpleados.setFont(new Font("Arial", Font.PLAIN, 12));
 
@@ -211,19 +203,12 @@ public class PanelModEmpleados extends JPanel {
 		}
 		return listEmpleados;
 	}
-
-	private void rellenarDatosEmpleado() {
-		// Si hay un empleado seleccionado
-		if (!getListEmpleados().isSelectionEmpty()) {
-			Empleado emp = getListEmpleados().getSelectedValue();
-			getTxNombre().setText(emp.getNombre());
-			getTxApellido().setText(emp.getApellido());
-			getTxDNI().setText(emp.getDNI());
-			getTxTelefono().setText(emp.getTelefono());
-			getTxSalario().setText(emp.getSalarioAnual() + "");
-			getClFechaNac().setDate(emp.getFechaNac());
-		}
+	
+	public DefaultListModel<Empleado> getModeloList() {
+		return modeloList;
 	}
+
+
 
 	private JLabel getLbNombre() {
 		if (lbNombre == null) {
@@ -273,7 +258,7 @@ public class PanelModEmpleados extends JPanel {
 		return lbSalario;
 	}
 
-	private JTextField getTxNombre() {
+	public JTextField getTxNombre() {
 		if (txNombre == null) {
 			txNombre = new JTextField();
 			txNombre.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -282,7 +267,7 @@ public class PanelModEmpleados extends JPanel {
 		return txNombre;
 	}
 
-	private JTextField getTxApellido() {
+	public JTextField getTxApellido() {
 		if (txApellido == null) {
 			txApellido = new JTextField();
 			txApellido.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -291,7 +276,7 @@ public class PanelModEmpleados extends JPanel {
 		return txApellido;
 	}
 
-	private JTextField getTxDNI() {
+	public JTextField getTxDNI() {
 		if (txDNI == null) {
 			txDNI = new JTextField();
 			txDNI.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -300,7 +285,7 @@ public class PanelModEmpleados extends JPanel {
 		return txDNI;
 	}
 
-	private JTextField getTxTelefono() {
+	public JTextField getTxTelefono() {
 		if (txTelefono == null) {
 			txTelefono = new JTextFieldNumerico();
 			txTelefono.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -309,7 +294,7 @@ public class PanelModEmpleados extends JPanel {
 		return txTelefono;
 	}
 
-	private JTextField getTxSalario() {
+	public JTextField getTxSalario() {
 		if (txSalario == null) {
 			txSalario = new JTextFieldNumerico();
 			txSalario.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -318,7 +303,7 @@ public class PanelModEmpleados extends JPanel {
 		return txSalario;
 	}
 
-	private JDateChooser getClFechaNac() {
+	public JDateChooser getClFechaNac() {
 		if (clFechaNac == null) {
 			clFechaNac = new JDateChooser();
 			clFechaNac.setMaxSelectableDate(new Date());
@@ -333,44 +318,15 @@ public class PanelModEmpleados extends JPanel {
 		return clFechaNac;
 	}
 
-	private JButton getBtMod() {
+	public JButton getBtMod() {
 		if (btMod == null) {
 			btMod = new JButton("Modificar");
-			btMod.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					modEmpleado();
-				}
-			});
 			btMod.setFont(new Font("Arial", Font.PLAIN, 12));
 		}
 		return btMod;
 	}
 
-	private void modEmpleado() {
-		if (camposCorrectos()) {
-			if (!listEmpleados.isSelectionEmpty()) {
-				String id = getListEmpleados().getSelectedValue().getIDEmpleado();
-				String nombre = getTxNombre().getText();
-				String apellido = getTxApellido().getText();
-				String dni = getTxDNI().getText();
-				String telefono = getTxTelefono().getText();
-				Date nacimiento = getClFechaNac().getDate();
-				double salario = Double.parseDouble(getTxSalario().getText());
-				
-				// Redondeamos el salario a 2 decimales
-				salario = Math.round(salario * 100.0) / 100.0;
-				
-				gesEmp.modEmpleado(id, nombre, apellido, dni, telefono, nacimiento, salario);
-				JOptionPane.showMessageDialog(this, "Se ha modificado al empleado correctamente", "Confirmación de Modificación de Empleado", 
-						JOptionPane.INFORMATION_MESSAGE);
-				inicializarPanel();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Se debe seleccionar un empleado a modificar","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-	}
+	
 
 	private JLabel getLbEmpleados() {
 		if (lbEmpleados == null) {
@@ -381,51 +337,9 @@ public class PanelModEmpleados extends JPanel {
 		return lbEmpleados;
 	}
 
-	public void inicializarPanel() {
-		getTxNombre().setText("");
-		getTxApellido().setText("");
-		getTxDNI().setText("");
-		getTxTelefono().setText("");
-		getTxSalario().setText("");
-		getClFechaNac().setDate(null);
-		getListEmpleados().clearSelection();
-		
-		// Limpia la lista y añade los empleados ordenados
-		modeloList.clear();
-		List<Empleado> empleados = gesEmp.getEmpleadosFromGestor();
-		Collections.sort(empleados);
-		modeloList.addAll(empleados);
-	}
 
-	private boolean camposCorrectos() {
-		// Se comprueba que los campos no están vacíos
-		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
-				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
-				|| getClFechaNac().getDate() == null) {
-			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		// Si no es jugador de futbol y se intenta cambiar su fecha a menor de edad
-		if (!getListEmpleados().getSelectedValue().getPuesto().equals(PuestoEmpleado.JUGADOR) && !esMayorEdad(getClFechaNac().getDate())) {
-			JOptionPane.showMessageDialog(this, "Solo los jugadores pueden ser menores de edad","Error en Modificación de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-			
-		return true;
-	}
-	
-	private boolean esMayorEdad(Date fecha) {
-        // Convierte la fecha de tipo Date a LocalDate
-        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
-        
-        // Obtiene la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-        
-        // Calcula la diferencia de años
-        Period periodo = Period.between(fechaLocal, fechaActual);
 
-        return periodo.getYears() >= 18;
-	}
+
 
 
 }

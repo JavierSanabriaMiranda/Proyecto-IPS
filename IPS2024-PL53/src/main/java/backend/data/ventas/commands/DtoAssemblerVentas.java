@@ -9,22 +9,22 @@ import backend.service.horarios.TipoEvento;
 import backend.service.ventas.reservas.ClienteReserva;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
-import shared.gestioninstalaciones.ReservaShared;
+import shared.gestioninstalaciones.GestorReserva;
 import util.DateToLocalDate;
 import util.DateToLocalTimeConverter;
 
 public class DtoAssemblerVentas {
 	
-	public DtoAssemblerVentas(ReservaShared res) {
-		this.res = res;
+	public DtoAssemblerVentas(GestorReserva gestor) {
+		this.ges = gestor;
 	}
 	
-	private ReservaShared res;
+	private GestorReserva ges;
 
 	public  List<Reserva> dtoToReserva(List<ReservaDto> listDto){
 		List<Reserva> listaIns = new ArrayList<Reserva>();
 		for (ReservaDto dto : listDto) {
-			Instalacion inst = res.buscaInstalacion(dto.codInstalacion);
+			Instalacion inst = ges.buscaInstalacion(dto.codInstalacion);
 			ClienteReserva cliente =  new ClienteReserva(dto.nombreCliente);
 			FranjaTiempo franja = new FranjaTiempo(TipoEvento.RESERVA, DateToLocalTimeConverter.convertDateToLocalTime(dto.horaInicio),
 					DateToLocalTimeConverter.convertDateToLocalTime(dto.horaFin), DateToLocalDate.convertToLocalDate(dto.fecha));
