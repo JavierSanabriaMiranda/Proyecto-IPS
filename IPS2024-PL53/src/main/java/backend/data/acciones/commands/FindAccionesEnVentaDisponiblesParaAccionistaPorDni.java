@@ -14,7 +14,7 @@ import backend.service.ventas.campanaAccionistas.Accion;
 
 public class FindAccionesEnVentaDisponiblesParaAccionistaPorDni {
 
-	private static final String QUERY = "SELECT * FROM ACCION WHERE idAccionista <> ? AND ISENVENTA";
+	private static final String QUERY = "SELECT * FROM ACCION WHERE ID_ACCIONISTA <> ? AND ISENVENTA";
 
 	private String idAccionista;
 	private Database db = new Database();

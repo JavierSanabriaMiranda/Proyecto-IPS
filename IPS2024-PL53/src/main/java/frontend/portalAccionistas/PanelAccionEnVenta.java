@@ -28,7 +28,9 @@ public class PanelAccionEnVenta extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelAccionEnVenta() {
+	public PanelAccionEnVenta(Accion accion) {
+		this.accion = accion;
+		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -39,7 +41,11 @@ public class PanelAccionEnVenta extends JPanel {
 		add(getHorizontalStrut_1());
 
 	}
-	private JLabel getLbAccion() {
+	public Accion getAccion() {
+		return accion;
+	}
+	
+	public JLabel getLbAccion() {
 		if (lbAccion == null) {
 			lbAccion = new JLabel("Acción");
 			lbAccion.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -52,7 +58,7 @@ public class PanelAccionEnVenta extends JPanel {
 		}
 		return horizontalStrut;
 	}
-	private JButton getBtComprar() {
+	public JButton getBtComprar() {
 		if (btComprar == null) {
 			btComprar = new JButton("Comprar");
 			btComprar.setForeground(new Color(255, 255, 255));

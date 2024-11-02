@@ -94,8 +94,12 @@ public class GestionPortalAccionistasShared {
 	
 	private void accionComprar() {
 		String dniAccionista = view.getTfDNI().getText();
-		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(new FrameCompraAcciones(), dniAccionista);
+		FrameCompraAcciones viewCompraAcciones = new FrameCompraAcciones();
+		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(viewCompraAcciones, dniAccionista, view);
 		gfcas.initController();
+		view.setVisible(false);
+		viewCompraAcciones.setVisible(true);
+		gfcas.cargarAccionesEnVenta();
 	}
 
 	private void toggleButtonState() {
