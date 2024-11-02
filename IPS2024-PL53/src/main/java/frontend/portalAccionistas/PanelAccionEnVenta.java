@@ -12,6 +12,8 @@ import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 
@@ -34,6 +36,7 @@ public class PanelAccionEnVenta extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 		add(getHorizontalStrut());
 		add(getLbAccion());
 		add(getHorizontalGlue());

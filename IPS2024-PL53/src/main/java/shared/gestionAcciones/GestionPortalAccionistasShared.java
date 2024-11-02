@@ -80,7 +80,8 @@ public class GestionPortalAccionistasShared {
 			
 	}
 	
-	private void rellenarPanelAcciones() {
+	void rellenarPanelAcciones() {
+		view.getPnListaAcciones().removeAll();
 		AccionesCRUDService service = CreadorDataService.getAccionesService();
 		List<AccionDTO> acciones = service.findAccionesByDNI(view.getTfDNI().getText());
 		for(AccionDTO a : acciones) {
@@ -95,7 +96,7 @@ public class GestionPortalAccionistasShared {
 	private void accionComprar() {
 		String dniAccionista = view.getTfDNI().getText();
 		FrameCompraAcciones viewCompraAcciones = new FrameCompraAcciones();
-		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(viewCompraAcciones, dniAccionista, view);
+		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(viewCompraAcciones, dniAccionista, this);
 		gfcas.initController();
 		view.setVisible(false);
 		viewCompraAcciones.setVisible(true);
@@ -105,5 +106,9 @@ public class GestionPortalAccionistasShared {
 	private void toggleButtonState() {
         view.getBtLogin().setEnabled(!view.getTfDNI().getText().trim().isEmpty());
     }
+	
+	PortalAccionistas getView() {
+		return view;
+	}
 	
 }

@@ -9,4 +9,5 @@ public interface AccionesCRUDService {
 	void addAcciones(List<AccionDTO> dtosAcc);
 	void updateIsEnVenta(AccionDTO accion, boolean estado);
 	List<AccionDTO> getAccionesEnVentaParaAccionista(String idAccionista);
+	void updateAccion(AccionDTO dto);
 }

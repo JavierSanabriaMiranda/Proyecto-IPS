@@ -7,6 +7,7 @@ import java.util.List;
 import backend.data.acciones.commands.AddAcciones;
 import backend.data.acciones.commands.FindAccionesByDNI;
 import backend.data.acciones.commands.FindAccionesEnVentaDisponiblesParaAccionistaPorDni;
+import backend.data.acciones.commands.UpdateAccion;
 import backend.data.acciones.commands.UpdateIsEnVenta;
 import backend.service.ventas.campanaAccionistas.Accion;
 
@@ -41,6 +42,11 @@ public class AccionesCRUDImpl implements AccionesCRUDService {
 	@Override
 	public List<AccionDTO> getAccionesEnVentaParaAccionista(String idAccionista) {
 		return new FindAccionesEnVentaDisponiblesParaAccionistaPorDni(idAccionista).execute();
+	}
+
+	@Override
+	public void updateAccion(AccionDTO dto) {
+		new UpdateAccion(dto).execute();
 	}
 
 }

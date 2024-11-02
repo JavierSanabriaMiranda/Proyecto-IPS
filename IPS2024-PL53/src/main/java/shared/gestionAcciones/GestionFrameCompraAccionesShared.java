@@ -1,5 +1,6 @@
 package shared.gestionAcciones;
 
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -16,43 +17,51 @@ import frontend.portalAccionistas.PortalAccionistas;
 public class GestionFrameCompraAccionesShared {
 
 	private FrameCompraAcciones view;
-	private PortalAccionistas viewPortal;
+	private GestionPortalAccionistasShared gesPor;
 	private GestionCompraVentaAccionesShared gesComVen;
-	
 
-	public GestionFrameCompraAccionesShared(FrameCompraAcciones view, String dniAccionista, PortalAccionistas viewPortal) {
+	public GestionFrameCompraAccionesShared(FrameCompraAcciones view, String dniAccionista,
+			GestionPortalAccionistasShared gesPor) {
 		this.view = view;
-		this.viewPortal = viewPortal;
+		this.gesPor = gesPor;
 		this.gesComVen = new GestionCompraVentaAccionesShared(dniAccionista);
-
 
 	}
 
 	public void initController() {
 		view.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 		view.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-            	cerrarVentana();
-            }
-        });
+			@Override
+			public void windowClosing(WindowEvent e) {
+				cerrarVentana();
+			}
+		});
 	}
 
 	void cargarAccionesEnVenta() {
 		List<Accion> accionesEnVenta = gesComVen.getAccionesEnVenta();
 		if (accionesEnVenta.isEmpty()) {
-			JOptionPane.showMessageDialog(view, "Actualmente no hay acciones en Venta", "Ninguna Acción en Venta", 
+			JOptionPane.showMessageDialog(view, "Actualmente no hay acciones en Venta", "Ninguna Acción en Venta",
 					JOptionPane.INFORMATION_MESSAGE);
 			cerrarVentana();
-		}
-		else {
+		} else {
+			// Establecemos un número de filas al layout para que no se vea feo cuando 
+			// hay pocas acciones a la venta
+			GridLayout layout = (GridLayout) view.getPnAccionesEnVenta().getLayout();
+			if (accionesEnVenta.size() < 4) {
+				layout.setRows(4);
+			} else {
+				layout.setRows(0);
+			}
+			
+			
 			for (Accion acc : accionesEnVenta) {
 				PanelAccionEnVenta pnAcc = new PanelAccionEnVenta(acc);
 				mostrarInfoAccionEnVenta(pnAcc);
 				initControllerPanelAccion(pnAcc);
 				view.getPnAccionesEnVenta().add(pnAcc);
-			}	
+			}
 		}
 	}
 
@@ -67,11 +76,20 @@ public class GestionFrameCompraAccionesShared {
 	}
 
 	private void comprarAccion(PanelAccionEnVenta pnAcc) {
-		// TODO Auto-generated method stub
+		Accion acc = pnAcc.getAccion();
+		String msg = String.format("¿Estás seguro de que deseas comprar esta acción por %.2f\u20AC?", acc.getPrecio());
+		int respuesta = JOptionPane.showConfirmDialog(view, msg, "Confirmar Compra", JOptionPane.YES_NO_OPTION);
+		
+		if (respuesta == JOptionPane.YES_OPTION) {
+			gesComVen.comprarAccion(acc);
+			view.getPnAccionesEnVenta().remove(pnAcc);
+			view.getPnAccionesEnVenta().repaint();
+		}
 	}
-	
+
 	private void cerrarVentana() {
-		viewPortal.setVisible(true);
+		gesPor.rellenarPanelAcciones();
+		gesPor.getView().setVisible(true);
 		view.dispose();
 	}
 
