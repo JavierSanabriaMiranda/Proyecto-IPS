@@ -27,6 +27,7 @@ import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
+import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
@@ -46,6 +47,8 @@ import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestionhorarios.GestionFrameHorariosShared;
+import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
+import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
@@ -160,7 +163,7 @@ public class AplicacionMain {
         ventasMenu.add(reservasInstalaciones);
 
         // Menú "Equipos"
-        JMenu equiposMenu = new JMenu("Añadir Equipos");
+        JMenu equiposMenu = new JMenu("Equipos");
         menuBar.add(equiposMenu);
 
         // Opción "Añadir equipos"
@@ -227,7 +230,7 @@ public class AplicacionMain {
         // Menú "Accionistas"
         JMenu accionistasMenu = new JMenu("Accionistas");
         menuBar.add(accionistasMenu);
-        
+
         JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
         campanaAccionistas.addActionListener(e -> {
             frmAplicacionBurgosFc.setVisible(false);
@@ -248,6 +251,13 @@ public class AplicacionMain {
             inicializarParticiparEnACampania();
         });
         accionistasMenu.add(accederCampania);
+
+        JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
+        horariosEntrenamientos.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarHorarioEquipos();
+        });
+        equiposMenu.add(horariosEntrenamientos);
     }
 
 	private void inicializarGestionEmpleados() {
@@ -336,7 +346,16 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
     }
-    
+
+    private void inicializarHorarioEquipos() {
+    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
+    	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
+    	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
+    	gpes.initControllers();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+
     private void inicializarPortalAccionistas() {
     	PortalAccionistas frame = new PortalAccionistas();
     	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);

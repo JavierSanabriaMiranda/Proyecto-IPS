@@ -22,4 +22,8 @@ public interface GestorEquipos {
 	List<Equipo> getEquiposPimerosEquipos();
 	
 	String generarIDEquipo();
+	
+	List<EmpleadoDeportivo> getEntrenadoresConEquipo();
+	
+	EmpleadoDeportivo buscaEmpleado(String idEntrenador);
 }

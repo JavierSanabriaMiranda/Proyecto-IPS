@@ -178,7 +178,7 @@ public class HorarioJardineria extends JDialog {
 		Instalacion inst = (Instalacion) vj.getCbInstalaciones().getSelectedItem();
 		List<FranjaTiempo> eventosDelDia = vj.getJardinerosShared().getEventos(inst, fechaSeleccionada); 
 
-		// Crear 15 intervalos de 1 hora entre las 8:00 y las 22:00
+		
 		LocalTime horaInicio = LocalTime.of(0, 0);
 
 		List<JLabel> labelsHorarios = new ArrayList<>();

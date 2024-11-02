@@ -1,32 +1,35 @@
 package backend.service.eventos;
 
-import java.util.Date;
-
 import backend.service.horarios.FranjaTiempo;
 import backend.service.instalaciones.ReservaParaInstalacion;
 import backend.service.ventas.reservas.Instalacion;
 
 public class Entrenamiento implements ReservaParaInstalacion{
 
-	private Date fecha;
+	
 	private FranjaTiempo horario;
 	private Instalacion instalacion;
+	private String idEntrenamiento;
+	private String idEquipo;
 	
-	public Entrenamiento(Date fecha, FranjaTiempo horario, Instalacion instalacion) {
+	public Entrenamiento(String idEntrenamiento, FranjaTiempo horario, Instalacion instalacion, String idEquipo) {
 		super();
-		this.fecha = fecha;
+		this.idEntrenamiento = idEntrenamiento;
 		this.horario = horario;
 		this.instalacion = instalacion;
 	}
 	
-	public Date getFecha() {
-		return fecha;
-	}
 	public FranjaTiempo getHorario() {
 		return horario;
 	}
 	public Instalacion getInstalacion() {
 		return instalacion;
+	}
+	public String getIdEntrenamiento() {
+		return idEntrenamiento;
+	}
+	public String getIdEquipo() {
+		return idEquipo;
 	}
 
 	@Override

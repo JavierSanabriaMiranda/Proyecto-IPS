@@ -3,6 +3,7 @@ package shared.gestioninstalaciones;
 import java.time.LocalDate;
 import java.util.List;
 
+import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
@@ -33,5 +34,9 @@ public interface GestorReserva {
 	List<ReservaJardineria> getReservasJardineria();
 	
 	List<ReservaJardineria> comprobarCoincidenciaConJardineria(Instalacion instalacion , FranjaTiempo franja);
+	
+	public String creaCodEntrenamiento();
+
+	void addEntrenamientoAInstalacion(Entrenamiento entrenamiento, Instalacion instalacion);
 
 }
