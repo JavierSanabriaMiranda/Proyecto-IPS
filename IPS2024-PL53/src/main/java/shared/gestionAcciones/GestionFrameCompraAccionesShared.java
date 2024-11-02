@@ -12,7 +12,6 @@ import backend.service.ventas.campanaAccionistas.Accion;
 import frontend.SwingUtil;
 import frontend.portalAccionistas.FrameCompraAcciones;
 import frontend.portalAccionistas.PanelAccionEnVenta;
-import frontend.portalAccionistas.PortalAccionistas;
 
 public class GestionFrameCompraAccionesShared {
 

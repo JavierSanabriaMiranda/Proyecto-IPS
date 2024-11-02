@@ -14,7 +14,6 @@ import backend.service.ventas.campanaAccionistas.Accionista;
 
 public class GestionCompraVentaAccionesShared {
 	
-	private GestorCompraVentaAcciones gestor = new GestorCompraAccionesEntreAccionistas();
 	private AccionesCRUDService serviceAcciones = CreadorDataService.getAccionesService();
 	private AccionistasCRUDService serviceAccionistas = CreadorDataService.getAccionistasService();
 	private String dniAccionista;
