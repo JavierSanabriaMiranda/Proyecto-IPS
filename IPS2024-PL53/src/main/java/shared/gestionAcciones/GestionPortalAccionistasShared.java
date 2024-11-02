@@ -13,6 +13,7 @@ import backend.data.acciones.AccionesCRUDService;
 import backend.data.accionistas.AccionistasCRUDService;
 import backend.service.ventas.campanaAccionistas.Accion;
 import frontend.SwingUtil;
+import frontend.portalAccionistas.FrameCompraAcciones;
 import frontend.portalAccionistas.PanelAccion;
 import frontend.portalAccionistas.PortalAccionistas;
 
@@ -92,7 +93,9 @@ public class GestionPortalAccionistasShared {
 	}
 	
 	private void accionComprar() {
-		// TODO Auto-generated method stub
+		String dniAccionista = view.getTfDNI().getText();
+		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(new FrameCompraAcciones(), dniAccionista);
+		gfcas.initController();
 	}
 
 	private void toggleButtonState() {

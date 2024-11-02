@@ -24,4 +24,20 @@ public class DtoAssembler {
 		
 		return dto;
 	}
+	
+	public static List<Accion> toAccionList(List<AccionDTO> dtos) {
+		List<Accion> list = new ArrayList<Accion>();
+		for (AccionDTO dto : dtos)  
+			list.add(toAccion(dto));
+		return list;
+	}
+	
+	public static Accion toAccion(AccionDTO dto) {
+		String idAccion = dto.getIdAccion();
+		String idAccionista = dto.getIdAccionista();
+		float precio = dto.getPrecio();
+		boolean isEnVenta = dto.isEnVenta();
+		
+		return new Accion(idAccion, precio, isEnVenta);
+	}
 }
