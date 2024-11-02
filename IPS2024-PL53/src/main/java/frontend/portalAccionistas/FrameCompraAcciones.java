@@ -10,6 +10,10 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class FrameCompraAcciones extends JFrame {
 
@@ -19,6 +23,10 @@ public class FrameCompraAcciones extends JFrame {
 	private JLabel lbTitulo;
 	private JScrollPane scpnAcciones;
 	private JPanel pnAccionesEnVenta;
+	private JPanel pnAtras;
+	private JButton btAtras;
+	private Component horizontalGlue;
+	private Component horizontalStrut;
 
 
 	/**
@@ -36,6 +44,7 @@ public class FrameCompraAcciones extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPnTitulo(), BorderLayout.NORTH);
 		contentPane.add(getScpnAcciones(), BorderLayout.CENTER);
+		contentPane.add(getPnAtras(), BorderLayout.SOUTH);
 	}
 	private JPanel getPnTitulo() {
 		if (pnTitulo == null) {
@@ -68,5 +77,35 @@ public class FrameCompraAcciones extends JFrame {
 			pnAccionesEnVenta.setLayout(new GridLayout(0, 1, 0, 0));
 		}
 		return pnAccionesEnVenta;
+	}
+	private JPanel getPnAtras() {
+		if (pnAtras == null) {
+			pnAtras = new JPanel();
+			pnAtras.setBackground(new Color(255, 255, 255));
+			pnAtras.setLayout(new BoxLayout(pnAtras, BoxLayout.X_AXIS));
+			pnAtras.add(getHorizontalGlue());
+			pnAtras.add(getBtAtras());
+			pnAtras.add(getHorizontalStrut());
+		}
+		return pnAtras;
+	}
+	public JButton getBtAtras() {
+		if (btAtras == null) {
+			btAtras = new JButton("Atrás");
+			btAtras.setFont(new Font("Arial", Font.PLAIN, 12));
+		}
+		return btAtras;
+	}
+	private Component getHorizontalGlue() {
+		if (horizontalGlue == null) {
+			horizontalGlue = Box.createHorizontalGlue();
+		}
+		return horizontalGlue;
+	}
+	private Component getHorizontalStrut() {
+		if (horizontalStrut == null) {
+			horizontalStrut = Box.createHorizontalStrut(20);
+		}
+		return horizontalStrut;
 	}
 }

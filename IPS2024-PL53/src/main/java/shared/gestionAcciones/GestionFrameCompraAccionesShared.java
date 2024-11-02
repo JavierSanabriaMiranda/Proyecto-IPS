@@ -36,6 +36,8 @@ public class GestionFrameCompraAccionesShared {
 				cerrarVentana();
 			}
 		});
+		
+		view.getBtAtras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentana()));
 	}
 
 	void cargarAccionesEnVenta() {
@@ -83,6 +85,8 @@ public class GestionFrameCompraAccionesShared {
 			gesComVen.comprarAccion(acc);
 			view.getPnAccionesEnVenta().remove(pnAcc);
 			view.getPnAccionesEnVenta().repaint();
+			JOptionPane.showMessageDialog(view, "Usted ha comprado la acción " + acc.getIdAccion(), 
+					"Confirmación de Compra", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
