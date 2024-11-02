@@ -20,6 +20,8 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
+import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
@@ -31,14 +33,20 @@ import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
+import frontend.portalAccionistas.PortalAccionistas;
 import frontend.reservaUI.VentanaPrincipalReserva;
+import shared.gestionAcciones.GestionPortalAccionistasShared;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
 import shared.gestionNoticias.GestionImagenesShared;
 import shared.gestionNoticias.GestionPortalNoticiasShared;
 import shared.gestionProductos.GestionProductoShared;
+import shared.gestioncampania.GestionFrameCrearCampaniaShared;
+import shared.gestioncampania.GestionFrameParticiparCampania;
+import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
+import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
@@ -72,7 +80,7 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
-        frmAplicacionBurgosFc.setBounds(100, 100, 550, 250);
+        frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
@@ -218,7 +226,32 @@ public class AplicacionMain {
             inicializarPortalNoticias();
         });
         noticiasMenu.add(portalNoticias);
-        
+
+        // Menú "Accionistas"
+        JMenu accionistasMenu = new JMenu("Accionistas");
+        menuBar.add(accionistasMenu);
+
+        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
+        campanaAccionistas.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarPortalAccionistas();
+        });
+        accionistasMenu.add(campanaAccionistas);
+
+        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
+        crearCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarCrearCampania();
+        });
+        accionistasMenu.add(crearCampania);
+
+        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
+        accederCampania.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarParticiparEnACampania();
+        });
+        accionistasMenu.add(accederCampania);
+
         JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
         horariosEntrenamientos.addActionListener(e -> {
             frmAplicacionBurgosFc.setVisible(false);
@@ -229,12 +262,16 @@ public class AplicacionMain {
 
 	private void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
+        GestionFrameEmpleadosShared gfe = new GestionFrameEmpleadosShared(frame);
+        gfe.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
 
     private void inicializarHorariosEmpleados() {
         FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
+        GestionFrameHorariosShared gfh = new GestionFrameHorariosShared(frame);
+        gfh.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
@@ -309,7 +346,7 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
     }
-    
+
     private void inicializarHorarioEquipos() {
     	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
     	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
@@ -317,6 +354,31 @@ public class AplicacionMain {
     	gpes.initControllers();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
+    }
+
+    private void inicializarPortalAccionistas() {
+    	PortalAccionistas frame = new PortalAccionistas();
+    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);
+    	gpns.initController();
+    	configurarCierreVentana(frame);
+		frame.setVisible(true);
+    }
+
+    private void inicializarCrearCampania() {
+    	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
+    	GestionFrameCrearCampaniaShared gfcv = new GestionFrameCrearCampaniaShared(frame);
+    	gfcv.initController();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    	gfcv.cargarCampaniaEnCurso();
+    }
+
+    private void inicializarParticiparEnACampania() {
+    	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
+    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
+    	configurarCierreVentana(frame);
+    	gfpc.initController();
+    	gfpc.cargarCampaniaEnCurso();
     }
 
     // Método para configurar el comportamiento al cerrar ventanas

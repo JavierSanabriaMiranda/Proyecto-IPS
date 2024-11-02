@@ -33,7 +33,6 @@ public class PanelAddEmpleados extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	GestionEmpleadosShared gesEmp;
 	private JLabel lbNombre;
 	private JTextField txNombre;
 	private Component horizontalStrut;
@@ -58,8 +57,7 @@ public class PanelAddEmpleados extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelAddEmpleados(GestionEmpleadosShared gesEmp) {
-		this.gesEmp = gesEmp;
+	public PanelAddEmpleados() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(new Color(255, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -197,7 +195,7 @@ public class PanelAddEmpleados extends JPanel {
 		return lbNombre;
 	}
 
-	private JTextField getTxNombre() {
+	public JTextField getTxNombre() {
 		if (txNombre == null) {
 			txNombre = new JTextField();
 			txNombre.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -275,7 +273,7 @@ public class PanelAddEmpleados extends JPanel {
 		return lbPuesto;
 	}
 
-	private JTextField getTxApellido() {
+	public JTextField getTxApellido() {
 		if (txApellido == null) {
 			txApellido = new JTextField();
 			txApellido.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -284,7 +282,7 @@ public class PanelAddEmpleados extends JPanel {
 		return txApellido;
 	}
 
-	private JTextField getTxDNI() {
+	public JTextField getTxDNI() {
 		if (txDNI == null) {
 			txDNI = new JTextField();
 			txDNI.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -293,7 +291,7 @@ public class PanelAddEmpleados extends JPanel {
 		return txDNI;
 	}
 
-	private JTextField getTxTelefono() {
+	public JTextField getTxTelefono() {
 		if (txTelefono == null) {
 			txTelefono = new JTextFieldNumerico();
 			txTelefono.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -302,7 +300,7 @@ public class PanelAddEmpleados extends JPanel {
 		return txTelefono;
 	}
 
-	private JTextField getTxSalario() {
+	public JTextField getTxSalario() {
 		if (txSalario == null) {
 			txSalario = new JTextFieldNumerico();
 			txSalario.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -311,7 +309,7 @@ public class PanelAddEmpleados extends JPanel {
 		return txSalario;
 	}
 
-	private JComboBox<PuestoEmpleado> getCbPuesto() {
+	public JComboBox<PuestoEmpleado> getCbPuesto() {
 		if (cbPuesto == null) {
 			cbPuesto = new JComboBox<PuestoEmpleado>();
 			cbPuesto.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -332,95 +330,17 @@ public class PanelAddEmpleados extends JPanel {
 		return cbPuesto;
 	}
 
-	private JButton getBtAdd() {
+	public JButton getBtAdd() {
 		if (btAdd == null) {
 			btAdd = new JButton("Añadir");
-			btAdd.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					addEmpleado();
-				}
-			});
 			btAdd.setFont(new Font("Arial", Font.PLAIN, 12));
 		}
 		return btAdd;
 	}
 
-	/**
-	 * Comprueba si se puede añadir un empleado nuevo con los datos proporcionados y
-	 * en ese caso lo añade
-	 */
-	private void addEmpleado() {
-		if (camposCorrectos()) {
-			String nombre = getTxNombre().getText();
-			String apellido = getTxApellido().getText();
-			String dni = getTxDNI().getText();
-			String telefono = getTxTelefono().getText();
-			Date nacimiento = getClNacimiento().getDate();
-			double salario = Double.parseDouble(getTxSalario().getText());
-			
-			// Redondeamos el salario a 2 decimales
-			salario = Math.round(salario * 100.0) / 100.0;
-			TipoEmpleado tipo = (TipoEmpleado) getCbTipoEmpleado().getSelectedItem();
-			PuestoEmpleado puesto = (PuestoEmpleado) getCbPuesto().getSelectedItem();
-			
-			gesEmp.addEmpleado(nombre, apellido, dni, telefono, nacimiento, salario, tipo, puesto);
-			JOptionPane.showMessageDialog(this, "Se ha registrado al empleado correctamente", "Confirmación de Registro de Empleado", 
-					JOptionPane.INFORMATION_MESSAGE);
-			inicializarPanel();
-		} else {
-			
-		}
-
-	}
-
-	private boolean camposCorrectos() {
-		// Se comprueba que los campos no están vacíos
-		if (getTxNombre().getText().isBlank() || getTxApellido().getText().isBlank() || getTxDNI().getText().isBlank()
-				|| getTxSalario().getText().isBlank() || getTxTelefono().getText().isBlank()
-				|| getClNacimiento().getDate() == null) {
-			JOptionPane.showMessageDialog(this, "Se deben rellenar todos los campos","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		// Si no es jugador de futbol y es menor de edad
-		if (!getCbPuesto().getSelectedItem().equals(PuestoEmpleado.JUGADOR) &&  !esMayorEdad(getClNacimiento().getDate())) {
-			JOptionPane.showMessageDialog(this, "Solo los jugadores pueden ser menores de edad","Error en Registro de Empleado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean esMayorEdad(Date fecha) {
-        // Convierte la fecha de tipo Date a LocalDate
-        LocalDate fechaLocal = new java.sql.Date(fecha.getTime()).toLocalDate();
-        
-        // Obtiene la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-        
-        // Calcula la diferencia de años
-        Period periodo = Period.between(fechaLocal, fechaActual);
-
-        return periodo.getYears() >= 18;
-	}
-
-	public void inicializarPanel() {
-		getTxNombre().setText("");
-		getTxApellido().setText("");
-		getTxDNI().setText("");
-		getTxTelefono().setText("");
-		getTxSalario().setText("");
-		getClNacimiento().setDate(null);
-		getCbTipoEmpleado().setSelectedIndex(0);
-		getCbPuesto().setSelectedIndex(0);
-	}
-
-	private JComboBox<TipoEmpleado> getCbTipoEmpleado() {
+	public JComboBox<TipoEmpleado> getCbTipoEmpleado() {
 		if (cbTipoEmpleado == null) {
 			cbTipoEmpleado = new JComboBox<TipoEmpleado>();
-			cbTipoEmpleado.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					establecerComboPuesto();
-				}
-			});
 			cbTipoEmpleado.setFont(new Font("Arial", Font.PLAIN, 12));
 			// Se introducen los valores del combobox
 			cbTipoEmpleado.setModel(new DefaultComboBoxModel<>(TipoEmpleado.values()));
@@ -428,22 +348,7 @@ public class PanelAddEmpleados extends JPanel {
 		return cbTipoEmpleado;
 	}
 
-	// Establece los valores del comboBox de Puestos de Trabajo en función del tipo
-	// de Empleado seleccionado
-	private void establecerComboPuesto() {
-		// Rellenamos el combo en función de los valores del tipo de empleado
-		DefaultComboBoxModel<PuestoEmpleado> model = new DefaultComboBoxModel<>();
-		if (getCbTipoEmpleado().getSelectedIndex() == 0) {
-			model.addElement(PuestoEmpleado.ENTRENADOR);
-			model.addElement(PuestoEmpleado.JUGADOR);
-		} else if (getCbTipoEmpleado().getSelectedIndex() == 1) {
-			model = new DefaultComboBoxModel<>(PuestoEmpleado.values());
-			model.removeElement(PuestoEmpleado.ENTRENADOR);
-			model.removeElement(PuestoEmpleado.JUGADOR);
-		}
 
-		cbPuesto.setModel(model);
-	}
 
 	private JLabel getLbTipoEmpleado() {
 		if (lbTipoEmpleado == null) {
@@ -453,7 +358,7 @@ public class PanelAddEmpleados extends JPanel {
 		return lbTipoEmpleado;
 	}
 
-	private JDateChooser getClNacimiento() {
+	public JDateChooser getClNacimiento() {
 		if (clNacimiento == null) {
 			clNacimiento = new JDateChooser();
 			clNacimiento.setMaxSelectableDate(new Date());

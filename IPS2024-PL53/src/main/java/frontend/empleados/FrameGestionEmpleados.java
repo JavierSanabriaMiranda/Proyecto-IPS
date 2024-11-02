@@ -25,9 +25,8 @@ public class FrameGestionEmpleados extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private GestionEmpleadosShared gesEmp = new GestionEmpleadosShared();
-	private MostrarMenu mostrarMenu = new MostrarMenu();
-	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados(gesEmp);
-	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados(gesEmp);
+	private PanelModEmpleados panelModEmpleados = new PanelModEmpleados();
+	private PanelAddEmpleados panelAddEmpleados = new PanelAddEmpleados();
 	private PanelRemEmpleados panelRemEmpleados = new PanelRemEmpleados(gesEmp);
 	private JPanel contentPane;
 	private JPanel pnOpciones;
@@ -58,6 +57,16 @@ public class FrameGestionEmpleados extends JFrame {
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		contentPane.add(getPnOpciones());
 	}
+	
+	public PanelModEmpleados getPanelModEmpleados() {
+		return this.panelModEmpleados;
+	}
+	public PanelAddEmpleados getPanelAddEmpleados() {
+		return this.panelAddEmpleados;
+	}
+	public PanelRemEmpleados getPanelRemEmpleados() {
+		return this.panelRemEmpleados;
+	}
 
 	private JPanel getPnOpciones() {
 		if (pnOpciones == null) {
@@ -83,7 +92,7 @@ public class FrameGestionEmpleados extends JFrame {
 		return pnBotonesSeleccion;
 	}
 
-	private JPanel getPnDatos() {
+	public JPanel getPnDatos() {
 		if (pnDatos == null) {
 			pnDatos = new JPanel();
 			pnDatos.setBackground(new Color(255, 255, 255));
@@ -95,75 +104,36 @@ public class FrameGestionEmpleados extends JFrame {
 		return pnDatos;
 	}
 
-	private void seleccionarMenu(String menu) {
-		switch (menu) {
-		case "addEmpleado":
-			mostrarMenuAdd();
-			break;
-		case "modEmpleado":
-			mostrarMenuMod();
-			break;
-		case "remEmpleado":
-			mostrarMenuRem();
-			break;
-		default:
-			throw new IllegalArgumentException("El código " + menu + " no es un panel válido");
-		}
-	}
+
+
 
 	
-	private void mostrarMenuAdd() {
-		panelAddEmpleados.inicializarPanel();
-		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "addEmpleado");
-	}
-
-	private void mostrarMenuMod() {
-		panelModEmpleados.inicializarPanel();
-		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "modEmpleado");
-	}
-
-	private void mostrarMenuRem() {
-		panelRemEmpleados.inicializarPanel();
-		((CardLayout) getPnDatos().getLayout()).show(getPnDatos(), "remEmpleado");		
-	}
 	
-	class MostrarMenu implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton fuente = (JButton) e.getSource();
-			seleccionarMenu(fuente.getActionCommand());
-		}
-		
-	}
-
-	private JButton getBtnAddEmp() {
+	public JButton getBtnAddEmp() {
 		if (btnAddEmp == null) {
 			btnAddEmp = new JButton("Añadir");
 			btnAddEmp.setActionCommand("addEmpleado");
 			btnAddEmp.setFont(new Font("Arial", Font.PLAIN, 12));
-			btnAddEmp.addActionListener(mostrarMenu);
 		}
 		return btnAddEmp;
 	}
 
-	private JButton getBtnModEmp() {
+	public JButton getBtnModEmp() {
 		if (btnModEmp == null) {
 			btnModEmp = new JButton("Modificar");
 			btnModEmp.setActionCommand("modEmpleado");
 			btnModEmp.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnModEmp.setPreferredSize(new Dimension(100, 40));
-			btnModEmp.addActionListener(mostrarMenu);
 		}
 		return btnModEmp;
 	}
 
-	private JButton getBtnRemEmp() {
+	public JButton getBtnRemEmp() {
 		if (btnRemEmp == null) {
 			btnRemEmp = new JButton("Eliminar");
 			btnRemEmp.setActionCommand("remEmpleado");
 			btnRemEmp.setFont(new Font("Arial", Font.PLAIN, 12));
-			btnRemEmp.addActionListener(mostrarMenu);
 		}
 		return btnRemEmp;
 	}
@@ -179,7 +149,7 @@ public class FrameGestionEmpleados extends JFrame {
 		return pnAtras;
 	}
 
-	private JButton getBtAtras() {
+	public JButton getBtAtras() {
 		if (btAtras == null) {
 			btAtras = new JButton("Atras");
 			btAtras.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -215,5 +185,9 @@ public class FrameGestionEmpleados extends JFrame {
 			pnRem.add(panelRemEmpleados);
 		}
 		return pnRem;
+	}
+
+	public GestionEmpleadosShared getGesEmp() {
+		return gesEmp;
 	}
 }
