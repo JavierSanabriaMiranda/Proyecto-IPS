@@ -13,6 +13,8 @@ import backend.data.entrenamientos.EntrenamientoCRUDImpl;
 import backend.data.entrenamientos.EntrenamientoCRUDService;
 import backend.data.entrenamientos.EntrenamientoDto;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
+import backend.data.entrevistas.EntrevistaCRUDImpl;
+import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.command.DtoAssemblerEquipo;
 import backend.data.reservaJardineria.ReservaJardineriaCRUDImpl;
@@ -22,6 +24,7 @@ import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
 import backend.service.empleados.EmpleadoDeportivo;
+import backend.service.empleados.deportivos.Jugador;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.equipos.Equipo;
 import backend.service.equipos.EquipoEnFormacion;
@@ -32,6 +35,7 @@ import backend.service.horarios.TipoEvento;
 import backend.service.reservaJardineria.ReservaJardineria;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
+import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionequipos.GestorEquipos;
 import shared.gestioninstalaciones.GestorInstalaciones;
 import shared.gestioninstalaciones.GestorReserva;
@@ -43,6 +47,7 @@ public class HorariosEntrenamientosShared {
 	EmpleadosCRUDService serviceEmp = CreadorDataService.getEmpleadosService();
 	EquipoCRUDService serviceEquip = CreadorDataService.getEquiposService();
 	EntrenamientoCRUDService serviceEntr = new EntrenamientoCRUDImpl();
+	EntrevistaCRUDService serviceEntrevista = new EntrevistaCRUDImpl();
 	private GestorReserva gestorInstalaciones = new GestorInstalaciones();
 	private GestorEquipos gestorEquipos = new Gerente();
 	
@@ -88,6 +93,8 @@ public class HorariosEntrenamientosShared {
 			Equipo equipo = gestorEquipos.getEquipoByID(dto.id_equipo);
 			EmpleadoDeportivo emp = DtoAssembler.dtoToEmpleadoDeportivo(dto);
 			emp.setEquipo(equipo);
+			if (emp.getPuesto().equals(PuestoEmpleado.JUGADOR) && equipo != null)
+				emp.addJugadorAEquipo(emp);
 			lista.add(emp);
 		}
 
@@ -186,13 +193,21 @@ public class HorariosEntrenamientosShared {
 		String idEntrenamiento = gestorInstalaciones.creaCodEntrenamiento();
 		
 		Entrenamiento entrenamiento = new Entrenamiento(idEntrenamiento, horario, instalacion, entrenador.getEquipo().getIdEquipo());
+		
+		//Añado el entrenamiento a la instalación
 		gestorInstalaciones.addEntrenamientoAInstalacion(entrenamiento, instalacion);
 		
+		//Añado el entrenamiento a la lista de Entrenamientos del Equipo
+		entrenador.getEquipo().addEntrenamiento(entrenamiento);
+		
+		//Añado el entrenamiento a la BDD
 		addEntrenamientoABDD(instalacion, horario, entrenador, idEntrenamiento, fecha);
 		
-		
-		//Borro la reserva de jardineria si es que coincide con el entrenamiento
+		//Borro la reserva de jardineria, las franjas de entrevista y las entrevistas (solo de BDD) si es que coincide con el entrenamiento
 		borraReservaJardineriaCoincidente(horario, instalacion);
+		
+		//Borro si existe alguna entrevista o franja que coincida con el entrenamiento
+		borraEntrevistaYFranjaDeBBDD(horario, entrenador.getEquipo());
 	}
 
 	private void addEntrenamientoABDD(Instalacion instalacion, FranjaTiempo horario, EmpleadoDeportivo entrenador, String idEntrenamiento, Date fecha) {
@@ -224,6 +239,12 @@ public class HorariosEntrenamientosShared {
 		for(ReservaJardineria reserva :reservas) {
 			ReservaJardineriaCRUDService service = new ReservaJardineriaCRUDImpl();
 			service.deleteReservaJardineria(reserva.getCodReservaJardineria());
+		}
+	}
+	
+	private void borraEntrevistaYFranjaDeBBDD(FranjaTiempo horario, Equipo equipo) {
+		for(Jugador jugador : equipo.getJugadores()) {
+			serviceEntrevista.deleteEntrevistaYFranjaPorHora(horario, jugador.getIDEmpleado());
 		}
 	}
 

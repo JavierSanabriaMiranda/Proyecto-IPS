@@ -5,11 +5,13 @@ import java.util.List;
 
 import backend.data.entrevistas.commands.AddEntrevista;
 import backend.data.entrevistas.commands.AddFranjaEntrevista;
+import backend.data.entrevistas.commands.DeleteEntrevistaYFranjaPorHora;
 import backend.data.entrevistas.commands.DeleteFranjasByIdJugadorAndDate;
 import backend.data.entrevistas.commands.FindEntrevistaByCod;
 import backend.data.entrevistas.commands.FindEntrevistaByDate;
 import backend.data.entrevistas.commands.FindEntrevistaByJugadorIdAndDate;
 import backend.data.entrevistas.commands.FindFranjaByJugadorIdAndDate;
+import backend.service.horarios.FranjaTiempo;
 import backend.util.FranjaEntrevistaException;
 
 public class EntrevistaCRUDImpl implements EntrevistaCRUDService {
@@ -47,6 +49,11 @@ public class EntrevistaCRUDImpl implements EntrevistaCRUDService {
 	@Override
 	public EntrevistaDTO findEntrevistaByCod(String cod) {
 		return new FindEntrevistaByCod(cod).execute();
+	}
+
+	@Override
+	public void deleteEntrevistaYFranjaPorHora(FranjaTiempo fra, String idJugador) {
+		new DeleteEntrevistaYFranjaPorHora(fra, idJugador).execute();
 	}
 
 }

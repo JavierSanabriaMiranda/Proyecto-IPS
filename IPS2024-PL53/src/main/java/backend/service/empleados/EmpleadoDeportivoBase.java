@@ -25,5 +25,9 @@ public abstract class EmpleadoDeportivoBase extends EmpleadoBase implements Empl
 		this.equipo = equipo;
 	}
 	
+	public void addJugadorAEquipo(EmpleadoDeportivo emp) {
+		this.equipo.addJugadoresAEquipo(emp);
+	}
+	
 	
 }

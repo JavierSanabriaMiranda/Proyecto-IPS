@@ -9,4 +9,6 @@ public interface EmpleadoDeportivo extends Empleado {
 	void setEquipo(Equipo equipo);
 	
 	Equipo getEquipo();
+	
+	void addJugadorAEquipo(EmpleadoDeportivo emp);
 }
