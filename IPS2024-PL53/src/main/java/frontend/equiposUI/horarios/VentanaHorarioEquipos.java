@@ -56,6 +56,7 @@ public class VentanaHorarioEquipos extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaHorarioEquipos(HorariosEntrenamientosShared hes) {
+		setTitle("Horarios de Equipos");
 		this.hes = hes;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 795, 710);

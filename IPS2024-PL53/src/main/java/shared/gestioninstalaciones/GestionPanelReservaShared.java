@@ -311,7 +311,9 @@ public class GestionPanelReservaShared {
 	}
 	
 	private void cerrarVentanas() {
-		System.exit(0);
+		diagReserva.dispose();
+		diagHorario.dispose();
+		view.dispose();
 	}
 	
 	private void reservar() {
