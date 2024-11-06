@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import backend.service.ventas.campanaAccionistas.Accion;
+import javax.swing.BoxLayout;
 
 public class PanelAccion extends JPanel {
 	Accion accion;
@@ -55,8 +56,9 @@ public class PanelAccion extends JPanel {
 	}
 	private JPanel getPnBtAcciones() {
 		if (pnBtAcciones == null) {
-			pnBtAcciones = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrar horizontalmente
+			pnBtAcciones = new JPanel(); // Centrar horizontalmente
 			pnBtAcciones.setBackground(new Color(173, 216, 230));
+			pnBtAcciones.setLayout(new BoxLayout(pnBtAcciones, BoxLayout.X_AXIS));
 			pnBtAcciones.add(getBtVender());
 			pnBtAcciones.add(getBtQuitar());
 		}
