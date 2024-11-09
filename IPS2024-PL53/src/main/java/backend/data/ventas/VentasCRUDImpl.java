@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import backend.data.ventas.commands.AddClienteReserva;
+import backend.data.entradas.EntradaDTO;
+import backend.data.entradas.commands.AddEntrada;
 import backend.data.ventas.commands.AddReserva;
 import backend.data.ventas.commands.AddVentas;
 import backend.data.ventas.commands.CargarReservas;
@@ -30,11 +31,6 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	}
 
 	@Override
-	public void addCliente(ClienteReservaDto dto) {
-		new AddClienteReserva(dto).execute();
-	}
-
-	@Override
 	public List<ReservaDto> cargarReservas() {
 		return new CargarReservas().execute();
 	}
@@ -48,6 +44,11 @@ public class VentasCRUDImpl implements VentasCRUDService {
             e.printStackTrace();
         }
 		return res;
+	}
+	
+	@Override
+	public void addEntrada(EntradaDTO dto) {
+		new AddEntrada(dto).execute();
 	}
 
 }

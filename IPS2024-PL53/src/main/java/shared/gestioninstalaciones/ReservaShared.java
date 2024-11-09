@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import backend.data.entrenamientos.EntrenamientoCRUDService;
+import backend.data.CreadorDataService;
+import backend.data.clientes.ClienteDTO;
+import backend.data.clientes.ClientesCRUDService;
 import backend.data.entrenamientos.EntrenamientoCRUDImpl;
+import backend.data.entrenamientos.EntrenamientoCRUDService;
 import backend.data.entrenamientos.commands.DtoAssemblerEntrenamientos;
 import backend.data.reservaJardineria.ReservaJardineriaCRUDImpl;
 import backend.data.reservaJardineria.ReservaJardineriaCRUDService;
 import backend.data.reservaJardineria.ReservaJardineriaDTO;
-import backend.data.ventas.ClienteReservaDto;
 import backend.data.ventas.ReservaDto;
 import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 import backend.data.ventas.commands.DtoAssemblerVentas;
-import backend.service.empleados.nodeportivos.EmpleadoJardineria;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
@@ -177,10 +178,11 @@ public class ReservaShared {
 			String numTarjeta, String codInst) {
 		VentasCRUDService service = new VentasCRUDImpl();
 		//Add del cliente -> si ya existe, no se añade
-		ClienteReservaDto dtoC = new ClienteReservaDto();
-		dtoC.DNI = DNI;
+		ClienteDTO dtoC = new ClienteDTO();
+		dtoC.dni = DNI;
 		dtoC.nombre = cliente.getNombre();
-		service.addCliente(dtoC);
+		ClientesCRUDService serviceClientes = CreadorDataService.getClientesService();
+		serviceClientes.addCliente(dtoC);
 		//Add de la venta
 		VentaDto dtoV = new VentaDto();
 		dtoV.coste = coste;

@@ -44,11 +44,12 @@ import shared.gestionProductos.GestionProductoShared;
 import shared.gestioncampania.GestionFrameCrearCampaniaShared;
 import shared.gestioncampania.GestionFrameParticiparCampania;
 import shared.gestionempleados.GestionFrameEmpleadosShared;
+import shared.gestionentrada.GestionEntradaShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
-import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
+import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
@@ -286,6 +287,8 @@ public class AplicacionMain {
 
     private void inicializarEntradas() {
         VentanaPrincipalEntrada frame = new VentanaPrincipalEntrada();
+        GestionEntradaShared ges = new GestionEntradaShared(frame);
+        ges.initController();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }

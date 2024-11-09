@@ -144,7 +144,7 @@ public class GestionHistorialShared {
 	
 	private void confirmar() {
 		if(confirfmarCancelacion()) {
-			System.exit(0);
+			view.dispose();
 		}	
 	}
 

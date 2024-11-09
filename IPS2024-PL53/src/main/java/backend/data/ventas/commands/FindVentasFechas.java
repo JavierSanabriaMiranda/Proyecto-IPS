@@ -72,11 +72,11 @@ public class FindVentasFechas {
 
         // Comprobar en CAMPAÑA_ACCIONISTA
         try (Connection c = db.getConnection();
-             PreparedStatement pst = c.prepareStatement("SELECT 1 FROM CAMPAÑA_ACCIONISTA WHERE CODACCIONISTA = ?")) {
+             PreparedStatement pst = c.prepareStatement("SELECT 1 FROM CAMPANIA_ACCIONISTAS WHERE COD_CAMPANIA = ?")) {
             pst.setString(1, idVenta);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    return "Campaña Accionista";
+                    return "Campaña de Accionista";
                 }
             }
         }

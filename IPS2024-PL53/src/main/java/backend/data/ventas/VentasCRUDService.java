@@ -3,6 +3,8 @@ package backend.data.ventas;
 import java.util.Date;
 import java.util.List;
 
+import backend.data.entradas.EntradaDTO;
+
 public interface VentasCRUDService {
 
 	VentaDto findByCodVentas(String cod_ventas);
@@ -10,8 +12,8 @@ public interface VentasCRUDService {
 	void addVentas(VentaDto venta);
 
 	void addReserva(ReservaDto dto);
-
-	void addCliente(ClienteReservaDto dto);
+	
+	void addEntrada(EntradaDTO entrada);
 
 	List<ReservaDto> cargarReservas();
 

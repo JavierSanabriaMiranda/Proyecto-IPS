@@ -1,10 +1,7 @@
 package frontend.entradaUI;
 
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Time;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,36 +12,26 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import shared.gestionentrada.GestionEntradaShared;
-import shared.gestionpartido.GestionPartidoShared;
-
 public class VentanaPrincipalEntrada extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lbPartido;
 	private JLabel lbComboPartido;
 	private JButton btSeleccionar;
 	private JButton btCancelar;
-	
-	private GestionPartidoShared gps = new GestionPartidoShared();
 	private JScrollPane scpPartidos;
 	private JTable tablePartidos;
-	
-	private Date[][] datos;
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaPrincipalEntrada() {
-		
 		setResizable(false);
 		setTitle("Venta de Entradas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 477, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getLbPartido());
@@ -72,84 +59,42 @@ public class VentanaPrincipalEntrada extends JFrame {
 		}
 		return lbComboPartido;
 	}
-	private JButton getBtSeleccionar() {
+	public JButton getBtSeleccionar() {
 		if (btSeleccionar == null) {
 			btSeleccionar = new JButton("Seleccionar");
-			btSeleccionar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					GestionEntradaShared ges = seleccionarPartido();
-					
-					mostrarVentanaSeleccion(ges);
-				}
-			});
-			btSeleccionar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btSeleccionar.setEnabled(false);
+			btSeleccionar.setForeground(new Color(255, 255, 255));
+			btSeleccionar.setBackground(new Color(60, 179, 113));
+			btSeleccionar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			btSeleccionar.setBounds(320, 434, 131, 37);
 		}
 		return btSeleccionar;
 	}
 	
-	private void mostrarVentanaSeleccion(GestionEntradaShared ges) {
-		VentanaSeleccionEntradas vSE = new VentanaSeleccionEntradas(ges);
-		vSE.setVisible(true);
-		this.setVisible(false);
-	}
-	
-	private GestionEntradaShared seleccionarPartido() {
-		int row = getTablePartidos().getSelectedRow();
-		
-		
-		Date fecha = datos[row][0];
-		Time inicio = new Time(datos[row][1].getTime());
-		Time fin = new Time(datos[row][2].getTime());
-		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
-		GestionEntradaShared ges = new GestionEntradaShared();
-		ges.inicializarParaUI();
-		ges.setPartidoId(partidoId);
-		return ges;
-	}
-	
-	private JButton getBtCancelar() {
+	public JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
-			btCancelar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btCancelar.setForeground(new Color(255, 255, 255));
+			btCancelar.setBackground(Color.RED);
+			btCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			btCancelar.setBounds(165, 434, 131, 37);
 		}
 		return btCancelar;
 	}
-	
 	
 	/*
 	 * Hacer tabla cabecera columnas tipo String y el resto tipo date.
 	 * Primera columna: fecha
 	 * Segunda columna: hora inicio
 	 * Tercera columna: hora sin
-	 * 
-	 * Solo se seleciona por filas y pasar el Date[] de la fila para encontrar el partido id
 	 */
-	private JTable getTablePartidos() {
+	public JTable getTablePartidos() {
 		if (tablePartidos == null) {
-			tablePartidos = new JTable(this.cargaDatos(), this.creaColumnas());
+			tablePartidos = new JTable();
 			tablePartidos.setSelectionMode(0);
-			cargaDatos();
+
 		}
 		return tablePartidos;
-	}
-	
-	private String[] creaColumnas() {
-	    String[] titColumna = {"Fecha", "Hora inicio", "Hora fin"};
-	    return titColumna;
-	}
-	
-	private Date[][] cargaDatos() {
-		this.datos = gps.getTodosPartidos();
-		return datos;
 	}
 	
 	private JScrollPane getScpPartidos() {

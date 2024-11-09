@@ -1,42 +1,97 @@
 package shared.gestionentrada;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 import backend.data.CreadorDataService;
 import backend.data.entradas.EntradaDTO;
 import backend.data.entradas.EntradasCRUDService;
-import backend.data.ventas.VentasCRUDService;
 import backend.service.ventas.entrada.Entrada;
 import backend.service.ventas.entrada.Seccion;
 import backend.service.ventas.entrada.Tribuna;
-import shared.gestionventas.GestionVentasShared;
+import frontend.SwingUtil;
+import frontend.entradaUI.VentanaPrincipalEntrada;
+import frontend.entradaUI.VentanaSeleccionEntradas;
+import shared.gestionpartido.GestionPartidoShared;
 
 public class GestionEntradaShared {
 	
 	EntradasCRUDService service = CreadorDataService.getEntradaService();
 
 	private Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio;
-	
-	/*
-	 * Lista auxiliar para guardar temporalmente los asientos que el usuario 
-	 * quiere reservar antes de su aceptacion
-	 */
-	private List<Entrada> entradasReservar;
 	private String idPartido;
+	private VentanaPrincipalEntrada view;
+	private Date[][] datos;
 	
-	public GestionEntradaShared() {
+	public GestionEntradaShared(VentanaPrincipalEntrada view) {
+		this.view=view;
+	
+		initView();
 	}
 	
-	public void inicializarParaUI() {
-		inicializarMap();
+	private void initView() {
+		JTable tablePartidos = view.getTablePartidos();
+	    tablePartidos.setModel(new DefaultTableModel(cargaDatos(), creaColumnas()));
+	}
+	
+	public void initController() {
+		view.getBtSeleccionar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> mostrarVentanaSeleccion()));
 		
-		this.entradasReservar = new ArrayList<>();
+		view.getBtCancelar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> view.dispose()));
+		
+		view.getTablePartidos().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent event) {
+		        // Habilita el botón solo si hay una fila seleccionada
+		        if (!event.getValueIsAdjusting()) { // Evita que se dispare el evento varias veces
+		            view.getBtSeleccionar().setEnabled(view.getTablePartidos().getSelectedRow() != -1);
+		        }
+		    }
+		});
+	
 	}
 	
-	public void setPartidoId(String idPartido) {
+	private void mostrarVentanaSeleccion() {
+		seleccionarPartido();
+		VentanaSeleccionEntradas vSE = new VentanaSeleccionEntradas();
+		GestionVentanaSeleccion gvs = new GestionVentanaSeleccion(vSE,estadio,idPartido,view);
+		gvs.initController();
+		vSE.setVisible(true);
+		view.setVisible(false);
+	}
+	
+	private void seleccionarPartido() {
+		int row = view.getTablePartidos().getSelectedRow();
+		Date fecha = datos[row][0];
+		Time inicio = new Time(datos[row][1].getTime());
+		Time fin = new Time(datos[row][2].getTime());
+		GestionPartidoShared gps = new GestionPartidoShared();
+		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
+		inicializarMap();
+		setPartidoId(partidoId);	
+	}
+	
+	private String[] creaColumnas() {
+	    String[] titColumna = {"Fecha", "Hora inicio", "Hora fin"};
+	    return titColumna;
+	}
+	
+	private Date[][] cargaDatos() {
+		GestionPartidoShared gps = new GestionPartidoShared();
+		this.datos = gps.getTodosPartidos();
+		return datos;
+	}
+	
+	private void setPartidoId(String idPartido) {
 		this.idPartido = idPartido;
 		cargarMap();
 	}
@@ -51,12 +106,12 @@ public class GestionEntradaShared {
             for (Seccion seccion : Seccion.values()) {
                 estadio.get(tribuna).put(seccion, new ArrayList<>());
 
-                // Filas (0-10)
-                for (int fila = 0; fila <= 10; fila++) {
+                // Filas (0-9)
+                for (int fila = 0; fila <= 9; fila++) {
                     List<Entrada> asientosFila = new ArrayList<>();
 
-                    // Asientos (0-15)
-                    for (int asiento = 0; asiento <= 15; asiento++) {
+                    // Asientos (0-14)
+                    for (int asiento = 0; asiento <= 14; asiento++) {
                         Entrada entrada = new Entrada(tribuna, seccion, fila, asiento);
                         asientosFila.add(entrada);
                     }
@@ -76,78 +131,5 @@ public class GestionEntradaShared {
 			estadio.get(Tribuna.valueOf(entrada.tribuna.toUpperCase())).get(Seccion.valueOf(entrada.seccion.toUpperCase())).get(entrada.nFila).get(entrada.nAsiento).setCodEntrada(entrada.cod_entrada);
 			estadio.get(Tribuna.valueOf(entrada.tribuna.toUpperCase())).get(Seccion.valueOf(entrada.seccion.toUpperCase())).get(entrada.nFila).get(entrada.nAsiento).setOcupado(true);
 		}
-	}
-	
-	private List<Entrada> buscarAsientosConsecutivos(String trib, String sec, int n) {
-		Tribuna tribuna = Tribuna.valueOf(trib.toUpperCase());
-		Seccion seccion = Seccion.valueOf(sec.toUpperCase());
-        if (!estadio.containsKey(tribuna) || !estadio.get(tribuna).containsKey(seccion)) {
-            System.out.println("La tribuna o la sección no existen.");
-        }
-
-        // Recorre cada fila de la sección dada
-        for (List<Entrada> fila : estadio.get(tribuna).get(seccion)) {
-            List<Entrada> asientosLibresConsecutivos = new ArrayList<>();
-
-            // Recorre cada asiento de la fila
-            for (Entrada asiento : fila) {
-                if (!asiento.isOcupado()) {
-                    asientosLibresConsecutivos.add(asiento); // Añade el asiento libre a la lista
-
-                    // Si ya encontramos `n` asientos consecutivos, los devolvemos
-                    if (asientosLibresConsecutivos.size() == n) {
-                        return asientosLibresConsecutivos;
-                    }
-                } else {
-                    asientosLibresConsecutivos.clear(); // Si encontramos un asiento ocupado, reiniciamos la lista
-                }
-            }
-        }
-        return null;
-    }
-	
-	// True si se pueden se pueden reservar n asientos
-	public boolean canReservarAsientos(String tribuna, String seccion, int n) {
-		entradasReservar = buscarAsientosConsecutivos(tribuna, seccion, n);
-		return entradasReservar != null;
-	}
-	
-	public void addEntradasBBDD(String dni) {
-				
-		for (Entrada entrada : entradasReservar) {
-			EntradaDTO e = new EntradaDTO();
-			e.cod_entrada = entrada.getCodEntrada();
-			e.tribuna = entrada.getTribuna().toString();
-			e.seccion = entrada.getSeccion().toString();
-			e.nFila = entrada.getFila();
-			e.nAsiento = entrada.getAsiento();
-			e.idPartido = idPartido;
-			
-			crearVentasParaEntrada(e, dni);
-			service.addEntrada(e);
-		}
-	}
-	
-	private void crearVentasParaEntrada(EntradaDTO entrada, String dni) {
-		GestionVentasShared gvs = new GestionVentasShared();
-		gvs.addVentasParaEntradaBBDD(entrada, dni);
-	}
-	
-	public String getEntradasCompradas() {
-		String res = "";
-		
-		for (Entrada e : entradasReservar) {
-			res += "Entrada: Tribuna("+e.getTribuna()+") Sección("+e.getSeccion()+") "
-					+ "Fila("+e.getFila()+") Asiento("+e.getAsiento()+")\n";
-		}
-		return res;
-	}
-	
-	/*
-	 * Retorna true si el ya existe una venta con ese codigo
-	 */
-	public boolean checkIfCodExists(String cod) {
-		VentasCRUDService ventasService = CreadorDataService.getVentasService();
-		return ventasService.findByCodVentas(cod) != null;
 	}
 }

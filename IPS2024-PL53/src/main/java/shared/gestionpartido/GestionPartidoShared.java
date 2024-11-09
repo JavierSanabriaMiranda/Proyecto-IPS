@@ -5,14 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import backend.data.CreadorDataService;
-import backend.data.empleados.EmpleadoDTO;
 import backend.data.partidos.PartidoDTO;
 import backend.data.partidos.PartidosCRUDService;
 
 public class GestionPartidoShared {
 	
 	PartidosCRUDService service = CreadorDataService.getPartidosService();
-	private List<EmpleadoDTO> jugadoresProfesionales;
 
 	public Date[][] getTodosPartidos() {
 		service = CreadorDataService.getPartidosService();

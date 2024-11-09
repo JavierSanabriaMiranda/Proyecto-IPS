@@ -1,9 +1,5 @@
 package backend.service.ventas.entrada;
 
-import java.util.Random;
-
-import shared.gestionentrada.GestionEntradaShared;
-
 public class Entrada {
 	
 	private String cod_entrada;
@@ -12,18 +8,10 @@ public class Entrada {
 	private int fila;
 	private int asiento;
 	private boolean ocupado;
-	public static final int PRECIO = 30;
-	private GestionEntradaShared ges = new GestionEntradaShared();
-	
-	private Random random = new Random();
+	public final int PRECIO = 30;
 	
 	public Entrada(Tribuna tribuna, Seccion seccion, int nFila, int nAsiento) {
-		this.cod_entrada = "E" + random.nextInt(10000000);
-		
-		while (ges.checkIfCodExists(cod_entrada)) {
-			this.cod_entrada = "E" + random.nextInt(10000000);
-		}
-		
+		generateCode();
 		this.tribuna = tribuna;
 		this.seccion = seccion;
 		this.fila = nFila;
@@ -39,28 +27,15 @@ public class Entrada {
 	public Tribuna getTribuna() {
 		return tribuna;
 	}
-	private void setTribuna(Tribuna tribuna) {
-		this.tribuna = tribuna;
-	}
 	public Seccion getSeccion() {
 		return seccion;
-	}
-	private void setSeccion(Seccion seccion) {
-		this.seccion = seccion;
 	}
 	public int getFila() {
 		return fila;
 	}
-	private void setFila(int fila) {
-		this.fila = fila;
-	}
 	public int getAsiento() {
 		return asiento;
 	}
-	private void setAsiento(int asiento) {
-		this.asiento = asiento;
-	}
-	
 	public void setOcupado(boolean ocupado) {
 		this.ocupado = ocupado;
 	}
@@ -68,5 +43,13 @@ public class Entrada {
 		return this.ocupado;
 	}
 	
+	private void generateCode() {
+        String base = "0123456789abcdefghijklmnopqrstuvwxyz";
+        int longitudCodigo = 8;
+        for(int i = 0; i < longitudCodigo; i++){ 
+            int numero = (int)(Math.random() * (base.length())); 
+            cod_entrada += base.charAt(numero);
+        }
+    }
 	
 }

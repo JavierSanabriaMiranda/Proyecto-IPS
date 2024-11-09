@@ -1,33 +1,24 @@
 package frontend.entradaUI;
 
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
-
-import shared.gestioncliente.GestionClienteShared;
-import shared.gestionentrada.GestionEntradaShared;
-
-import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import javax.swing.JSpinner;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import java.awt.Font;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.SpinnerNumberModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class VentanaSeleccionEntradas extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lbTitulo;
@@ -40,25 +31,20 @@ public class VentanaSeleccionEntradas extends JFrame {
 	private JButton btCancelar;
 	private JLabel lbAsientos;
 	private JSpinner spAsientos;
-	
-	private GestionEntradaShared ges;
-	private GestionClienteShared gcs = new GestionClienteShared();
-	
 	private JLabel lbDni;
 	private JTextField txDni;
+	private JLabel lbMaxNumero;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaSeleccionEntradas(GestionEntradaShared ges) {
-		this.ges = ges;
+	public VentanaSeleccionEntradas() {
 		setTitle("Compra de Entradas");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 551, 452);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getLbTitulo());
@@ -66,6 +52,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		contentPane.add(getBtContinuar());
 		contentPane.add(getBtCancelar());
 		setLocationRelativeTo(null);
+		
 	}
 	private JLabel getLbTitulo() {
 		if (lbTitulo == null) {
@@ -90,6 +77,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 			pnDatos.add(getSpAsientos());
 			pnDatos.add(getLbDni());
 			pnDatos.add(getTxDni());
+			pnDatos.add(getLbMaxNumero());
 		}
 		return pnDatos;
 	}
@@ -109,7 +97,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		}
 		return lbSeccion;
 	}
-	private JComboBox<String> getCbTribuna() {
+	public JComboBox<String> getCbTribuna() {
 		if (cbTribuna == null) {
 			cbTribuna = new JComboBox<String>();
 			cbTribuna.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -118,7 +106,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		}
 		return cbTribuna;
 	}
-	private JComboBox<String> getCbSeccion() {
+	public JComboBox<String> getCbSeccion() {
 		if (cbSeccion == null) {
 			cbSeccion = new JComboBox<String>();
 			cbSeccion.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D", "E", "F"}));
@@ -128,50 +116,24 @@ public class VentanaSeleccionEntradas extends JFrame {
 		return cbSeccion;
 	}
 
-	private JButton getBtContinuar() {
+	public JButton getBtContinuar() {
 		if (btContinuar == null) {
 			btContinuar = new JButton("Continuar");
-			btContinuar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (clientExists()) {
-						if (checkIfCanBook()) {
-							ges.addEntradasBBDD(getTxDni().getText());
-							JOptionPane.showMessageDialog(null,
-									"Gracias por la compra.\n" + ges.getEntradasCompradas());
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"No se pueden reservar tantos " + "asientos contiguos.");
-						}
-					}
-				}
-			});
-			btContinuar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btContinuar.setEnabled(false);
+			btContinuar.setForeground(new Color(255, 255, 255));
+			btContinuar.setBackground(new Color(60, 179, 113));
+			btContinuar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			btContinuar.setBounds(393, 366, 134, 39);
 		}
 		return btContinuar;
 	}
 	
-	private boolean clientExists() {
-		String dni = this.getTxDni().getText();
-		return gcs.checkIfClientExistsByDni(dni);
-	}
-	
-	private boolean checkIfCanBook() {
-		String tribuna = (String) this.getCbTribuna().getSelectedItem();
-		String seccion = (String) this.getCbSeccion().getSelectedItem();
-		int nAsientos = (int) this.getSpAsientos().getValue();
-		return ges.canReservarAsientos(tribuna, seccion, nAsientos);
-	}
-	
-	private JButton getBtCancelar() {
+	public JButton getBtCancelar() {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
-			btCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btCancelar.setForeground(new Color(255, 255, 255));
+			btCancelar.setBackground(new Color(255, 0, 0));
+			btCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			btCancelar.setBounds(249, 366, 134, 39);
 		}
 		return btCancelar;
@@ -184,7 +146,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		}
 		return lbAsientos;
 	}
-	private JSpinner getSpAsientos() {
+	public JSpinner getSpAsientos() {
 		if (spAsientos == null) {
 			spAsientos = new JSpinner();
 			spAsientos.setModel(new SpinnerNumberModel(1, 1, 15, 1));
@@ -200,12 +162,19 @@ public class VentanaSeleccionEntradas extends JFrame {
 		}
 		return lbDni;
 	}
-	private JTextField getTxDni() {
+	public JTextField getTxDni() {
 		if (txDni == null) {
 			txDni = new JTextField();
 			txDni.setBounds(123, 222, 172, 30);
 			txDni.setColumns(10);
 		}
 		return txDni;
+	}
+	private JLabel getLbMaxNumero() {
+		if (lbMaxNumero == null) {
+			lbMaxNumero = new JLabel("(Maximo 15 asientos)");
+			lbMaxNumero.setBounds(319, 168, 119, 14);
+		}
+		return lbMaxNumero;
 	}
 }
