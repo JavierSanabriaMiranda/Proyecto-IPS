@@ -7,4 +7,5 @@ public class CampaniaDTO {
 	public int accionesRestantes;
 	public int fase;
 	public String estado;
+	public float precio;
 }

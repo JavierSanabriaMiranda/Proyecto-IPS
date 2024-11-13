@@ -164,6 +164,13 @@ public class GestionCampaniaShared {
 		CampaniaAccionistas camp = gestor.getCampania();
 		CampaniaDTO dtoCamp = DtoAssembler.toDto(camp);
 		
+		float precioAcciones = 0;
+		for (Accion accion : accionesCompradas) 
+			precioAcciones += accion.getPrecio();
+		
+		float precioActualCampania = serviceCampania.getPrecioTotal(camp.getCodigoCampania());
+		dtoCamp.precio = precioActualCampania + precioAcciones;
+		
 		serviceCampania.actualizarCampania(dtoCamp);
 		
 		AccionistaEnCampaniaDTO dtoAccCamp = new AccionistaEnCampaniaDTO();
