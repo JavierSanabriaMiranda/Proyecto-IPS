@@ -6,6 +6,8 @@ import backend.data.acciones.AccionesCRUDImpl;
 import backend.data.acciones.AccionesCRUDService;
 import backend.data.accionistas.AccionistasCRUDImpl;
 import backend.data.accionistas.AccionistasCRUDService;
+import backend.data.asientos.AsientosCRUDImpl;
+import backend.data.asientos.AsientosCRUDService;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDImpl;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDService;
 import backend.data.clientes.ClientesCRUDImpl;
@@ -93,5 +95,9 @@ public class CreadorDataService {
 
 	public static AccionesCRUDService getAccionesService() {
 		return new AccionesCRUDImpl();
+	}
+
+	public static AsientosCRUDService getAsientosService() {
+		return new AsientosCRUDImpl();
 	}
 }

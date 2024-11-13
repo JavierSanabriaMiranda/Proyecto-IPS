@@ -3,20 +3,12 @@ package backend.service.ventas.entrada;
 public class Entrada {
 	
 	private String cod_entrada;
-	private Tribuna tribuna;
-	private Seccion seccion;
-	private int fila;
-	private int asiento;
-	private boolean ocupado;
+	private Asiento asiento;
 	public final int PRECIO = 30;
 	
 	public Entrada(Tribuna tribuna, Seccion seccion, int nFila, int nAsiento) {
 		generateCode();
-		this.tribuna = tribuna;
-		this.seccion = seccion;
-		this.fila = nFila;
-		this.asiento = nAsiento;
-		this.ocupado = false;
+		this.asiento = new Asiento(tribuna, seccion, nFila, nAsiento);
 	}
 	public String getCodEntrada() {
 		return this.cod_entrada;
@@ -25,22 +17,22 @@ public class Entrada {
 		this.cod_entrada = cod;
 	}
 	public Tribuna getTribuna() {
-		return tribuna;
+		return asiento.getTribuna();
 	}
 	public Seccion getSeccion() {
-		return seccion;
+		return asiento.getSeccion();
 	}
 	public int getFila() {
-		return fila;
+		return asiento.getFila();
 	}
 	public int getAsiento() {
-		return asiento;
+		return asiento.getAsiento();
 	}
 	public void setOcupado(boolean ocupado) {
-		this.ocupado = ocupado;
+		asiento.setOcupado(ocupado);
 	}
 	public boolean isOcupado() {
-		return this.ocupado;
+		return asiento.isOcupado();
 	}
 	
 	private void generateCode() {

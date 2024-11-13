@@ -12,8 +12,7 @@ import backend.data.entradas.EntradaDTO;
 
 public class FindAllEntrada {
 	
-	private static final String QUERY = "SELECT COD_ENTRADA, TRIBUNA, SECCION, N_FILA, N_ASIENTO, ID_PARTIDO"
-			+ "FROM ENTRADA";
+	private static final String QUERY = "SELECT * FROM ENTRADA";
 
 	private Database db = new Database();
 	
@@ -59,12 +58,7 @@ public class FindAllEntrada {
 	public EntradaDTO toDto(ResultSet rs) throws SQLException {
 		EntradaDTO res = new EntradaDTO();
 		res.cod_entrada = rs.getString("cod_entrada");
-		res.tribuna = rs.getString("tribuna");
-		res.seccion = rs.getString("seccion");
-		
-		res.nFila = rs.getInt("n_fila");
-		res.nAsiento = rs.getInt("n_asiento");
-		
+		res.idAsiento = rs.getString("id_asiento");
 		res.idPartido = rs.getString("id_partido");
 		return res;
 	}

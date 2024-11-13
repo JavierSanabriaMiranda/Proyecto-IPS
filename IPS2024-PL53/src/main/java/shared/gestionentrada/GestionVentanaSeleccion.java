@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import backend.data.CreadorDataService;
+import backend.data.asientos.AsientoDTO;
+import backend.data.asientos.AsientosCRUDService;
 import backend.data.clientes.ClienteDTO;
 import backend.data.clientes.ClientesCRUDService;
 import backend.data.entradas.EntradaDTO;
@@ -64,7 +67,9 @@ public class GestionVentanaSeleccion {
 
 	private void accionContinuar() {
 		if (checkIfCanBook()) {
-			addEntradasBBDD(view.getTxDni().getText());
+			List<AsientoDTO> asientos = addAsientoBBDD();
+			addEntradasBBDD(view.getTxDni().getText(), asientos);
+			
 			JOptionPane.showMessageDialog(null, "Gracias por la compra.\n" + getEntradasCompradas());
 			cerrarVentana();
 		} else {
@@ -114,21 +119,46 @@ public class GestionVentanaSeleccion {
         return null;
     }
 	
-	public void addEntradasBBDD(String dni) {
+	public void addEntradasBBDD(String dni, List<AsientoDTO> asientos) {
 		EntradasCRUDService service = CreadorDataService.getEntradaService();
 		for (Entrada entrada : entradasReservar) {
+			int nAsiento = entrada.getAsiento();
+			AsientoDTO asiento = null;
+			
+			for (AsientoDTO dto : asientos) {
+				if (dto.nAsiento == nAsiento) {
+					asiento = dto;
+					break;
+				}
+			}
+			if (asiento == null)
+				throw new IllegalStateException("Hay una entrada con un asiento que no se ha registrado");
+			
 			EntradaDTO e = new EntradaDTO(
 			entrada.getCodEntrada(),
-			entrada.getTribuna().toString(),
-			entrada.getSeccion().toString(),
-			entrada.getFila(),
-			entrada.getAsiento(),
 			idPartido,
+			asiento.idAsiento,
 			entrada.PRECIO);
 			
 			crearVentasParaEntrada(e, dni);
 			service.addEntrada(e);
 		}
+	}
+	
+	private List<AsientoDTO> addAsientoBBDD() {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		List<AsientoDTO> asientos = new ArrayList<>();
+		for (Entrada entrada : entradasReservar) {
+			AsientoDTO dtoA = new AsientoDTO();
+			dtoA.nAsiento = entrada.getAsiento();
+			dtoA.nFila = entrada.getFila();
+			dtoA.seccion = entrada.getSeccion().toString();
+			dtoA.tribuna = entrada.getTribuna().toString();
+			dtoA.idAsiento = UUID.randomUUID().toString();
+			asientos.add(dtoA);
+			service.addAsiento(dtoA);
+		}
+		return asientos;
 	}
 	
 	private void crearVentasParaEntrada(EntradaDTO entrada, String dni) {
