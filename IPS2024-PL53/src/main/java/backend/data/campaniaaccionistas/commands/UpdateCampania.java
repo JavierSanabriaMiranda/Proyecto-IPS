@@ -5,6 +5,9 @@ import backend.data.campaniaaccionistas.CampaniaDTO;
 
 public class UpdateCampania {
 	
+	private static final String QUERY_VENTAS = "UPDATE VENTAS "
+			+ "SET COSTE = ? WHERE ID_VENTAS = ?";
+	
 	private static final String QUERY = "UPDATE CAMPANIA_ACCIONISTAS SET NUMERO_ACCIONES_RESTANTES = ?, "
 			+ "FASE = ?, ESTADO = ? WHERE COD_CAMPANIA = ?";
 	
@@ -18,6 +21,7 @@ public class UpdateCampania {
 	}
 	
 	public void execute() {
+		db.executeUpdate(QUERY_VENTAS, dto.precio, dto.codCampania);
 		db.executeUpdate(QUERY, dto.accionesRestantes, dto.fase, dto.estado, dto.codCampania);
 	}
 

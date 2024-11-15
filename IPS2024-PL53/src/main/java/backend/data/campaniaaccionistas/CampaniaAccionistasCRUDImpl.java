@@ -4,9 +4,10 @@ import java.util.Optional;
 
 import backend.data.accionistas.AccionistaDTO;
 import backend.data.campaniaaccionistas.commands.AddAccionistaEnCampania;
-import backend.data.campaniaaccionistas.commands.CrearCampania;
+import backend.data.campaniaaccionistas.commands.AddCampania;
 import backend.data.campaniaaccionistas.commands.FindAccionistaEnCampaniaByDni;
 import backend.data.campaniaaccionistas.commands.FindEnCurso;
+import backend.data.campaniaaccionistas.commands.FindPrecioCampania;
 import backend.data.campaniaaccionistas.commands.UpdateAccionistaEnCampania;
 import backend.data.campaniaaccionistas.commands.UpdateCampania;
 
@@ -19,7 +20,7 @@ public class CampaniaAccionistasCRUDImpl implements CampaniaAccionistasCRUDServi
 
 	@Override
 	public void crearCampania(CampaniaDTO dto) {
-		new CrearCampania(dto).execute();
+		new AddCampania(dto).execute();
 	}
 
 	@Override
@@ -40,6 +41,11 @@ public class CampaniaAccionistasCRUDImpl implements CampaniaAccionistasCRUDServi
 	@Override
 	public void actualizarAccionistaEnCampania(AccionistaEnCampaniaDTO dtoAccCamp) {
 		new UpdateAccionistaEnCampania(dtoAccCamp).execute();
+	}
+
+	@Override
+	public float getPrecioTotal(String codigoCampania) {
+		return new FindPrecioCampania(codigoCampania).execute();
 	}
 
 }

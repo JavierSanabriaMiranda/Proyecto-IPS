@@ -1,9 +1,108 @@
 
 --Datos para carga inicial de la base de datos
 
+-- Inserciones válidas para la tabla USUARIO
+DELETE FROM USUARIO;
+INSERT INTO USUARIO (ID_USUARIO, NOMBRE_USUARIO, CONTRASEÑA) 
+VALUES 
+    ('E0000001', 'cgarcia', 'password1'),
+    ('E0000002', 'lperez', 'password2'),
+    ('E0000003', 'mlopez', 'password3'),
+    ('E0000004', 'amartinez', 'password4'),
+    ('E0000005', 'jsanchez', 'password5'),
+    ('E0000006', 'chernandez', 'password6'),
+    ('E0000007', 'storres', 'password7'),
+    ('E0000008', 'pgonzalez', 'password8'),
+    ('E1000009', 'mgarcia', 'password9'),
+    ('EMP001', 'juan.perez', 'password123'),
+    ('EMP002', 'carlos.lopez', 'password123'),
+    ('EMP003', 'maria.martinez1', 'password123'),
+    ('EMP100', 'maria.martinez2', 'password123'),
+    ('EMP101', 'maria.martinez3', 'password123'),
+    ('EMP102', 'maria.martinez4', 'password123'),
+    ('EMP004', 'ana.gomez', 'password123'),
+	('EMP005', 'luis.fernandez', 'password123'),
+    ('EMP006', 'sofia.diaz', 'password123'),
+    ('EMP007', 'carlos.martinez', 'password123'),
+    ('EMP008', 'elena.lopez', 'password123'),
+    ('EMP009', 'jorge.perez', 'password123'),
+    ('EMP010', 'marta.hernandez', 'password123'),
+    ('EMP011', 'david.garcia', 'password123'),
+    ('EMP012', 'laura.alonso', 'password123'),
+    ('EMP013', 'sergio.ramirez', 'password123'),
+    ('EMP024', 'pedro.ramirez', 'password123'),
+    ('EMP025', 'jorge.santos', 'password123'),
+    ('EMP026', 'lucia.blanco', 'password123'),
+    ('EMP014', 'andrea.garcia', 'password123'),
+    ('EMP015', 'roberto.luna', 'password123'),
+    ('EMP016', 'isabel.moreno', 'password123'),
+    ('EMP017', 'carlos.martinez2', 'password123'),
+    ('EMP018', 'elena.rodriguez', 'password123'),
+    ('EMP019', 'mario.sanchez', 'password123'),
+    ('EMP020', 'lucia.gomez', 'password123'),
+    ('EMP021', 'jose.diaz', 'password123'),
+    ('EMP022', 'marta.ruiz', 'password123'),
+    ('EMP023', 'david.vega', 'password123'),
+    ('EMP030', 'raul.gimenez', 'password123'),
+    ('EMP031', 'alberto.nunez', 'password123'),
+    ('EMP032', 'sergio.cruz', 'password123'),
+    ('EMP033', 'pablo.morales', 'password123'),
+    ('EMP034', 'marcos.garcia', 'password123'),
+    ('EMP035', 'diego.sanchez', 'password123'),
+    ('EMP036', 'ivan.perez', 'password123'),
+    ('EMP037', 'lucas.martinez', 'password123'),
+    ('EMP038', 'fernando.hernandez', 'password123'),
+    ('EMP039', 'andres.jimenez', 'password123'),
+    ('EMP040', 'jorge.lopez', 'password123'),
+    ('EMP041', 'cesar.gomez', 'password123'),
+    ('EMP042', 'tomas.sanz', 'password123'),
+    ('EMP043', 'emilio.santos', 'password123'),
+    ('EMP044', 'adrian.romero', 'password123'),
+    ('EMP045', 'alejandro.vega', 'password123'),
+    ('EMP046', 'manuel.duarte', 'password123'),
+    ('EMP047', 'francisco.blanco', 'password123'),
+    ('EMP048', 'hugo.castro', 'password123'),
+    ('EMP049', 'mario.alonso', 'password123'),
+    ('EMP050', 'rodrigo.bautista', 'password123'),
+    ('EMP051', 'raul.reyes', 'password123'),
+    ('EMP052', 'daniel.montero', 'password123'),
+    ('EMP053', 'carlos.ortiz', 'password123'),
+    ('EMP054', 'jose.nieto', 'password123'),
+    ('EMP055', 'santiago.fernandez', 'password123'),
+    ('EMP056', 'martin.herrera', 'password123'),
+    ('EMP057', 'alonso.bravo', 'password123'),
+    ('EMP058', 'samuel.navarro', 'password123'),
+    ('EMP059', 'gonzalo.diaz', 'password123'),
+    ('EMP060', 'david.benitez', 'password123'),
+    ('EMP061', 'eric.castilla', 'password123'),
+    ('EMP062', 'alvaro.aguilar', 'password123'),
+    ('EMP063', 'miguel.torres', 'password123'),
+    ('EMP064', 'ivan.mendez', 'password123'),
+    ('EMP065', 'pablo.perez', 'password123'),
+    ('EMP066', 'lucas.rey', 'password123'),
+    ('EMP067', 'diego.silva', 'password123'),
+    ('EMP068', 'victor.gutierrez', 'password123'),
+    ('EMP069', 'jaime.campos', 'password123'),
+    ('EMP070', 'oscar.gil', 'password123'),
+    ('EMP071', 'adrian.pascual', 'password123'),
+    ('EMP072', 'rafael.quintana', 'password123'),
+    ('EMP073', 'hector.garcia', 'password123'),
+    ('EMP074', 'felipe.cabrera', 'password123'),
+    ('EMP075', 'nicolas.pena', 'password123'),
+    ('EMP076', 'eduardo.lara', 'password123'),
+    ('EMP077', 'martin.ortega', 'password123'),
+    ('EMP078', 'jose.ruiz', 'password123'),
+    ('EMP079', 'bruno.hernandez', 'password123'),
+    ('EMP080', 'julio.castro', 'password123'),
+    ('EMP081', 'antonio.vargas', 'password123'),
+    ('EMP082', 'ismael.lopez', 'password123'),
+    ('EMP083', 'gabriel.davila', 'password123'),
+    ('01', 'juan.jose2', 'password123');
+    
 
-DELETE FROM EMPLEADO_NO_DEPORTIVO;
+
 -- Inserciones válidas para la tabla EMPLEADO_NO_DEPORTIVO
+DELETE FROM EMPLEADO_NO_DEPORTIVO;
 INSERT INTO EMPLEADO_NO_DEPORTIVO (ID_EMPLEADO_NO_DEP, DNI, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, POSICION, SALARIO_ANUAL)
 VALUES
     ('E0000001', '12345678A', 'Carlos', 'García', '1985-01-15', '600123456', 'gerente', 45000.50),
@@ -73,11 +172,16 @@ VALUES
 	('P000000002','11:00:00','10:00:00','2024-04-10','EQUIPO002'),
 	('P000000003','12:00:00','10:00:00','2024-04-10','EQUIPO003');
 
+--Insercion de registros en la tabla ASIENTO
+DELETE FROM ASIENTO;
+INSERT INTO ASIENTO VALUES 
+	('A0001', 'A', 'A', 0, 0);
 
 -- Insertar datos en la tabla ENTRADA (relacionadas con las ventas)
 DELETE FROM ENTRADA;
 INSERT INTO ENTRADA VALUES
-    ('V006', 'A', 'A', 0, 0, 'P000000001');
+    ('V006',  'P000000001', 'A0001');
+  
 
 
 -- Insertar en la tabla ENTRENAMIENTO (relacionados con las instalaciones y el equipo)

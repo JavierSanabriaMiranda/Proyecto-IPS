@@ -1,12 +1,16 @@
 package backend.data.campaniaaccionistas.commands;
 
+import java.security.Timestamp;
+import java.util.Date;
+
 import backend.data.Database;
 import backend.data.campaniaaccionistas.CampaniaDTO;
 
-public class CrearCampania {
+public class AddCampania {
 	
 	private static final String QUERY_VENTAS = "INSERT INTO VENTAS "
-			+ "(ID_VENTAS) VALUES (?)";
+			+ "(ID_VENTAS, FECHA, COSTE) VALUES (?, ?, ?)";
+	
 
 	
 	private static final String QUERY_CAMPANIA = "INSERT INTO CAMPANIA_ACCIONISTAS "
@@ -16,14 +20,14 @@ public class CrearCampania {
 	private Database db = new Database();
 	private CampaniaDTO dto;
 	
-	public CrearCampania(CampaniaDTO dto) {
+	public AddCampania(CampaniaDTO dto) {
 		if (dto == null)
 			throw new IllegalArgumentException("El dto no puede ser null");
 		this.dto = dto;
 	}
 
 	public void execute() {
-		db.executeUpdate(QUERY_VENTAS, dto.codCampania);
+		db.executeUpdate(QUERY_VENTAS, dto.codCampania, new Date(), 0);
 		
 		db.executeUpdate(QUERY_CAMPANIA, dto.codCampania, dto.accionesIniciales, 
 				dto.accionesRestantes, dto.fase, dto.estado);

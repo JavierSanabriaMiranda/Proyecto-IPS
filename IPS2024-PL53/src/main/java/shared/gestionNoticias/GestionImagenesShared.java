@@ -49,7 +49,6 @@ public class GestionImagenesShared {
                         System.err.println("Error al eliminar el archivo: " + file);
                     }
                 });
-            System.out.println("Todos los archivos (excepto NO_BORRAR.txt) han sido eliminados.");
         } catch (IOException e) {
             System.err.println("Error al acceder a la carpeta: " + e.getMessage());
         }

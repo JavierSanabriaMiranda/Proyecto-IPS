@@ -13,6 +13,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import backend.data.CreadorDataService;
+import backend.data.asientos.AsientoDTO;
+import backend.data.asientos.AsientosCRUDService;
 import backend.data.entradas.EntradaDTO;
 import backend.data.entradas.EntradasCRUDService;
 import backend.service.ventas.entrada.Entrada;
@@ -26,6 +28,7 @@ import shared.gestionpartido.GestionPartidoShared;
 public class GestionEntradaShared {
 	
 	EntradasCRUDService service = CreadorDataService.getEntradaService();
+	AsientosCRUDService serviceAsiento = CreadorDataService.getAsientosService();
 
 	private Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio;
 	private String idPartido;
@@ -127,9 +130,12 @@ public class GestionEntradaShared {
 		
 		List<EntradaDTO> entradasEnBBDD = service.findByIDPartidoEntrada(idPartido);
 		
+		
 		for (EntradaDTO entrada : entradasEnBBDD) {
-			estadio.get(Tribuna.valueOf(entrada.tribuna.toUpperCase())).get(Seccion.valueOf(entrada.seccion.toUpperCase())).get(entrada.nFila).get(entrada.nAsiento).setCodEntrada(entrada.cod_entrada);
-			estadio.get(Tribuna.valueOf(entrada.tribuna.toUpperCase())).get(Seccion.valueOf(entrada.seccion.toUpperCase())).get(entrada.nFila).get(entrada.nAsiento).setOcupado(true);
+			AsientoDTO dtoAsiento = serviceAsiento.findByIdAsiento(entrada.idAsiento);
+			
+			estadio.get(Tribuna.valueOf(dtoAsiento.tribuna.toUpperCase())).get(Seccion.valueOf(dtoAsiento.seccion.toUpperCase())).get(dtoAsiento.nFila).get(dtoAsiento.nAsiento).setCodEntrada(entrada.cod_entrada);
+			estadio.get(Tribuna.valueOf(dtoAsiento.tribuna.toUpperCase())).get(Seccion.valueOf(dtoAsiento.seccion.toUpperCase())).get(dtoAsiento.nFila).get(dtoAsiento.nAsiento).setOcupado(true);
 		}
 	}
 }

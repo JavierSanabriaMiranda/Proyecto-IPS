@@ -20,4 +20,6 @@ public interface CampaniaAccionistasCRUDService {
 	void addAccionistaEnCampania(String idAccionista, String codCampania, int numAccionesIniciales);
 
 	void actualizarAccionistaEnCampania(AccionistaEnCampaniaDTO dtoAccCamp);
+
+	float getPrecioTotal(String codigoCampania);
 }
