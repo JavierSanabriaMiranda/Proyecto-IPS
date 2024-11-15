@@ -5,7 +5,7 @@ import java.util.Date;
 import backend.service.horarios.FranjaTiempo;
 
 public class Partido {
-
+	
 	private Date fecha;
 	private FranjaTiempo horario;
 	

@@ -14,9 +14,12 @@ import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -117,14 +120,23 @@ public class VentanaPartidos extends JFrame {
 		}
 		return lblEquipoVisitante;
 	}
-	private JComboBox<Equipo> getCbEquiposLocales() {
+	public JComboBox<Equipo> getCbEquiposLocales() {
 		if (cbEquiposLocales == null) {
 			cbEquiposLocales = new JComboBox<Equipo>();
 			cbEquiposLocales.setBounds(72, 179, 202, 34);
+			
+			DefaultComboBoxModel<Equipo> model = new DefaultComboBoxModel<>();
+	        List<Equipo> equipos = gps.getEquipo();
+	        for (Equipo equipo : equipos) {
+	            model.addElement(equipo);
+	        }
+	        
+	        // Establecer el modelo en el comboBox
+	        cbEquiposLocales.setModel(model);
 		}
 		return cbEquiposLocales;
 	}
-	private JTextField getTxtEquipoVisitante() {
+	public JTextField getTxtEquipoVisitante() {
 		if (txtEquipoVisitante == null) {
 			txtEquipoVisitante = new JTextField();
 			txtEquipoVisitante.setBounds(396, 178, 227, 36);
@@ -184,7 +196,7 @@ public class VentanaPartidos extends JFrame {
 		}
 		return lblHoraInicio;
 	}
-	private JSpinner getSpHoraInicio() {
+	public JSpinner getSpHoraInicio() {
 		if (spHoraInicio == null) {
 			SpinnerDateModel spinnerModel = new SpinnerDateModel();
 	        spHoraInicio = new JSpinner(spinnerModel);
@@ -206,7 +218,7 @@ public class VentanaPartidos extends JFrame {
 		}
 		return spHoraInicio;
 	}
-	private JButton getBtnCrearPartido() {
+	public JButton getBtnCrearPartido() {
 		if (btnCrearPartido == null) {
 			btnCrearPartido = new JButton("Crear Partido");
 			btnCrearPartido.setForeground(new Color(255, 255, 255));
@@ -215,7 +227,7 @@ public class VentanaPartidos extends JFrame {
 		}
 		return btnCrearPartido;
 	}
-	private JButton getBtnAtras() {
+	public JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atrás");
 			btnAtras.setForeground(new Color(255, 255, 255));
@@ -224,7 +236,7 @@ public class VentanaPartidos extends JFrame {
 		}
 		return btnAtras;
 	}
-	private JCheckBox getChckbxPartidoEspecial() {
+	public JCheckBox getChckbxPartidoEspecial() {
 		if (chckbxPartidoEspecial == null) {
 			chckbxPartidoEspecial = new JCheckBox("Partido Especial");
 			chckbxPartidoEspecial.setFont(new Font("Tahoma", Font.PLAIN, 13));

@@ -299,4 +299,18 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		return null;
 	}
 
+	
+	
+	//-----------Creación de Partidos -----------------------
+	
+
+	@Override
+	public List<Equipo> getEquipos() {
+		List<Equipo> equiposCopia = new ArrayList<>();
+		for (Equipo equipo : equipos) {
+			equiposCopia.add(equipo);
+		}
+		return equiposCopia;
+	}
+
 }
