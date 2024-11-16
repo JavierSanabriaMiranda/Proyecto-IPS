@@ -1,10 +1,14 @@
 package shared.gestionequipos.partidos;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import backend.data.CreadorDataService;
+import backend.data.empleados.DtoAssembler;
+import backend.data.empleados.EmpleadoDeportivoDTO;
+import backend.data.empleados.EmpleadosCRUDService;
 import backend.data.entrevistas.EntrevistaCRUDImpl;
 import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
@@ -12,6 +16,7 @@ import backend.data.equipos.command.DtoAssemblerEquipo;
 import backend.data.partidos.PartidoDTO;
 import backend.data.partidos.PartidosCRUDImpl;
 import backend.data.partidos.PartidosCRUDService;
+import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.deportivos.Jugador;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.equipos.Equipo;
@@ -19,6 +24,7 @@ import backend.service.equipos.EquipoEnFormacion;
 import backend.service.equipos.EquipoProfesional;
 import backend.service.eventos.Partido;
 import backend.service.horarios.FranjaTiempo;
+import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionequipos.GestorEquipos;
 import util.DateToLocalTimeConverter;
 
@@ -28,9 +34,11 @@ public class GestionPartidosShared {
 	private GestorEquipos gestorEquipos = new Gerente();
 	EntrevistaCRUDService serviceEntrevista = new EntrevistaCRUDImpl();
 	PartidosCRUDService servicePartidos = new PartidosCRUDImpl();
+	EmpleadosCRUDService serviceEmp = CreadorDataService.getEmpleadosService();
 	
 	public GestionPartidosShared() {
 		cargarEquipos();
+		cargarEmpleadosDeportivos();
 	}
 
 	private void cargarEquipos() {
@@ -45,6 +53,27 @@ public class GestionPartidosShared {
 				.dtoToEquipoEnFormacion(serviceEquip.cargarEquipoEnFormacion());
 		for (EquipoEnFormacion equipo : equiposFor) {
 			gestorEquipos.addEquipo(equipo);
+		}
+	}
+	
+	private void cargarEmpleadosDeportivos() {
+		List<EmpleadoDeportivo> lista = new ArrayList<EmpleadoDeportivo>();
+		List<EmpleadoDeportivoDTO> empDeportivosDtos = serviceEmp.cargarEmpleadosDeportivos();
+		for (EmpleadoDeportivoDTO dto : empDeportivosDtos) {
+			Equipo equipo = gestorEquipos.getEquipoByID(dto.id_equipo);
+			EmpleadoDeportivo emp = DtoAssembler.dtoToEmpleadoDeportivo(dto);
+			emp.setEquipo(equipo);
+			if (emp.getPuesto().equals(PuestoEmpleado.JUGADOR) && equipo != null)
+				emp.addJugadorAEquipo(emp);
+			lista.add(emp);
+		}
+
+		cargarEmpleadosDeportivosEnGestor(lista);
+	}
+
+	private void cargarEmpleadosDeportivosEnGestor(List<EmpleadoDeportivo> empleadosDeportivos) {
+		for (EmpleadoDeportivo emp : empleadosDeportivos) {
+			gestorEquipos.addEmpleadoDeportivo(emp);
 		}
 	}
 	
