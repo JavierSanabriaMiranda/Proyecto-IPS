@@ -22,6 +22,10 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 	private JTextField txNombre;
 	private JButton btCancelar;
 	private JButton btAceptar;
+	private JLabel lbUsuario;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JLabel lbPassword;
 
 	/**
 	 * Create the frame.
@@ -29,7 +33,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 	public FrameRegistrarNuevoAccionista() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 449, 212);
+		setBounds(100, 100, 449, 326);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -42,6 +46,10 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		contentPane.add(getTxNombre());
 		contentPane.add(getBtCancelar());
 		contentPane.add(getBtAceptar());
+		contentPane.add(getLbUsuario());
+		contentPane.add(getTextField());
+		contentPane.add(getTextField_1());
+		contentPane.add(getLbPassword());
 	}
 	private JTextPane getTxtpnParaRegistrarseComo() {
 		if (txtpnParaRegistrarseComo == null) {
@@ -66,7 +74,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 			txNombre = new JTextField();
 			txNombre.setFont(new Font("Arial", Font.PLAIN, 12));
 			txNombre.setColumns(10);
-			txNombre.setBounds(121, 77, 176, 32);
+			txNombre.setBounds(134, 77, 222, 32);
 		}
 		return txNombre;
 	}
@@ -74,7 +82,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.setFont(new Font("Arial", Font.PLAIN, 12));
-			btCancelar.setBounds(334, 136, 89, 23);
+			btCancelar.setBounds(336, 255, 89, 23);
 		}
 		return btCancelar;
 	}
@@ -82,8 +90,42 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		if (btAceptar == null) {
 			btAceptar = new JButton("Aceptar");
 			btAceptar.setFont(new Font("Arial", Font.PLAIN, 12));
-			btAceptar.setBounds(235, 136, 89, 23);
+			btAceptar.setBounds(230, 255, 89, 23);
 		}
 		return btAceptar;
+	}
+	private JLabel getLbUsuario() {
+		if (lbUsuario == null) {
+			lbUsuario = new JLabel("Nombre Usuario:");
+			lbUsuario.setFont(new Font("Arial", Font.PLAIN, 13));
+			lbUsuario.setBounds(63, 140, 107, 14);
+		}
+		return lbUsuario;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setFont(new Font("Arial", Font.PLAIN, 12));
+			textField.setColumns(10);
+			textField.setBounds(180, 131, 176, 32);
+		}
+		return textField;
+	}
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setFont(new Font("Arial", Font.PLAIN, 12));
+			textField_1.setColumns(10);
+			textField_1.setBounds(145, 183, 211, 32);
+		}
+		return textField_1;
+	}
+	private JLabel getLbPassword() {
+		if (lbPassword == null) {
+			lbPassword = new JLabel("Contraseña:");
+			lbPassword.setFont(new Font("Arial", Font.PLAIN, 13));
+			lbPassword.setBounds(63, 192, 107, 14);
+		}
+		return lbPassword;
 	}
 }
