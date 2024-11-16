@@ -10,6 +10,8 @@ import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.command.DtoAssemblerEquipo;
 import backend.data.partidos.PartidoDTO;
+import backend.data.partidos.PartidosCRUDImpl;
+import backend.data.partidos.PartidosCRUDService;
 import backend.service.empleados.deportivos.Jugador;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.equipos.Equipo;
@@ -25,6 +27,7 @@ public class GestionPartidosShared {
 	EquipoCRUDService serviceEquip = CreadorDataService.getEquiposService();
 	private GestorEquipos gestorEquipos = new Gerente();
 	EntrevistaCRUDService serviceEntrevista = new EntrevistaCRUDImpl();
+	PartidosCRUDService servicePartidos = new PartidosCRUDImpl();
 	
 	public GestionPartidosShared() {
 		cargarEquipos();
@@ -77,7 +80,7 @@ public class GestionPartidosShared {
 		dto.tieneSuplemento = partido.isEspecial();
 		dto.visitante = partido.getVisitante();
 		
-		//servicePartidos.addPartido(dto);
+		servicePartidos.addPartido(dto);
 	}
 
 	private void borraEntrevistaYFranjaDeBBDD(FranjaTiempo horario, Equipo equipo) {
