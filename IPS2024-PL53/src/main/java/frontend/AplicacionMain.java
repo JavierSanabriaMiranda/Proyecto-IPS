@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
@@ -162,6 +163,14 @@ public class AplicacionMain {
             inicializarReservas();
         });
         ventasMenu.add(reservasInstalaciones);
+        
+        // Opción "Compra de abonos"
+        JMenuItem compraAbonos = new JMenuItem("Compra de Abonos");
+        compraAbonos.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarAbonos();
+        });
+        ventasMenu.add(compraAbonos);
 
         // Menú "Equipos"
         JMenu equiposMenu = new JMenu("Equipos");
@@ -382,6 +391,12 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
     	gfpc.initController();
     	gfpc.cargarCampaniaEnCurso();
+    }
+    
+    private void inicializarAbonos() {
+    	VentanaAbonos frame = new VentanaAbonos();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
     }
 
     // Método para configurar el comportamiento al cerrar ventanas
