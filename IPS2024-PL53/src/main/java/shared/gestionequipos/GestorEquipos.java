@@ -29,5 +29,4 @@ public interface GestorEquipos {
 	
 	List<Equipo> getEquipos();
 	
-	
 }

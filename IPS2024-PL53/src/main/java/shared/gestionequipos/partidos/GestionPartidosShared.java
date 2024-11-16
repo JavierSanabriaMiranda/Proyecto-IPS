@@ -2,18 +2,23 @@ package shared.gestionequipos.partidos;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import backend.data.CreadorDataService;
 import backend.data.entrevistas.EntrevistaCRUDImpl;
 import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.command.DtoAssemblerEquipo;
+import backend.data.partidos.PartidoDTO;
+import backend.service.empleados.deportivos.Jugador;
 import backend.service.empleados.nodeportivos.Gerente;
 import backend.service.equipos.Equipo;
 import backend.service.equipos.EquipoEnFormacion;
 import backend.service.equipos.EquipoProfesional;
+import backend.service.eventos.Partido;
 import backend.service.horarios.FranjaTiempo;
 import shared.gestionequipos.GestorEquipos;
+import util.DateToLocalTimeConverter;
 
 public class GestionPartidosShared {
 	
@@ -44,13 +49,43 @@ public class GestionPartidosShared {
 		return gestorEquipos.getEquipos();
 	}
 	
-	
-	public void addPartido(Equipo equipo, String visitante, Date fecha, FranjaTiempo franja, boolean isEspecial) {
-		
-	}
-
 	public Equipo buscaEquipo(String idEquipo) {
 		return gestorEquipos.getEquipoByID(idEquipo);
 	}
+	
+	public void addPartido(Equipo equipo, String visitante, Date fecha, FranjaTiempo franja, boolean isEspecial) {
+		String idPartido = UUID.randomUUID().toString();
+		Partido partido = new Partido(fecha, franja, visitante, isEspecial, idPartido, equipo.getIdEquipo());
+		
+		//Añado el partido a la lista de partidos del equipo
+		equipo.getPartidos().add(partido);
+		
+		//Añado el partido a la BDD
+		addPartidoABBDD(partido);
+		
+		//Borro si existe alguna entrevista o franja que coincida con el entrenamiento
+		borraEntrevistaYFranjaDeBBDD(franja, equipo);
+	}
+	
+	private void addPartidoABBDD(Partido partido) {
+		PartidoDTO dto = new PartidoDTO();
+		dto.fecha = partido.getFecha();
+		dto.horaFin = DateToLocalTimeConverter.combinarFechaYHora(partido.getFecha(), partido.getHorario().getHoraFin());
+		dto.horaInicio = DateToLocalTimeConverter.combinarFechaYHora(partido.getFecha(), partido.getHorario().getHoraInicio());
+		dto.id = partido.getIdPartido();
+		dto.idEquipo = partido.getIdEquipoLocal();
+		dto.tieneSuplemento = partido.isEspecial();
+		dto.visitante = partido.getVisitante();
+		
+		//servicePartidos.addPartido(dto);
+	}
+
+	private void borraEntrevistaYFranjaDeBBDD(FranjaTiempo horario, Equipo equipo) {
+		for(Jugador jugador : equipo.getJugadores()) {
+			serviceEntrevista.deleteEntrevistaYFranjaPorHora(horario, jugador.getIDEmpleado());
+		}
+	}
+
+	
 
 }

@@ -57,7 +57,7 @@ public class FindAllPartidos {
 	}
 
 	public PartidoDTO toDto(ResultSet rs) throws SQLException {
-		PartidoDTO res = new PartidoDTO();
+		PartidoDTO res = new PartidoDTO(); 
 		res.id = rs.getString("id_partido");
 		
 		res.horaInicio = rs.getTime("hora_inicio");
