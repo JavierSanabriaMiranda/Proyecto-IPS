@@ -1,5 +1,7 @@
 package shared.gestioncampania;
 
+import java.security.MessageDigest;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -8,6 +10,7 @@ import backend.service.ventas.campanaAccionistas.Accionista;
 import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameRegistrarNuevoAccionista;
+import util.CifradorDePassword;
 
 public class GestionFrameParticiparCampania {
 
@@ -255,16 +258,24 @@ public class GestionFrameParticiparCampania {
 
 	private void comprobarDatosCorrectosRegistro() {
 		String nombre = viewRegistro.getTxNombre().getText();
-		if (nombre.isBlank())
+		String nombreUsuario = viewRegistro.getTxNombreUsuario().getText();
+		char[] password = viewRegistro.getPasswordField().getPassword();
+		if (nombre.isBlank() || nombreUsuario.isBlank() || password.length == 0)
 			JOptionPane.showMessageDialog(viewRegistro, "Se deben rellenar todos los campos", "Error en registro",
 					JOptionPane.ERROR_MESSAGE);
+		else if (gesCam.nombreUsuarioYaRegistrado(nombreUsuario)) {
+			JOptionPane.showMessageDialog(viewRegistro, "Este nombre de usuario ya está registrado,"
+					+ " introduzca otro", "Error en registro",
+					JOptionPane.ERROR_MESSAGE);
+		}
 		else {
-			registrarNuevoAccionistaEnBDD(nombre);
+            String passwordCifrada = CifradorDePassword.cifrarPassword(password);
+			registrarNuevoAccionistaEnBDD(nombre, nombreUsuario, passwordCifrada);
 		}
 	}
 
-	private void registrarNuevoAccionistaEnBDD(String nombre) {
-		gesCam.registrarClienteComoNuevoAccionista(nombre);
+	private void registrarNuevoAccionistaEnBDD(String nombre, String nombreUsuario, String passwordCifrada) {
+		gesCam.registrarClienteComoNuevoAccionista(nombre, nombreUsuario, passwordCifrada);
 		JOptionPane.showMessageDialog(viewRegistro, "Se ha registrado correctamente como accionista",
 				"Registro Completado", JOptionPane.INFORMATION_MESSAGE);
 		cerrarVentanaRegistro();

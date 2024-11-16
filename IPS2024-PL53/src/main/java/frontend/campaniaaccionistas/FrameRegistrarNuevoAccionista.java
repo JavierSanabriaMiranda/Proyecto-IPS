@@ -9,6 +9,7 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 
 public class FrameRegistrarNuevoAccionista extends JFrame {
 
@@ -23,9 +24,9 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 	private JButton btCancelar;
 	private JButton btAceptar;
 	private JLabel lbUsuario;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txNombreUsuario;
 	private JLabel lbPassword;
+	private JPasswordField passwordField;
 
 	/**
 	 * Create the frame.
@@ -47,9 +48,9 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		contentPane.add(getBtCancelar());
 		contentPane.add(getBtAceptar());
 		contentPane.add(getLbUsuario());
-		contentPane.add(getTextField());
-		contentPane.add(getTextField_1());
+		contentPane.add(getTxNombreUsuario());
 		contentPane.add(getLbPassword());
+		contentPane.add(getPasswordField());
 	}
 	private JTextPane getTxtpnParaRegistrarseComo() {
 		if (txtpnParaRegistrarseComo == null) {
@@ -74,7 +75,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 			txNombre = new JTextField();
 			txNombre.setFont(new Font("Arial", Font.PLAIN, 12));
 			txNombre.setColumns(10);
-			txNombre.setBounds(134, 77, 222, 32);
+			txNombre.setBounds(142, 77, 214, 32);
 		}
 		return txNombre;
 	}
@@ -102,23 +103,14 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		}
 		return lbUsuario;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setFont(new Font("Arial", Font.PLAIN, 12));
-			textField.setColumns(10);
-			textField.setBounds(180, 131, 176, 32);
+	public JTextField getTxNombreUsuario() {
+		if (txNombreUsuario == null) {
+			txNombreUsuario = new JTextField();
+			txNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+			txNombreUsuario.setColumns(10);
+			txNombreUsuario.setBounds(180, 131, 176, 32);
 		}
-		return textField;
-	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setFont(new Font("Arial", Font.PLAIN, 12));
-			textField_1.setColumns(10);
-			textField_1.setBounds(145, 183, 211, 32);
-		}
-		return textField_1;
+		return txNombreUsuario;
 	}
 	private JLabel getLbPassword() {
 		if (lbPassword == null) {
@@ -127,5 +119,12 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 			lbPassword.setBounds(63, 192, 107, 14);
 		}
 		return lbPassword;
+	}
+	public JPasswordField getPasswordField() {
+		if (passwordField == null) {
+			passwordField = new JPasswordField();
+			passwordField.setBounds(142, 183, 214, 32);
+		}
+		return passwordField;
 	}
 }
