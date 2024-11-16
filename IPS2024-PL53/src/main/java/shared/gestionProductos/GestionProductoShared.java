@@ -19,6 +19,7 @@ import backend.data.productos.ProductoCRUDService;
 import backend.data.productos.ProductoDTO;
 import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDService;
+import backend.service.ventas.merchandising.CrearFactura;
 import backend.service.ventas.merchandising.EnviarCorreo;
 import backend.service.ventas.merchandising.Producto;
 import backend.service.ventas.merchandising.VentaMerchandising;
@@ -127,6 +128,7 @@ public class GestionProductoShared {
 		}
 		saveOrder(list, codCompra, ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
 		enviarCorreo();
+		crearFactura();
 		initView();	
 	}
 	
@@ -147,6 +149,20 @@ public class GestionProductoShared {
 		EnviarCorreo en = new EnviarCorreo(ventaMerchandising, remitente);
 		en.enviarMensaje();
 	}
+	
+	private void crearFactura() {
+	    String codCompra = ventaMerchandising.getCodCompra();
+	    List<Producto> productos = ventaMerchandising.getProductos();
+	    float precioTotal = ventaMerchandising.getPrecioTotal();
+	    
+	    // Ruta relativa al directorio de trabajo actual
+	    String filePath = "src/main/resources/facturas/factura_" + codCompra + ".pdf";		
+
+	    // Generar la factura
+	    CrearFactura.crearFactura(filePath, codCompra,view.getTfCorreo().getText(), productos, precioTotal);
+	}
+
+
 
 	private void createProductPanels(List<ProductoDTO> productos) {
 	    // Limpiar el panel de productos

@@ -73,7 +73,10 @@ public class GestionVentanaSeleccion {
 			JOptionPane.showMessageDialog(null, "Gracias por la compra.\n" + getEntradasCompradas());
 			cerrarVentana();
 		} else {
-			JOptionPane.showMessageDialog(null, "No se pueden reservar tantos asientos contiguos.");
+			if((int) view.getSpAsientos().getValue()==1)
+				JOptionPane.showMessageDialog(null, "No hay asientos en esta tribuna y sección.");
+			else
+				JOptionPane.showMessageDialog(null, "No se pueden reservar tantos asientos contiguos.");
 		}
 		
 	}
