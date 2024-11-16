@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -36,6 +37,22 @@ public class VentanaAbonos extends JFrame {
 	private JPanel pnSeccion;
 	private JLabel lbSeccion;
 	private JComboBox<String> cbSeccion;
+	private JPanel pnFila;
+	private JLabel lbFila;
+	private JComboBox<String> cbFila;
+	private JPanel pnNAsiento;
+	private JLabel lbAsiento;
+	private JComboBox<String> cbAsiento;
+	private JPanel pnInfo;
+	private JPanel pnBotones;
+	private JButton btSalir;
+	private JButton btSiguiente;
+	private JTextField tfPrecio;
+	private JPanel pn2;
+	private JPanel pnResumen;
+	private JPanel pnInfoAbono;
+	private JLabel lbResumen;
+	private JTextArea taResumen;
 	private JPanel pnDatos;
 	private JPanel pnDNI;
 	private JLabel lbDNI;
@@ -45,11 +62,10 @@ public class VentanaAbonos extends JFrame {
 	private JRadioButton rdAdulto;
 	private JRadioButton rdJuvilado;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JPanel pnInfo;
-	private JPanel pnBotones;
-	private JButton btSalir;
-	private JButton btSiguiente;
-	private JTextField tfPrecio;
+	private JPanel pnInfo2;
+	private JPanel pnBotones2;
+	private JButton btAnterior;
+	private JButton btConfirmar;
 
 	/**
 	 * Create the frame.
@@ -67,6 +83,7 @@ public class VentanaAbonos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout());
 		contentPane.add(getPn1(),"pn1");
+		contentPane.add(getPn2(), "pn2");
 	}
 	
 	private JPanel getPn1() {
@@ -101,8 +118,7 @@ public class VentanaAbonos extends JFrame {
 			pnRegistro = new JPanel();
 			pnRegistro.setBackground(Color.WHITE);
 			pnRegistro.setLayout(new BorderLayout(0, 10));
-			pnRegistro.add(getPnAsiento(), BorderLayout.NORTH);
-			pnRegistro.add(getPnDatos(),BorderLayout.CENTER);			
+			pnRegistro.add(getPnAsiento(), BorderLayout.CENTER);		
 		}
 		return pnRegistro;
 	}
@@ -110,9 +126,11 @@ public class VentanaAbonos extends JFrame {
 		if (pnAsiento == null) {
 			pnAsiento = new JPanel();
 			pnAsiento.setBackground(new Color(255, 255, 255));
-			pnAsiento.setLayout(new GridLayout(2, 1, 0, 5));
+			pnAsiento.setLayout(new GridLayout(4, 1, 0, 5));
 			pnAsiento.add(getPnTribuna());
 			pnAsiento.add(getPnSeccion());
+			pnAsiento.add(getPnFila());
+			pnAsiento.add(getPnNAsiento());
 		}
 		return pnAsiento;
 	}
@@ -129,6 +147,7 @@ public class VentanaAbonos extends JFrame {
 	private JLabel getLbTribuna() {
 		if (lbTribuna == null) {
 			lbTribuna = new JLabel("Tribuna:");
+			lbTribuna.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			lbTribuna.setBackground(new Color(255, 255, 255));
 		}
 		return lbTribuna;
@@ -154,6 +173,7 @@ public class VentanaAbonos extends JFrame {
 	private JLabel getLbSeccion() {
 		if (lbSeccion == null) {
 			lbSeccion = new JLabel("Sección:");
+			lbSeccion.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			lbSeccion.setBackground(new Color(255, 255, 255));
 		}
 		return lbSeccion;
@@ -165,6 +185,161 @@ public class VentanaAbonos extends JFrame {
 			cbSeccion.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return cbSeccion;
+	}
+	
+	private JPanel getPnFila() {
+		if (pnFila == null) {
+			pnFila = new JPanel();
+			pnFila.setBackground(new Color(255, 255, 255));
+			pnFila.setLayout(new BorderLayout(0, 0));
+			pnFila.add(getLbFila(), BorderLayout.NORTH);
+			pnFila.add(getCbFila(), BorderLayout.CENTER);
+		}
+		return pnFila;
+	}
+	private JLabel getLbFila() {
+		if (lbFila == null) {
+			lbFila = new JLabel("Fila:");
+			lbFila.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lbFila.setBackground(new Color(255, 255, 255));
+		}
+		return lbFila;
+	}
+	public JComboBox<String> getCbFila() {
+		if (cbFila == null) {
+			cbFila = new JComboBox<String>();
+			cbFila.setModel(new DefaultComboBoxModel<String>(rellenarFilas()));
+			cbFila.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return cbFila;
+	}
+	
+	private String[] rellenarFilas() {
+		String[] filas = new String[10];
+		for(int i=0;i<filas.length;i++) {
+			filas[i]=String.valueOf(i);
+		}
+		return filas;
+	}
+	
+	private JPanel getPnNAsiento() {
+		if (pnNAsiento == null) {
+			pnNAsiento = new JPanel();
+			pnNAsiento.setBackground(new Color(255, 255, 255));
+			pnNAsiento.setLayout(new BorderLayout(0, 0));
+			pnNAsiento.add(getLbAsiento(), BorderLayout.NORTH);
+			pnNAsiento.add(getCbAsiento(), BorderLayout.CENTER);
+		}
+		return pnNAsiento;
+	}
+	private JLabel getLbAsiento() {
+		if (lbAsiento == null) {
+			lbAsiento = new JLabel("Asiento:");
+			lbAsiento.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lbAsiento.setBackground(new Color(255, 255, 255));
+		}
+		return lbAsiento;
+	}
+	public JComboBox<String> getCbAsiento() {
+		if (cbAsiento == null) {
+			cbAsiento = new JComboBox<String>();
+			cbAsiento.setModel(new DefaultComboBoxModel<String>(rellenarAsientos()));
+			cbAsiento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return cbAsiento;
+	}
+	
+	private String[] rellenarAsientos() {
+		String[] asientos = new String[15];
+		for(int i=0;i<asientos.length;i++) {
+			asientos[i]=String.valueOf(i);
+		}
+		return asientos;
+	}
+	
+	private JPanel getPnInfo() {
+		if (pnInfo == null) {
+			pnInfo = new JPanel();
+			pnInfo.setBackground(Color.WHITE);
+			pnInfo.setLayout(new BorderLayout(0, 0));
+			pnInfo.add(getPnBotones(), BorderLayout.EAST);
+		}
+		return pnInfo;
+	}
+	private JPanel getPnBotones() {
+		if (pnBotones == null) {
+			pnBotones = new JPanel();
+			pnBotones.setBackground(new Color(255, 255, 255));
+			pnBotones.setLayout(new GridLayout(0, 2, 10, 0));
+			pnBotones.add(getBtSalir());
+			pnBotones.add(getBtSiguiente());
+		}
+		return pnBotones;
+	}
+	private JButton getBtSalir() {
+		if (btSalir == null) {
+			btSalir = new JButton("Salir");
+			btSalir.setBackground(Color.RED);
+			btSalir.setForeground(Color.WHITE);
+			btSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
+		}
+		return btSalir;
+	}
+	private JButton getBtSiguiente() {
+		if (btSiguiente == null) {
+			btSiguiente = new JButton("Siguiente");
+			btSiguiente.setForeground(new Color(255, 255, 255));
+			btSiguiente.setBackground(new Color(60, 179, 113));
+			btSiguiente.setFont(new Font("Tahoma", Font.BOLD, 13));
+		}
+		return btSiguiente;
+	}
+	private JPanel getPn2() {
+		if (pn2 == null) {
+			pn2 = new JPanel();
+			pn2.setBackground(Color.WHITE);
+			pn2.setLayout(new BorderLayout(0, 0));
+			pn2.add(getPnInfo2(), BorderLayout.SOUTH);
+			pn2.add(getPnResumen(),BorderLayout.CENTER);
+		}
+		return pn2;
+	}
+	private JPanel getPnResumen() {
+		if (pnResumen == null) {
+			pnResumen = new JPanel();
+			pnResumen.setBackground(new Color(255, 255, 255));
+			pnResumen.setLayout(new GridLayout(2,1,0,10));
+			pnResumen.add(getPnInfoAbono());
+			pnResumen.add(getPnDatos());
+		}
+		return pnResumen;
+	}
+	
+	private JPanel getPnInfoAbono() {
+		if (pnInfoAbono == null) {
+			pnInfoAbono = new JPanel();
+			pnInfoAbono.setBackground(new Color(255, 255, 255));
+			pnInfoAbono.setLayout(new BorderLayout(0,10));
+			pnInfoAbono.add(getLbResumen(), BorderLayout.NORTH);
+			pnInfoAbono.add(getTaResumen(), BorderLayout.CENTER);
+		}
+		return pnInfoAbono;
+	}
+	private JLabel getLbResumen() {
+		if (lbResumen == null) {
+			lbResumen = new JLabel("Resumen del abono:");
+			lbResumen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lbResumen.setBackground(new Color(255, 255, 255));
+		}
+		return lbResumen;
+	}
+	private JTextArea getTaResumen() {
+		if (taResumen == null) {
+			taResumen = new JTextArea();
+			taResumen.setEditable(false);
+			taResumen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		}
+		return taResumen;
 	}
 	private JPanel getPnDatos() {
 		if (pnDatos == null) {
@@ -237,46 +412,17 @@ public class VentanaAbonos extends JFrame {
 		}
 		return rdJuvilado;
 	}
-	private JPanel getPnInfo() {
-		if (pnInfo == null) {
-			pnInfo = new JPanel();
-			pnInfo.setBackground(Color.WHITE);
-			pnInfo.setLayout(new BorderLayout(0, 0));
-			pnInfo.add(getPnBotones(), BorderLayout.EAST);
-			pnInfo.add(getTfPrecio(), BorderLayout.CENTER);
-		}
-		return pnInfo;
-	}
-	private JPanel getPnBotones() {
-		if (pnBotones == null) {
-			pnBotones = new JPanel();
-			pnBotones.setBackground(new Color(255, 255, 255));
-			pnBotones.setLayout(new GridLayout(0, 2, 0, 0));
-			pnBotones.add(getBtSalir());
-			pnBotones.add(getBtSiguiente());
-		}
-		return pnBotones;
-	}
-	private JButton getBtSalir() {
-		if (btSalir == null) {
-			btSalir = new JButton("Salir");
-			btSalir.setBackground(Color.RED);
-			btSalir.setForeground(Color.WHITE);
-			btSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
-		}
-		return btSalir;
-	}
-	private JButton getBtSiguiente() {
-		if (btSiguiente == null) {
-			btSiguiente = new JButton("Siguiente");
-			btSiguiente.setEnabled(false);
-			btSiguiente.setForeground(new Color(255, 255, 255));
-			btSiguiente.setBackground(new Color(60, 179, 113));
-			btSiguiente.setFont(new Font("Tahoma", Font.BOLD, 13));
-		}
-		return btSiguiente;
-	}
 	
+	private JPanel getPnInfo2() {
+		if (pnInfo2 == null) {
+			pnInfo2 = new JPanel();
+			pnInfo2.setBackground(Color.WHITE);
+			pnInfo2.setLayout(new BorderLayout(0, 0));
+			pnInfo2.add(getTfPrecio(), BorderLayout.CENTER);
+			pnInfo2.add(getPnBotones2(), BorderLayout.EAST);
+		}
+		return pnInfo2;
+	}
 	private JTextField getTfPrecio() {
 		if (tfPrecio == null) {
 			tfPrecio = new JTextField();
@@ -287,5 +433,33 @@ public class VentanaAbonos extends JFrame {
 			tfPrecio.setColumns(10);
 		}
 		return tfPrecio;
+	}
+	private JPanel getPnBotones2() {
+		if (pnBotones2 == null) {
+			pnBotones2 = new JPanel();
+			pnBotones2.setBackground(new Color(255, 255, 255));
+			pnBotones2.setLayout(new GridLayout(0, 2, 10, 0));
+			pnBotones2.add(getBtAnterior());
+			pnBotones2.add(getBtConfirmar());
+		}
+		return pnBotones2;
+	}
+	private JButton getBtAnterior() {
+		if (btAnterior == null) {
+			btAnterior = new JButton("Anterior");
+			btAnterior.setBackground(new Color(60, 179, 113));
+			btAnterior.setForeground(new Color(255, 255, 255));
+			btAnterior.setFont(new Font("Tahoma", Font.BOLD, 13));
+		}
+		return btAnterior;
+	}
+	private JButton getBtConfirmar() {
+		if (btConfirmar == null) {
+			btConfirmar = new JButton("Confirmar");
+			btConfirmar.setForeground(new Color(255, 255, 255));
+			btConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
+			btConfirmar.setBackground(new Color(60, 179, 113));
+		}
+		return btConfirmar;
 	}
 }
