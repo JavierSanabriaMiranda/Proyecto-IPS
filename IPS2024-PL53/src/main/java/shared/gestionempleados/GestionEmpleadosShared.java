@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import backend.data.CreadorDataService;
 import backend.data.empleados.DtoAssembler;
 import backend.data.empleados.EmpleadoDTO;
 import backend.data.empleados.EmpleadoDeportivoDTO;
 import backend.data.empleados.EmpleadosCRUDService;
+import backend.data.usuarios.UsuarioDTO;
+import backend.data.usuarios.UsuariosCRUDService;
 import backend.service.empleados.Empleado;
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.empleados.EmpleadoNoDeportivo;
@@ -29,7 +32,8 @@ import shared.gestionempleados.creadores.CreadorVendedorAbonos;
 
 public class GestionEmpleadosShared {
 	
-	EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+	private EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
+	private UsuariosCRUDService serviceUsuarios = CreadorDataService.getUsuariosService();
 	private GestorEmpleados gestor = new Gerente();
 	private CreadorEmpleadoDeportivo creadorDep;
 	private CreadorEmpleadoNoDeportivo creadorNoDep;
@@ -47,6 +51,7 @@ public class GestionEmpleadosShared {
 				PuestoEmpleado.GESTOR_INSTALACIONES, new CreadorGestorInstalaciones(),
 				PuestoEmpleado.VENDEDOR_ABONOS, new CreadorVendedorAbonos()
 			);
+	private String idEmpleadoNuevo;
 	
 	public GestionEmpleadosShared() {
 		cargarEmpleadosDeLaBBDD();
@@ -125,9 +130,9 @@ public class GestionEmpleadosShared {
 	private void addEmpleadoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorDep = creadoresDep.get(puesto);
-		String id = gestor.addNuevoEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
-		
-		addEmpleadoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
+		gestor.addNuevoEmpleadoDeportivo(creadorDep.getEmpleado(nombre, apellido, DNI, telefono, 
+				fechaNac, salario), idEmpleadoNuevo);
+		addEmpleadoDeportivoBBDD(idEmpleadoNuevo, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 	}
 	
 	private void addEmpleadoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono, Date fechaNac,
@@ -152,9 +157,9 @@ public class GestionEmpleadosShared {
 	private void addEmpleadoNoDeportivo(String nombre, String apellido, String DNI, String telefono, Date fechaNac,
 			double salario, PuestoEmpleado puesto) {
 		creadorNoDep = creadoresNoDep.get(puesto);
-		String id = gestor.addNuevoEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, fechaNac, salario));
-		
-		addEmpleadoNoDeportivoBBDD(id, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
+		gestor.addNuevoEmpleadoNoDeportivo(creadorNoDep.getEmpleado(nombre, apellido, DNI, telefono, 
+				fechaNac, salario), idEmpleadoNuevo);
+		addEmpleadoNoDeportivoBBDD(idEmpleadoNuevo, nombre, apellido, DNI, telefono, fechaNac, salario, puesto);
 	}
 
 	private void addEmpleadoNoDeportivoBBDD(String id, String nombre, String apellido, String DNI, String telefono,
@@ -224,6 +229,33 @@ public class GestionEmpleadosShared {
 	public static List<EmpleadoDTO> getAllJugadoresProfesionales() {
 		EmpleadosCRUDService service = CreadorDataService.getEmpleadosService();
 		return service.findJugadoresProfesionales();
+	}
+
+	public boolean nombreUsuarioYaRegistrado(String nombreUsuario) {
+		Optional<UsuarioDTO> optDto = serviceUsuarios.findUsuarioByNombre(nombreUsuario);
+		if (optDto.isEmpty())
+			return false;
+		return true;
+	}
+
+	public void registrarEmpleadoComoUsuario(String nombreUsuario, String passwordCifrada) {
+		UsuarioDTO dto = new UsuarioDTO();
+		idEmpleadoNuevo = gestor.generarIDEmpleado();
+		dto.id = idEmpleadoNuevo;
+		dto.nombreUsuario = nombreUsuario;
+		dto.password = passwordCifrada;
+		serviceUsuarios.addUsuario(dto);
+			
+	}
+
+	public boolean isDniYaRegistrado(String dni) {
+		Optional<EmpleadoDeportivoDTO> optDtoDep = service.findEmpleadoDeportivoByDNI(dni);
+		if (optDtoDep.isPresent())
+			return true;
+		Optional<EmpleadoDTO> optDtoNoDep = service.findEmpleadoNoDeportivoByDNI(dni);
+		if (optDtoNoDep.isPresent())
+			return true;
+		return false;
 	}
 
 }

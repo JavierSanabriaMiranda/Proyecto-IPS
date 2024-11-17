@@ -2,6 +2,7 @@ package shared.gestioncampania;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import backend.data.CreadorDataService;
 import backend.data.acciones.AccionDTO;
@@ -12,6 +13,8 @@ import backend.data.campaniaaccionistas.AccionistaEnCampaniaDTO;
 import backend.data.campaniaaccionistas.CampaniaAccionistasCRUDService;
 import backend.data.campaniaaccionistas.CampaniaDTO;
 import backend.data.campaniaaccionistas.DtoAssembler;
+import backend.data.usuarios.UsuarioDTO;
+import backend.data.usuarios.UsuariosCRUDService;
 import backend.service.ventas.campanaAccionistas.Accion;
 import backend.service.ventas.campanaAccionistas.Accionista;
 import backend.service.ventas.campanaAccionistas.CampaniaAccionistas;
@@ -22,6 +25,7 @@ public class GestionCampaniaShared {
 	private CampaniaAccionistasCRUDService serviceCampania = CreadorDataService.getCampaniasService();
 	private AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
 	private AccionesCRUDService serviceAcciones = CreadorDataService.getAccionesService();
+	private UsuariosCRUDService serviceUsuarios = CreadorDataService.getUsuariosService();
 	private String dniClienteNoRegistrado;
 
 
@@ -139,16 +143,26 @@ public class GestionCampaniaShared {
 		return gestor.getAccionista();
 	}
 
-	public void registrarClienteComoNuevoAccionista(String nombre) {
+	public void registrarClienteComoNuevoAccionista(String nombre, String nombreUsuario, String passwordCifrada) {
 		Accionista acc = new Accionista(dniClienteNoRegistrado, nombre);
 		acc.setIdAccionista(gestor.addNuevoAccionista(acc)); 
+		
+		registrarNuevoAccionistaComoUsuario(acc.getIdAccionista(), nombreUsuario, passwordCifrada);
 		
 		AccionistaDTO dtoAcc = backend.data.accionistas.DtoAssembler.toDto(acc);
 		serviceAccionista.addNuevoAccionista(dtoAcc);
 		
-		CampaniaAccionistas campania = gestor.getCampania();
 		
+		CampaniaAccionistas campania = gestor.getCampania();
 		serviceCampania.addAccionistaEnCampania(acc.getIdAccionista(), campania.getCodigoCampania(), 0);
+	}
+
+	private void registrarNuevoAccionistaComoUsuario(String id, String nombreUsuario, String passwordCifrada) {
+		UsuarioDTO dtoUsuario = new UsuarioDTO();
+		dtoUsuario.id = id;
+		dtoUsuario.nombreUsuario = nombreUsuario;
+		dtoUsuario.password = passwordCifrada;
+		serviceUsuarios.addUsuario(dtoUsuario);
 	}
 
 	public void comprarAcciones(int numAcciones) {
@@ -186,6 +200,13 @@ public class GestionCampaniaShared {
 			return false;
 		else
 			return gestor.getAccionesInicialesAccionista()-gestor.getNumAccionesCompradasAccionista() == 0;
+	}
+
+	public boolean nombreUsuarioYaRegistrado(String nombreUsuario) {
+		Optional<UsuarioDTO> optDto = serviceUsuarios.findUsuarioByNombre(nombreUsuario);
+		if (optDto.isEmpty())
+			return false;
+		return true;
 	}
 
 	

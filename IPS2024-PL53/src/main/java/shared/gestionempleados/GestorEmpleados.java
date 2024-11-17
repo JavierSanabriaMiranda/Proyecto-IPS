@@ -14,20 +14,18 @@ public interface GestorEmpleados {
 	
 	/**
 	 * Añade el empleado nuevo a la lista de empleados deportivos y le asigna
-	 * un id propio
+	 * el id 
 	 * 
 	 * @param emp empleado a añadir
-	 * @return id generado para el nuevo empleado
 	 */
-	String addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp);
+	void addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp, String id);
 	
 	/**
 	 * Añade el empleado a la lista de empleados NO deportivos y le asigna
-	 * un id propio
+	 * el id
 	 * @param emp empleado a añadir
-	 * @return id generado para el nuevo empleado
 	 */
-	String addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp);
+	void addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp, String id);
 	
 	/**
 	 * Añade un empleado que ya tiene ID a la lista de empleados deportivos 
@@ -52,4 +50,10 @@ public interface GestorEmpleados {
 	List<EmpleadoNoDeportivo> getEmpleadosNoDeportivos();
 
 	void eliminarEmpleado(String idEmpleado);
+
+	EmpleadoDeportivo getEmpleadoDeportivo(String idEmpleadoNuevo);
+
+	EmpleadoNoDeportivo getEmpleadoNoDeportivo(String idEmpleadoNuevo);
+
+	String generarIDEmpleado();
 }
