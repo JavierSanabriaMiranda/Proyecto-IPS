@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import backend.service.eventos.Partido;
+import shared.gestionentrada.abonados.GestionEntradasAbonadosShared;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -30,27 +31,14 @@ public class VentanaInicioAbonados extends JFrame {
 	private JButton btnComprar;
 	private JTextPane textInfo;
 	private JButton btnAtras;
+	private GestionEntradasAbonadosShared geas;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaInicioAbonados frame = new VentanaInicioAbonados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaInicioAbonados() {
+	public VentanaInicioAbonados(GestionEntradasAbonadosShared geas) {
+		this.geas = geas;
 		setTitle("Compra de entradas para abonados");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 594, 486);
@@ -77,7 +65,7 @@ public class VentanaInicioAbonados extends JFrame {
 		}
 		return lblCodAbono;
 	}
-	private JTextField getTxtCodAbono() {
+	public JTextField getTxtCodAbono() {
 		if (txtCodAbono == null) {
 			txtCodAbono = new JTextField();
 			txtCodAbono.setBounds(33, 50, 265, 30);
@@ -93,7 +81,7 @@ public class VentanaInicioAbonados extends JFrame {
 		}
 		return scPartidos;
 	}
-	private JList<Partido> getListPartidos() {
+	public JList<Partido> getListPartidos() {
 		if (listPartidos == null) {
 			listPartidos = new JList<Partido>();
 		}
@@ -108,7 +96,7 @@ public class VentanaInicioAbonados extends JFrame {
 		}
 		return lblPartidos;
 	}
-	private JButton getBtnComprar() {
+	public JButton getBtnComprar() {
 		if (btnComprar == null) {
 			btnComprar = new JButton("Comprar");
 			btnComprar.setBounds(464, 408, 106, 30);
@@ -124,11 +112,15 @@ public class VentanaInicioAbonados extends JFrame {
 		}
 		return textInfo;
 	}
-	private JButton getBtnAtras() {
+	public JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atras");
 			btnAtras.setBounds(10, 408, 106, 30);
 		}
 		return btnAtras;
+	}
+
+	public GestionEntradasAbonadosShared getGeas() {
+		return geas;
 	}
 }

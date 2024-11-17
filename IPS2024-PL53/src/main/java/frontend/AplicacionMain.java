@@ -25,6 +25,7 @@ import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
+import frontend.entradaUI.abonados.VentanaInicioAbonados;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
@@ -46,6 +47,8 @@ import shared.gestioncampania.GestionFrameCrearCampaniaShared;
 import shared.gestioncampania.GestionFrameParticiparCampania;
 import shared.gestionempleados.GestionFrameEmpleadosShared;
 import shared.gestionentrada.GestionEntradaShared;
+import shared.gestionentrada.abonados.GestionEntradasAbonadosShared;
+import shared.gestionentrada.abonados.GestionPanelEntradasAbonadosShared;
 import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
@@ -165,6 +168,14 @@ public class AplicacionMain {
             inicializarReservas();
         });
         ventasMenu.add(reservasInstalaciones);
+        
+     // Opción "Reservar instalaciones"
+        JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
+        entradasAbonados.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarEntradasEspecialesAbonados();
+        });
+        ventasMenu.add(entradasAbonados);
 
         // Menú "Equipos"
         JMenu equiposMenu = new JMenu("Equipos");
@@ -401,6 +412,16 @@ public class AplicacionMain {
     	GestionPanelPartidosShared gpps = new GestionPanelPartidosShared(frame);
     	configurarCierreVentana(frame);
     	gpps.initController();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+    
+    private void inicializarEntradasEspecialesAbonados() {
+    	GestionEntradasAbonadosShared geas = new GestionEntradasAbonadosShared();
+    	VentanaInicioAbonados frame = new VentanaInicioAbonados(geas);
+    	GestionPanelEntradasAbonadosShared gpeas = new GestionPanelEntradasAbonadosShared(frame);
+    	configurarCierreVentana(frame);
+    	gpeas.initController();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
     }
