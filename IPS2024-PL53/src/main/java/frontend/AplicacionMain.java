@@ -36,6 +36,7 @@ import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
 import frontend.portalAccionistas.PortalAccionistas;
 import frontend.reservaUI.VentanaPrincipalReserva;
+import shared.gestionAbonos.GestionVentaAbonos;
 import shared.gestionAcciones.GestionPortalAccionistasShared;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
@@ -395,6 +396,8 @@ public class AplicacionMain {
     
     private void inicializarAbonos() {
     	VentanaAbonos frame = new VentanaAbonos();
+    	GestionVentaAbonos gva = new GestionVentaAbonos(frame);
+    	gva.initController();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
     }

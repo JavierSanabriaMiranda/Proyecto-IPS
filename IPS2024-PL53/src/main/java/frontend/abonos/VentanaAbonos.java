@@ -25,7 +25,7 @@ import frontend.merchandisingUI.VentanaPrincipal;
 
 public class VentanaAbonos extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JPanel pn1;
 	private JLabel lbTitulo;
 	private JLabel fotoEstadio;
@@ -86,7 +86,7 @@ public class VentanaAbonos extends JFrame {
 		contentPane.add(getPn2(), "pn2");
 	}
 	
-	private JPanel getPn1() {
+	public JPanel getPn1() {
 		if(pn1 == null) {
 			pn1 = new JPanel();
 			pn1.setBackground(Color.WHITE);
@@ -99,7 +99,7 @@ public class VentanaAbonos extends JFrame {
 		return pn1;
 	}
 
-	private JLabel getLbTitulo() {
+	public JLabel getLbTitulo() {
 		if (lbTitulo == null) {
 			lbTitulo = new JLabel("ABONO TEMPORADA 2024/2025");
 			lbTitulo.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -276,7 +276,7 @@ public class VentanaAbonos extends JFrame {
 		}
 		return pnBotones;
 	}
-	private JButton getBtSalir() {
+	public JButton getBtSalir() {
 		if (btSalir == null) {
 			btSalir = new JButton("Salir");
 			btSalir.setBackground(Color.RED);
@@ -285,7 +285,7 @@ public class VentanaAbonos extends JFrame {
 		}
 		return btSalir;
 	}
-	private JButton getBtSiguiente() {
+	public JButton getBtSiguiente() {
 		if (btSiguiente == null) {
 			btSiguiente = new JButton("Siguiente");
 			btSiguiente.setForeground(new Color(255, 255, 255));
@@ -294,7 +294,7 @@ public class VentanaAbonos extends JFrame {
 		}
 		return btSiguiente;
 	}
-	private JPanel getPn2() {
+	public JPanel getPn2() {
 		if (pn2 == null) {
 			pn2 = new JPanel();
 			pn2.setBackground(Color.WHITE);
@@ -327,17 +327,18 @@ public class VentanaAbonos extends JFrame {
 	}
 	private JLabel getLbResumen() {
 		if (lbResumen == null) {
-			lbResumen = new JLabel("Resumen del abono:");
-			lbResumen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lbResumen = new JLabel("\nResumen del abono:");
+			lbResumen.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			lbResumen.setBackground(new Color(255, 255, 255));
 		}
 		return lbResumen;
 	}
-	private JTextArea getTaResumen() {
+	public JTextArea getTaResumen() {
 		if (taResumen == null) {
-			taResumen = new JTextArea();
+			taResumen =  new JTextArea();
+			taResumen.setBorder(null);
 			taResumen.setEditable(false);
-			taResumen.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			taResumen.setFont(new Font("Arial", Font.PLAIN, 14));
 		}
 		return taResumen;
 	}
@@ -364,11 +365,11 @@ public class VentanaAbonos extends JFrame {
 	private JLabel getLbDNI() {
 		if (lbDNI == null) {
 			lbDNI = new JLabel("DNI:");
-			lbDNI.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lbDNI.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 		return lbDNI;
 	}
-	private JTextField getTfDNI() {
+	public JTextField getTfDNI() {
 		if (tfDNI == null) {
 			tfDNI = new JTextField();
 			tfDNI.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -388,25 +389,29 @@ public class VentanaAbonos extends JFrame {
 		}
 		return pnEdad;
 	}
-	private JRadioButton getRdMenor() {
+	public JRadioButton getRdMenor() {
 		if (rdMenor == null) {
 			rdMenor = new JRadioButton("Menor (Menos de 18 años)");
+			rdMenor.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonGroup.add(rdMenor);
 			rdMenor.setBackground(new Color(255, 255, 255));
 		}
 		return rdMenor;
 	}
-	private JRadioButton getRdAdulto() {
+	public JRadioButton getRdAdulto() {
 		if (rdAdulto == null) {
 			rdAdulto = new JRadioButton("Adulto");
+			rdAdulto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			rdAdulto.setSelected(true);
 			buttonGroup.add(rdAdulto);
 			rdAdulto.setBackground(new Color(255, 255, 255));
 		}
 		return rdAdulto;
 	}
-	private JRadioButton getRdJuvilado() {
+	public JRadioButton getRdJuvilado() {
 		if (rdJuvilado == null) {
 			rdJuvilado = new JRadioButton("Juvilado (65 años o más)");
+			rdJuvilado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonGroup.add(rdJuvilado);
 			rdJuvilado.setBackground(new Color(255, 255, 255));
 		}
@@ -423,12 +428,12 @@ public class VentanaAbonos extends JFrame {
 		}
 		return pnInfo2;
 	}
-	private JTextField getTfPrecio() {
+	public JTextField getTfPrecio() {
 		if (tfPrecio == null) {
 			tfPrecio = new JTextField();
-			tfPrecio.setText("    Precio del abono: ");
+			tfPrecio.setText("");
 			tfPrecio.setBackground(new Color(255, 255, 255));
-			tfPrecio.setFont(new Font("Tahoma", Font.BOLD, 13));
+			tfPrecio.setFont(new Font("Tahoma", Font.BOLD, 15));
 			tfPrecio.setEditable(false);
 			tfPrecio.setColumns(10);
 		}
@@ -444,7 +449,7 @@ public class VentanaAbonos extends JFrame {
 		}
 		return pnBotones2;
 	}
-	private JButton getBtAnterior() {
+	public JButton getBtAnterior() {
 		if (btAnterior == null) {
 			btAnterior = new JButton("Anterior");
 			btAnterior.setBackground(new Color(60, 179, 113));
@@ -453,9 +458,10 @@ public class VentanaAbonos extends JFrame {
 		}
 		return btAnterior;
 	}
-	private JButton getBtConfirmar() {
+	public JButton getBtConfirmar() {
 		if (btConfirmar == null) {
 			btConfirmar = new JButton("Confirmar");
+			btConfirmar.setEnabled(false);
 			btConfirmar.setForeground(new Color(255, 255, 255));
 			btConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			btConfirmar.setBackground(new Color(60, 179, 113));

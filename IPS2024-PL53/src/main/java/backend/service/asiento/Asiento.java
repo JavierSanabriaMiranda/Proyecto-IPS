@@ -1,7 +1,6 @@
-package backend.service.ventas.entrada;
+package backend.service.asiento;
 
 public class Asiento {
-
 	private Tribuna tribuna;
 	private Seccion seccion;
 	private int fila;
@@ -39,7 +38,4 @@ public class Asiento {
 	public void setOcupado(boolean ocupado) {
 		this.ocupado = ocupado;		
 	}
-	
-	
-	
 }

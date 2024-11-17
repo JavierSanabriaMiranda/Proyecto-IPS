@@ -177,6 +177,9 @@ DELETE FROM ASIENTO;
 INSERT INTO ASIENTO VALUES 
 	('A0001', 'A', 'A', 0, 0);
 
+
+
+
 -- Insertar datos en la tabla ENTRADA (relacionadas con las ventas)
 DELETE FROM ENTRADA;
 INSERT INTO ENTRADA VALUES
