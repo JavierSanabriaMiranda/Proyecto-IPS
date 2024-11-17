@@ -8,6 +8,7 @@ import backend.data.partidos.commands.AddPartido;
 import backend.data.partidos.commands.FindAllPartidos;
 import backend.data.partidos.commands.FindIdByFechaInicioFin;
 import backend.data.partidos.commands.FindPartidoByIdEquipoRangoHora;
+import backend.data.partidos.commands.FindPartidosConSuplemento;
 
 public class PartidosCRUDImpl implements PartidosCRUDService {
 
@@ -30,6 +31,11 @@ public class PartidosCRUDImpl implements PartidosCRUDService {
 	public void addPartido(PartidoDTO dto) {
 		new AddPartido(dto).execute();
 		
+	}
+
+	@Override
+	public List<PartidoDTO> findPartidosConSuplemento() {
+		return new FindPartidosConSuplemento().execute();
 	}
 
 }

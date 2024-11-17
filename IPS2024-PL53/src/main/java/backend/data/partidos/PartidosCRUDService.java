@@ -13,4 +13,6 @@ public interface PartidosCRUDService {
 	List<PartidoDTO> findPartidoByIdEquipoRangoHora(String idEquipo, Date fecha, Time inicio, Time fin);
 
 	void addPartido(PartidoDTO dto);
+	
+	List<PartidoDTO> findPartidosConSuplemento();
 }

@@ -53,4 +53,12 @@ public class Partido {
 	public boolean isEspecial() {
 		return isEspecial;
 	}
+
+
+	@Override
+	public String toString() {
+		return idEquipoLocal + "\t Vs. \t" + visitante;
+	}
+	
+	
 }

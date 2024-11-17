@@ -16,6 +16,7 @@ import backend.service.empleados.EmpleadoNoDeportivoBase;
 import backend.service.empleados.GeneradorIDEmpleado;
 import backend.service.equipos.Equipo;
 import backend.service.equipos.GeneradorIDEquipo;
+import backend.service.eventos.Partido;
 import backend.service.ventas.Venta;
 import backend.service.empleados.nodeportivos.horarios.Turno;
 import backend.service.empleados.nodeportivos.horarios.TurnoPuntual;
@@ -23,12 +24,13 @@ import backend.service.empleados.nodeportivos.horarios.TurnoSemanal;
 import shared.gestionempleados.GestorEmpleados;
 import shared.gestionempleados.PuestoEmpleado;
 import shared.gestionequipos.GestorEquipos;
+import shared.gestionequipos.partidos.GestorPartidos;
 import shared.gestioninstalaciones.GerenteVentas;
 import shared.gestionjardineria.GestorJardineros;
 import shared.gestionhorarios.GestorHorarios;
 
 public class Gerente extends EmpleadoNoDeportivoBase
-		implements GestorEmpleados, GerenteVentas, GestorEquipos, GestorHorarios, GestorJardineros {
+		implements GestorEmpleados, GerenteVentas, GestorEquipos, GestorHorarios, GestorJardineros, GestorPartidos {
 
 	/**
 	 * Diccionario de empleados no deportivos cuya clave es el ID del empleado
@@ -51,6 +53,7 @@ public class Gerente extends EmpleadoNoDeportivoBase
 
 	private List<Equipo> equipos = new ArrayList<Equipo>();
 
+	private List<Partido> partidosConSuplemento = new ArrayList<>();
 	/**
 	 * Constructor que sirve para instanciar gerentes utilizados como almacenamiento
 	 * de datos
@@ -313,4 +316,20 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		return equiposCopia;
 	}
 
+	
+	
+	//---------- entradas con suplemento para abonados ---------------
+
+	@Override
+	public void addPartidoConSuplemento(Partido partido) {
+		this.partidosConSuplemento.add(partido);
+	}
+
+	public List<Partido> getPartidosConSuplemento() {
+		List<Partido> partidosSupCopia = new ArrayList<>();
+		for (Partido par: partidosConSuplemento) {
+			partidosSupCopia.add(par);
+		}
+		return partidosSupCopia;
+	}
 }

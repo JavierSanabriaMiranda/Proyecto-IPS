@@ -1,7 +1,5 @@
 package frontend.entradaUI.abonados;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,12 +10,16 @@ import shared.gestionentrada.abonados.GestionEntradasAbonadosShared;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 
 public class VentanaInicioAbonados extends JFrame {
 
@@ -83,7 +85,12 @@ public class VentanaInicioAbonados extends JFrame {
 	}
 	public JList<Partido> getListPartidos() {
 		if (listPartidos == null) {
-			listPartidos = new JList<Partido>();
+			listPartidos = new JList<>(new DefaultListModel<>()); // Inicializa con DefaultListModel
+			DefaultListModel<Partido> listModel = (DefaultListModel<Partido>) listPartidos.getModel();
+			listModel.clear(); // Limpia el modelo actual
+			List<Partido> listaPartidos = geas.getPartidosConSuplemento();
+			listModel.addAll(listaPartidos);
+			listPartidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
 		return listPartidos;
 	}
