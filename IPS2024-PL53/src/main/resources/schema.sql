@@ -252,7 +252,7 @@ CREATE TABLE ABONO_TEMPORADA(
 );
 
 CREATE TABLE PARTIDO (
-    ID_PARTIDO varchar(10),
+    ID_PARTIDO varchar(50),
     HORA_FIN time,
     HORA_INICIO time,
     FECHA date,
