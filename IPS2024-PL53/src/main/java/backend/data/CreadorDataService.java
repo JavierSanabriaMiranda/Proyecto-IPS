@@ -1,7 +1,7 @@
 package backend.data;
 
-import backend.data.acciones.AccionesCRUDImpl;
-import backend.data.acciones.AccionesCRUDService;
+import backend.data.abonos.AbonosCRUDImpl;
+import backend.data.abonos.AbonosCRUDService;
 import backend.data.acciones.AccionesCRUDImpl;
 import backend.data.acciones.AccionesCRUDService;
 import backend.data.accionistas.AccionistasCRUDImpl;
@@ -102,7 +102,11 @@ public class CreadorDataService {
 	public static AsientosCRUDService getAsientosService() {
 		return new AsientosCRUDImpl();
 	}
-
+	
+	public static AbonosCRUDService getAbonosService() {
+		return new AbonosCRUDImpl();
+	}
+	
 	public static UsuariosCRUDService getUsuariosService() {
 		return new UsuariosCRUDImpl();
 	}

@@ -1,11 +1,8 @@
 package shared.gestionentrada;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -13,27 +10,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import backend.data.CreadorDataService;
-import backend.data.asientos.AsientoDTO;
-import backend.data.asientos.AsientosCRUDService;
-import backend.data.entradas.EntradaDTO;
-import backend.data.entradas.EntradasCRUDService;
-import backend.service.ventas.entrada.Entrada;
-import backend.service.ventas.entrada.Seccion;
-import backend.service.ventas.entrada.Tribuna;
+import backend.data.partidos.PartidoDTO;
+import backend.data.partidos.PartidosCRUDService;
 import frontend.SwingUtil;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entradaUI.VentanaSeleccionEntradas;
-import shared.gestionpartido.GestionPartidoShared;
 
 public class GestionEntradaShared {
-	
-	EntradasCRUDService service = CreadorDataService.getEntradaService();
-	AsientosCRUDService serviceAsiento = CreadorDataService.getAsientosService();
-
-	private Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio;
-	private String idPartido;
 	private VentanaPrincipalEntrada view;
-	private Date[][] datos;
+	String partidoId;
 	
 	public GestionEntradaShared(VentanaPrincipalEntrada view) {
 		this.view=view;
@@ -66,7 +51,7 @@ public class GestionEntradaShared {
 	private void mostrarVentanaSeleccion() {
 		seleccionarPartido();
 		VentanaSeleccionEntradas vSE = new VentanaSeleccionEntradas();
-		GestionVentanaSeleccion gvs = new GestionVentanaSeleccion(vSE,estadio,idPartido,view);
+		GestionVentanaSeleccion gvs = new GestionVentanaSeleccion(vSE,partidoId,view);
 		gvs.initController();
 		vSE.setVisible(true);
 		view.setVisible(false);
@@ -74,13 +59,11 @@ public class GestionEntradaShared {
 	
 	private void seleccionarPartido() {
 		int row = view.getTablePartidos().getSelectedRow();
-		Date fecha = datos[row][0];
-		Time inicio = new Time(datos[row][1].getTime());
-		Time fin = new Time(datos[row][2].getTime());
-		GestionPartidoShared gps = new GestionPartidoShared();
-		String partidoId = gps.getIdPartidoByFechaInicioFin(fecha, inicio, fin);
-		inicializarMap();
-		setPartidoId(partidoId);	
+		Date fecha = (Date) view.getTablePartidos().getValueAt(row, 0);
+		Time inicio = (Time) view.getTablePartidos().getValueAt(row, 1);
+		Time fin = (Time) view.getTablePartidos().getValueAt(row, 2);
+		PartidosCRUDService service = CreadorDataService.getPartidosService();
+		partidoId = service.findIdByFechaInicioFin(fecha, inicio, fin);	
 	}
 	
 	private String[] creaColumnas() {
@@ -89,53 +72,17 @@ public class GestionEntradaShared {
 	}
 	
 	private Date[][] cargaDatos() {
-		GestionPartidoShared gps = new GestionPartidoShared();
-		this.datos = gps.getTodosPartidos();
-		return datos;
-	}
-	
-	private void setPartidoId(String idPartido) {
-		this.idPartido = idPartido;
-		cargarMap();
-	}
-	
-	private void inicializarMap() {
-		this.estadio = new HashMap<>();
-		// Tribunas (a-d)
-		for (Tribuna tribuna : Tribuna.values()) {
-            estadio.put(tribuna, new HashMap<>());
-
-            // Secciones (a-f)
-            for (Seccion seccion : Seccion.values()) {
-                estadio.get(tribuna).put(seccion, new ArrayList<>());
-
-                // Filas (0-9)
-                for (int fila = 0; fila <= 9; fila++) {
-                    List<Entrada> asientosFila = new ArrayList<>();
-
-                    // Asientos (0-14)
-                    for (int asiento = 0; asiento <= 14; asiento++) {
-                        Entrada entrada = new Entrada(tribuna, seccion, fila, asiento);
-                        asientosFila.add(entrada);
-                    }
-
-                    estadio.get(tribuna).get(seccion).add(asientosFila);
-                }
-            }
-        }
+		PartidosCRUDService service = CreadorDataService.getPartidosService();
+		List<PartidoDTO> partidos = service.findAllPartidos();
 		
-	}
-	
-	private void cargarMap() {
+		Date[][] partidosFechas = new Date[partidos.size()][3];
 		
-		List<EntradaDTO> entradasEnBBDD = service.findByIDPartidoEntrada(idPartido);
-		
-		
-		for (EntradaDTO entrada : entradasEnBBDD) {
-			AsientoDTO dtoAsiento = serviceAsiento.findByIdAsiento(entrada.idAsiento);
+		for (int i = 0 ; i < partidos.size() ; i++) {
+			partidosFechas[i][0] = partidos.get(i).fecha; 
+			partidosFechas[i][1] = partidos.get(i).horaInicio; 
+			partidosFechas[i][2] = partidos.get(i).horaFin; 
 			
-			estadio.get(Tribuna.valueOf(dtoAsiento.tribuna.toUpperCase())).get(Seccion.valueOf(dtoAsiento.seccion.toUpperCase())).get(dtoAsiento.nFila).get(dtoAsiento.nAsiento).setCodEntrada(entrada.cod_entrada);
-			estadio.get(Tribuna.valueOf(dtoAsiento.tribuna.toUpperCase())).get(Seccion.valueOf(dtoAsiento.seccion.toUpperCase())).get(dtoAsiento.nFila).get(dtoAsiento.nAsiento).setOcupado(true);
 		}
+		return partidosFechas;
 	}
 }

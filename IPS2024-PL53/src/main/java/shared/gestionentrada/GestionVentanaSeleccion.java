@@ -1,9 +1,8 @@
-package shared.gestionentrada;
+ package shared.gestionentrada;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.swing.JOptionPane;
@@ -20,32 +19,27 @@ import backend.data.entradas.EntradasCRUDService;
 import backend.data.ventas.VentaDto;
 import backend.data.ventas.VentasCRUDService;
 import backend.service.ventas.entrada.Entrada;
-import backend.service.ventas.entrada.Seccion;
-import backend.service.ventas.entrada.Tribuna;
 import frontend.SwingUtil;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entradaUI.VentanaSeleccionEntradas;
 
 public class GestionVentanaSeleccion {
 	private VentanaSeleccionEntradas view;
-	private Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio;
 	private String idPartido;
-	private List<Entrada> entradasReservar;
+	private List<Entrada> entradas;
 	VentanaPrincipalEntrada ventanaPrincipalEntrada;
 	
-	public GestionVentanaSeleccion(VentanaSeleccionEntradas view, Map<Tribuna, Map<Seccion, List<List<Entrada>>>> estadio,
-			String idPartido, VentanaPrincipalEntrada v) {
+	public GestionVentanaSeleccion(VentanaSeleccionEntradas view, String idPartido, VentanaPrincipalEntrada v) {
 		this.view = view;
-		this.estadio = estadio;
 		this.idPartido = idPartido;
-		this.entradasReservar = new ArrayList<>();
+		entradas = new ArrayList<Entrada>();
 		this.ventanaPrincipalEntrada=v;
 	}
 
 	public void initController() {
-		view.getBtContinuar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionContinuar()));
+		view.getBtContinuar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> accionFinalizar()));
 		
-		view.getBtCancelar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentana()));
+		view.getBtAnterior().addActionListener(e -> SwingUtil.exceptionWrapper(() -> mostrarVentanaAnterior()));
 		
 		view.getTxDni().getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -64,131 +58,123 @@ public class GestionVentanaSeleccion {
             }
         });
     }
-
-	private void accionContinuar() {
-		if (checkIfCanBook()) {
-			List<AsientoDTO> asientos = addAsientoBBDD();
-			addEntradasBBDD(view.getTxDni().getText(), asientos);
-			
-			JOptionPane.showMessageDialog(null, "Gracias por la compra.\n" + getEntradasCompradas());
+	
+	private void accionFinalizar() {
+		int[] filaAsiento = canBook();
+		if(filaAsiento[0]!=-1) {
+			añadirTodoBBDD(filaAsiento[0], filaAsiento[1]);
+			mostrarMensaje(filaAsiento[0], filaAsiento[1]);
 			cerrarVentana();
-		} else {
-			if((int) view.getSpAsientos().getValue()==1)
-				JOptionPane.showMessageDialog(null, "No hay asientos en esta tribuna y sección.");
+		}else {
+			if((int)view.getSpAsientos().getValue()==1)
+				JOptionPane.showMessageDialog(null, "No hay ningun asiento libre en la tribuna y seccion indicada",
+						"Error en la Reserva",JOptionPane.INFORMATION_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(null, "No se pueden reservar tantos asientos contiguos.");
+				JOptionPane.showMessageDialog(null, "No hay tantos asientos contiguos libres en la tribuna y seccion indicada",
+						"Error en la Reserva",JOptionPane.INFORMATION_MESSAGE);
 		}
-		
 	}
 
-	private boolean checkIfCanBook() {
+	private int[] canBook() {
 		String tribuna = (String) view.getCbTribuna().getSelectedItem();
 		String seccion = (String) view.getCbSeccion().getSelectedItem();
-		int nAsientos = (int) view.getSpAsientos().getValue();
-		return canReservarAsientos(tribuna, seccion, nAsientos);
-	}
-	
-	// True si se pueden se pueden reservar n asientos
-	public boolean canReservarAsientos(String tribuna, String seccion, int n) {
-		entradasReservar = buscarAsientosConsecutivos(tribuna, seccion, n);
-		return entradasReservar != null;
-	}
-	
-	private List<Entrada> buscarAsientosConsecutivos(String trib, String sec, int n) {
-		Tribuna tribuna = Tribuna.valueOf(trib.toUpperCase());
-		Seccion seccion = Seccion.valueOf(sec.toUpperCase());
-        if (!estadio.containsKey(tribuna) || !estadio.get(tribuna).containsKey(seccion)) {
-            System.out.println("La tribuna o la sección no existen.");
-        }
-
-        // Recorre cada fila de la sección dada
-        for (List<Entrada> fila : estadio.get(tribuna).get(seccion)) {
-            List<Entrada> asientosLibresConsecutivos = new ArrayList<>();
-
-            // Recorre cada asiento de la fila
-            for (Entrada asiento : fila) {
-                if (!asiento.isOcupado()) {
-                    asientosLibresConsecutivos.add(asiento); // Añade el asiento libre a la lista
-
-                    // Si ya encontramos `n` asientos consecutivos, los devolvemos
-                    if (asientosLibresConsecutivos.size() == n) {
-                        return asientosLibresConsecutivos;
-                    }
-                } else {
-                    asientosLibresConsecutivos.clear(); // Si encontramos un asiento ocupado, reiniciamos la lista
-                }
-            }
-        }
-        return null;
-    }
-	
-	public void addEntradasBBDD(String dni, List<AsientoDTO> asientos) {
-		EntradasCRUDService service = CreadorDataService.getEntradaService();
-		for (Entrada entrada : entradasReservar) {
-			int nAsiento = entrada.getAsiento();
-			AsientoDTO asiento = null;
-			
-			for (AsientoDTO dto : asientos) {
-				if (dto.nAsiento == nAsiento) {
-					asiento = dto;
-					break;
-				}
-			}
-			if (asiento == null)
-				throw new IllegalStateException("Hay una entrada con un asiento que no se ha registrado");
-			
-			EntradaDTO e = new EntradaDTO(
-			entrada.getCodEntrada(),
-			idPartido,
-			asiento.idAsiento,
-			entrada.PRECIO);
-			
-			crearVentasParaEntrada(e, dni);
-			service.addEntrada(e);
-		}
-	}
-	
-	private List<AsientoDTO> addAsientoBBDD() {
-		AsientosCRUDService service = CreadorDataService.getAsientosService();
-		List<AsientoDTO> asientos = new ArrayList<>();
-		for (Entrada entrada : entradasReservar) {
-			AsientoDTO dtoA = new AsientoDTO();
-			dtoA.nAsiento = entrada.getAsiento();
-			dtoA.nFila = entrada.getFila();
-			dtoA.seccion = entrada.getSeccion().toString();
-			dtoA.tribuna = entrada.getTribuna().toString();
-			dtoA.idAsiento = UUID.randomUUID().toString();
-			asientos.add(dtoA);
-			service.addAsiento(dtoA);
-		}
-		return asientos;
-	}
-	
-	private void crearVentasParaEntrada(EntradaDTO entrada, String dni) {
-		ClientesCRUDService serviceClientes = CreadorDataService.getClientesService();
-		serviceClientes.addCliente(new ClienteDTO(dni,""));
-		VentasCRUDService serviceVentas = CreadorDataService.getVentasService();
-		serviceVentas.addVentas(new VentaDto(entrada.cod_entrada,dni,new Date(),entrada.coste));
-	}
-	
-	public String getEntradasCompradas() {
-		String res = "";
+		int nAsientos = (int)view.getSpAsientos().getValue();
+		return comprobarAsientosLibres(tribuna,seccion,nAsientos);
 		
-		for (Entrada e : entradasReservar) {
-			res += "Entrada: Tribuna("+e.getTribuna()+") Sección("+e.getSeccion()+") "
-					+ "Fila("+e.getFila()+") Asiento("+e.getAsiento()+")\n";
-		}
-		return res;
+	}
+
+	private int[] comprobarAsientosLibres(String tribuna, String seccion, int nAsientos) {
+	    for (int fila = 0; fila < 10; fila++) {
+	        int asientosLibres = 0;
+	        int asientoInicio = -1;
+	        entradas.clear(); 
+	        for (int asiento = 0; asiento < 15; asiento++) {
+	            if (!isAsientoOcupadoPorAbono(tribuna,seccion,fila,asiento) && !isAsientoOcupadoPorEntrada(tribuna,seccion,fila,asiento)) {
+	                if (asientosLibres == 0)
+	                    asientoInicio = asiento;
+	                asientosLibres++;
+	                entradas.add(new Entrada());
+	                if (asientosLibres == nAsientos)
+	                    return new int[]{fila, asientoInicio};
+	            } else {
+	                asientosLibres = 0;
+	                asientoInicio = -1;
+	                entradas.clear();
+	            }
+	        } 
+	    }
+	    return new int[]{-1, -1};
+	}
+
+	private boolean isAsientoOcupadoPorAbono(String tribuna, String seccion,int fila, int asiento) {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		String idAsiento = service.findEqualAsiento(tribuna, seccion, String.valueOf(fila), String.valueOf(asiento)).idAsiento;
+		return service.isAsientoOcupadoPorAbono(idAsiento);
 	}
 	
+	private boolean isAsientoOcupadoPorEntrada(String tribuna, String seccion,int fila, int asiento) {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		String idAsiento = service.findEqualAsiento(tribuna, seccion, String.valueOf(fila), String.valueOf(asiento)).idAsiento;
+		return service.isAsientoOcupadoPorEntrada(idAsiento,idPartido);
+	}
+	
+	private void añadirTodoBBDD(int fila, int asiento) {
+		añadirCliente();
+		añadirVentas();
+		añadirAsientosYEntradas(fila, asiento);
+	}
+
+	private void añadirCliente() {
+		ClientesCRUDService serviceClientes = CreadorDataService.getClientesService();
+		serviceClientes.addCliente(new ClienteDTO(view.getTxDni().getText(),""));
+	}
+
+	private void añadirVentas() {
+		VentasCRUDService serviceVentas = CreadorDataService.getVentasService();
+		for(Entrada e : entradas)
+			serviceVentas.addVentas(new VentaDto(e.getCodEntrada(),view.getTxDni().getText(),new Date(),e.PRECIO));
+	}
+	
+	private void añadirAsientosYEntradas(int fila, int asiento) {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		EntradasCRUDService service2 = CreadorDataService.getEntradaService();
+		for(Entrada e : entradas) {
+			AsientoDTO asientoDTO = new AsientoDTO(
+					UUID.randomUUID().toString(),
+					(String) view.getCbTribuna().getSelectedItem(),
+					(String) view.getCbSeccion().getSelectedItem(),
+					fila,
+					asiento);
+			service.addAsiento(asientoDTO);
+			service2.addEntrada(new EntradaDTO(e.getCodEntrada(),idPartido,asientoDTO.idAsiento));
+		}
+	}
+
+	private void mostrarMensaje(int fila, int asiento) {
+		JOptionPane.showMessageDialog(null, mostrarEntradasSeleccionadas(fila, asiento), "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private String mostrarEntradasSeleccionadas(int fila, int asiento) {
+		String mensaje="Gracias por la compra!\n";
+		for(int i=0; i<(int)view.getSpAsientos().getValue();i++) {
+			mensaje+="Entrada "+(i+1)+": Tribuna("+view.getCbTribuna().getSelectedItem()+"), Sección("+
+					view.getCbSeccion().getSelectedItem()+"), Fila("+fila+"), Asiento("+(asiento+i)+")\n";
+		}
+		return mensaje;
+	}
+
 	private void cerrarVentana() {
 		view.dispose();
 		ventanaPrincipalEntrada.setVisible(true);  
 		ventanaPrincipalEntrada.dispose();
 	}
 	
+	private void mostrarVentanaAnterior() {
+		view.setVisible(false);
+		ventanaPrincipalEntrada.setVisible(true);	
+	}
+	
 	private void toggleContinuarButton() {
-        // Habilitar el botón solo si hay texto en el campo txDni
         view.getBtContinuar().setEnabled(!view.getTxDni().getText().trim().isEmpty());
     }
 	

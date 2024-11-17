@@ -28,7 +28,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 	private JComboBox<String> cbTribuna;
 	private JComboBox<String> cbSeccion;
 	private JButton btContinuar;
-	private JButton btCancelar;
+	private JButton btAnterior;
 	private JLabel lbAsientos;
 	private JSpinner spAsientos;
 	private JLabel lbDni;
@@ -50,7 +50,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 		contentPane.add(getLbTitulo());
 		contentPane.add(getPnDatos());
 		contentPane.add(getBtContinuar());
-		contentPane.add(getBtCancelar());
+		contentPane.add(getBtAnterior());
 		setLocationRelativeTo(null);
 		
 	}
@@ -118,7 +118,7 @@ public class VentanaSeleccionEntradas extends JFrame {
 
 	public JButton getBtContinuar() {
 		if (btContinuar == null) {
-			btContinuar = new JButton("Continuar");
+			btContinuar = new JButton("Confirmar");
 			btContinuar.setEnabled(false);
 			btContinuar.setForeground(new Color(255, 255, 255));
 			btContinuar.setBackground(new Color(60, 179, 113));
@@ -128,15 +128,15 @@ public class VentanaSeleccionEntradas extends JFrame {
 		return btContinuar;
 	}
 	
-	public JButton getBtCancelar() {
-		if (btCancelar == null) {
-			btCancelar = new JButton("Cancelar");
-			btCancelar.setForeground(new Color(255, 255, 255));
-			btCancelar.setBackground(new Color(255, 0, 0));
-			btCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
-			btCancelar.setBounds(249, 366, 134, 39);
+	public JButton getBtAnterior() {
+		if (btAnterior == null) {
+			btAnterior = new JButton("Anterior");
+			btAnterior.setForeground(new Color(255, 255, 255));
+			btAnterior.setBackground(new Color(60, 179, 113));
+			btAnterior.setFont(new Font("Tahoma", Font.BOLD, 13));
+			btAnterior.setBounds(249, 366, 134, 39);
 		}
-		return btCancelar;
+		return btAnterior;
 	}
 	private JLabel getLbAsientos() {
 		if (lbAsientos == null) {

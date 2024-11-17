@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
 import frontend.empleados.FrameGestionEmpleados;
@@ -37,6 +38,7 @@ import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
 import frontend.portalAccionistas.PortalAccionistas;
 import frontend.reservaUI.VentanaPrincipalReserva;
+import shared.gestionAbonos.GestionVentaAbonos;
 import shared.gestionAcciones.GestionPortalAccionistasShared;
 import shared.gestionHistorial.GestionHistorialShared;
 import shared.gestionNoticias.GestionCargarNoticiaShared;
@@ -168,7 +170,7 @@ public class AplicacionMain {
             inicializarReservas();
         });
         ventasMenu.add(reservasInstalaciones);
-        
+
      // Opción "Reservar instalaciones"
         JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
         entradasAbonados.addActionListener(e -> {
@@ -176,6 +178,14 @@ public class AplicacionMain {
             inicializarEntradasEspecialesAbonados();
         });
         ventasMenu.add(entradasAbonados);
+
+        // Opción "Compra de abonos"
+        JMenuItem compraAbonos = new JMenuItem("Compra de Abonos");
+        compraAbonos.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarAbonos();
+        });
+        ventasMenu.add(compraAbonos);
 
         // Menú "Equipos"
         JMenu equiposMenu = new JMenu("Equipos");
@@ -406,6 +416,14 @@ public class AplicacionMain {
     	gfpc.cargarCampaniaEnCurso();
     }
     
+    private void inicializarAbonos() {
+    	VentanaAbonos frame = new VentanaAbonos();
+    	GestionVentaAbonos gva = new GestionVentaAbonos(frame);
+    	gva.initController();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+
     private void inicializarCreacionPartidos() {
     	GestionPartidosShared gps = new GestionPartidosShared();
     	VentanaPartidos frame = new VentanaPartidos(gps);
@@ -415,7 +433,7 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
     }
-    
+
     private void inicializarEntradasEspecialesAbonados() {
     	GestionEntradasAbonadosShared geas = new GestionEntradasAbonadosShared();
     	VentanaInicioAbonados frame = new VentanaInicioAbonados(geas);
