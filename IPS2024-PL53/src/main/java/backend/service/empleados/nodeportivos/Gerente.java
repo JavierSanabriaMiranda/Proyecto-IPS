@@ -83,27 +83,21 @@ public class Gerente extends EmpleadoNoDeportivoBase
 	}
 
 	@Override
-	public String addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp) {
+	public void addNuevoEmpleadoDeportivo(EmpleadoDeportivo emp, String idEmpleado) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
 
-		String idNuevo = generarIDEmpleado();
-		emp.setIDEmpleado(idNuevo);
+		emp.setIDEmpleado(idEmpleado);
 		empDeportivos.put(emp.getIDEmpleado(), emp);
-
-		return idNuevo;
 	}
 
 	@Override
-	public String addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp) {
+	public void addNuevoEmpleadoNoDeportivo(EmpleadoNoDeportivo emp, String idEmpleado) {
 		if (emp == null)
 			throw new IllegalArgumentException("No se puede introducir un empleado null en la lista");
 
-		String idNuevo = generarIDEmpleado();
-		emp.setIDEmpleado(idNuevo);
+		emp.setIDEmpleado(idEmpleado);
 		empNoDeportivos.put(emp.getIDEmpleado(), emp);
-
-		return idNuevo;
 	}
 
 	@Override
@@ -126,7 +120,8 @@ public class Gerente extends EmpleadoNoDeportivoBase
 	 * 
 	 * @return
 	 */
-	private String generarIDEmpleado() {
+	@Override
+	public String generarIDEmpleado() {
 		int numeroID;
 		do {
 			numeroID = generadorID.getNuevoID();
@@ -135,6 +130,7 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		return "E" + numeroID;
 	}
 
+
 	@Override
 	public Empleado getEmpleado(String id) {
 		if (empDeportivos.containsKey(id))
@@ -142,6 +138,13 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		else if (empNoDeportivos.containsKey(id))
 			return empNoDeportivos.get(id);
 		throw new IllegalArgumentException("No hay ningun empleado almacenado con el id introducido");
+	}
+	
+	@Override
+	public EmpleadoDeportivo getEmpleadoDeportivo(String idEmpleadoNuevo) {
+		if (empDeportivos.containsKey(idEmpleadoNuevo))
+			return empDeportivos.get(idEmpleadoNuevo);
+		return null;
 	}
 
 	@Override
@@ -298,5 +301,23 @@ public class Gerente extends EmpleadoNoDeportivoBase
 		}
 		return null;
 	}
+
+	
+	
+	//-----------Creación de Partidos -----------------------
+	
+
+	@Override
+	public List<Equipo> getEquipos() {
+		List<Equipo> equiposCopia = new ArrayList<>();
+		for (Equipo equipo : equipos) {
+			equiposCopia.add(equipo);
+		}
+		return equiposCopia;
+	}
+
+	
+
+	
 
 }

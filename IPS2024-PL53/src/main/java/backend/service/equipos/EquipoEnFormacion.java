@@ -29,6 +29,11 @@ public class EquipoEnFormacion extends EquipoBase{
 	public boolean esProfesional() {
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return getIdEquipo();
+	}
 
 	@Override
 	public void addEntrenamiento(Entrenamiento entrenamiento) {

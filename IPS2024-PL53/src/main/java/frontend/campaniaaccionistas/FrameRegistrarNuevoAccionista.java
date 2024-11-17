@@ -9,12 +9,10 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 
 public class FrameRegistrarNuevoAccionista extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextPane txtpnParaRegistrarseComo;
@@ -22,6 +20,10 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 	private JTextField txNombre;
 	private JButton btCancelar;
 	private JButton btAceptar;
+	private JLabel lbUsuario;
+	private JTextField txNombreUsuario;
+	private JLabel lbPassword;
+	private JPasswordField passwordField;
 
 	/**
 	 * Create the frame.
@@ -29,7 +31,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 	public FrameRegistrarNuevoAccionista() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 449, 212);
+		setBounds(100, 100, 449, 326);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -42,6 +44,10 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		contentPane.add(getTxNombre());
 		contentPane.add(getBtCancelar());
 		contentPane.add(getBtAceptar());
+		contentPane.add(getLbUsuario());
+		contentPane.add(getTxNombreUsuario());
+		contentPane.add(getLbPassword());
+		contentPane.add(getPasswordField());
 	}
 	private JTextPane getTxtpnParaRegistrarseComo() {
 		if (txtpnParaRegistrarseComo == null) {
@@ -66,7 +72,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 			txNombre = new JTextField();
 			txNombre.setFont(new Font("Arial", Font.PLAIN, 12));
 			txNombre.setColumns(10);
-			txNombre.setBounds(121, 77, 176, 32);
+			txNombre.setBounds(142, 77, 214, 32);
 		}
 		return txNombre;
 	}
@@ -74,7 +80,7 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		if (btCancelar == null) {
 			btCancelar = new JButton("Cancelar");
 			btCancelar.setFont(new Font("Arial", Font.PLAIN, 12));
-			btCancelar.setBounds(334, 136, 89, 23);
+			btCancelar.setBounds(336, 255, 89, 23);
 		}
 		return btCancelar;
 	}
@@ -82,8 +88,40 @@ public class FrameRegistrarNuevoAccionista extends JFrame {
 		if (btAceptar == null) {
 			btAceptar = new JButton("Aceptar");
 			btAceptar.setFont(new Font("Arial", Font.PLAIN, 12));
-			btAceptar.setBounds(235, 136, 89, 23);
+			btAceptar.setBounds(230, 255, 89, 23);
 		}
 		return btAceptar;
+	}
+	private JLabel getLbUsuario() {
+		if (lbUsuario == null) {
+			lbUsuario = new JLabel("Nombre Usuario:");
+			lbUsuario.setFont(new Font("Arial", Font.PLAIN, 13));
+			lbUsuario.setBounds(63, 140, 107, 14);
+		}
+		return lbUsuario;
+	}
+	public JTextField getTxNombreUsuario() {
+		if (txNombreUsuario == null) {
+			txNombreUsuario = new JTextField();
+			txNombreUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
+			txNombreUsuario.setColumns(10);
+			txNombreUsuario.setBounds(180, 131, 176, 32);
+		}
+		return txNombreUsuario;
+	}
+	private JLabel getLbPassword() {
+		if (lbPassword == null) {
+			lbPassword = new JLabel("Contraseña:");
+			lbPassword.setFont(new Font("Arial", Font.PLAIN, 13));
+			lbPassword.setBounds(63, 192, 107, 14);
+		}
+		return lbPassword;
+	}
+	public JPasswordField getPasswordField() {
+		if (passwordField == null) {
+			passwordField = new JPasswordField();
+			passwordField.setBounds(142, 183, 214, 32);
+		}
+		return passwordField;
 	}
 }

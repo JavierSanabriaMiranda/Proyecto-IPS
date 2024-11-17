@@ -1,12 +1,15 @@
 package backend.data.empleados;
 
 import java.util.List;
+import java.util.Optional;
 
 import backend.data.empleados.commands.AddEmpleadoDeportivo;
 import backend.data.empleados.commands.AddEmpleadoNoDeportivo;
 import backend.data.empleados.commands.CargarEmpleadosDeportivos;
 import backend.data.empleados.commands.CargarEmpleadosNoDeportivos;
 import backend.data.empleados.commands.EliminarEmpleado;
+import backend.data.empleados.commands.FindEmpleadoDeportivoByDNI;
+import backend.data.empleados.commands.FindEmpleadoNoDeportivoByDNI;
 import backend.data.empleados.commands.FindIdEquipoByJugadorId;
 import backend.data.empleados.commands.FindJugadoresProfesionales;
 import backend.data.empleados.commands.ModEmpleado;
@@ -55,6 +58,16 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	@Override
 	public void updateEmpleadoDeportivo(EmpleadoDeportivoDTO dto) {
 		new UpdateEquipoDeEmpleadoDeportivo(dto).execute();
+	}
+
+	@Override
+	public Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoByDNI(String dni) {
+		return new FindEmpleadoDeportivoByDNI(dni).execute();
+	}
+
+	@Override
+	public Optional<EmpleadoDTO> findEmpleadoNoDeportivoByDNI(String dni) {
+		return new FindEmpleadoNoDeportivoByDNI(dni).execute();
 	}
 
 }

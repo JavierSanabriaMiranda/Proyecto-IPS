@@ -29,6 +29,7 @@ import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
+import frontend.equiposUI.partidos.VentanaPartidos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
 import frontend.merchandisingUI.VentanaPrincipal;
@@ -51,6 +52,8 @@ import shared.gestionequipos.GestionEquiposShared;
 import shared.gestionequipos.GestionPanelEquiposShared;
 import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
+import shared.gestionequipos.partidos.GestionPanelPartidosShared;
+import shared.gestionequipos.partidos.GestionPartidosShared;
 import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
@@ -184,6 +187,14 @@ public class AplicacionMain {
             inicializarGestionEquipos();
         });
         equiposMenu.add(anadirEquipos);
+        
+     // Opción "Crear partidos para equipos"
+        JMenuItem crearPartidos = new JMenuItem("Crear Partido");
+        crearPartidos.addActionListener(e -> {
+            frmAplicacionBurgosFc.setVisible(false);
+            inicializarCreacionPartidos();
+        });
+        equiposMenu.add(crearPartidos);
 
         // Menú "Entrevistas"
         JMenu entrevistasMenu = new JMenu("Entrevistas");
@@ -398,6 +409,16 @@ public class AplicacionMain {
     	VentanaAbonos frame = new VentanaAbonos();
     	GestionVentaAbonos gva = new GestionVentaAbonos(frame);
     	gva.initController();
+    	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+    
+    private void inicializarCreacionPartidos() {
+    	GestionPartidosShared gps = new GestionPartidosShared();
+    	VentanaPartidos frame = new VentanaPartidos(gps);
+    	GestionPanelPartidosShared gpps = new GestionPanelPartidosShared(frame);
+    	configurarCierreVentana(frame);
+    	gpps.initController();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
     }

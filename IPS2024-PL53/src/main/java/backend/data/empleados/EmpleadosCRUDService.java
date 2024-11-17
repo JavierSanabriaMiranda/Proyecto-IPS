@@ -1,6 +1,7 @@
 package backend.data.empleados;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmpleadosCRUDService {
 
@@ -13,4 +14,6 @@ public interface EmpleadosCRUDService {
 	void updateEmpleadoDeportivo(EmpleadoDeportivoDTO dto);
 	String findIdEquipoByJugadorId(String idJugador);
 	List<EmpleadoDTO> findJugadoresProfesionales();
+	Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoByDNI(String dni);
+	Optional<EmpleadoDTO> findEmpleadoNoDeportivoByDNI(String dni);
 }

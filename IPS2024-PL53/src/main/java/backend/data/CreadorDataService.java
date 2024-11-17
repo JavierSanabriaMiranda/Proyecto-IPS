@@ -32,6 +32,8 @@ import backend.data.partidos.PartidosCRUDImpl;
 import backend.data.partidos.PartidosCRUDService;
 import backend.data.productos.ProductoCRUDImpl;
 import backend.data.productos.ProductoCRUDService;
+import backend.data.usuarios.UsuariosCRUDImpl;
+import backend.data.usuarios.UsuariosCRUDService;
 import backend.data.ventas.VentasCRUDImpl;
 import backend.data.ventas.VentasCRUDService;
 
@@ -103,5 +105,9 @@ public class CreadorDataService {
 	
 	public static AbonosCRUDService getAbonosService() {
 		return new AbonosCRUDImpl();
+	}
+	
+	public static UsuariosCRUDService getUsuariosService() {
+		return new UsuariosCRUDImpl();
 	}
 }
