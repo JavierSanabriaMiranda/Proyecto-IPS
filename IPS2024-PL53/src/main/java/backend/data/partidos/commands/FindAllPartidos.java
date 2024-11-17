@@ -27,8 +27,6 @@ public class FindAllPartidos {
 
         try {
             c = db.getConnection();
-
-<<<<<<< HEAD
             pst = c.prepareStatement(QUERY);
             // Establecer la fecha actual como parámetro
             pst.setDate(1, Date.valueOf(LocalDate.now()));
@@ -83,18 +81,4 @@ public class FindAllPartidos {
         res.idEquipo = rs.getString("id_equipo");
         return res;
     }
-=======
-	public PartidoDTO toDto(ResultSet rs) throws SQLException {
-		PartidoDTO res = new PartidoDTO(); 
-		res.id = rs.getString("id_partido");
-		
-		res.horaInicio = rs.getTime("hora_inicio");
-		res.horaFin = rs.getTime("hora_fin");
-		
-		res.fecha = rs.getDate("fecha");
-		
-		res.idEquipo = rs.getString("id_equipo");
-		return res;
-	}
->>>>>>> refs/heads/master
 }
