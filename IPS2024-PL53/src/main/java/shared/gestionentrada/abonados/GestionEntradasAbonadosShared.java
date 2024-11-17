@@ -80,7 +80,6 @@ public class GestionEntradasAbonadosShared {
 		
 		EntradaDTO dto = new EntradaDTO();
 		dto.cod_entrada = codEntrada;
-		dto.coste = 15;
 		dto.idAsiento = abono.getIdAsiento();
 		dto.idPartido = idPartido;
 		

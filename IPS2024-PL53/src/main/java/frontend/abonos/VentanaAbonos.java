@@ -410,7 +410,7 @@ public class VentanaAbonos extends JFrame {
 	}
 	public JRadioButton getRdJuvilado() {
 		if (rdJuvilado == null) {
-			rdJuvilado = new JRadioButton("Juvilado (65 años o más)");
+			rdJuvilado = new JRadioButton("Jubilado (65 años o más)");
 			rdJuvilado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			buttonGroup.add(rdJuvilado);
 			rdJuvilado.setBackground(new Color(255, 255, 255));
