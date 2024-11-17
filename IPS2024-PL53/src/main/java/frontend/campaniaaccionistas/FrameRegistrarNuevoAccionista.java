@@ -13,9 +13,6 @@ import javax.swing.JPasswordField;
 
 public class FrameRegistrarNuevoAccionista extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextPane txtpnParaRegistrarseComo;

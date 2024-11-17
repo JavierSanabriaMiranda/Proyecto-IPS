@@ -249,11 +249,7 @@ public class GestionFrameParticiparCampania {
 	private void initControllerRegistroAccionista() {
 		viewRegistro.getBtCancelar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarVentanaRegistro()));
 		viewRegistro.getBtAceptar()
-				.addActionListener(e -> SwingUtil.exceptionWrapper(() -> registrarNuevoAccionista()));
-	}
-
-	private void registrarNuevoAccionista() {
-		comprobarDatosCorrectosRegistro();
+				.addActionListener(e -> SwingUtil.exceptionWrapper(() -> comprobarDatosCorrectosRegistro()));
 	}
 
 	private void comprobarDatosCorrectosRegistro() {
