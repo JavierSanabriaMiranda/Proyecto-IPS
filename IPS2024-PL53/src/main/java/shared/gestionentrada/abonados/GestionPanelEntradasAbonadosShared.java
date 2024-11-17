@@ -36,12 +36,23 @@ public class GestionPanelEntradasAbonadosShared {
 			JOptionPane.showMessageDialog(null,
 					"Debes escoger el Partido que deseas comprar.", "Error Selección de Partido",
 					JOptionPane.WARNING_MESSAGE);
+		} else if(!verificarEntradaYaComprada()) {
+			JOptionPane.showMessageDialog(null,
+					"Ya se ha comprado una entrada con este abono para este partido", "Error Selección de Partido",
+					JOptionPane.WARNING_MESSAGE);
 		} else {
 			addEntrada();
 			JOptionPane.showMessageDialog(null, "Su entrada ha sido comprada.", "Entrada comprada",
 					JOptionPane.INFORMATION_MESSAGE);
 			view.dispose();
 		}
+	}
+
+	private boolean verificarEntradaYaComprada() {
+		Abono abono = view.getGeas().getAbonoByCode(view.getTxtCodAbono().getText());
+		
+		Partido partido = view.getListPartidos().getSelectedValue();
+		return view.getGeas().compruebaNoHayEntradaParaEseAbono(abono.getIdAsiento(), partido.getIdPartido());
 	}
 
 	private boolean campoCodigoAbonoVaio() {

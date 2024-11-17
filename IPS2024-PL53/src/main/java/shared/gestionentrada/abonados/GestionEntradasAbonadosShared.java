@@ -57,6 +57,14 @@ public class GestionEntradasAbonadosShared {
 		Abono abono = DtoAssemblerAbonos.toAbono(opAbono.get());
 		return abono;
 	}
+	
+	public boolean compruebaNoHayEntradaParaEseAbono(String idAsiento, String idPartido) {
+		Optional<EntradaDTO> entDto = serviceEntradas.findEntradaByAsientoAndPartido(idAsiento, idPartido);
+		if (entDto.isEmpty())
+			return true;
+		else
+			return false;
+	}
 
 
 	public void addEntradaABDD(Abono abono, String idPartido) {

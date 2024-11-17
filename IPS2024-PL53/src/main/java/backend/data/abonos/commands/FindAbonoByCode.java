@@ -22,7 +22,7 @@ public class FindAbonoByCode {
 
 	public Optional<AbonoDTO> execute() {
 		List<Map<String, Object>> mapsAbonos = db.executeQueryMap(QUERY, cod);
-		List<AbonoDTO> abonos = mapsToAccionista(mapsAbonos);
+		List<AbonoDTO> abonos = mapsToAbono(mapsAbonos);
 		if (abonos.size() > 1) 
 			throw new DatabaseException("La base de datos está en un estado inconsistente "
 					+ "al haber más de un abono con el mismo codigo");
@@ -31,7 +31,7 @@ public class FindAbonoByCode {
 		return Optional.of(abonos.get(0));
 	}
 	
-	private List<AbonoDTO> mapsToAccionista(List<Map<String, Object>> listaMap) {
+	private List<AbonoDTO> mapsToAbono(List<Map<String, Object>> listaMap) {
 		List<AbonoDTO> lista = new ArrayList<>();
 	    
 	    // Recorre cada mapa y convierte los datos en un objeto AbonoDTO.
