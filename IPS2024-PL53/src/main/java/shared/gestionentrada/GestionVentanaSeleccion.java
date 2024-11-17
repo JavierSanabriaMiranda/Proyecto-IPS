@@ -84,12 +84,12 @@ public class GestionVentanaSeleccion {
 	}
 
 	private int[] comprobarAsientosLibres(String tribuna, String seccion, int nAsientos) {
-	    AsientosCRUDService service = CreadorDataService.getAsientosService();
 	    for (int fila = 0; fila < 10; fila++) {
 	        int asientosLibres = 0;
 	        int asientoInicio = -1;
+	        entradas.clear(); 
 	        for (int asiento = 0; asiento < 15; asiento++) {
-	            if (service.findEqualAsiento(tribuna, seccion, String.valueOf(fila), String.valueOf(asiento)).idAsiento == null) {
+	            if (!isAsientoOcupadoPorAbono(tribuna,seccion,fila,asiento) && !isAsientoOcupadoPorEntrada(tribuna,seccion,fila,asiento)) {
 	                if (asientosLibres == 0)
 	                    asientoInicio = asiento;
 	                asientosLibres++;
@@ -101,11 +101,22 @@ public class GestionVentanaSeleccion {
 	                asientoInicio = -1;
 	                entradas.clear();
 	            }
-	        }
+	        } 
 	    }
 	    return new int[]{-1, -1};
 	}
 
+	private boolean isAsientoOcupadoPorAbono(String tribuna, String seccion,int fila, int asiento) {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		String idAsiento = service.findEqualAsiento(tribuna, seccion, String.valueOf(fila), String.valueOf(asiento)).idAsiento;
+		return service.isAsientoOcupadoPorAbono(idAsiento);
+	}
+	
+	private boolean isAsientoOcupadoPorEntrada(String tribuna, String seccion,int fila, int asiento) {
+		AsientosCRUDService service = CreadorDataService.getAsientosService();
+		String idAsiento = service.findEqualAsiento(tribuna, seccion, String.valueOf(fila), String.valueOf(asiento)).idAsiento;
+		return service.isAsientoOcupadoPorEntrada(idAsiento,idPartido);
+	}
 	
 	private void añadirTodoBBDD(int fila, int asiento) {
 		añadirCliente();
@@ -145,8 +156,8 @@ public class GestionVentanaSeleccion {
 
 	private String mostrarEntradasSeleccionadas(int fila, int asiento) {
 		String mensaje="Gracias por la compra!\n";
-		for(int i=0; i<asiento;i++) {
-			mensaje+="Entrada "+i+": Tribuna("+view.getCbTribuna().getSelectedItem()+"), Sección("+
+		for(int i=0; i<(int)view.getSpAsientos().getValue();i++) {
+			mensaje+="Entrada "+(i+1)+": Tribuna("+view.getCbTribuna().getSelectedItem()+"), Sección("+
 					view.getCbSeccion().getSelectedItem()+"), Fila("+fila+"), Asiento("+(asiento+i)+")\n";
 		}
 		return mensaje;
