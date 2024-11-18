@@ -12,26 +12,31 @@ import backend.data.ventas.commands.AddVentas;
 import backend.data.ventas.commands.CargarReservas;
 import backend.data.ventas.commands.FindByCodVentas;
 import backend.data.ventas.commands.FindVentasFechas;
+import backend.util.log.LogManager;
 
 public class VentasCRUDImpl implements VentasCRUDService {
 
 	@Override
 	public VentaDto findByCodVentas(String cod_ventas) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: VENTAS");
 		return new FindByCodVentas(cod_ventas).execute();
 	}
 
 	@Override
 	public void addVentas(VentaDto venta) {
+		LogManager.logAction("Modificación en Base de Datos. Tabla: VENTAS");
 		new AddVentas(venta).execute();
 	}
 	
 	@Override
 	public void addReserva(ReservaDto dto) {
+		LogManager.logAction("Modificación en Base de Datos. Tabla: RESERVA");
 		new AddReserva(dto).execute();
 	}
 
 	@Override
 	public List<ReservaDto> cargarReservas() {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: RESERVA");
 		return new CargarReservas().execute();
 	}
 
@@ -39,6 +44,7 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	public List<VentaDto> findVentasFechas(Date inicio, Date fin) {
 		List<VentaDto> res = new ArrayList<>();
 		try {
+			LogManager.logAction("Acceso a Base de Datos. Tabla: VENTAS");
 			res =  new FindVentasFechas(inicio,fin).execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,6 +54,7 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	
 	@Override
 	public void addEntrada(EntradaDTO dto) {
+		LogManager.logAction("Modificación en Base de Datos. Tabla: ENTRADA");
 		new AddEntrada(dto).execute();
 	}
 

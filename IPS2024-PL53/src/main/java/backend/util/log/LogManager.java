@@ -10,6 +10,7 @@ import java.util.logging.SimpleFormatter;
 public class LogManager {
     private static Logger logger;
     private static String logFilePath;
+    private static String usuario;
 
     
     public static void initialize(String usuario) throws IOException {
@@ -20,7 +21,7 @@ public class LogManager {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
         String logDirectory = "src/main/resources/logs";
 
-        logFilePath = logDirectory + "/log_" + usuario + "_" + timestamp + ".txt";
+        logFilePath = logDirectory + "/log_" + usuario + "_" + timestamp + ".log";
 
         // Configurar el Logger
         logger = Logger.getLogger("LogManager");
@@ -29,20 +30,20 @@ public class LogManager {
         logger.addHandler(fileHandler);
         logger.setUseParentHandlers(false); // Evita que los logs se impriman en consola
 
-        logAction("Sistema", "Inicio del log para el usuario: " + usuario);
+        logAction("Sistema: Inicio del log para el usuario: " + usuario);
     }
 
     
-    public static void logAction(String usuario, String accion) {
+    public static void logAction(String accion) {
         if (logger == null) {
-            throw new IllegalStateException("LogManager no ha sido inicializado. Llama a initialize() primero.");
+            return; //Si el logger es null, será porque se ha iniciado la aplicación sin iniciar sesión
         }
         logger.info("[Usuario: " + usuario + "] - Acción: " + accion);
     }
 
     public static void logAction(String usuario, String accion, String detalles) {
         if (logger == null) {
-            throw new IllegalStateException("LogManager no ha sido inicializado. Llama a initialize() primero.");
+            return; //Si el logger es null, será porque se ha iniciado la aplicación sin iniciar sesión
         }
         logger.info("[Usuario: " + usuario + "] - Acción: " + accion + " - Detalles: " + detalles);
     }
