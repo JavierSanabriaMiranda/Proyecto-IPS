@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import backend.data.accionistas.commands.AddAccionista;
 import backend.data.accionistas.commands.FindByDniAccionista;
+import backend.data.accionistas.commands.FindByIdAccionista;
 import backend.data.accionistas.commands.GetNumAccionesByDniAccionista;
 
 public class AccionistasCRUDImpl implements AccionistasCRUDService {
@@ -21,6 +22,11 @@ public class AccionistasCRUDImpl implements AccionistasCRUDService {
 	@Override
 	public void addNuevoAccionista(AccionistaDTO dto) {
 		new AddAccionista(dto).execute();
+	}
+
+	@Override
+	public Optional<AccionistaDTO> findByIdAccionista(String id) {
+		return new FindByIdAccionista(id).execute();
 	}
 
 }

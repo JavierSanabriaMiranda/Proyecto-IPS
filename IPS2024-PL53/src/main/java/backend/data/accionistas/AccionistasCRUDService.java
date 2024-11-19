@@ -10,4 +10,6 @@ public interface AccionistasCRUDService {
 
 	void addNuevoAccionista(AccionistaDTO dto);
 
+	Optional<AccionistaDTO> findByIdAccionista(String id);
+
 }
