@@ -16,4 +16,5 @@ public interface EmpleadosCRUDService {
 	List<EmpleadoDTO> findJugadoresProfesionales();
 	Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoByDNI(String dni);
 	Optional<EmpleadoDTO> findEmpleadoNoDeportivoByDNI(String dni);
+	Optional<EmpleadoDTO> findEmpleadoNoDeportivoById(String id);
 }
