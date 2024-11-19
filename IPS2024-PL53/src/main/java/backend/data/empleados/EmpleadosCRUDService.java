@@ -3,6 +3,7 @@ package backend.data.empleados;
 import java.util.List;
 import java.util.Optional;
 
+import backend.data.equipos.EntrenadorDto;
 import backend.data.equipos.JugadorDto;
 
 public interface EmpleadosCRUDService {
@@ -21,4 +22,5 @@ public interface EmpleadosCRUDService {
 	Optional<EmpleadoDTO> findEmpleadoNoDeportivoById(String id);
 	Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoById(String id);
 	Optional<JugadorDto> findJugadorById(String id);
+	Optional<EntrenadorDto> findEntrenadorById(String id);
 }

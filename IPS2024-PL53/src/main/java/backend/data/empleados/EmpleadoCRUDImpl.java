@@ -12,11 +12,13 @@ import backend.data.empleados.commands.FindEmpleadoDeportivoByDNI;
 import backend.data.empleados.commands.FindEmpleadoDeportivoById;
 import backend.data.empleados.commands.FindEmpleadoNoDeportivoByDNI;
 import backend.data.empleados.commands.FindEmpleadoNoDeportivoById;
+import backend.data.empleados.commands.FindEntrenadorById;
 import backend.data.empleados.commands.FindIdEquipoByJugadorId;
 import backend.data.empleados.commands.FindJugadorById;
 import backend.data.empleados.commands.FindJugadoresProfesionales;
 import backend.data.empleados.commands.ModEmpleado;
 import backend.data.empleados.commands.UpdateEquipoDeEmpleadoDeportivo;
+import backend.data.equipos.EntrenadorDto;
 import backend.data.equipos.JugadorDto;
 
 public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
@@ -87,6 +89,11 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	@Override
 	public Optional<JugadorDto> findJugadorById(String id) {
 		return new FindJugadorById(id).execute();
+	}
+
+	@Override
+	public Optional<EntrenadorDto> findEntrenadorById(String id) {
+		return new FindEntrenadorById(id).execute();
 	}
 
 }
