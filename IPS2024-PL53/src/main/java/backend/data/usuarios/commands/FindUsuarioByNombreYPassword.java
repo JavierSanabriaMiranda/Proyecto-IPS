@@ -6,25 +6,23 @@ import java.util.Map;
 import java.util.Optional;
 
 import backend.data.Database;
-import backend.data.DatabaseException;
-import backend.data.accionistas.AccionistaDTO;
 import backend.data.usuarios.UsuarioDTO;
 
-public class FindUsuarioByNombre {
+public class FindUsuarioByNombreYPassword {
+
+	private static final String QUERY = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASEÑA = ?";
 	
-	private static final String QUERY = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ?";
-	
-	private String nombreUsuario;
+	private UsuarioDTO dto;
 	private Database db = new Database();
-
-	public FindUsuarioByNombre(String nombreUsuario) {
-		if (nombreUsuario == null)
-			throw new IllegalArgumentException("El nombre de usuario no puede ser null");
-		this.nombreUsuario = nombreUsuario;
+	
+	public FindUsuarioByNombreYPassword(UsuarioDTO dto) {
+		if (dto == null)
+			throw new IllegalArgumentException("El dto no puede ser null");
+		this.dto = dto;
 	}
-
+	
 	public Optional<UsuarioDTO> execute() {
-		List<Map<String, Object>> mapsUsuarios = db.executeQueryMap(QUERY, nombreUsuario);
+		List<Map<String, Object>> mapsUsuarios = db.executeQueryMap(QUERY, dto.nombreUsuario, dto.password);
 		List<UsuarioDTO> accionistas = mapsToAccionista(mapsUsuarios);
 		if (accionistas.isEmpty())
 			return Optional.empty();
@@ -45,8 +43,4 @@ public class FindUsuarioByNombre {
 	    }
 	    return lista; 		
 	}
-
-	
-	
-
 }
