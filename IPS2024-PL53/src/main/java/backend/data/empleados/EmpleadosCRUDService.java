@@ -17,4 +17,5 @@ public interface EmpleadosCRUDService {
 	Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoByDNI(String dni);
 	Optional<EmpleadoDTO> findEmpleadoNoDeportivoByDNI(String dni);
 	Optional<EmpleadoDTO> findEmpleadoNoDeportivoById(String id);
+	Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoById(String id);
 }
