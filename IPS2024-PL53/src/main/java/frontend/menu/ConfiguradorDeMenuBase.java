@@ -5,7 +5,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class ConfiguradorDeMenuBase implements ConfiguradorDeMenu {
+public abstract class ConfiguradorDeMenuBase implements ConfiguradorDeMenu {
 	
 	protected JMenu menuAccionistas;
 	protected JMenu menuNoticias;
@@ -14,8 +14,17 @@ public class ConfiguradorDeMenuBase implements ConfiguradorDeMenu {
 	public void configurarMenu(JFrame menu, AplicacionMain app) {
 		addPortalNoticias(menu, app);
         addAccederACampania(menu, app);
+        configurarMenuParaUsuario(menu, app);
 	}
 	
+	/**
+	 * Metodo cuya función es que cada configurador concreto lo redefina implementando así
+	 * el menú del usuario que le corresponde
+	 * @param menu
+	 * @param app
+	 */
+	protected abstract void configurarMenuParaUsuario(JFrame menu, AplicacionMain app);
+
 	private void addAccederACampania(JFrame menu, AplicacionMain app) {
 		JMenuBar menuBar = menu.getJMenuBar();
 		

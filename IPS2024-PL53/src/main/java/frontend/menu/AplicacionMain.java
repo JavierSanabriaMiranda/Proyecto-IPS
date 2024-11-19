@@ -76,7 +76,8 @@ public class AplicacionMain {
     private Usuario usuario;
     
     private Map<TipoUsuario, ConfiguradorDeMenu> configuradoresMenu = Map.of(
-    		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuBase()
+    		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuNoUsuario(),
+    		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista()
     	);
     
     public static void main(String[] args) {
@@ -156,6 +157,7 @@ public class AplicacionMain {
 			configuradoresMenu.get(TipoUsuario.NO_USUARIO).configurarMenu(frmAplicacionBurgosFc, this);
 		else
 			configuradoresMenu.get(usuario.getTipoUsuario()).configurarMenu(frmAplicacionBurgosFc, this);
+		frmAplicacionBurgosFc.setVisible(true);
 		
 //		// Menú "Gestión"
 //        JMenu gestionMenu = new JMenu("Gestión de Empleados");
@@ -425,7 +427,7 @@ public class AplicacionMain {
     	frame.setVisible(true);
     }
 
-    private void inicializarPortalAccionistas() {
+    void inicializarPortalAccionistas() {
     	PortalAccionistas frame = new PortalAccionistas();
     	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);
     	gpns.initController();
