@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import backend.service.usuarios.TipoUsuario;
 import backend.service.usuarios.Usuario;
 import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
@@ -72,6 +74,10 @@ public class AplicacionMain {
     // Si el usuario está a null significa que no se ha 
     // iniciado sesión, sino que se ha entrado sin logearse
     private Usuario usuario;
+    
+    private Map<TipoUsuario, ConfiguradorDeMenu> configuradoresMenu = Map.of(
+    		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuBase()
+    	);
     
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -138,178 +144,187 @@ public class AplicacionMain {
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
 
-        inicializarMenuBarParaUsuario(menuBar);
+        inicializarMenuParaUsuario();
     }
 
-	private void inicializarMenuBarParaUsuario(JMenuBar menuBar) {
-		// Menú "Gestión"
-        JMenu gestionMenu = new JMenu("Gestión de Empleados");
-        menuBar.add(gestionMenu);
-
-        // Opción "Gestionar empleados"
-        JMenuItem gestionEmpleados = new JMenuItem("Gestionar Empleados");
-        gestionEmpleados.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEmpleados();
-        });
-        gestionMenu.add(gestionEmpleados);
-
-        // Opción "Asignar horarios"
-        JMenuItem asignarHorarios = new JMenuItem("Asignar Horarios");
-        asignarHorarios.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHorariosEmpleados();
-        });
-        gestionMenu.add(asignarHorarios);
-
-        // Menú "Ventas"
-        JMenu ventasMenu = new JMenu("Ventas");
-        menuBar.add(ventasMenu);
-
-        // Opción "Ventas de Merchandising"
-        JMenuItem ventasMerchandising = new JMenuItem("Compra de Merchandising");
-        ventasMerchandising.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarMerchandising();
-        });
-        ventasMenu.add(ventasMerchandising);
-
-        // Opción "Ventas de Entradas"
-        JMenuItem ventasEntradas = new JMenuItem("Compra de Entradas");
-        ventasEntradas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarEntradas();
-        });
-        ventasMenu.add(ventasEntradas);
-
-        // Opción "Reservar instalaciones"
-        JMenuItem reservasInstalaciones = new JMenuItem("Reservar Instalaciones");
-        reservasInstalaciones.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarReservas();
-        });
-        ventasMenu.add(reservasInstalaciones);
-
-     // Opción "Reservar instalaciones"
-        JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
-        entradasAbonados.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarEntradasEspecialesAbonados();
-        });
-        ventasMenu.add(entradasAbonados);
-
-        // Opción "Compra de abonos"
-        JMenuItem compraAbonos = new JMenuItem("Compra de Abonos");
-        compraAbonos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarAbonos();
-        });
-        ventasMenu.add(compraAbonos);
-
-        // Menú "Equipos"
-        JMenu equiposMenu = new JMenu("Equipos");
-        menuBar.add(equiposMenu);
-
-        // Opción "Añadir equipos"
-        JMenuItem anadirEquipos = new JMenuItem("Añadir Equipos");
-        anadirEquipos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEquipos();
-        });
-        equiposMenu.add(anadirEquipos);
-        
-     // Opción "Crear partidos para equipos"
-        JMenuItem crearPartidos = new JMenuItem("Crear Partido");
-        crearPartidos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCreacionPartidos();
-        });
-        equiposMenu.add(crearPartidos);
-
-        // Menú "Entrevistas"
-        JMenu entrevistasMenu = new JMenu("Entrevistas");
-        menuBar.add(entrevistasMenu);
-
-        // Opción "Crear Entrevistas"
-        JMenuItem crearEntrevistas = new JMenuItem("Crear Entrevistas");
-        crearEntrevistas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEntrevistas();
-        });
-        entrevistasMenu.add(crearEntrevistas);
-
-        // Menú "Historial de Ventas"
-        JMenu historialMenu = new JMenu("Historial de Ventas");
-        menuBar.add(historialMenu);
-
-        // Opción "Ver Historial de Ventas"
-        JMenuItem historialVentas = new JMenuItem("Ver Historial de Ventas");
-        historialVentas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHistorialDeVentas();
-        });
-        historialMenu.add(historialVentas);
-        
-     // Menú "Noticias"
-        JMenu noticiasMenu = new JMenu("Noticias");
-        menuBar.add(noticiasMenu);
-
-        // Opción "Cargar Noticias"
-        JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
-        cargarNoticias.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCargarNoticias();
-        });
-        noticiasMenu.add(cargarNoticias);
-
-        JMenuItem horarioJardineros = new JMenuItem("Horarios Jardinería");
-        horarioJardineros.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarJardineria();
-        });
-        gestionMenu.add(horarioJardineros);
-
-
-
-     // Opción "Ver Portal Noticias"
-        JMenuItem portalNoticias = new JMenuItem("Portal de Noticias");
-        portalNoticias.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarPortalNoticias();
-        });
-        noticiasMenu.add(portalNoticias);
-
-        // Menú "Accionistas"
-        JMenu accionistasMenu = new JMenu("Accionistas");
-        menuBar.add(accionistasMenu);
-
-        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
-        campanaAccionistas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarPortalAccionistas();
-        });
-        accionistasMenu.add(campanaAccionistas);
-
-        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
-        crearCampania.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCrearCampania();
-        });
-        accionistasMenu.add(crearCampania);
-
-        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
-        accederCampania.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarParticiparEnACampania();
-        });
-        accionistasMenu.add(accederCampania);
-
-        JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
-        horariosEntrenamientos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHorarioEquipos();
-        });
-        equiposMenu.add(horariosEntrenamientos);
+    /**
+     * Inicializa y configura el menú para el tipo de usuario que ha iniciado sesión
+     * @param menu a inicializar
+     */
+	private void inicializarMenuParaUsuario() {
+		if (usuario == null)
+			configuradoresMenu.get(TipoUsuario.NO_USUARIO).configurarMenu(frmAplicacionBurgosFc, this);
+		else
+			configuradoresMenu.get(usuario.getTipoUsuario()).configurarMenu(frmAplicacionBurgosFc, this);
+		
+//		// Menú "Gestión"
+//        JMenu gestionMenu = new JMenu("Gestión de Empleados");
+//        menuBar.add(gestionMenu);
+//
+//        // Opción "Gestionar empleados"
+//        JMenuItem gestionEmpleados = new JMenuItem("Gestionar Empleados");
+//        gestionEmpleados.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarGestionEmpleados();
+//        });
+//        gestionMenu.add(gestionEmpleados);
+//
+//        // Opción "Asignar horarios"
+//        JMenuItem asignarHorarios = new JMenuItem("Asignar Horarios");
+//        asignarHorarios.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarHorariosEmpleados();
+//        });
+//        gestionMenu.add(asignarHorarios);
+//
+//        // Menú "Ventas"
+//        JMenu ventasMenu = new JMenu("Ventas");
+//        menuBar.add(ventasMenu);
+//
+//        // Opción "Ventas de Merchandising"
+//        JMenuItem ventasMerchandising = new JMenuItem("Compra de Merchandising");
+//        ventasMerchandising.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarMerchandising();
+//        });
+//        ventasMenu.add(ventasMerchandising);
+//
+//        // Opción "Ventas de Entradas"
+//        JMenuItem ventasEntradas = new JMenuItem("Compra de Entradas");
+//        ventasEntradas.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarEntradas();
+//        });
+//        ventasMenu.add(ventasEntradas);
+//
+//        // Opción "Reservar instalaciones"
+//        JMenuItem reservasInstalaciones = new JMenuItem("Reservar Instalaciones");
+//        reservasInstalaciones.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarReservas();
+//        });
+//        ventasMenu.add(reservasInstalaciones);
+//
+//     // Opción "Reservar instalaciones"
+//        JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
+//        entradasAbonados.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarEntradasEspecialesAbonados();
+//        });
+//        ventasMenu.add(entradasAbonados);
+//
+//        // Opción "Compra de abonos"
+//        JMenuItem compraAbonos = new JMenuItem("Compra de Abonos");
+//        compraAbonos.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarAbonos();
+//        });
+//        ventasMenu.add(compraAbonos);
+//
+//        // Menú "Equipos"
+//        JMenu equiposMenu = new JMenu("Equipos");
+//        menuBar.add(equiposMenu);
+//
+//        // Opción "Añadir equipos"
+//        JMenuItem anadirEquipos = new JMenuItem("Añadir Equipos");
+//        anadirEquipos.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarGestionEquipos();
+//        });
+//        equiposMenu.add(anadirEquipos);
+//        
+//     // Opción "Crear partidos para equipos"
+//        JMenuItem crearPartidos = new JMenuItem("Crear Partido");
+//        crearPartidos.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarCreacionPartidos();
+//        });
+//        equiposMenu.add(crearPartidos);
+//
+//        // Menú "Entrevistas"
+//        JMenu entrevistasMenu = new JMenu("Entrevistas");
+//        menuBar.add(entrevistasMenu);
+//
+//        // Opción "Crear Entrevistas"
+//        JMenuItem crearEntrevistas = new JMenuItem("Crear Entrevistas");
+//        crearEntrevistas.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarGestionEntrevistas();
+//        });
+//        entrevistasMenu.add(crearEntrevistas);
+//
+//        // Menú "Historial de Ventas"
+//        JMenu historialMenu = new JMenu("Historial de Ventas");
+//        menuBar.add(historialMenu);
+//
+//        // Opción "Ver Historial de Ventas"
+//        JMenuItem historialVentas = new JMenuItem("Ver Historial de Ventas");
+//        historialVentas.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarHistorialDeVentas();
+//        });
+//        historialMenu.add(historialVentas);
+//        
+//     // Menú "Noticias"
+//        JMenu noticiasMenu = new JMenu("Noticias");
+//        menuBar.add(noticiasMenu);
+//
+//        // Opción "Cargar Noticias"
+//        JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
+//        cargarNoticias.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarCargarNoticias();
+//        });
+//        noticiasMenu.add(cargarNoticias);
+//
+//        JMenuItem horarioJardineros = new JMenuItem("Horarios Jardinería");
+//        horarioJardineros.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarJardineria();
+//        });
+//        gestionMenu.add(horarioJardineros);
+//
+//
+//
+//     // Opción "Ver Portal Noticias"
+//        JMenuItem portalNoticias = new JMenuItem("Portal de Noticias");
+//        portalNoticias.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarPortalNoticias();
+//        });
+//        noticiasMenu.add(portalNoticias);
+//
+//        // Menú "Accionistas"
+//        JMenu accionistasMenu = new JMenu("Accionistas");
+//        menuBar.add(accionistasMenu);
+//
+//        JMenuItem portalAccionistas = new JMenuItem("Portal de accionistas");
+//        portalAccionistas.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarPortalAccionistas();
+//        });
+//        accionistasMenu.add(portalAccionistas);
+//
+//        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
+//        crearCampania.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarCrearCampania();
+//        });
+//        accionistasMenu.add(crearCampania);
+//
+//        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
+//        accederCampania.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarParticiparEnACampania();
+//        });
+//        accionistasMenu.add(accederCampania);
+//
+//        JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
+//        horariosEntrenamientos.addActionListener(e -> {
+//            frmAplicacionBurgosFc.setVisible(false);
+//            inicializarHorarioEquipos();
+//        });
+//        equiposMenu.add(horariosEntrenamientos);
 	}
 
 	private void inicializarGestionEmpleados() {
@@ -393,7 +408,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarPortalNoticias() {
+    void inicializarPortalNoticias() {
     	PortalNoticias frame = new PortalNoticias();
     	GestionPortalNoticiasShared gpns = new GestionPortalNoticiasShared(frame);
     	gpns.initController();
@@ -427,7 +442,7 @@ public class AplicacionMain {
     	gfcv.cargarCampaniaEnCurso();
     }
 
-    private void inicializarParticiparEnACampania() {
+    void inicializarParticiparEnACampania() {
     	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
     	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
     	configurarCierreVentana(frame);
