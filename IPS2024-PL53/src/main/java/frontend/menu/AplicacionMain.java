@@ -1,4 +1,4 @@
-package frontend;
+package frontend.menu;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import backend.service.usuarios.Usuario;
 import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
@@ -33,6 +34,7 @@ import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.equiposUI.partidos.VentanaPartidos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
+import frontend.login.FrameLogIn;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
@@ -62,17 +64,20 @@ import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
 import shared.gestionjardineria.JardinerosShared;
+import shared.gestionlogin.GestionFrameLogInShared;
 
 public class AplicacionMain {
 
     private JFrame frmAplicacionBurgosFc;
-
+    // Si el usuario está a null significa que no se ha 
+    // iniciado sesión, sino que se ha entrado sin logearse
+    private Usuario usuario;
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
                 AplicacionMain window = new AplicacionMain();
-                window.frmAplicacionBurgosFc.setVisible(true);
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -80,7 +85,17 @@ public class AplicacionMain {
     }
 
     public AplicacionMain() {
-        initialize();
+    	inicializarLogIn();
+    }
+    
+    /**
+     * Recibe un usuario el cual puede ser null (si se ha entrado sin iniciar sesión) y se 
+     * inicializa el menú para dicho usuario
+     * @param usuario
+     */
+    public void iniciarSesion(Usuario usuario) {
+    	this.usuario = usuario;
+    	initialize();
     }
 
     private void initialize() {
@@ -123,7 +138,11 @@ public class AplicacionMain {
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
 
-        // Menú "Gestión"
+        inicializarMenuBarParaUsuario(menuBar);
+    }
+
+	private void inicializarMenuBarParaUsuario(JMenuBar menuBar) {
+		// Menú "Gestión"
         JMenu gestionMenu = new JMenu("Gestión de Empleados");
         menuBar.add(gestionMenu);
 
@@ -291,7 +310,7 @@ public class AplicacionMain {
             inicializarHorarioEquipos();
         });
         equiposMenu.add(horariosEntrenamientos);
-    }
+	}
 
 	private void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
@@ -441,6 +460,13 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
     	gpeas.initController();
     	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+    
+    private void inicializarLogIn() {
+    	FrameLogIn frame = new FrameLogIn();
+    	GestionFrameLogInShared gestLogIn = new GestionFrameLogInShared(frame, this);
+    	gestLogIn.initController();
     	frame.setVisible(true);
     }
 
