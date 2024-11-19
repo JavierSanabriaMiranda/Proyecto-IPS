@@ -13,7 +13,18 @@ import backend.data.equipos.JugadorDto;
 
 public class FindJugadorById {
 
-	private static final String QUERY = "SELECT * FROM JUGADOR WHERE ID_JUGADOR = ?";
+	private static final String QUERY = "SELECT "
+	        + "ED.ID_EMPLEADO_DEP AS id, "
+	        + "ED.DNI AS DNI, "
+	        + "ED.NOMBRE AS nombre, "
+	        + "ED.APELLIDO AS apellido, "
+	        + "ED.FECHA_NACIMIENTO AS fechaNac, "
+	        + "ED.TELEFONO AS telefono, "
+	        + "ED.SALARIO_ANUAL AS salarioAnual, "
+	        + "J.ID_EQUIPO AS idEquipo "
+	        + "FROM EMPLEADO_DEPORTIVO ED "
+	        + "INNER JOIN JUGADOR J ON ED.ID_EMPLEADO_DEP = J.ID_JUGADOR "
+	        + "WHERE ED.ID_EMPLEADO_DEP = ?";
 	
 	private String id;
 	private Database db = new Database();
