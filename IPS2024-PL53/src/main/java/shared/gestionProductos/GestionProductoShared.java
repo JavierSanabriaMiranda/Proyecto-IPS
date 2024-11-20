@@ -7,11 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import backend.data.CreadorDataService;
+import backend.data.clientes.ClienteDTO;
+import backend.data.clientes.ClientesCRUDService;
 import backend.data.merchandising.MerchandisingCRUDService;
 import backend.data.merchandising.MerchandisingDTO;
 import backend.data.productos.CompraProductoDTO;
@@ -70,17 +74,71 @@ public class GestionProductoShared {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 toggleButtonState();
-                setBorderColor();
+                setBorderColor(view.getTfCorreo());
             }
             @Override
             public void removeUpdate(DocumentEvent e) {
                 toggleButtonState();
-                setBorderColor();
+                setBorderColor(view.getTfCorreo());
             }
             @Override
             public void changedUpdate(DocumentEvent e) {
                 toggleButtonState();
-                setBorderColor();
+                setBorderColor(view.getTfCorreo());
+            } 
+        });
+		
+		view.getTfNombre().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfNombre());
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfNombre());
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfNombre());
+            } 
+        });
+		
+		view.getTfDNI().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDNI());
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDNI());
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDNI());
+            } 
+        });
+		
+		view.getTfDomicilio().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDomicilio());
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDomicilio());
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                toggleButtonState();
+                setBorderColor(view.getTfDomicilio());
             } 
         });
 	}
@@ -102,7 +160,7 @@ public class GestionProductoShared {
 	}
 	
 	private void showPn2() {
-		view.getPnBts2().add(view.getTxtPrice(), 0);
+		view.getPnInfo2().add(view.getTxtPrice(), 0);
 		((CardLayout) view.getPnContents().getLayout()).show(view.getPnContents(), "pn2");
 	}
 	
@@ -129,18 +187,24 @@ public class GestionProductoShared {
 		saveOrder(list, codCompra, ventaMerchandising.getFechaCompra(),ventaMerchandising.getPrecioTotal());
 		enviarCorreo();
 		crearFactura();
+		mostrarMensaje();
 		initView();	
 	}
 	
+	private void mostrarMensaje() {
+		JOptionPane.showMessageDialog(null, "Gracias por la compra!", "Confirmacion de la compra", JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	private void toggleButtonState() {
-        view.getBtnNext2().setEnabled(!view.getTfCorreo().getText().trim().isEmpty());
+        view.getBtnFinish().setEnabled(!view.getTfNombre().getText().trim().isEmpty() && !view.getTfDNI().getText().trim().isEmpty()
+        		&& !view.getTfDomicilio().getText().trim().isEmpty() && !view.getTfCorreo().getText().trim().isEmpty());
     }
 	
-	private void setBorderColor() {
-        if (view.getTfCorreo().getText().isEmpty()) {
-        	view.getTfCorreo().setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+	private void setBorderColor(JTextField tf) {
+        if (tf.getText().isEmpty()) {
+        	tf.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         } else {
-        	view.getTfCorreo().setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        	tf.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         }
     }
 
@@ -159,7 +223,8 @@ public class GestionProductoShared {
 	    String filePath = "src/main/resources/facturas/factura_" + codCompra + ".pdf";		
 
 	    // Generar la factura
-	    CrearFactura.crearFactura(filePath, codCompra,view.getTfCorreo().getText(), productos, precioTotal);
+	    CrearFactura.crearFactura(filePath, codCompra,view.getTfCorreo().getText(),view.getTfDNI().getText(),
+	    		view.getTfNombre().getText(),view.getTfDomicilio().getText(), productos, precioTotal);
 	}
 
 
@@ -186,8 +251,8 @@ public class GestionProductoShared {
 	private void addProductosResumen() {
 		restablecerTablaModelo();
 		for(Producto p : ventaMerchandising.getProductos()) {
-			float total = p.getUnits() * p.getPrice();
-		    Object[] rowData = {p.getName(), p.getUnits(), p.getPrice(), total};
+			String total = String.format(" %.2f €", p.getUnits() * p.getPrice());
+		    Object[] rowData = {p.getName(), p.getUnits(), p.getPrice() + " €", total};
 		    view.getTableModel().addRow(rowData);
 		}
 	}
@@ -198,9 +263,11 @@ public class GestionProductoShared {
 	}
 	
 	public void saveOrder(List<ProductoDTO> orderList,String cod_compra, Date fecha, float precio) {
+		ClientesCRUDService serviceClientes = CreadorDataService.getClientesService();
 		VentasCRUDService service = CreadorDataService.getVentasService();
 		MerchandisingCRUDService service2 =CreadorDataService.getMerchandisingService();
-		service.addVentas(new VentaDto(cod_compra,null,fecha,precio));
+		serviceClientes.addCliente(new ClienteDTO(view.getTfDNI().getText(),view.getTfNombre().getText()));
+		service.addVentas(new VentaDto(cod_compra,view.getTfDNI().getText(),fecha,precio));
 		service2.addMerchandising(new MerchandisingDTO(cod_compra));
 		model.addOrderProducts(new CompraProductoDTO(orderList,cod_compra));
 	}

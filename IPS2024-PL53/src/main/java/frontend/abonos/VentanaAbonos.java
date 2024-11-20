@@ -3,7 +3,6 @@ package frontend.abonos;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -77,8 +76,7 @@ public class VentanaAbonos extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setMinimumSize(new Dimension(450,370));
-		contentPane.setMaximumSize(new Dimension(700,500));
+		setResizable(false);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout());

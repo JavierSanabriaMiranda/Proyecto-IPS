@@ -37,7 +37,7 @@ public class GestionPanelProductoShared {
 	private void addProducto() {
 		gps.getVentaMerchandising().add(producto);
         gps.getVp().getCarritoTextArea().setText(gps.getVentaMerchandising().toString());
-        gps.getVp().getTxtPrice().setText(gps.getVentaMerchandising().getPrecioTotal()+ "€");
+        gps.getVp().getTxtPrice().setText("Precio: " + gps.getVentaMerchandising().getPrecioTotal() + "€");
         gps.getVp().getBtnNext1().setEnabled(true);
         view.getBtEliminar().setEnabled(true);
 	}
