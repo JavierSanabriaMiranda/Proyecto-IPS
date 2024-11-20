@@ -78,7 +78,8 @@ public class AplicacionMain {
     private Map<TipoUsuario, ConfiguradorDeMenu> configuradoresMenu = Map.of(
     		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuNoUsuario(),
     		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista(),
-    		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente()
+    		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente(),
+    		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos()
     	);
     
     public static void main(String[] args) {
