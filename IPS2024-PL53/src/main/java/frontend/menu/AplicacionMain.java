@@ -23,6 +23,7 @@ import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
 import backend.service.usuarios.TipoUsuario;
 import backend.service.usuarios.Usuario;
+import frontend.SwingUtil;
 import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
@@ -69,6 +70,9 @@ import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
 import shared.gestionjardineria.JardinerosShared;
 import shared.gestionlogin.GestionFrameLogInShared;
+import javax.swing.JLabel;
+import java.awt.Font;
+
 
 public class AplicacionMain {
 
@@ -87,7 +91,7 @@ public class AplicacionMain {
     		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones(),
     		TipoUsuario.ENTRENADOR, new ConfiguradorDeMenuEntrenador(),
     		TipoUsuario.DIRECTOR_COMUNICACIONES, new ConfiguradorDeMenuDirectorComunicaciones()
-    	);
+    	);  
     
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -114,6 +118,9 @@ public class AplicacionMain {
     	initialize();
     }
 
+    /**
+     * @wbp.parser.entryPoint
+         */
     private void initialize() {
         frmAplicacionBurgosFc = new JFrame();
         frmAplicacionBurgosFc.setResizable(false);
@@ -123,10 +130,10 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
 
 		//Boton para inicializar base de datos
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
+		btnInicializarBaseDeDatos.setBounds(2, 112, 247, 33);
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,10 +143,12 @@ public class AplicacionMain {
 				db.createDatabase(false);
 			}
 		});
+		frmAplicacionBurgosFc.getContentPane().setLayout(null);
 		frmAplicacionBurgosFc.getContentPane().add(btnInicializarBaseDeDatos);
 
 		//Boton para cargar los datos iniciales
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
+		btnCargarDatosIniciales.setBounds(2, 147, 247, 33);
 		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +158,31 @@ public class AplicacionMain {
 			}
 		});
 		frmAplicacionBurgosFc.getContentPane().add(btnCargarDatosIniciales);
-
+		
+		JLabel lbBienvenida = new JLabel("Bienvenido/a ");
+		if (usuario != null)
+			lbBienvenida.setText("Bienvenido/a " + usuario.getNombreUsuario());
+		lbBienvenida.setFont(new Font("Arial", Font.BOLD, 24));
+		lbBienvenida.setBounds(10, 11, 419, 50);
+		frmAplicacionBurgosFc.getContentPane().add(lbBienvenida);
+		
+		
+		// Añadir label del rol
+		if (usuario != null) {
+			JLabel lbRol = new JLabel(usuario.getTipoUsuario().toString());
+			lbRol.setFont(new Font("Arial", Font.PLAIN, 18));
+			lbRol.setBounds(10, 56, 253, 23);
+			frmAplicacionBurgosFc.getContentPane().add(lbRol);
+		}
+		
+		JButton btCerrarSesion = new JButton("Cerrar Sesión");
+		btCerrarSesion.setFont(new Font("Arial", Font.PLAIN, 12));
+		btCerrarSesion.setBounds(553, 11, 123, 23);
+		btCerrarSesion.addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarSesion()));
+		
+		frmAplicacionBurgosFc.getContentPane().add(btCerrarSesion);
+		
+		
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
@@ -157,7 +190,9 @@ public class AplicacionMain {
         inicializarMenuParaUsuario();
     }
 
-    /**
+
+
+	/**
      * Inicializa y configura el menú para el tipo de usuario que ha iniciado sesión
      * @param menu a inicializar
      */
@@ -343,4 +378,11 @@ public class AplicacionMain {
             }
         });
     }
+    
+    private void cerrarSesion() {
+		this.usuario = null;
+		frmAplicacionBurgosFc.dispose();
+		inicializarLogIn();
+	}
+
 }
