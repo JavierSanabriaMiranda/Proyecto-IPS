@@ -21,8 +21,8 @@ public class ConfiguradorDeMenuEntrenador implements ConfiguradorDeMenu {
 		JMenu entrevistasMenu = new JMenu("Entrevistas");
 		menuBar.add(entrevistasMenu);
 
-		// Opción "Crear Entrevistas"
-		JMenuItem crearEntrevistas = new JMenuItem("Crear Entrevistas");
+		// Opción "Crear Franjas de Entrevista"
+		JMenuItem crearEntrevistas = new JMenuItem("Crear Franjas de Entrevista");
 		crearEntrevistas.addActionListener(e -> {
 			menu.setVisible(false);
 			app.inicializarGestionCrearFranjasEntrevistas();

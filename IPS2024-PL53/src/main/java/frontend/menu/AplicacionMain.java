@@ -85,7 +85,8 @@ public class AplicacionMain {
     		TipoUsuario.EMPLEADO_TIENDA, new ConfiguradorDeMenuEmpleadoTienda(),
     		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda(),
     		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones(),
-    		TipoUsuario.ENTRENADOR, new ConfiguradorDeMenuEntrenador()
+    		TipoUsuario.ENTRENADOR, new ConfiguradorDeMenuEntrenador(),
+    		TipoUsuario.DIRECTOR_COMUNICACIONES, new ConfiguradorDeMenuDirectorComunicaciones()
     	);
     
     public static void main(String[] args) {
