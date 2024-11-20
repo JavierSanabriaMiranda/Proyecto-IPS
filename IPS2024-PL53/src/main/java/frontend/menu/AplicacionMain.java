@@ -82,7 +82,8 @@ public class AplicacionMain {
     		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos(),
     		TipoUsuario.EMPLEADO_TIENDA, new ConfiguradorDeMenuEmpleadoTienda(),
     		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda(),
-    		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones()
+    		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones(),
+    		TipoUsuario.ENTRENADOR, new ConfiguradorDeMenuEntrenador()
     	);
     
     public static void main(String[] args) {
@@ -384,7 +385,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarGestionEntrevistas() {
+    void inicializarGestionEntrevistas() {
         VentanaPrincipalEntrevista frame = new VentanaPrincipalEntrevista();
         configurarCierreVentana(frame);
         frame.setVisible(true);
@@ -423,7 +424,7 @@ public class AplicacionMain {
 		frame.setVisible(true);
     }
 
-    private void inicializarHorarioEquipos() {
+    void inicializarHorarioEquipos() {
     	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
     	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
     	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
