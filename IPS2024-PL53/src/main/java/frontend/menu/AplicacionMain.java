@@ -77,7 +77,8 @@ public class AplicacionMain {
     
     private Map<TipoUsuario, ConfiguradorDeMenu> configuradoresMenu = Map.of(
     		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuNoUsuario(),
-    		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista()
+    		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista(),
+    		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente()
     	);
     
     public static void main(String[] args) {
@@ -155,7 +156,7 @@ public class AplicacionMain {
 	private void inicializarMenuParaUsuario() {
 		if (usuario == null)
 			configuradoresMenu.get(TipoUsuario.NO_USUARIO).configurarMenu(frmAplicacionBurgosFc, this);
-		else
+		else if (configuradoresMenu.containsKey(usuario.getTipoUsuario()))
 			configuradoresMenu.get(usuario.getTipoUsuario()).configurarMenu(frmAplicacionBurgosFc, this);
 		frmAplicacionBurgosFc.setVisible(true);
 		
@@ -329,7 +330,7 @@ public class AplicacionMain {
 //        equiposMenu.add(horariosEntrenamientos);
 	}
 
-	private void inicializarGestionEmpleados() {
+	void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
         GestionFrameEmpleadosShared gfe = new GestionFrameEmpleadosShared(frame);
         gfe.initController();
@@ -337,7 +338,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarHorariosEmpleados() {
+    void inicializarHorariosEmpleados() {
         FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
         GestionFrameHorariosShared gfh = new GestionFrameHorariosShared(frame);
         gfh.initController();
@@ -353,7 +354,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarEntradas() {
+    void inicializarEntradas() {
         VentanaPrincipalEntrada frame = new VentanaPrincipalEntrada();
         GestionEntradaShared ges = new GestionEntradaShared(frame);
         ges.initController();
@@ -370,7 +371,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarGestionEquipos() {
+    void inicializarGestionEquipos() {
         GestionEquiposShared ges = new GestionEquiposShared();
         VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos(ges);
         GestionPanelEquiposShared gpes = new GestionPanelEquiposShared(frame);
@@ -385,7 +386,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarHistorialDeVentas() {
+    void inicializarHistorialDeVentas() {
         HistorialVentas window = new HistorialVentas();
         GestionHistorialShared ghs = new GestionHistorialShared(window);
         ghs.initController();
@@ -401,7 +402,7 @@ public class AplicacionMain {
 		frame.setVisible(true);
 	}
 
-    private void inicializarJardineria() {
+    void inicializarJardineria() {
     	JardinerosShared js = new JardinerosShared();
     	VentanaJardineros frame = new VentanaJardineros(js);
     	GestionPanelJardineriaShared gpjs = new GestionPanelJardineriaShared(frame);
@@ -435,7 +436,7 @@ public class AplicacionMain {
 		frame.setVisible(true);
     }
 
-    private void inicializarCrearCampania() {
+    void inicializarCrearCampania() {
     	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
     	GestionFrameCrearCampaniaShared gfcv = new GestionFrameCrearCampaniaShared(frame);
     	gfcv.initController();
@@ -452,7 +453,7 @@ public class AplicacionMain {
     	gfpc.cargarCampaniaEnCurso();
     }
     
-    private void inicializarAbonos() {
+    void inicializarAbonos() {
     	VentanaAbonos frame = new VentanaAbonos();
     	GestionVentaAbonos gva = new GestionVentaAbonos(frame);
     	gva.initController();
@@ -460,7 +461,7 @@ public class AplicacionMain {
     	frame.setVisible(true);
     }
 
-    private void inicializarCreacionPartidos() {
+    void inicializarCreacionPartidos() {
     	GestionPartidosShared gps = new GestionPartidosShared();
     	VentanaPartidos frame = new VentanaPartidos(gps);
     	GestionPanelPartidosShared gpps = new GestionPanelPartidosShared(frame);

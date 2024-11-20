@@ -12,7 +12,17 @@ import backend.data.empleados.EmpleadoDTO;
 
 public class FindEmpleadoNoDeportivoById {
 
-	private static final String QUERY = "SELECT * FROM EMPLEADO_NO_DEPORTIVO WHERE ID_EMPLEADO_NO_DEP = ?";
+	private static final String QUERY = "SELECT "
+	        + "ID_EMPLEADO_NO_DEP AS id, "
+	        + "DNI AS DNI, "
+	        + "NOMBRE AS nombre, "
+	        + "APELLIDO AS apellido, "
+	        + "TELEFONO AS telefono, "
+	        + "FECHA_NACIMIENTO AS fechaNac, "
+	        + "SALARIO_ANUAL AS salarioAnual, "
+	        + "POSICION AS posicion "
+	        + "FROM EMPLEADO_NO_DEPORTIVO "
+	        + "WHERE ID_EMPLEADO_NO_DEP = ?";
 	
 	private String id;
 	private Database db = new Database();

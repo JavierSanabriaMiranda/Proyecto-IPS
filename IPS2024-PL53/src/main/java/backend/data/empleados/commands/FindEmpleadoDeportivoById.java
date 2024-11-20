@@ -36,16 +36,15 @@ private static final String QUERY = "SELECT * FROM EMPLEADO_DEPORTIVO WHERE ID_E
 	    // Recorre cada mapa y convierte los datos en un objeto EmpleadoDTO.
 	    for (Map<String, Object> fila : listaMap) {
 	    	EmpleadoDeportivoDTO dto = new EmpleadoDeportivoDTO(); // Renombrado a dto
-	        dto.id = (String) fila.get("id");
+	        dto.id = (String) fila.get("ID_EMPLEADO_DEP");
 	        dto.DNI = (String) fila.get("DNI");
-	        dto.nombre = (String) fila.get("nombre");
-	        dto.apellido = (String) fila.get("apellido");
-	        dto.telefono = (String) fila.get("telefono");
-	        dto.fechaNac = (Date) fila.get("fechaNac");
-	        dto.id_equipo = (String) fila.get("idEquipo");
+	        dto.nombre = (String) fila.get("NOMBRE");
+	        dto.apellido = (String) fila.get("APELLIDO");
+	        dto.telefono = (String) fila.get("TELEFONO");
+	        dto.fechaNac = (Date) fila.get("FECHA_NACIMIENTO");
 	        // Los valores "Decimal" de la base de datos se traen a java como BigDecimal por lo que
 	        // es necesaria una conversión a double
-	        BigDecimal salarioAnualBD = (BigDecimal) fila.get("salarioAnual");
+	        BigDecimal salarioAnualBD = (BigDecimal) fila.get("SALARIO_ANUAL");
 	        if (salarioAnualBD != null) {
 	            dto.salarioAnual = salarioAnualBD.doubleValue(); // Asigna el valor convertido a salarioAnual
 	        } else {
