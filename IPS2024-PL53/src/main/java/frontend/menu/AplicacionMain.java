@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -180,8 +181,7 @@ public class AplicacionMain {
 		btCerrarSesion.setBounds(553, 11, 123, 23);
 		btCerrarSesion.addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarSesion()));
 		
-		frmAplicacionBurgosFc.getContentPane().add(btCerrarSesion);
-		
+		frmAplicacionBurgosFc.getContentPane().add(btCerrarSesion);		
 		
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
@@ -310,7 +310,7 @@ public class AplicacionMain {
 
     void inicializarPortalAccionistas() {
     	PortalAccionistas frame = new PortalAccionistas();
-    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);
+    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame, this.usuario);
     	gpns.initController();
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
@@ -327,7 +327,7 @@ public class AplicacionMain {
 
     void inicializarParticiparEnACampania() {
     	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
-    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
+    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame, this.usuario);
     	configurarCierreVentana(frame);
     	gfpc.initController();
     	gfpc.cargarCampaniaEnCurso();

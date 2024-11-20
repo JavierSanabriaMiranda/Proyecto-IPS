@@ -1,11 +1,10 @@
 package shared.gestioncampania;
 
-import java.security.MessageDigest;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import backend.service.usuarios.Usuario;
 import backend.service.ventas.campanaAccionistas.Accionista;
 import frontend.SwingUtil;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
@@ -17,9 +16,11 @@ public class GestionFrameParticiparCampania {
 	private FrameParticiparEnCampaniaAccionistas view;
 	private FrameRegistrarNuevoAccionista viewRegistro;
 	private GestionCampaniaShared gesCam = new GestionCampaniaShared();
+	private Usuario usuario;
 
-	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view) {
+	public GestionFrameParticiparCampania(FrameParticiparEnCampaniaAccionistas view, Usuario usuario) {
 		this.view = view;
+		this.usuario = usuario;
 	}
 
 	public void initController() {
@@ -42,7 +43,11 @@ public class GestionFrameParticiparCampania {
 	}
 
 	private void unirseACampania() {
-		String dni = obtenerDniCliente();
+		String dni;
+		if (usuario != null)
+			dni = usuario.getDniUsuario();
+		else
+			dni = obtenerDniCliente();
 		// Si el cliente ha cancelado la operación
 		if (dni == null) {
 			cerrarVentana();

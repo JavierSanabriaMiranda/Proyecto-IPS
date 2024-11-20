@@ -32,9 +32,8 @@ public class GestionLogInShared {
 			return Optional.empty();
 		
 		UsuarioDTO dtoUsuario = optUs.get();
-		// Se obtiene el puesto del usuario
-		TipoUsuario tipo = buscarTipoUsuario(dtoUsuario.id);
-		Usuario usuario = new Usuario(dtoUsuario.id, nombreUsuario, tipo);
+		// Se obtiene el usuario
+		Usuario usuario = buscarInfoUsuario(dtoUsuario);
 		
 		return Optional.of(usuario);
 	}
@@ -46,22 +45,32 @@ public class GestionLogInShared {
 	 * @param id
 	 * @return tipo del usuario cuyo id se introduce como parámetro
 	 */
-	private TipoUsuario buscarTipoUsuario(String id) {
+	private Usuario buscarInfoUsuario(UsuarioDTO dto) {
+		String id = dto.id;
+		
 		Optional<AccionistaDTO> optAcc = serviceAccionistas.findByIdAccionista(id);
 		if (optAcc.isPresent()) {
-			return TipoUsuario.ACCIONISTA;
+			AccionistaDTO dtoAcc = optAcc.get();
+			return new Usuario(dtoAcc.idAccionista, dtoAcc.dniAccionista, dto.nombreUsuario, 
+					TipoUsuario.ACCIONISTA);
 		}
 		Optional<EmpleadoDTO> optEmpNoDep = serviceEmpleados.findEmpleadoNoDeportivoById(id);
 		if (optEmpNoDep.isPresent()) {
-			return getTipoUsuarioDeEmpleadoNoDeportivo(optEmpNoDep.get());
+			EmpleadoDTO dtoEmp = optEmpNoDep.get();
+			TipoUsuario tipoEmp = getTipoUsuarioDeEmpleadoNoDeportivo(dtoEmp);
+			return new Usuario(dtoEmp.id, dtoEmp.DNI, dto.nombreUsuario, tipoEmp);
 		}
 		Optional<JugadorDto> optJugador = serviceEmpleados.findJugadorById(id);
 		if (optJugador.isPresent()) {
-			return TipoUsuario.JUGADOR;
+			JugadorDto dtoJug = optJugador.get();
+			return new Usuario(dtoJug.id_jugador, dtoJug.DNI, dto.nombreUsuario, 
+					TipoUsuario.JUGADOR);
 		}
 		Optional<EntrenadorDto> optEntrenador = serviceEmpleados.findEntrenadorById(id);
 		if (optEntrenador.isPresent()) {
-			return TipoUsuario.ENTRENADOR;
+			EntrenadorDto dtoEnt = optEntrenador.get();
+			return new Usuario(dtoEnt.id_entrenador, dtoEnt.DNI, dto.nombreUsuario, 
+					TipoUsuario.ENTRENADOR);
 		}
 		else 
 			throw new IllegalStateException("Se ha obtenido un Usuario de la base de datos "

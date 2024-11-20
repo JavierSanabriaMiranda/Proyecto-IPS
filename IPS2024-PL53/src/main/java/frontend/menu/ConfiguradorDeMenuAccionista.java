@@ -24,6 +24,14 @@ public class ConfiguradorDeMenuAccionista implements ConfiguradorDeMenu {
 		});
 		
         accionistasMenu.add(portalAccionistas);
+        
+        // Añade el participar en campaña
+        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
+        accederCampania.addActionListener(e -> {
+            menu.setVisible(false);
+            app.inicializarParticiparEnACampania();
+        });
+        accionistasMenu.add(accederCampania);
 	}
 
 }
