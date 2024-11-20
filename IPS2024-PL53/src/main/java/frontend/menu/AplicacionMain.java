@@ -79,7 +79,9 @@ public class AplicacionMain {
     		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuNoUsuario(),
     		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista(),
     		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente(),
-    		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos()
+    		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos(),
+    		TipoUsuario.EMPLEADO_TIENDA, new ConfiguradorDeMenuEmpleadoTienda(),
+    		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda()
     	);
     
     public static void main(String[] args) {
@@ -347,7 +349,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarMerchandising() {
+    void inicializarMerchandising() {
         VentanaPrincipal frame = new VentanaPrincipal();
         GestionProductoShared gps = new GestionProductoShared(new ProductoCRUDImpl(), frame);
         gps.initController();
