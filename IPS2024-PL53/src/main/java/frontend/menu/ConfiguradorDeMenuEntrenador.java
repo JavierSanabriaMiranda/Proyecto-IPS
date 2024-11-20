@@ -25,7 +25,7 @@ public class ConfiguradorDeMenuEntrenador implements ConfiguradorDeMenu {
 		JMenuItem crearEntrevistas = new JMenuItem("Crear Entrevistas");
 		crearEntrevistas.addActionListener(e -> {
 			menu.setVisible(false);
-			app.inicializarGestionEntrevistas();
+			app.inicializarGestionCrearFranjasEntrevistas();
 		});
 		entrevistasMenu.add(crearEntrevistas);
 	}

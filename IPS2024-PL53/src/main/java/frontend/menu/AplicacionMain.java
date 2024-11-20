@@ -31,6 +31,8 @@ import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entradaUI.abonados.VentanaInicioAbonados;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
+import frontend.entrevistaUI.VentanaSeleccionarJugadorFranjasEntrevistas;
+import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.equiposUI.partidos.VentanaPartidos;
@@ -385,9 +387,15 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    void inicializarGestionEntrevistas() {
-        VentanaPrincipalEntrevista frame = new VentanaPrincipalEntrevista();
+    void inicializarGestionCrearFranjasEntrevistas() {
+        VentanaSeleccionarJugadorFranjasEntrevistas frame = new VentanaSeleccionarJugadorFranjasEntrevistas();
         configurarCierreVentana(frame);
+        frame.setVisible(true);
+    }
+    
+    void inicializarGestionCrearEntrevistas() {
+    	VentanaSeleccionFranjaEntrevista frame = new VentanaSeleccionFranjaEntrevista();
+    	configurarCierreVentana(frame);
         frame.setVisible(true);
     }
 
