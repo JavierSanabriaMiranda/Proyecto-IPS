@@ -9,6 +9,27 @@ public class ConfiguradorDeMenuDirectorComunicaciones implements ConfiguradorDeM
 
 	@Override
 	public void configurarMenu(JFrame menu, AplicacionMain app) {
+		addMenuCrearEntrevistas(menu, app);
+		addMenuCrearNoticias(menu, app);
+	}
+
+	private void addMenuCrearNoticias(JFrame menu, AplicacionMain app) {
+		JMenuBar menuBar = menu.getJMenuBar();
+		
+		// Menú "Noticias"
+		JMenu noticiasMenu = new JMenu("Noticias");
+		menuBar.add(noticiasMenu);
+
+		// Opción "Cargar Noticias"
+		JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
+		cargarNoticias.addActionListener(e -> {
+			menu.setVisible(false);
+			app.inicializarCargarNoticias();
+		});
+		noticiasMenu.add(cargarNoticias);
+	}
+
+	private void addMenuCrearEntrevistas(JFrame menu, AplicacionMain app) {
 		JMenuBar menuBar = menu.getJMenuBar();
 
 		// Menú "Entrevistas"
