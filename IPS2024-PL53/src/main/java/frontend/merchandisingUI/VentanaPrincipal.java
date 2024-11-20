@@ -5,11 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
@@ -25,7 +21,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends JFrame {
@@ -50,15 +48,12 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnNext1;
 	private JTabbedPane pnOrder;
 	private JTextArea taCarrito;
-	private JPanel pnBts2;
 	private JButton btnPrevious2;
 	private JButton btnNext2;
 	private JPanel pnInfo2;
 	private JPanel pn2;
 	private JPanel pn3;
-	private JPanel pnConfirmacion;
 	private JPanel pnInfo3;
-	private JLabel lblAdvise;
 	private JPanel pnBts3;
 	private JButton btnFinish;
 	private JScrollPane scrollPaneResumen;
@@ -68,6 +63,16 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lbCorreo;
 	private JTextField tfCorreo;
 	private JPanel pnDatos;
+	private JPanel pnCorreo;
+	private JPanel pnNombre;
+	private JLabel lbNombre;
+	private JTextField tfNombre;
+	private JPanel pnDNI;
+	private JLabel lbDNI;
+	private JTextField tfDNI;
+	private JPanel pnDomicilio;
+	private JLabel lbDomicilio;
+	private JTextField tfDomicilio;
 
 	/**
 	 * Create the frame.
@@ -77,7 +82,7 @@ public class VentanaPrincipal extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/productos/logo.jpg")));
 		setTitle("Tienda Oficial");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 1000);
+		setBounds(100, 100, 970, 1000);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -179,7 +184,7 @@ public class VentanaPrincipal extends JFrame {
 	    if (taCarrito == null) {
 	        taCarrito = new JTextArea();
 	        taCarrito.setEditable(false);  // Desactivar la edición
-	        taCarrito.setBackground(SystemColor.controlHighlight);  // Fondo gris claro
+	        taCarrito.setBackground(new Color(245, 245, 245));  // Fondo gris claro
 	        taCarrito.setForeground(Color.BLACK);  // Texto en negro
 	        taCarrito.setFont(new Font("Arial", Font.PLAIN, 12));  // Cambiar la fuente
 	        taCarrito.setBorder(new LineBorder(Color.BLACK, 1));  // Añadir un borde fino negro
@@ -232,19 +237,6 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnNext1;
 	}
-	
-	
-
-	public JPanel getPnBts2() {
-		if (pnBts2 == null) {
-			pnBts2 = new JPanel();
-			pnBts2.setBackground(Color.WHITE);
-			pnBts2.setLayout(new GridLayout(1, 3, 0, 0));
-			pnBts2.add(getBtnPrevious2());
-			pnBts2.add(getBtnNext2());
-		}
-		return pnBts2;
-	}
 
 	public JButton getBtnPrevious2() {
 		if (btnPrevious2 == null) {
@@ -263,50 +255,20 @@ public class VentanaPrincipal extends JFrame {
 			btnNext2.setForeground(Color.WHITE);
 			btnNext2.setBackground(new Color(50, 205, 50));
 			btnNext2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnNext2.setEnabled(false);
 		}
 		return btnNext2;
 	}
 	
-	private JPanel getPnInfo2() {
+	public JPanel getPnInfo2() {
 		if (pnInfo2 == null) {
 			pnInfo2 = new JPanel();
 			pnInfo2.setBackground(Color.WHITE);
-			pnInfo2.setLayout(new GridLayout(2, 1, 0, 20));
-			pnInfo2.add(getPnDatos());
-			pnInfo2.add(getPnBts2());
+			pnInfo2.setLayout(new GridLayout(0, 3, 10, 0));
+			pnInfo2.add(getBtnPrevious2());
+			pnInfo2.add(getBtnNext2());
 		}
 		return pnInfo2;
 	}
-	
-	private JPanel getPnDatos() {
-		if (pnDatos == null) {
-			pnDatos = new JPanel();
-			pnDatos.setBackground(Color.WHITE);
-			pnDatos.setLayout(new GridLayout(2, 1, 0, 0));
-			pnDatos.add(getLblCorreo());
-			pnDatos.add(getTfCorreo());
-		}
-		return pnDatos;
-	}
-	
-	private JLabel getLblCorreo() {
-        if (lbCorreo == null) {
-            lbCorreo = new JLabel("Correo electrónico:");
-            lbCorreo.setFont(new Font("Tahoma", Font.BOLD, 12));
-        }
-        return lbCorreo;
-    }
-
-    public JTextField getTfCorreo() {
-        if (tfCorreo == null) {
-            tfCorreo = new JTextField();
-            tfCorreo.setColumns(20);
-            tfCorreo.setPreferredSize(new Dimension(300,30));
-            tfCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-        }
-        return tfCorreo;
-    }
 
 	private JPanel getPnFilters() {
 		if (pnFilters == null) {
@@ -379,38 +341,11 @@ public class VentanaPrincipal extends JFrame {
 	    if (pn3 == null) {
 	        pn3 = new JPanel();
 	        pn3.setBackground(Color.WHITE);
-	        pn3.setLayout(new BorderLayout(0, 0));
-	        pn3.add(getPnConfirmation(), BorderLayout.CENTER);
+	        pn3.setLayout(new BorderLayout(0, 60));
 	        pn3.add(getPnInfo3(), BorderLayout.SOUTH);
+	        pn3.add(getPnDatos(), BorderLayout.CENTER);
 	    }
 	    return pn3;
-	}
-
-	private JPanel getPnConfirmation() {
-	    if (pnConfirmacion == null) {
-	        pnConfirmacion = new JPanel();
-	        pnConfirmacion.setBorder(new LineBorder(Color.ORANGE, 4));
-	        pnConfirmacion.setBackground(Color.WHITE);
-	        pnConfirmacion.setLayout(new GridBagLayout()); // Usar GridBagLayout
-	        GridBagConstraints gbc = new GridBagConstraints();
-	        gbc.insets = new Insets(10, 10, 10, 10); // Espaciado alrededor de los componentes
-	        gbc.anchor = GridBagConstraints.CENTER; // Centrar los componentes
-	        gbc.weightx = 0.0; // No expandir horizontalmente
-	        gbc.weighty = 1.0;
-
-	        pnConfirmacion.add(getLblAdvise(), gbc);
-	    }
-	    return pnConfirmacion;
-	}
-
-	private JLabel getLblAdvise() {
-	    if (lblAdvise == null) {
-	        lblAdvise = new JLabel();
-	        lblAdvise.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/productos/ok.png")));
-	        lblAdvise.setText("Gracias por confiar en nosotros!");
-	        lblAdvise.setFont(new Font("Tahoma", Font.BOLD, 28));
-	    }
-	    return lblAdvise;
 	}
 
 	private JPanel getPnInfo3() {
@@ -436,6 +371,7 @@ public class VentanaPrincipal extends JFrame {
 	public JButton getBtnFinish() {
 		if (btnFinish == null) {
 			btnFinish = new JButton("Confirmar");
+			btnFinish.setEnabled(false);
 			btnFinish.setForeground(Color.WHITE);
 			btnFinish.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			btnFinish.setBackground(new Color(50, 205, 50));
@@ -484,4 +420,137 @@ public class VentanaPrincipal extends JFrame {
 		return tableModelResumen;
 	}
 
+	private JPanel getPnDatos() {
+		if (pnDatos == null) {
+			pnDatos = new JPanel();
+			pnDatos.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Datos del cliente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "Datos del cliente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			pnDatos.setBackground(Color.WHITE);
+			pnDatos.setLayout(new GridLayout(4, 1, 0, 60));
+			pnDatos.add(getPnNombre());
+			pnDatos.add(getPnDNI());
+			pnDatos.add(getPnDomicilio());
+			pnDatos.add(getPnCorreo());
+		}
+		return pnDatos;
+	}
+	
+	private JPanel getPnNombre() {
+		if (pnNombre == null) {
+			pnNombre = new JPanel();
+			pnNombre.setBackground(new Color(255, 255, 255));
+			pnNombre.setLayout(new BorderLayout(0, 0));
+			pnNombre.add(getLblNombre(), BorderLayout.CENTER);
+			pnNombre.add(getTfNombre(), BorderLayout.SOUTH);
+		}
+		return pnNombre;
+	}
+	
+	private JLabel getLblNombre() {
+        if (lbNombre == null) {
+        	lbNombre = new JLabel("Introduzca su nombre:");
+        	lbNombre.setBackground(new Color(255, 255, 255));
+        	lbNombre.setFont(new Font("Tahoma", Font.BOLD, 12));
+        }
+        return lbNombre;
+    }
+
+    public JTextField getTfNombre() {
+        if (tfNombre == null) {
+        	tfNombre = new JTextField();
+        	tfNombre.setColumns(20);
+        	tfNombre.setPreferredSize(new Dimension(300,30));
+        	tfNombre.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        return tfNombre;
+    }
+    
+    private JPanel getPnDNI() {
+		if (pnDNI == null) {
+			pnDNI = new JPanel();
+			pnDNI.setBackground(new Color(255, 255, 255));
+			pnDNI.setLayout(new BorderLayout(0, 0));
+			pnDNI.add(getLblDNI(), BorderLayout.CENTER);
+			pnDNI.add(getTfDNI(), BorderLayout.SOUTH);
+		}
+		return pnDNI;
+	}
+	
+	private JLabel getLblDNI() {
+        if (lbDNI == null) {
+        	lbDNI = new JLabel("Introduzca su DNI:");
+        	lbDNI.setBackground(new Color(255, 255, 255));
+            lbDNI.setFont(new Font("Tahoma", Font.BOLD, 12));
+        }
+        return lbDNI;
+    }
+
+    public JTextField getTfDNI() {
+        if (tfDNI == null) {
+        	tfDNI = new JTextField();
+        	tfDNI.setColumns(20);
+        	tfDNI.setPreferredSize(new Dimension(300,30));
+        	tfDNI.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        return tfDNI;
+    }
+    
+    private JPanel getPnDomicilio() {
+		if (pnDomicilio == null) {
+			pnDomicilio = new JPanel();
+			pnDomicilio.setBackground(new Color(255, 255, 255));
+			pnDomicilio.setLayout(new BorderLayout(0, 0));
+			pnDomicilio.add(getLblDomicilio(), BorderLayout.CENTER);
+			pnDomicilio.add(getTfDomicilio(), BorderLayout.SOUTH);
+		}
+		return pnDomicilio;
+	}
+	
+	private JLabel getLblDomicilio() {
+        if (lbDomicilio == null) {
+        	lbDomicilio = new JLabel("Introduzca su Domicio:(Calle, Piso, Ciudad, Codigo Postal )");
+        	lbDomicilio.setBackground(new Color(255, 255, 255));
+        	lbDomicilio.setFont(new Font("Tahoma", Font.BOLD, 12));
+        }
+        return lbDomicilio;
+    }
+
+    public JTextField getTfDomicilio() {
+        if (tfDomicilio == null) {
+        	tfDomicilio = new JTextField();
+        	tfDomicilio.setColumns(20);
+        	tfDomicilio.setPreferredSize(new Dimension(300,30));
+        	tfDomicilio.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        return tfDomicilio;
+    }
+	
+	private JPanel getPnCorreo() {
+		if (pnCorreo == null) {
+			pnCorreo = new JPanel();
+			pnCorreo.setBackground(new Color(255, 255, 255));
+			pnCorreo.setLayout(new BorderLayout(0, 0));
+			pnCorreo.add(getLblCorreo(), BorderLayout.CENTER);
+			pnCorreo.add(getTfCorreo(), BorderLayout.SOUTH);
+		}
+		return pnCorreo;
+	}
+	
+	private JLabel getLblCorreo() {
+        if (lbCorreo == null) {
+            lbCorreo = new JLabel("Correo electrónico:");
+            lbCorreo.setBackground(new Color(255, 255, 255));
+            lbCorreo.setFont(new Font("Tahoma", Font.BOLD, 12));
+        }
+        return lbCorreo;
+    }
+
+    public JTextField getTfCorreo() {
+        if (tfCorreo == null) {
+            tfCorreo = new JTextField();
+            tfCorreo.setColumns(20);
+            tfCorreo.setPreferredSize(new Dimension(300,30));
+            tfCorreo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        return tfCorreo;
+    }
 }
