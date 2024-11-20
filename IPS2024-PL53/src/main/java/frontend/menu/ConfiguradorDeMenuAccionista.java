@@ -29,7 +29,7 @@ public class ConfiguradorDeMenuAccionista implements ConfiguradorDeMenu {
         JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
         accederCampania.addActionListener(e -> {
             menu.setVisible(false);
-            app.inicializarParticiparEnACampania();
+            app.inicializarParticiparEnCampania();
         });
         accionistasMenu.add(accederCampania);
 	}

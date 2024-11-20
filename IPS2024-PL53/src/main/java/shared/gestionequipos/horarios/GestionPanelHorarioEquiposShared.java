@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 import backend.service.empleados.EmpleadoDeportivo;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
+import backend.service.usuarios.Usuario;
 import backend.service.ventas.reservas.Instalacion;
 import frontend.SwingUtil;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
@@ -25,8 +26,17 @@ public class GestionPanelHorarioEquiposShared {
 
 	private VentanaHorarioEquipos view;
 	
+	
 	public GestionPanelHorarioEquiposShared(VentanaHorarioEquipos view) {
 		this.view = view;
+	}
+
+	public void comprobarUsuarioEntrenadorTieneEquipo() {
+		if (!view.getHorarioEntrenamientoShared().entrenadorUsuarioTieneEquipo()) {
+			view.dispose();
+			JOptionPane.showMessageDialog(null, "Usted no dispone de ningún equipo al que asignar entrenamientos",
+					"Entrenador no dispone de equipo", JOptionPane.INFORMATION_MESSAGE);
+		}	
 	}
 
 	public VentanaHorarioEquipos getView() {

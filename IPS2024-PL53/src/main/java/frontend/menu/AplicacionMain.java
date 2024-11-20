@@ -300,12 +300,13 @@ public class AplicacionMain {
     }
 
     void inicializarHorarioEquipos() {
-    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
+    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared(this.usuario);
     	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
     	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
     	gpes.initControllers();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
+    	gpes.comprobarUsuarioEntrenadorTieneEquipo();
     }
 
     void inicializarPortalAccionistas() {
@@ -325,7 +326,7 @@ public class AplicacionMain {
     	gfcv.cargarCampaniaEnCurso();
     }
 
-    void inicializarParticiparEnACampania() {
+    void inicializarParticiparEnCampania() {
     	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
     	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame, this.usuario);
     	configurarCierreVentana(frame);
