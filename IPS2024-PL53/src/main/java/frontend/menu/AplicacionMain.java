@@ -81,7 +81,8 @@ public class AplicacionMain {
     		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente(),
     		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos(),
     		TipoUsuario.EMPLEADO_TIENDA, new ConfiguradorDeMenuEmpleadoTienda(),
-    		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda()
+    		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda(),
+    		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones()
     	);
     
     public static void main(String[] args) {
@@ -211,7 +212,7 @@ public class AplicacionMain {
 //        });
 //        ventasMenu.add(reservasInstalaciones);
 //
-//     // Opción "Reservar instalaciones"
+//     // Opción "Comprar suplemento abonados"
 //        JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
 //        entradasAbonados.addActionListener(e -> {
 //            frmAplicacionBurgosFc.setVisible(false);
@@ -365,7 +366,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarReservas() {
+    void inicializarReservas() {
         ReservaShared reservaShared = new ReservaShared();
         VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
         GestionPanelReservaShared gprs = new GestionPanelReservaShared(frame);
@@ -474,7 +475,7 @@ public class AplicacionMain {
     	frame.setVisible(true);
     }
 
-    private void inicializarEntradasEspecialesAbonados() {
+    void inicializarEntradasEspecialesAbonados() {
     	GestionEntradasAbonadosShared geas = new GestionEntradasAbonadosShared();
     	VentanaInicioAbonados frame = new VentanaInicioAbonados(geas);
     	GestionPanelEntradasAbonadosShared gpeas = new GestionPanelEntradasAbonadosShared(frame);
