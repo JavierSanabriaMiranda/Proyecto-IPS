@@ -7,15 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Map;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -24,6 +21,7 @@ import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
 import backend.service.usuarios.TipoUsuario;
 import backend.service.usuarios.Usuario;
+import backend.util.log.LogManager;
 import frontend.SwingUtil;
 import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
@@ -32,7 +30,6 @@ import frontend.empleados.FrameGestionEmpleados;
 import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entradaUI.abonados.VentanaInicioAbonados;
-import frontend.entrevistaUI.VentanaPrincipalEntrevista;
 import frontend.entrevistaUI.VentanaSeleccionarJugadorFranjasEntrevistas;
 import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
@@ -98,7 +95,7 @@ public class AplicacionMain {
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                AplicacionMain window = new AplicacionMain();
+                new AplicacionMain();
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -124,13 +121,14 @@ public class AplicacionMain {
          */
     private void initialize() {
         frmAplicacionBurgosFc = new JFrame();
+        
         frmAplicacionBurgosFc.setResizable(false);
         frmAplicacionBurgosFc.getContentPane().setBackground(Color.WHITE);
         frmAplicacionBurgosFc.setTitle("Aplicacion Burgos FC");
         frmAplicacionBurgosFc.setIconImage(Toolkit.getDefaultToolkit().getImage(AplicacionMain.class.getResource("/img/productos/logo.jpg")));
         frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
-        frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        configurarCierreAplicacionMain(frmAplicacionBurgosFc);
 
 		//Boton para inicializar base de datos
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
@@ -188,6 +186,12 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
 
         inicializarMenuParaUsuario();
+        try {
+        	if (usuario != null)
+        		LogManager.initialize(usuario.getNombreUsuario());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 
@@ -199,8 +203,10 @@ public class AplicacionMain {
 	private void inicializarMenuParaUsuario() {
 		if (usuario == null)
 			configuradoresMenu.get(TipoUsuario.NO_USUARIO).configurarMenu(frmAplicacionBurgosFc, this);
-		else if (configuradoresMenu.containsKey(usuario.getTipoUsuario()))
+		else if (configuradoresMenu.containsKey(usuario.getTipoUsuario())) {
 			configuradoresMenu.get(usuario.getTipoUsuario()).configurarMenu(frmAplicacionBurgosFc, this);
+		}
+			
 		frmAplicacionBurgosFc.setVisible(true);
 	}
 
@@ -380,10 +386,21 @@ public class AplicacionMain {
         });
     }
     
+    private void configurarCierreAplicacionMain(JFrame frmAplicacionBurgosFc) {
+    	frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frmAplicacionBurgosFc.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+                SwingUtilities.invokeLater(() -> LogManager.close());
+            }
+        });
+    }
+    
     private void cerrarSesion() {
 		this.usuario = null;
 		frmAplicacionBurgosFc.dispose();
 		inicializarLogIn();
+		LogManager.close();
 	}
 
 }

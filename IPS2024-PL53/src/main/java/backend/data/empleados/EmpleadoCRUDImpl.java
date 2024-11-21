@@ -90,21 +90,25 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 
 	@Override
 	public Optional<EmpleadoDTO> findEmpleadoNoDeportivoById(String id) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: EMPLEADO_NO_DEPORTIVO");
 		return new FindEmpleadoNoDeportivoById(id).execute();
 	}
 
 	@Override
 	public Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoById(String id) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: EMPLEADO_DEPORTIVO");
 		return new FindEmpleadoDeportivoById(id).execute();
 	}
 
 	@Override
 	public Optional<JugadorDto> findJugadorById(String id) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: EMPLEADO_DEPORTIVO, JUGADOR");
 		return new FindJugadorById(id).execute();
 	}
 
 	@Override
 	public Optional<EntrenadorDto> findEntrenadorById(String id) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: EMPLEADO_DEPORTIVO, ENTRENADOR");
 		return new FindEntrenadorById(id).execute();
 	}
 

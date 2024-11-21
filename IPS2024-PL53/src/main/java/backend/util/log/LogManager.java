@@ -11,26 +11,24 @@ public class LogManager {
     private static Logger logger;
     private static String logFilePath;
     private static String usuario;
+    private static FileHandler fileHandler;
 
     
-    public static void initialize(String usuario) throws IOException {
-        if (logger != null) {
-            return; 
-        }
-
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+    public static void initialize(String user) throws IOException {
+        usuario = user;
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd__HH.mm.ss"));
         String logDirectory = "src/main/resources/logs";
 
         logFilePath = logDirectory + "/log_" + usuario + "_" + timestamp + ".log";
 
         // Configurar el Logger
         logger = Logger.getLogger("LogManager");
-        FileHandler fileHandler = new FileHandler(logFilePath, true);
+        fileHandler = new FileHandler(logFilePath, true);
         fileHandler.setFormatter(new SimpleFormatter());
         logger.addHandler(fileHandler);
         logger.setUseParentHandlers(false); // Evita que los logs se impriman en consola
 
-        logAction("Sistema: Inicio del log para el usuario: " + usuario);
+        logAction("Inicio del log para el usuario: " + usuario);
     }
 
     
@@ -46,6 +44,12 @@ public class LogManager {
             return; //Si el logger es null, será porque se ha iniciado la aplicación sin iniciar sesión
         }
         logger.info("[Usuario: " + usuario + "] - Acción: " + accion + " - Detalles: " + detalles);
+    }
+    
+    public static void close() {
+        if (fileHandler != null) {
+            fileHandler.close(); // Liberar el FileHandler y eliminar el archivo .lck
+        }
     }
 
     public static String getLogFilePath() {

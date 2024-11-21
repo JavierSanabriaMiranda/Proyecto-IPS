@@ -23,6 +23,7 @@ public class UsuariosCRUDImpl implements UsuariosCRUDService {
 
 	@Override
 	public Optional<UsuarioDTO> findUsuarioByNombreYPassword(UsuarioDTO dto) {
+		LogManager.logAction("Acceso a Base de Datos. Tabla: USUARIO");
 		return new FindUsuarioByNombreYPassword(dto).execute();
 	}
 
