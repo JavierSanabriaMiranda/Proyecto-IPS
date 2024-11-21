@@ -285,6 +285,17 @@ public class Gerente extends EmpleadoNoDeportivoBase
 
 	//--------- Horarios Entrenamientos -----------------
 	@Override
+	public EmpleadoDeportivo getEntrenadorUsuarioConEquipos(String idEntrenador) {
+		if (empDeportivos.containsKey(idEntrenador)) {
+			EmpleadoDeportivo entrenador = empDeportivos.get(idEntrenador);
+			if (entrenador.tieneEquipo())
+				return entrenador;
+		}
+			
+		return null;
+	}
+	
+	@Override
 	public List<EmpleadoDeportivo> getEntrenadoresConEquipo() {
 		List<EmpleadoDeportivo> entrenadores = new ArrayList<>();
 		for (EmpleadoDeportivo emp : empDeportivos.values()) {

@@ -1,4 +1,4 @@
-package frontend;
+package frontend.menu;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -7,8 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -20,6 +22,9 @@ import javax.swing.WindowConstants;
 
 import backend.data.Database;
 import backend.data.productos.ProductoCRUDImpl;
+import backend.service.usuarios.TipoUsuario;
+import backend.service.usuarios.Usuario;
+import frontend.SwingUtil;
 import frontend.abonos.VentanaAbonos;
 import frontend.campaniaaccionistas.FrameCreacionCampaniaAccionistas;
 import frontend.campaniaaccionistas.FrameParticiparEnCampaniaAccionistas;
@@ -28,11 +33,14 @@ import frontend.empleados.horarios.FrameHorariosEmpleados;
 import frontend.entradaUI.VentanaPrincipalEntrada;
 import frontend.entradaUI.abonados.VentanaInicioAbonados;
 import frontend.entrevistaUI.VentanaPrincipalEntrevista;
+import frontend.entrevistaUI.VentanaSeleccionarJugadorFranjasEntrevistas;
+import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.equiposUI.partidos.VentanaPartidos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
+import frontend.login.FrameLogIn;
 import frontend.merchandisingUI.VentanaPrincipal;
 import frontend.noticias.CargarNoticia;
 import frontend.noticias.PortalNoticias;
@@ -62,17 +70,35 @@ import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
 import shared.gestionjardineria.GestionPanelJardineriaShared;
 import shared.gestionjardineria.JardinerosShared;
+import shared.gestionlogin.GestionFrameLogInShared;
+import javax.swing.JLabel;
+import java.awt.Font;
+
 
 public class AplicacionMain {
 
     private JFrame frmAplicacionBurgosFc;
-
+    // Si el usuario está a null significa que no se ha 
+    // iniciado sesión, sino que se ha entrado sin logearse
+    private Usuario usuario;
+    
+    private Map<TipoUsuario, ConfiguradorDeMenu> configuradoresMenu = Map.of(
+    		TipoUsuario.NO_USUARIO, new ConfiguradorDeMenuNoUsuario(),
+    		TipoUsuario.ACCIONISTA, new ConfiguradorDeMenuAccionista(),
+    		TipoUsuario.GERENTE, new ConfiguradorDeMenuGerente(),
+    		TipoUsuario.VENDEDOR_ENTRADAS_ABONOS, new ConfiguradorDeMenuVendedorAbonos(),
+    		TipoUsuario.EMPLEADO_TIENDA, new ConfiguradorDeMenuEmpleadoTienda(),
+    		TipoUsuario.ENCARGADO_TIENDA, new ConfiguradorDeMenuEncargadoTienda(),
+    		TipoUsuario.GESTOR_INSTALACIONES, new ConfiguradorDeMenuGestorInstalaciones(),
+    		TipoUsuario.ENTRENADOR, new ConfiguradorDeMenuEntrenador(),
+    		TipoUsuario.DIRECTOR_COMUNICACIONES, new ConfiguradorDeMenuDirectorComunicaciones()
+    	);  
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
                 AplicacionMain window = new AplicacionMain();
-                window.frmAplicacionBurgosFc.setVisible(true);
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -80,9 +106,22 @@ public class AplicacionMain {
     }
 
     public AplicacionMain() {
-        initialize();
+    	inicializarLogIn();
+    }
+    
+    /**
+     * Recibe un usuario el cual puede ser null (si se ha entrado sin iniciar sesión) y se 
+     * inicializa el menú para dicho usuario
+     * @param usuario
+     */
+    public void iniciarSesion(Usuario usuario) {
+    	this.usuario = usuario;
+    	initialize();
     }
 
+    /**
+     * @wbp.parser.entryPoint
+         */
     private void initialize() {
         frmAplicacionBurgosFc = new JFrame();
         frmAplicacionBurgosFc.setResizable(false);
@@ -92,10 +131,10 @@ public class AplicacionMain {
         frmAplicacionBurgosFc.setBounds(100, 100, 700, 250);
         frmAplicacionBurgosFc.setLocationRelativeTo(null);
         frmAplicacionBurgosFc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frmAplicacionBurgosFc.getContentPane().setLayout(new BoxLayout(frmAplicacionBurgosFc.getContentPane(), BoxLayout.Y_AXIS));
 
 		//Boton para inicializar base de datos
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
+		btnInicializarBaseDeDatos.setBounds(2, 112, 247, 33);
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -105,10 +144,12 @@ public class AplicacionMain {
 				db.createDatabase(false);
 			}
 		});
+		frmAplicacionBurgosFc.getContentPane().setLayout(null);
 		frmAplicacionBurgosFc.getContentPane().add(btnInicializarBaseDeDatos);
 
 		//Boton para cargar los datos iniciales
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
+		btnCargarDatosIniciales.setBounds(2, 147, 247, 33);
 		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -118,182 +159,52 @@ public class AplicacionMain {
 			}
 		});
 		frmAplicacionBurgosFc.getContentPane().add(btnCargarDatosIniciales);
-
+		
+		JLabel lbBienvenida = new JLabel("Bienvenido/a ");
+		if (usuario != null)
+			lbBienvenida.setText("Bienvenido/a " + usuario.getNombreUsuario());
+		lbBienvenida.setFont(new Font("Arial", Font.BOLD, 24));
+		lbBienvenida.setBounds(10, 11, 419, 50);
+		frmAplicacionBurgosFc.getContentPane().add(lbBienvenida);
+		
+		
+		// Añadir label del rol
+		if (usuario != null) {
+			JLabel lbRol = new JLabel(usuario.getTipoUsuario().toString());
+			lbRol.setFont(new Font("Arial", Font.PLAIN, 18));
+			lbRol.setBounds(10, 56, 253, 23);
+			frmAplicacionBurgosFc.getContentPane().add(lbRol);
+		}
+		
+		JButton btCerrarSesion = new JButton("Cerrar Sesión");
+		btCerrarSesion.setFont(new Font("Arial", Font.PLAIN, 12));
+		btCerrarSesion.setBounds(553, 11, 123, 23);
+		btCerrarSesion.addActionListener(e -> SwingUtil.exceptionWrapper(() -> cerrarSesion()));
+		
+		frmAplicacionBurgosFc.getContentPane().add(btCerrarSesion);		
+		
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
         frmAplicacionBurgosFc.setJMenuBar(menuBar);
 
-        // Menú "Gestión"
-        JMenu gestionMenu = new JMenu("Gestión de Empleados");
-        menuBar.add(gestionMenu);
-
-        // Opción "Gestionar empleados"
-        JMenuItem gestionEmpleados = new JMenuItem("Gestionar Empleados");
-        gestionEmpleados.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEmpleados();
-        });
-        gestionMenu.add(gestionEmpleados);
-
-        // Opción "Asignar horarios"
-        JMenuItem asignarHorarios = new JMenuItem("Asignar Horarios");
-        asignarHorarios.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHorariosEmpleados();
-        });
-        gestionMenu.add(asignarHorarios);
-
-        // Menú "Ventas"
-        JMenu ventasMenu = new JMenu("Ventas");
-        menuBar.add(ventasMenu);
-
-        // Opción "Ventas de Merchandising"
-        JMenuItem ventasMerchandising = new JMenuItem("Compra de Merchandising");
-        ventasMerchandising.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarMerchandising();
-        });
-        ventasMenu.add(ventasMerchandising);
-
-        // Opción "Ventas de Entradas"
-        JMenuItem ventasEntradas = new JMenuItem("Compra de Entradas");
-        ventasEntradas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarEntradas();
-        });
-        ventasMenu.add(ventasEntradas);
-
-        // Opción "Reservar instalaciones"
-        JMenuItem reservasInstalaciones = new JMenuItem("Reservar Instalaciones");
-        reservasInstalaciones.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarReservas();
-        });
-        ventasMenu.add(reservasInstalaciones);
-
-     // Opción "Reservar instalaciones"
-        JMenuItem entradasAbonados = new JMenuItem("Compra Suplemento para Abonados");
-        entradasAbonados.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarEntradasEspecialesAbonados();
-        });
-        ventasMenu.add(entradasAbonados);
-
-        // Opción "Compra de abonos"
-        JMenuItem compraAbonos = new JMenuItem("Compra de Abonos");
-        compraAbonos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarAbonos();
-        });
-        ventasMenu.add(compraAbonos);
-
-        // Menú "Equipos"
-        JMenu equiposMenu = new JMenu("Equipos");
-        menuBar.add(equiposMenu);
-
-        // Opción "Añadir equipos"
-        JMenuItem anadirEquipos = new JMenuItem("Añadir Equipos");
-        anadirEquipos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEquipos();
-        });
-        equiposMenu.add(anadirEquipos);
-        
-     // Opción "Crear partidos para equipos"
-        JMenuItem crearPartidos = new JMenuItem("Crear Partido");
-        crearPartidos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCreacionPartidos();
-        });
-        equiposMenu.add(crearPartidos);
-
-        // Menú "Entrevistas"
-        JMenu entrevistasMenu = new JMenu("Entrevistas");
-        menuBar.add(entrevistasMenu);
-
-        // Opción "Crear Entrevistas"
-        JMenuItem crearEntrevistas = new JMenuItem("Crear Entrevistas");
-        crearEntrevistas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarGestionEntrevistas();
-        });
-        entrevistasMenu.add(crearEntrevistas);
-
-        // Menú "Historial de Ventas"
-        JMenu historialMenu = new JMenu("Historial de Ventas");
-        menuBar.add(historialMenu);
-
-        // Opción "Ver Historial de Ventas"
-        JMenuItem historialVentas = new JMenuItem("Ver Historial de Ventas");
-        historialVentas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHistorialDeVentas();
-        });
-        historialMenu.add(historialVentas);
-        
-     // Menú "Noticias"
-        JMenu noticiasMenu = new JMenu("Noticias");
-        menuBar.add(noticiasMenu);
-
-        // Opción "Cargar Noticias"
-        JMenuItem cargarNoticias = new JMenuItem("Crear Noticia");
-        cargarNoticias.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCargarNoticias();
-        });
-        noticiasMenu.add(cargarNoticias);
-
-        JMenuItem horarioJardineros = new JMenuItem("Horarios Jardinería");
-        horarioJardineros.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarJardineria();
-        });
-        gestionMenu.add(horarioJardineros);
-
-
-
-     // Opción "Ver Portal Noticias"
-        JMenuItem portalNoticias = new JMenuItem("Portal de Noticias");
-        portalNoticias.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarPortalNoticias();
-        });
-        noticiasMenu.add(portalNoticias);
-
-        // Menú "Accionistas"
-        JMenu accionistasMenu = new JMenu("Accionistas");
-        menuBar.add(accionistasMenu);
-
-        JMenuItem campanaAccionistas = new JMenuItem("Portal de accionistas");
-        campanaAccionistas.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarPortalAccionistas();
-        });
-        accionistasMenu.add(campanaAccionistas);
-
-        JMenuItem crearCampania = new JMenuItem("Crear Campaña de Accionistas");
-        crearCampania.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarCrearCampania();
-        });
-        accionistasMenu.add(crearCampania);
-
-        JMenuItem accederCampania = new JMenuItem("Acceder a Campaña de Accionistas");
-        accederCampania.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarParticiparEnACampania();
-        });
-        accionistasMenu.add(accederCampania);
-
-        JMenuItem horariosEntrenamientos = new JMenuItem("Horario Equipos");
-        horariosEntrenamientos.addActionListener(e -> {
-            frmAplicacionBurgosFc.setVisible(false);
-            inicializarHorarioEquipos();
-        });
-        equiposMenu.add(horariosEntrenamientos);
+        inicializarMenuParaUsuario();
     }
 
-	private void inicializarGestionEmpleados() {
+
+
+	/**
+     * Inicializa y configura el menú para el tipo de usuario que ha iniciado sesión
+     * @param menu a inicializar
+     */
+	private void inicializarMenuParaUsuario() {
+		if (usuario == null)
+			configuradoresMenu.get(TipoUsuario.NO_USUARIO).configurarMenu(frmAplicacionBurgosFc, this);
+		else if (configuradoresMenu.containsKey(usuario.getTipoUsuario()))
+			configuradoresMenu.get(usuario.getTipoUsuario()).configurarMenu(frmAplicacionBurgosFc, this);
+		frmAplicacionBurgosFc.setVisible(true);
+	}
+
+	void inicializarGestionEmpleados() {
         FrameGestionEmpleados frame = new FrameGestionEmpleados();
         GestionFrameEmpleadosShared gfe = new GestionFrameEmpleadosShared(frame);
         gfe.initController();
@@ -301,7 +212,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarHorariosEmpleados() {
+    void inicializarHorariosEmpleados() {
         FrameHorariosEmpleados frame = new FrameHorariosEmpleados();
         GestionFrameHorariosShared gfh = new GestionFrameHorariosShared(frame);
         gfh.initController();
@@ -309,7 +220,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarMerchandising() {
+    void inicializarMerchandising() {
         VentanaPrincipal frame = new VentanaPrincipal();
         GestionProductoShared gps = new GestionProductoShared(new ProductoCRUDImpl(), frame);
         gps.initController();
@@ -317,7 +228,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarEntradas() {
+    void inicializarEntradas() {
         VentanaPrincipalEntrada frame = new VentanaPrincipalEntrada();
         GestionEntradaShared ges = new GestionEntradaShared(frame);
         ges.initController();
@@ -325,7 +236,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarReservas() {
+    void inicializarReservas() {
         ReservaShared reservaShared = new ReservaShared();
         VentanaPrincipalReserva frame = new VentanaPrincipalReserva(reservaShared);
         GestionPanelReservaShared gprs = new GestionPanelReservaShared(frame);
@@ -334,7 +245,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarGestionEquipos() {
+    void inicializarGestionEquipos() {
         GestionEquiposShared ges = new GestionEquiposShared();
         VentanaPrincipalEquipos frame = new VentanaPrincipalEquipos(ges);
         GestionPanelEquiposShared gpes = new GestionPanelEquiposShared(frame);
@@ -343,13 +254,19 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarGestionEntrevistas() {
-        VentanaPrincipalEntrevista frame = new VentanaPrincipalEntrevista();
+    void inicializarGestionCrearFranjasEntrevistas() {
+        VentanaSeleccionarJugadorFranjasEntrevistas frame = new VentanaSeleccionarJugadorFranjasEntrevistas();
         configurarCierreVentana(frame);
         frame.setVisible(true);
     }
+    
+    void inicializarGestionCrearEntrevistas() {
+    	VentanaSeleccionFranjaEntrevista frame = new VentanaSeleccionFranjaEntrevista();
+    	configurarCierreVentana(frame);
+        frame.setVisible(true);
+    }
 
-    private void inicializarHistorialDeVentas() {
+    void inicializarHistorialDeVentas() {
         HistorialVentas window = new HistorialVentas();
         GestionHistorialShared ghs = new GestionHistorialShared(window);
         ghs.initController();
@@ -357,7 +274,7 @@ public class AplicacionMain {
         window.setVisible(true);
     }
     
-    private void inicializarCargarNoticias() {
+    void inicializarCargarNoticias() {
     	CargarNoticia frame = new CargarNoticia();
     	GestionCargarNoticiaShared gcns = new GestionCargarNoticiaShared(frame);
     	gcns.initController();
@@ -365,7 +282,7 @@ public class AplicacionMain {
 		frame.setVisible(true);
 	}
 
-    private void inicializarJardineria() {
+    void inicializarJardineria() {
     	JardinerosShared js = new JardinerosShared();
     	VentanaJardineros frame = new VentanaJardineros(js);
     	GestionPanelJardineriaShared gpjs = new GestionPanelJardineriaShared(frame);
@@ -374,7 +291,7 @@ public class AplicacionMain {
         frame.setVisible(true);
     }
 
-    private void inicializarPortalNoticias() {
+    void inicializarPortalNoticias() {
     	PortalNoticias frame = new PortalNoticias();
     	GestionPortalNoticiasShared gpns = new GestionPortalNoticiasShared(frame);
     	gpns.initController();
@@ -382,24 +299,25 @@ public class AplicacionMain {
 		frame.setVisible(true);
     }
 
-    private void inicializarHorarioEquipos() {
-    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared();
+    void inicializarHorarioEquipos() {
+    	HorariosEntrenamientosShared hes = new HorariosEntrenamientosShared(this.usuario);
     	VentanaHorarioEquipos frame = new VentanaHorarioEquipos(hes);
     	GestionPanelHorarioEquiposShared gpes = new GestionPanelHorarioEquiposShared(frame);
     	gpes.initControllers();
     	configurarCierreVentana(frame);
     	frame.setVisible(true);
+    	gpes.comprobarUsuarioEntrenadorTieneEquipo();
     }
 
-    private void inicializarPortalAccionistas() {
+    void inicializarPortalAccionistas() {
     	PortalAccionistas frame = new PortalAccionistas();
-    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame);
+    	GestionPortalAccionistasShared gpns = new GestionPortalAccionistasShared(frame, this.usuario);
     	gpns.initController();
     	configurarCierreVentana(frame);
 		frame.setVisible(true);
     }
 
-    private void inicializarCrearCampania() {
+    void inicializarCrearCampania() {
     	FrameCreacionCampaniaAccionistas frame = new FrameCreacionCampaniaAccionistas();
     	GestionFrameCrearCampaniaShared gfcv = new GestionFrameCrearCampaniaShared(frame);
     	gfcv.initController();
@@ -408,15 +326,15 @@ public class AplicacionMain {
     	gfcv.cargarCampaniaEnCurso();
     }
 
-    private void inicializarParticiparEnACampania() {
+    void inicializarParticiparEnCampania() {
     	FrameParticiparEnCampaniaAccionistas frame = new FrameParticiparEnCampaniaAccionistas();
-    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame);
+    	GestionFrameParticiparCampania gfpc = new GestionFrameParticiparCampania(frame, this.usuario);
     	configurarCierreVentana(frame);
     	gfpc.initController();
     	gfpc.cargarCampaniaEnCurso();
     }
     
-    private void inicializarAbonos() {
+    void inicializarAbonos() {
     	VentanaAbonos frame = new VentanaAbonos();
     	GestionVentaAbonos gva = new GestionVentaAbonos(frame);
     	gva.initController();
@@ -424,7 +342,7 @@ public class AplicacionMain {
     	frame.setVisible(true);
     }
 
-    private void inicializarCreacionPartidos() {
+    void inicializarCreacionPartidos() {
     	GestionPartidosShared gps = new GestionPartidosShared();
     	VentanaPartidos frame = new VentanaPartidos(gps);
     	GestionPanelPartidosShared gpps = new GestionPanelPartidosShared(frame);
@@ -434,13 +352,20 @@ public class AplicacionMain {
     	frame.setVisible(true);
     }
 
-    private void inicializarEntradasEspecialesAbonados() {
+    void inicializarEntradasEspecialesAbonados() {
     	GestionEntradasAbonadosShared geas = new GestionEntradasAbonadosShared();
     	VentanaInicioAbonados frame = new VentanaInicioAbonados(geas);
     	GestionPanelEntradasAbonadosShared gpeas = new GestionPanelEntradasAbonadosShared(frame);
     	configurarCierreVentana(frame);
     	gpeas.initController();
     	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+    
+    private void inicializarLogIn() {
+    	FrameLogIn frame = new FrameLogIn();
+    	GestionFrameLogInShared gestLogIn = new GestionFrameLogInShared(frame, this);
+    	gestLogIn.initController();
     	frame.setVisible(true);
     }
 
@@ -454,4 +379,11 @@ public class AplicacionMain {
             }
         });
     }
+    
+    private void cerrarSesion() {
+		this.usuario = null;
+		frmAplicacionBurgosFc.dispose();
+		inicializarLogIn();
+	}
+
 }

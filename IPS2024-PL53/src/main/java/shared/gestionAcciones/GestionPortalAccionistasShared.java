@@ -11,6 +11,7 @@ import backend.data.CreadorDataService;
 import backend.data.acciones.AccionDTO;
 import backend.data.acciones.AccionesCRUDService;
 import backend.data.accionistas.AccionistasCRUDService;
+import backend.service.usuarios.Usuario;
 import backend.service.ventas.campanaAccionistas.Accion;
 import frontend.SwingUtil;
 import frontend.portalAccionistas.FrameCompraAcciones;
@@ -18,11 +19,15 @@ import frontend.portalAccionistas.PanelAccion;
 import frontend.portalAccionistas.PortalAccionistas;
 
 public class GestionPortalAccionistasShared {
+	
 	PortalAccionistas view;
-	public GestionPortalAccionistasShared(PortalAccionistas view) {
+	private Usuario usuario;
+	
+	public GestionPortalAccionistasShared(PortalAccionistas view, Usuario usuario) {
 		this.view = view;
+		this.usuario = usuario;
 		
-		initView();
+		showPn2();
 	}
 
 	/**
@@ -71,7 +76,7 @@ public class GestionPortalAccionistasShared {
 	
 	private void accionLogin() {
 		AccionistasCRUDService serviceAccionista = CreadorDataService.getAccionistasService();
-		if(!serviceAccionista.findByDniAccionista(view.getTfDNI().getText()).isEmpty()) {
+		if(!serviceAccionista.findByDniAccionista(usuario.getDniUsuario()).isEmpty()) {
 			showPn2();
 		}else {
 			JOptionPane.showMessageDialog(view, "El accionista no existe");
@@ -83,7 +88,7 @@ public class GestionPortalAccionistasShared {
 	void rellenarPanelAcciones() {
 		view.getPnListaAcciones().removeAll();
 		AccionesCRUDService service = CreadorDataService.getAccionesService();
-		List<AccionDTO> acciones = service.findAccionesByDNI(view.getTfDNI().getText());
+		List<AccionDTO> acciones = service.findAccionesByDNI(usuario.getDniUsuario());
 		for(AccionDTO a : acciones) {
 			Accion accion = new Accion(a.getIdAccion(),a.isEnVenta());
 			PanelAccion pn = new PanelAccion(accion);
@@ -94,7 +99,7 @@ public class GestionPortalAccionistasShared {
 	}
 	
 	private void accionComprar() {
-		String dniAccionista = view.getTfDNI().getText();
+		String dniAccionista = usuario.getDniUsuario();
 		FrameCompraAcciones viewCompraAcciones = new FrameCompraAcciones();
 		GestionFrameCompraAccionesShared gfcas = new GestionFrameCompraAccionesShared(viewCompraAcciones, dniAccionista, this);
 		gfcas.initController();
@@ -104,7 +109,7 @@ public class GestionPortalAccionistasShared {
 	}
 
 	private void toggleButtonState() {
-        view.getBtLogin().setEnabled(!view.getTfDNI().getText().trim().isEmpty());
+        view.getBtLogin().setEnabled(!usuario.getDniUsuario().trim().isEmpty());
     }
 	
 	PortalAccionistas getView() {

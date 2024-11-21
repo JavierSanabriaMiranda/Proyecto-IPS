@@ -33,6 +33,7 @@ import backend.service.eventos.Entrenamiento;
 import backend.service.horarios.FranjaTiempo;
 import backend.service.horarios.TipoEvento;
 import backend.service.reservaJardineria.ReservaJardineria;
+import backend.service.usuarios.Usuario;
 import backend.service.ventas.reservas.Instalacion;
 import backend.service.ventas.reservas.Reserva;
 import shared.gestionempleados.PuestoEmpleado;
@@ -50,8 +51,11 @@ public class HorariosEntrenamientosShared {
 	EntrevistaCRUDService serviceEntrevista = new EntrevistaCRUDImpl();
 	private GestorReserva gestorInstalaciones = new GestorInstalaciones();
 	private GestorEquipos gestorEquipos = new Gerente();
+	private Usuario usuario;
 	
-	public HorariosEntrenamientosShared() {
+	public HorariosEntrenamientosShared(Usuario usuario) {
+		this.usuario = usuario;
+		
 		cargaInstalaciones();
 		cargarEquipos();
 		cargarEmpleadosDeportivos();
@@ -170,7 +174,15 @@ public class HorariosEntrenamientosShared {
 	}
 	
 	public List<EmpleadoDeportivo> getEntrenadoresConEquipo(){
-		return gestorEquipos.getEntrenadoresConEquipo();
+		if (usuario == null)
+			return gestorEquipos.getEntrenadoresConEquipo();
+		else {
+			EmpleadoDeportivo entrenador = gestorEquipos.getEntrenadorUsuarioConEquipos(this.usuario.getIdUsuario());
+			List<EmpleadoDeportivo> lista = new ArrayList<>();
+			lista.add(entrenador);
+			return lista;
+		}
+			
 	}
 	
 	public List<FranjaTiempo> getEventos(Instalacion instalacion, LocalDate fecha) {
@@ -246,6 +258,12 @@ public class HorariosEntrenamientosShared {
 		for(Jugador jugador : equipo.getJugadores()) {
 			serviceEntrevista.deleteEntrevistaYFranjaPorHora(horario, jugador.getIDEmpleado());
 		}
+	}
+
+	public boolean entrenadorUsuarioTieneEquipo() {
+		if (gestorEquipos.getEntrenadorUsuarioConEquipos(usuario.getIdUsuario()) == null)
+			return false;
+		return true;
 	}
 
 	

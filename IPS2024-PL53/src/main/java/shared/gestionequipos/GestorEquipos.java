@@ -23,10 +23,13 @@ public interface GestorEquipos {
 	
 	String generarIDEquipo();
 	
+	EmpleadoDeportivo getEntrenadorUsuarioConEquipos(String idUsuario);
+	
 	List<EmpleadoDeportivo> getEntrenadoresConEquipo();
 	
 	EmpleadoDeportivo buscaEmpleado(String idEntrenador);
 	
 	List<Equipo> getEquipos();
+	
 	
 }

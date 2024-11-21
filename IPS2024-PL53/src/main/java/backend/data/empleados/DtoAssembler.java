@@ -79,19 +79,7 @@ public class DtoAssembler {
 
 		try {
 			for (EmpleadoDTO dto : dtos) {
-				String id = dto.id;
-				String nombre = dto.nombre;
-				String apellido = dto.apellido;
-				String DNI = dto.DNI;
-				String telefono = dto.telefono;
-				Date nacimiento = dto.fechaNac;
-				double salario = dto.salarioAnual;
-				PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
-
-				CreadorEmpleadoNoDeportivo creador = creadoresNoDep.get(puesto);
-				EmpleadoNoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
-				emp.setIDEmpleado(id);
-
+				EmpleadoNoDeportivo emp = dtoToEmpleadoNoDeportivo(dto);
 				empleados.add(emp);
 			}
 		} catch (RuntimeException e) {
@@ -100,6 +88,23 @@ public class DtoAssembler {
 		}
 
 		return empleados;
+	}
+	
+	public static EmpleadoNoDeportivo dtoToEmpleadoNoDeportivo(EmpleadoDTO dto) {
+		String id = dto.id;
+		String nombre = dto.nombre;
+		String apellido = dto.apellido;
+		String DNI = dto.DNI;
+		String telefono = dto.telefono;
+		Date nacimiento = dto.fechaNac;
+		double salario = dto.salarioAnual;
+		PuestoEmpleado puesto = PuestoEmpleado.getPuesto(dto.posicion);
+
+		CreadorEmpleadoNoDeportivo creador = creadoresNoDep.get(puesto);
+		EmpleadoNoDeportivo emp = creador.getEmpleado(nombre, apellido, DNI, telefono, nacimiento, salario);
+		emp.setIDEmpleado(id);
+
+		return emp;
 	}
 
 	public static EmpleadoDeportivo dtoToEmpleadoDeportivo(EmpleadoDeportivoDTO dto) {

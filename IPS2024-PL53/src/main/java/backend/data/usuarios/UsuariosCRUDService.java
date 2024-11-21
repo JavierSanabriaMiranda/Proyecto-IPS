@@ -7,5 +7,7 @@ public interface UsuariosCRUDService {
 	Optional<UsuarioDTO> findUsuarioByNombre(String nombreUsuario);
 
 	void addUsuario(UsuarioDTO dtoUsuario);
+	
+	Optional<UsuarioDTO> findUsuarioByNombreYPassword(UsuarioDTO dto);
 
 }

@@ -9,11 +9,17 @@ import backend.data.empleados.commands.CargarEmpleadosDeportivos;
 import backend.data.empleados.commands.CargarEmpleadosNoDeportivos;
 import backend.data.empleados.commands.EliminarEmpleado;
 import backend.data.empleados.commands.FindEmpleadoDeportivoByDNI;
+import backend.data.empleados.commands.FindEmpleadoDeportivoById;
 import backend.data.empleados.commands.FindEmpleadoNoDeportivoByDNI;
+import backend.data.empleados.commands.FindEmpleadoNoDeportivoById;
+import backend.data.empleados.commands.FindEntrenadorById;
 import backend.data.empleados.commands.FindIdEquipoByJugadorId;
+import backend.data.empleados.commands.FindJugadorById;
 import backend.data.empleados.commands.FindJugadoresProfesionales;
 import backend.data.empleados.commands.ModEmpleado;
 import backend.data.empleados.commands.UpdateEquipoDeEmpleadoDeportivo;
+import backend.data.equipos.EntrenadorDto;
+import backend.data.equipos.JugadorDto;
 import backend.util.log.LogManager;
 
 public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
@@ -80,6 +86,26 @@ public class EmpleadoCRUDImpl implements EmpleadosCRUDService {
 	public Optional<EmpleadoDTO> findEmpleadoNoDeportivoByDNI(String dni) {
 		LogManager.logAction("Acceso a Base de Datos. Tabla: EMPLEADO_NO_DEPORTIVO");
 		return new FindEmpleadoNoDeportivoByDNI(dni).execute();
+	}
+
+	@Override
+	public Optional<EmpleadoDTO> findEmpleadoNoDeportivoById(String id) {
+		return new FindEmpleadoNoDeportivoById(id).execute();
+	}
+
+	@Override
+	public Optional<EmpleadoDeportivoDTO> findEmpleadoDeportivoById(String id) {
+		return new FindEmpleadoDeportivoById(id).execute();
+	}
+
+	@Override
+	public Optional<JugadorDto> findJugadorById(String id) {
+		return new FindJugadorById(id).execute();
+	}
+
+	@Override
+	public Optional<EntrenadorDto> findEntrenadorById(String id) {
+		return new FindEntrenadorById(id).execute();
 	}
 
 }
