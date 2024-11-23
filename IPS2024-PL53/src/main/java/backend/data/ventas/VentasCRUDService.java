@@ -18,4 +18,6 @@ public interface VentasCRUDService {
 	List<ReservaDto> cargarReservas();
 
 	List<VentaDto> findVentasFechas(Date inicio, Date fin);
+
+	List<VentaDto> findVentasPeriocidadAnual(int year);
 }

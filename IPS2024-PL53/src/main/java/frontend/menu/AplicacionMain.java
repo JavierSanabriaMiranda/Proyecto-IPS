@@ -63,7 +63,7 @@ import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
 import shared.gestionequipos.partidos.GestionPanelPartidosShared;
 import shared.gestionequipos.partidos.GestionPartidosShared;
-import shared.gestionestadisticos.GestionFrameEstadisticosGastosEIngresos;
+import shared.gestionestadisticos.GestionFrameEstadisticosGastosEIngresosShared;
 import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
@@ -372,7 +372,7 @@ public class AplicacionMain {
     
     void inicializarEstadisticosEconomicos() {
     	FrameEstadisticosGastosEIngresos frame = new FrameEstadisticosGastosEIngresos();
-    	GestionFrameEstadisticosGastosEIngresos gfegei = new GestionFrameEstadisticosGastosEIngresos(frame);
+    	GestionFrameEstadisticosGastosEIngresosShared gfegei = new GestionFrameEstadisticosGastosEIngresosShared(frame);
     	configurarCierreVentana(frame);
     	gfegei.initController();
     	frame.setVisible(true);

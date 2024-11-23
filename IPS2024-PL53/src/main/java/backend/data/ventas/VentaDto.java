@@ -9,6 +9,9 @@ public class VentaDto {
 	public Date fecha;
 	public float coste;
 	public String concepto;
+	public int year;
+	public int mes;
+	public int dia;
 	
 	public VentaDto() {};
 	

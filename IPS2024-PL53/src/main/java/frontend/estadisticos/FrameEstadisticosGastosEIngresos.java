@@ -19,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import java.awt.GridLayout;
 
 public class FrameEstadisticosGastosEIngresos extends JFrame {
 

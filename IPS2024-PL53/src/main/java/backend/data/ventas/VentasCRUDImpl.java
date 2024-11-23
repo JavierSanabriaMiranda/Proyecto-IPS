@@ -12,6 +12,7 @@ import backend.data.ventas.commands.AddVentas;
 import backend.data.ventas.commands.CargarReservas;
 import backend.data.ventas.commands.FindByCodVentas;
 import backend.data.ventas.commands.FindVentasFechas;
+import backend.data.ventas.commands.FindVentasPeriocidadAnual;
 import backend.util.log.LogManager;
 
 public class VentasCRUDImpl implements VentasCRUDService {
@@ -56,6 +57,11 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	public void addEntrada(EntradaDTO dto) {
 		LogManager.logAction("Modificación en Base de Datos. Tabla: ENTRADA");
 		new AddEntrada(dto).execute();
+	}
+
+	@Override
+	public List<VentaDto> findVentasPeriocidadAnual(int year) {
+		return new FindVentasPeriocidadAnual(year).execute();
 	}
 
 }
