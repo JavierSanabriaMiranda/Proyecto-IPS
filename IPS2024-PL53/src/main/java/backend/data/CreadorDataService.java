@@ -22,6 +22,8 @@ import backend.data.entrevistas.EntrevistaCRUDImpl;
 import backend.data.entrevistas.EntrevistaCRUDService;
 import backend.data.equipos.EquipoCRUDService;
 import backend.data.equipos.EquipoCRUDServiceImpl;
+import backend.data.gastos.GastosCRUDImpl;
+import backend.data.gastos.GastosCRUDService;
 import backend.data.horarios.HorarioCRUDImpl;
 import backend.data.horarios.HorarioCRUDService;
 import backend.data.merchandising.MerchandisingCRUDImpl;
@@ -109,5 +111,9 @@ public class CreadorDataService {
 	
 	public static UsuariosCRUDService getUsuariosService() {
 		return new UsuariosCRUDImpl();
+	}
+
+	public static GastosCRUDService getGastosService() {
+		return new GastosCRUDImpl();
 	}
 }

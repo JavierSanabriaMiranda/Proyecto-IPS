@@ -3,7 +3,9 @@ package shared.gestionestadisticos;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.time.Month;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -11,6 +13,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import backend.data.gastos.GastoDto;
 import backend.data.ventas.VentaDto;
 import frontend.SwingUtil;
 import frontend.estadisticos.FrameEstadisticosGastosEIngresos;
@@ -49,18 +52,33 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 	}
 
 	private void mostrarGraficoAnual() {
-		List<VentaDto> ingresosPeriocidadAnual = gesEst.getVentasAnual(view.getYearChooser().getYear());
+		List<VentaDto> ingresosPeriocidadAnual = gesEst.getVentasAnuales(view.getYearChooser().getYear());
+		List<GastoDto> gastosPeriocidadAnual = gesEst.getGastosAnuales();
 		
 		// Crea el dataset y añade los datos de la lista de ventas
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
+        
+        // Crea un mapa de ingresos por mes para facilitar el acceso
+        Map<Integer, Float> ingresosPorMes = new HashMap<>();
+        // Añadimos los ingresos al dataset del gráfico y al map de ingresos por mes
         for (VentaDto venta : ingresosPeriocidadAnual) {
             dataset.addValue(venta.getCoste(), "Ingresos", Month.of(venta.mes));
+            ingresosPorMes.put(venta.mes, venta.getCoste());
+        }
+        // Añadimos gastos y balance al gráfico
+        for (GastoDto gasto : gastosPeriocidadAnual) {
+        	Month mes = Month.of(gasto.mes);
+        	
+        	double ingreso = ingresosPorMes.getOrDefault(gasto.mes, (float) 0.0);  // Si no hay ingresos, asigna 0
+        	double balance = ingreso - gasto.gasto;
+        	
+        	dataset.addValue(gasto.gasto, "Gastos", mes);
+        	dataset.addValue(balance, "Balance", mes);
         }
         
         // Crea el gráfico de barras agrupado
         JFreeChart barChart = ChartFactory.createBarChart(
-                "Gráfico de Ventas",  // Título
+                "Gráfico de Gastos/Ingresos",  // Título
                 "Mes",               // Etiqueta del eje X
                 "Coste",             // Etiqueta del eje Y
                 dataset,             // Dataset

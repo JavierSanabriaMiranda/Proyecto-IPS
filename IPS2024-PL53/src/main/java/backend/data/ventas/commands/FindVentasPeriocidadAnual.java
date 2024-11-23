@@ -34,7 +34,7 @@ public class FindVentasPeriocidadAnual {
 	private List<VentaDto> mapsToVentas(List<Map<String, Object>> listaMap) {
 		List<VentaDto> lista = new ArrayList<>();
 	    
-	    // Recorre cada mapa y convierte los datos en un objeto EmpleadoDTO.
+	    // Recorre cada mapa y convierte los datos en un objeto
 	    for (Map<String, Object> fila : listaMap) {
 	    	VentaDto dto = new VentaDto(); // Renombrado a dto
 	        dto.year = (int) fila.get("year");
