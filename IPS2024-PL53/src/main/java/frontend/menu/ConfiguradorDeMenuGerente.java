@@ -13,22 +13,39 @@ public class ConfiguradorDeMenuGerente implements ConfiguradorDeMenu {
 		addMenuHistorialVentas(menu, app);
 		addMenuGestionEquipos(menu, app);
 		addMenuCrearCampaniaAccionistas(menu, app);
+		addMenuEstadisticos(menu, app);
+	}
+
+	private void addMenuEstadisticos(JFrame menu, AplicacionMain app) {
+		JMenuBar menuBar = menu.getJMenuBar();
+		
+		// Menú "Estadísticos"
+		JMenu estadisticosMenu = new JMenu("Estadísticos");
+		menuBar.add(estadisticosMenu);
+		
+		// Opción "Estadísticos Económicos"
+		JMenuItem estadisticosEconomicos = new JMenuItem("Estadísticos Económicos");
+		estadisticosEconomicos.addActionListener(e -> {
+			menu.setVisible(false);
+			app.inicializarEstadisticosEconomicos();
+		});
+		estadisticosMenu.add(estadisticosEconomicos);
 	}
 
 	private void addMenuHistorialVentas(JFrame menu, AplicacionMain app) {
 		JMenuBar menuBar = menu.getJMenuBar();
-		
-      // Menú "Historial de Ventas"
-      JMenu historialMenu = new JMenu("Historial de Ventas");
-      menuBar.add(historialMenu);
 
-      // Opción "Ver Historial de Ventas"
-      JMenuItem historialVentas = new JMenuItem("Ver Historial de Ventas");
-      historialVentas.addActionListener(e -> {
-    	  menu.setVisible(false);
-    	  app.inicializarHistorialDeVentas();
-      });
-      historialMenu.add(historialVentas);
+		// Menú "Historial de Ventas"
+		JMenu historialMenu = new JMenu("Historial de Ventas");
+		menuBar.add(historialMenu);
+
+		// Opción "Ver Historial de Ventas"
+		JMenuItem historialVentas = new JMenuItem("Ver Historial de Ventas");
+		historialVentas.addActionListener(e -> {
+			menu.setVisible(false);
+			app.inicializarHistorialDeVentas();
+		});
+		historialMenu.add(historialVentas);
 	}
 
 	private void addMenuGestionEquipos(JFrame menu, AplicacionMain app) {

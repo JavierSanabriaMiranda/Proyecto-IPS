@@ -35,6 +35,7 @@ import frontend.entrevistaUI.franja.VentanaSeleccionFranjaEntrevista;
 import frontend.equiposUI.VentanaPrincipalEquipos;
 import frontend.equiposUI.horarios.VentanaHorarioEquipos;
 import frontend.equiposUI.partidos.VentanaPartidos;
+import frontend.estadisticos.FrameEstadisticosGastosEIngresos;
 import frontend.historialVentas.HistorialVentas;
 import frontend.jardineriaUI.VentanaJardineros;
 import frontend.login.FrameLogIn;
@@ -62,6 +63,7 @@ import shared.gestionequipos.horarios.GestionPanelHorarioEquiposShared;
 import shared.gestionequipos.horarios.HorariosEntrenamientosShared;
 import shared.gestionequipos.partidos.GestionPanelPartidosShared;
 import shared.gestionequipos.partidos.GestionPartidosShared;
+import shared.gestionestadisticos.GestionFrameEstadisticosGastosEIngresos;
 import shared.gestionhorarios.GestionFrameHorariosShared;
 import shared.gestioninstalaciones.GestionPanelReservaShared;
 import shared.gestioninstalaciones.ReservaShared;
@@ -365,6 +367,14 @@ public class AplicacionMain {
     	configurarCierreVentana(frame);
     	gpeas.initController();
     	configurarCierreVentana(frame);
+    	frame.setVisible(true);
+    }
+    
+    void inicializarEstadisticosEconomicos() {
+    	FrameEstadisticosGastosEIngresos frame = new FrameEstadisticosGastosEIngresos();
+    	GestionFrameEstadisticosGastosEIngresos gfegei = new GestionFrameEstadisticosGastosEIngresos(frame);
+    	configurarCierreVentana(frame);
+    	gfegei.initController();
     	frame.setVisible(true);
     }
     

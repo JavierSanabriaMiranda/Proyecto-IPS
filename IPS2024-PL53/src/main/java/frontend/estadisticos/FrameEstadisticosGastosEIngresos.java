@@ -16,6 +16,8 @@ import javax.swing.JComboBox;
 import java.awt.Dimension;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
 public class FrameEstadisticosGastosEIngresos extends JFrame {
@@ -29,10 +31,12 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 	private JPanel pnGrafico;
 	private JLabel lbPeriocidad;
 	private JComboBox<String> cbPeriocidad;
+	private DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 	private Component horizontalStrut;
 	private JLabel lbFecha;
 	private JMonthChooser monthChooser;
 	private JYearChooser yearChooser;
+	private JButton btMostrarGrafico;
 
 	/**
 	 * Create the frame.
@@ -50,7 +54,7 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 		contentPane.add(getPnGrafico(), BorderLayout.CENTER);
 	}
 
-	private JPanel getPnPeriocidad() {
+	public JPanel getPnPeriocidad() {
 		if (pnPeriocidad == null) {
 			pnPeriocidad = new JPanel();
 			pnPeriocidad.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -87,6 +91,10 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 			cbPeriocidad = new JComboBox<String>();
 			cbPeriocidad.setPreferredSize(new Dimension(120, 22));
 			cbPeriocidad.setFont(new Font("Arial", Font.PLAIN, 14));
+			model.addElement("");
+			model.addElement("Mensual");
+			model.addElement("Anual");
+			cbPeriocidad.setModel(model);
 		}
 		return cbPeriocidad;
 	}
@@ -99,7 +107,7 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 		return horizontalStrut;
 	}
 
-	private JLabel getLbFecha() {
+	public JLabel getLbFecha() {
 		if (lbFecha == null) {
 			lbFecha = new JLabel("");
 			lbFecha.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -110,7 +118,7 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 	public JMonthChooser getMonthChooser() {
 		if (monthChooser == null) {
 			monthChooser = new JMonthChooser();
-			monthChooser.setPreferredSize(new Dimension(40, 0));
+			monthChooser.setPreferredSize(new Dimension(140,30));
 		}
 		return monthChooser;
 	}
@@ -118,8 +126,15 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 	public JYearChooser getYearChooser() {
 		if (yearChooser == null) {
 			yearChooser = new JYearChooser();
-			yearChooser.setPreferredSize(new Dimension(40, 0));
+			yearChooser.setPreferredSize(new Dimension(100,30));
 		}
 		return yearChooser;
+	}
+	
+	public JButton getBtMostrarGrafico() {
+		if (btMostrarGrafico == null) {
+			btMostrarGrafico = new JButton("Mostrar Gráfico");
+		}
+		return btMostrarGrafico;
 	}
 }
