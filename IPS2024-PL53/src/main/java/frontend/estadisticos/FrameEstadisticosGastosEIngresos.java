@@ -20,6 +20,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class FrameEstadisticosGastosEIngresos extends JFrame {
 
@@ -38,13 +40,16 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 	private JMonthChooser monthChooser;
 	private JYearChooser yearChooser;
 	private JButton btMostrarGrafico;
+	private JScrollPane scGrafico;
 
 	/**
 	 * Create the frame.
 	 */
 	public FrameEstadisticosGastosEIngresos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 723, 445);
+		setBounds(100, 100, 826, 750);
+		setMinimumSize(new Dimension(800, 750));
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -52,7 +57,7 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPnPeriocidad(), BorderLayout.NORTH);
-		contentPane.add(getPnGrafico(), BorderLayout.CENTER);
+		contentPane.add(getScGrafico(), BorderLayout.CENTER);
 	}
 
 	public JPanel getPnPeriocidad() {
@@ -137,5 +142,12 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 			btMostrarGrafico = new JButton("Mostrar Gráfico");
 		}
 		return btMostrarGrafico;
+	}
+	private JScrollPane getScGrafico() {
+		if (scGrafico == null) {
+			scGrafico = new JScrollPane();
+			scGrafico.setViewportView(getPnGrafico());
+		}
+		return scGrafico;
 	}
 }

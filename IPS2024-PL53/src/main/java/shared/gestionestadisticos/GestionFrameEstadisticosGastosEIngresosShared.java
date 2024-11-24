@@ -87,7 +87,7 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 		// Crea el gráfico de barras agrupado
 		JFreeChart barChart = ChartFactory.createBarChart("Gráfico de Gastos/Ingresos", // Título
 				"Mes", // Etiqueta del eje X
-				"Coste", // Etiqueta del eje Y
+				"Cantidad (\u20AC)", // Etiqueta del eje Y
 				dataset, // Dataset
 				PlotOrientation.VERTICAL, true, true, false);
 
