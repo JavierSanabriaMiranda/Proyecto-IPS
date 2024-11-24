@@ -24,12 +24,21 @@ public class FindGastosPeriocidadAnual {
 
 	public List<GastoDto> execute() {
 		List<Map<String, Object>> mapGastos = db.executeQueryMap(QUERY);
-		GastoDto gastoMensualPeriodico = mapsToGastos(mapGastos).get(0);
+		// Esta lista tiene 2 filas, una con los gastos en salarios de empleados deportivos
+		// y otra con los gastos en salarios de empleados no deportivos
+		List<GastoDto> gastosDeportivosYNoDeportivos = mapsToGastos(mapGastos);
+		
+		float gastoTotalMensual = 0;
+		
+		for (GastoDto gasto : gastosDeportivosYNoDeportivos) {
+			gastoTotalMensual += gasto.gasto;
+		}
+		
 		List<GastoDto> gastos = new ArrayList<>();
 		for (int i = 1; i <= 12; i++) {
 			GastoDto gasto = new GastoDto();
 			gasto.mes = i;
-			gasto.gasto = gastoMensualPeriodico.gasto;
+			gasto.gasto = gastoTotalMensual;
 			gastos.add(gasto);
 		}
 		return gastos;
