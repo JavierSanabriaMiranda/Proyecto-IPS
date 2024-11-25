@@ -12,7 +12,7 @@
 -- E0000006 es empleado de jardineria
 -- E0000007 es empleado de cocina
 -- E0000008 es director de comunicaciones
--- E0000009 es empleado de jardineria
+-- E1000009 es empleado de jardineria
 
 DELETE FROM USUARIO;
 INSERT INTO USUARIO (ID_USUARIO, NOMBRE_USUARIO, CONTRASEÑA) 
