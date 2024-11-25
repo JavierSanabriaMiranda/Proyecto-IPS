@@ -62,11 +62,13 @@ public class VentasCRUDImpl implements VentasCRUDService {
 
 	@Override
 	public List<VentaDto> findVentasPeriocidadAnual(int year) {
+		LogManager.logAction("Acceso en Base de Datos. Tabla: VENTAS");
 		return new FindVentasPeriocidadAnual(year).execute();
 	}
 
 	@Override
 	public List<VentaDto> findVentasPeriocidadMensual(int mes, int year) {
+		LogManager.logAction("Acceso en Base de Datos. Tabla: VENTAS");
 		return new FindVentasPeriocidadMensual(mes, year).execute();
 	}
 
