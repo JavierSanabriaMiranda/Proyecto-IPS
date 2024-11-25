@@ -31,7 +31,7 @@ public class GestionEstadisticosGastosEIngresosShared {
 	}
 
 	public List<GastoDto> getGastosMensuales(Month mes, int year) {
-		GastoDto gastosEnUnMes = serviceGastos.findGastosPeriocidadAnual().get(mes.getValue());
+		GastoDto gastosEnUnMes = serviceGastos.findGastosPeriocidadAnual().get(mes.getValue()-1);
 		boolean bisiesto = year % 4 == 0;
 		
 		

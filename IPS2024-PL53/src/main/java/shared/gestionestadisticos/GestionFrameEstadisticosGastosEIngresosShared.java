@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.time.Month;
+import java.time.Year;
+import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
@@ -31,6 +34,8 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 	private FrameEstadisticosGastosEIngresos view;
 	private String periocidad = "";
 	private ChartPanel graficoActual;
+	// Configurar la región a España para el idioma de los objetos Month
+	private Locale spanishLocale = new Locale("es", "ES");
 
 	public GestionFrameEstadisticosGastosEIngresosShared(FrameEstadisticosGastosEIngresos view) {
 		this.view = view;
@@ -42,6 +47,9 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 	}
 
 	private void mostrarGrafico() {
+		if (graficoActual != null)
+			view.getPnGrafico().remove(graficoActual);
+		
 		if (periocidad == PERIOCIDAD_ANUAL) {
 			mostrarGraficoAnual();
 		} else if (periocidad == PERIOCIDAD_MENSUAL) {
@@ -51,11 +59,11 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 	}
 
 	private void mostrarGraficoMensual() {
-		Month mes = Month.of(view.getMonthChooser().getMonth());
+		Month mesObjetoMonth = Month.of(view.getMonthChooser().getMonth()+1);
 		int year = view.getYearChooser().getYear();
 
-		List<VentaDto> ingresosPeriocidadMensual = gesEst.getIngresosMensuales(mes, year);
-		List<GastoDto> gastosPeriocidadMensual = gesEst.getGastosMensuales(mes, year);
+		List<VentaDto> ingresosPeriocidadMensual = gesEst.getIngresosMensuales(mesObjetoMonth, year);
+		List<GastoDto> gastosPeriocidadMensual = gesEst.getGastosMensuales(mesObjetoMonth, year);
 
 		// Crea el dataset y añade los datos de la lista de ventas
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -82,9 +90,13 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 
 			dataset.addValue(balance, "Balance", gasto.dia + "");
 		}
+		
+		// Obtener el nombre del mes en español (estilo completo)
+        String nombreMes = mesObjetoMonth.getDisplayName(TextStyle.FULL, spanishLocale);
+        
 
 		// Crea el gráfico de barras agrupado
-		JFreeChart barChart = ChartFactory.createBarChart("Gráfico de Gastos/Ingresos", // Título
+		JFreeChart barChart = ChartFactory.createBarChart("Gráfico de Gastos/Ingresos " + nombreMes.toUpperCase(), // Título
 				"Día", // Etiqueta del eje X
 				"Cantidad (\u20AC)", // Etiqueta del eje Y
 				dataset, // Dataset
@@ -113,7 +125,9 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 	}
 
 	private void mostrarGraficoAnual() {
-		List<VentaDto> ingresosPeriocidadAnual = gesEst.getVentasAnuales(view.getYearChooser().getYear());
+		int year = view.getYearChooser().getYear();
+		
+		List<VentaDto> ingresosPeriocidadAnual = gesEst.getVentasAnuales(year);
 		List<GastoDto> gastosPeriocidadAnual = gesEst.getGastosAnuales();
 
 		// Crea el dataset y añade los datos de la lista de ventas
@@ -122,29 +136,36 @@ public class GestionFrameEstadisticosGastosEIngresosShared {
 		// Añadimos gastos al gráfico
 		for (GastoDto gasto : gastosPeriocidadAnual) {
 			Month mes = Month.of(gasto.mes);
-			dataset.addValue(gasto.gasto, "Gastos", mes);
+			// Obtener el nombre del mes en español (estilo completo)
+	        String nombreMes = mes.getDisplayName(TextStyle.FULL, spanishLocale);
+			
+			dataset.addValue(gasto.gasto, "Gastos", nombreMes);
 		}
 
 		// Crea un mapa de ingresos por mes para facilitar el acceso
 		Map<Integer, Float> ingresosPorMes = new HashMap<>();
 		// Añadimos los ingresos al dataset del gráfico y al map de ingresos por mes
 		for (VentaDto venta : ingresosPeriocidadAnual) {
-			dataset.addValue(venta.getCoste(), "Ingresos", Month.of(venta.mes));
+			// Obtener el nombre del mes en español (estilo completo)
+	        String nombreMes = Month.of(venta.mes).getDisplayName(TextStyle.FULL, spanishLocale);
+			
+			dataset.addValue(venta.getCoste(), "Ingresos", nombreMes);
 			ingresosPorMes.put(venta.mes, venta.getCoste());
 		}
 
 		// Añadimos balance al gráfico
 		for (GastoDto gasto : gastosPeriocidadAnual) {
-			Month mes = Month.of(gasto.mes);
+			// Obtener el nombre del mes en español (estilo completo)
+	        String nombreMes = Month.of(gasto.mes).getDisplayName(TextStyle.FULL, spanishLocale);
 
 			double ingreso = ingresosPorMes.getOrDefault(gasto.mes, (float) 0.0); // Si no hay ingresos, asigna 0
 			double balance = ingreso - gasto.gasto;
 
-			dataset.addValue(balance, "Balance", mes);
+			dataset.addValue(balance, "Balance", nombreMes);
 		}
 
 		// Crea el gráfico de barras agrupado
-		JFreeChart barChart = ChartFactory.createBarChart("Gráfico de Gastos/Ingresos", // Título
+		JFreeChart barChart = ChartFactory.createBarChart("Gráfico de Gastos/Ingresos " + year, // Título
 				"Mes", // Etiqueta del eje X
 				"Cantidad (\u20AC)", // Etiqueta del eje Y
 				dataset, // Dataset
