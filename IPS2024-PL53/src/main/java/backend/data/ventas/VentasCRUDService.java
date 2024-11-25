@@ -20,4 +20,6 @@ public interface VentasCRUDService {
 	List<VentaDto> findVentasFechas(Date inicio, Date fin);
 
 	List<VentaDto> findVentasPeriocidadAnual(int year);
+
+	List<VentaDto> findVentasPeriocidadMensual(int mes, int year);
 }

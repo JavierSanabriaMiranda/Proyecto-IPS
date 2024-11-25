@@ -36,11 +36,12 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 	private JComboBox<String> cbPeriocidad;
 	private DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 	private Component horizontalStrut;
-	private JLabel lbFecha;
+	private JLabel lbYear;
 	private JMonthChooser monthChooser;
 	private JYearChooser yearChooser;
 	private JButton btMostrarGrafico;
 	private JScrollPane scGrafico;
+	private JLabel lbMes;
 
 	/**
 	 * Create the frame.
@@ -69,7 +70,8 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 			pnPeriocidad.add(getLbPeriocidad());
 			pnPeriocidad.add(getCbPeriocidad());
 			pnPeriocidad.add(getHorizontalStrut());
-			pnPeriocidad.add(getLbFecha());
+			pnPeriocidad.add(getLbMes());
+			pnPeriocidad.add(getLbYear());
 		}
 		return pnPeriocidad;
 	}
@@ -113,12 +115,12 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 		return horizontalStrut;
 	}
 
-	public JLabel getLbFecha() {
-		if (lbFecha == null) {
-			lbFecha = new JLabel("");
-			lbFecha.setFont(new Font("Arial", Font.PLAIN, 14));
+	public JLabel getLbYear() {
+		if (lbYear == null) {
+			lbYear = new JLabel("");
+			lbYear.setFont(new Font("Arial", Font.PLAIN, 14));
 		}
-		return lbFecha;
+		return lbYear;
 	}
 
 	public JMonthChooser getMonthChooser() {
@@ -149,5 +151,12 @@ public class FrameEstadisticosGastosEIngresos extends JFrame {
 			scGrafico.setViewportView(getPnGrafico());
 		}
 		return scGrafico;
+	}
+	public JLabel getLbMes() {
+		if (lbMes == null) {
+			lbMes = new JLabel("");
+			lbMes.setFont(new Font("Arial", Font.PLAIN, 14));
+		}
+		return lbMes;
 	}
 }

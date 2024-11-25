@@ -13,6 +13,7 @@ import backend.data.ventas.commands.CargarReservas;
 import backend.data.ventas.commands.FindByCodVentas;
 import backend.data.ventas.commands.FindVentasFechas;
 import backend.data.ventas.commands.FindVentasPeriocidadAnual;
+import backend.data.ventas.commands.FindVentasPeriocidadMensual;
 import backend.util.log.LogManager;
 
 public class VentasCRUDImpl implements VentasCRUDService {
@@ -62,6 +63,11 @@ public class VentasCRUDImpl implements VentasCRUDService {
 	@Override
 	public List<VentaDto> findVentasPeriocidadAnual(int year) {
 		return new FindVentasPeriocidadAnual(year).execute();
+	}
+
+	@Override
+	public List<VentaDto> findVentasPeriocidadMensual(int mes, int year) {
+		return new FindVentasPeriocidadMensual(mes, year).execute();
 	}
 
 }
