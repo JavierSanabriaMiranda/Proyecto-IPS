@@ -91,7 +91,7 @@ public class GestionLogInShared {
 		case EMPLEADO_TIENDA:
 			return TipoUsuario.EMPLEADO_TIENDA;
 		case ENCARGADO_TIENDA:
-			return TipoUsuario.EMPLEADO_TIENDA;
+			return TipoUsuario.ENCARGADO_TIENDA;
 		case ENTRENADOR:
 			return TipoUsuario.ENTRENADOR;
 		case GESTOR_INSTALACIONES:
