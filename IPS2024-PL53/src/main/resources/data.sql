@@ -4,6 +4,16 @@
 -- Inserciones válidas para la tabla USUARIO
 -- TODOS ESTOS USUARIOS TIENEN COMO CONTRASEÑA SIN CIFRAR: "123"
 
+-- E0000001 es gerente
+-- E0000002 es vendedor de entradas/abonos
+-- E0000003 es encargado de tienda
+-- E0000004 es gestor de instalaciones
+-- E0000005 es empleado de tienda
+-- E0000006 es empleado de jardineria
+-- E0000007 es empleado de cocina
+-- E0000008 es director de comunicaciones
+-- E0000009 es empleado de jardineria
+
 DELETE FROM USUARIO;
 INSERT INTO USUARIO (ID_USUARIO, NOMBRE_USUARIO, CONTRASEÑA) 
 VALUES 
