@@ -5,6 +5,7 @@
 ## Contexto
 
 Esta es una aplicación de gestión de un equipo de futbol, en este caso el Burgos CF.
+
 La aplicación permite que se gestionen empleados (tanto jugadores como entrenadores o puestos más administrativos como el vendedor de entradas y abonos o los jardineros), gestionar partidos y entrenamientos, 
 venta de entradas, merchandising y hasta acciones del club.
 
@@ -50,7 +51,9 @@ Los roles de la aplicación son los siguientes:
 
 ## Pantallas de la Aplicación
 
-A continuación se muestran algunas partes de la interfaz de usuario de la aplicación
+Toda la interfaz de usuario ha sido desarrollada utilizando java swing e incorporando algunos componentes nuevos por medio de librerías.
+
+A continuación se muestran algunas imágenes de muestra de la aplicación:
 
 ### Menú Inicial (Caso del Gerente)
 
@@ -75,3 +78,12 @@ A continuación se muestran algunas partes de la interfaz de usuario de la aplic
 ### Portal de Accionistas
 
 ![portalAccionista.jpg](docs/multimedia/portalAccionista.jpg)
+
+## Tecnologías Utilizadas
+
+El sistema de gestión de bases de datos utilizado ha sido HSQLDB
+Se han utilizado múltiples librerías Java:
+- JCalendar: para la introducción de nuevos componentes de selección de fechas en java swing
+- JFreeChart: para la introducción de nuevos componentes de visualización de gráficos en java swing
+- Jakarta Mail: para el envio de un correo electrónico de confirmación tras compras de merchandising
+- iText: para la creación de un archivo pdf a modo de ticket para compras de merchandising
