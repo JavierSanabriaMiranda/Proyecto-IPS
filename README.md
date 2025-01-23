@@ -91,3 +91,9 @@ Se han utilizado múltiples librerías Java:
 - JFreeChart: para la introducción de nuevos componentes de visualización de gráficos en java swing
 - Jakarta Mail: para el envio de un correo electrónico de confirmación tras compras de merchandising
 - iText: para la creación de un archivo pdf a modo de ticket para compras de merchandising
+
+## Referencias Utilizadas
+
+Para el desarrollo de este proyecto se ha utilizado material proveniente del equipo Burgos CF a cuya web oficial puedes acceder haciendo [click aquí](https://www.burgoscf.es/)
+
+Todos los derechos sobre dicho contenido pertenecen a ellos y se utilizan únicamente con fines académicos y no comerciales.
