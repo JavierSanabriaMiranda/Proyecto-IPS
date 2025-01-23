@@ -6,8 +6,7 @@
 
 Esta es una aplicación de gestión de un equipo de futbol, en este caso el Burgos CF.
 
-La aplicación permite que se gestionen empleados (tanto jugadores como entrenadores o puestos más administrativos como el vendedor de entradas y abonos o los jardineros), gestionar partidos y entrenamientos, 
-venta de entradas, merchandising y hasta acciones del club.
+La aplicación permite que se gestionen empleados (tanto jugadores como entrenadores o puestos más administrativos como el vendedor de entradas y abonos o los jardineros), gestionar partidos y entrenamientos, venta de entradas, merchandising y hasta acciones del club.
 
 ## Sistema de Usuarios
 
@@ -17,13 +16,13 @@ El rol del usuario en la aplicación condiciona las funcionalidades a las que es
 ### Roles
 
 Los roles de la aplicación son los siguientes:
-
 - Jugador
 - Entrenador
   - Añade horarios de entrenamiento a su equipo
   - Asigna franjas para posibles entrevistas a sus jugadores
 - Gerente
   - Añade, modifica y elimina a empleados de la aplicación
+  - Modifica los horarios de los empleados
   - Visualiza el historial de ventas del club
   - Añade equipos
   - Crea partidos
@@ -79,9 +78,14 @@ A continuación se muestran algunas imágenes de muestra de la aplicación:
 
 ![portalAccionista.jpg](docs/multimedia/portalAccionista.jpg)
 
+## Sistema de Log
+
+La aplicación genera un log por cada ingreso de un usuario en la misma, registrando las acciones que dicho usuario realiza por medio de lecturas o escrituras en la base de datos
+
 ## Tecnologías Utilizadas
 
 El sistema de gestión de bases de datos utilizado ha sido HSQLDB
+
 Se han utilizado múltiples librerías Java:
 - JCalendar: para la introducción de nuevos componentes de selección de fechas en java swing
 - JFreeChart: para la introducción de nuevos componentes de visualización de gráficos en java swing
